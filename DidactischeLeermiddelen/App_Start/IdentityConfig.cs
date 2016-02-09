@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Reflection;
+using System.Web.Mvc;
 using System.Data.Entity;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using DidactischeLeermiddelen.Models;
+using DidactischeLeermiddelen.Models.DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using DidactischeLeermiddelen.Models;
 
 namespace DidactischeLeermiddelen
 {
@@ -87,7 +88,22 @@ namespace DidactischeLeermiddelen
             return manager;
         }
     }
+    public class ApplicationRoleManager : RoleManager<IdentityRole>, IDisposable
+    {
+        public ApplicationRoleManager(RoleStore<IdentityRole> store)
+            : base(store)
+        {
+        }
 
+
+        public static ApplicationRoleManager Create(
+        IdentityFactoryOptions<ApplicationRoleManager> options,
+        IOwinContext context)
+        {
+            return new ApplicationRoleManager(new
+            RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+        }
+    }
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
