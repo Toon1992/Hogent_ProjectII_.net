@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Website Didactische Leermiddelen";
 
             return View();
         }
