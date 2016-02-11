@@ -187,6 +187,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CatalogusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Infrastructure\VerlanglijstModelBinder.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />
     <Compile Include="Models\DAL\LeergebiedRepository.cs" />
     <Compile Include="Models\DAL\Mapper\DoelgroepMapper.cs" />

@@ -25,9 +25,16 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Materiaal dat doorgegeven wordt mag niet null zijn
             if(materiaal == null)
                 throw new ArgumentNullException("Het materiaal dat aan de verlanglijst wou worden gegeven is null!");
-
+            //Materiaal mag nog niet voorkomen in verlanglijst van de gebruiker
+            if (BevatMateriaal(materiaal))
+                throw new ArgumentException("Dit materiaal werd reeds toegevoegd aan de verlanglijst!");
+           
+                Materialen.Add(materiaal);
+            
+            
+            
             //Toevoegen van materiaal
-            Materialen.Add(materiaal);
+            
         }
 
         public Boolean BevatMateriaal(Materiaal materiaal)
