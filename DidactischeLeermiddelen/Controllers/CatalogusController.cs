@@ -28,7 +28,6 @@ namespace DidactischeLeermiddelen.Controllers
             return View(vm);
         }
 
-        [HttpPost]
         public ActionResult VoegAanVerlanglijstToe(int id, int aantal,Verlanglijst verlanglijst)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
@@ -36,7 +35,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                
                     verlanglijst.VoegMateriaalToe(materiaal, aantal);
-                TempData["message"] = materiaal.Naam + " werd toegevoegd aan je verlanglijst";
+                
             }
             return RedirectToAction("Index");
         }
