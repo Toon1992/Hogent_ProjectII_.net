@@ -21,7 +21,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Omschrijving { get; set; }
         public int AantalInCatalogus { get; set; }
         public int ArtikelNr { get; set; }
-        public double Prijs { get; set; }
+        public decimal Prijs { get; set; }
         public string Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
