@@ -38,5 +38,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             ArtikelNr = artikeNr;
             AantalInCatalogus = aantal;
         }
+        public Materiaal() { }
     }
 }

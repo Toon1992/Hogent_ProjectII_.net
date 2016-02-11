@@ -187,6 +187,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CatalogusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\DAL\DoelgroepRepository.cs" />
+    <Compile Include="Models\DAL\LeergebiedRepository.cs" />
     <Compile Include="Models\DAL\Mapper\DoelgroepMapper.cs" />
     <Compile Include="Models\DAL\Mapper\LeergebiedMapper.cs" />
     <Compile Include="Models\Domain\Doelgroep.cs" />
@@ -195,6 +197,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\GebruikerModelBinder.cs" />
+    <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
+    <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
     <Compile Include="Models\Domain\Leergebied.cs" />
     <Compile Include="Models\Domain\Materiaal.cs" />
     <Compile Include="Models\DAL\DidactischeLeermiddelenContext.cs" />
@@ -256,8 +260,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Catalogus\Index.cshtml" />
     <Content Include="Views\Catalogus\Catalogus.cshtml" />
+    <Content Include="Views\Catalogus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
