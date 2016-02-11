@@ -6,49 +6,37 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DidactischeLeermiddelen;
 using DidactischeLeermiddelen.Controllers;
+using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Tests.Domain;
+using DidactischeLeermiddelen.ViewModels;
+using Moq;
 
 namespace DidactischeLeermiddelen.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
-        public void Index()
+
+        private CatalogusController controller;
+        private Mock<IMateriaalRepository> mockMateriaalRepository;
+
+        [TestInitialize]
+        public void OpzettenContext()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            DummyContext context=new DummyContext();
+            mockMateriaalRepository=new Mock<IMateriaalRepository>();
+            controller=new CatalogusController(mockMateriaalRepository.Object);
 
-            // Act
-            ViewResult result = controller.Index() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void About()
+        public void IndexMethodeGeeftCatalogusWeer()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            ViewResult result= controller.Index() as ViewResult;
+            MaterialenViewModel vm=result.Model as MaterialenViewModel;
+            Assert.AreEqual(5,vm.Materialen.Count());
 
-            // Act
-            ViewResult result = controller.About() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
+        
     }
 }

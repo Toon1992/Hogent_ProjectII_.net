@@ -20,16 +20,17 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             Materialen = new List<Materiaal>();
         }
-        public void VoegMateriaalToe(Materiaal materiaal)
+        public void VoegMateriaalToe(Materiaal materiaal, int aantal)
         {
             //Materiaal dat doorgegeven wordt mag niet null zijn
             if(materiaal == null)
                 throw new ArgumentNullException("Het materiaal dat aan de verlanglijst wou worden gegeven is null!");
             //Materiaal mag nog niet voorkomen in verlanglijst van de gebruiker
-            if (BevatMateriaal(materiaal))
-                throw new ArgumentException("Dit materiaal werd reeds toegevoegd aan de verlanglijst!");
-           
+            for (int i = 0; i < aantal; i++)
+            {
                 Materialen.Add(materiaal);
+            }
+               
             
             
             
