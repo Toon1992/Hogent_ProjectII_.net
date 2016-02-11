@@ -21,7 +21,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int ArtikelNr { get; set; }
 
-        public Double Prijs { get; set; }
+        public double Prijs { get; set; }
 
         public string Firma { get; set; }
 
