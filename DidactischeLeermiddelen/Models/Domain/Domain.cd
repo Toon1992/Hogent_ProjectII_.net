@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DidactischeLeermiddelen.Materiaal">
+    <Position X="4" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAUAAAAAAAAAAAABAAAAAAAIAAAAAAAaACAAQA=</HashCode>
+      <FileName>Materiaal.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Doelgroepen" />
+      <Property Name="Leergebieden" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Doelgroep">
+    <Position X="1.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Doelgroep.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Leergebied">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Leergebied.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Reservatie">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reservatie.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Materialen" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Gebruiker">
+    <Position X="6.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAIAAAAhAARgAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Gebruiker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Verlanglijst" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Reservaties" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Verlanglijst">
+    <Position X="2" Y="5" Width="1.5" />
+    <AssociationLine Name="Materialen" Type="DidactischeLeermiddelen.Materiaal" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.281" Y="5" />
+        <Point X="3.281" Y="3.825" />
+        <Point X="4.5" Y="3.825" />
+        <Point X="4.5" Y="3.45" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Verlanglijst.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Materialen" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="DidactischeLeermiddelen.Status">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAiAggAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Status.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
