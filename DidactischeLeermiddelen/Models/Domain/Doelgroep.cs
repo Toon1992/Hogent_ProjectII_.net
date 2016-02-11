@@ -8,6 +8,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Doelgroep
     {
+        #region fields
         public string Naam { get; set; }
+        #endregion
     }
 }

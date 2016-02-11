@@ -10,6 +10,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Materiaal
     {
+        #region fields
         public string Foto { get; set; }
 
 
@@ -21,7 +22,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int ArtikelNr { get; set; }
 
-        public double Prijs { get; set; }
+        public Decimal Prijs { get; set; }
 
         public string Firma { get; set; }
 
@@ -29,5 +30,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual List<Leergebied> Leergebieden { get; set; }
 
         public Status Status { get; set; }
+        #endregion
+
+        public Materiaal(String naam, int artikeNr, int aantal)
+        {
+            Naam = naam;
+            ArtikelNr = artikeNr;
+            AantalInCatalogus = aantal;
+        }
     }
 }
