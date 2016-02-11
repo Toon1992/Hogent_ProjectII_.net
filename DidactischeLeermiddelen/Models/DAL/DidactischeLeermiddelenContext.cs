@@ -14,6 +14,8 @@ namespace DidactischeLeermiddelen.Models.DAL
     public class DidactischeLeermiddelenContext:IdentityDbContext<ApplicationUser>
     {
         public DbSet<Materiaal> Materialen { get; set; }
+        public DbSet<Doelgroep> Doelgroepen { get; set; }
+        public DbSet<Leergebied> Leergebieden { get; set; }
         public DidactischeLeermiddelenContext() : base("DidactischeLeermiddelen")
         {
         }
