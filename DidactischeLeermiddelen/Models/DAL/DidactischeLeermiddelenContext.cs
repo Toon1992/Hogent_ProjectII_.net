@@ -6,12 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using DidactischeLeermiddelen.Models.Domain;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
     public class DidactischeLeermiddelenContext:IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Materiaal> Materialen { get; set; }
         public DidactischeLeermiddelenContext() : base("DidactischeLeermiddelen")
         {
         }
@@ -24,10 +26,10 @@ namespace DidactischeLeermiddelen.Models.DAL
             modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        //public static DidactischeLeermiddelenContext Create()
-        //{
-        //    return DependencyResolver.Current.GetService<DidactischeLeermiddelenContext>();
-        //}
+        public static DidactischeLeermiddelenContext Create()
+        {
+            return DependencyResolver.Current.GetService<DidactischeLeermiddelenContext>();
+        }
 
     }
 }

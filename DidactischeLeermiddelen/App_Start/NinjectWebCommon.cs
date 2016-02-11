@@ -1,3 +1,6 @@
+using DidactischeLeermiddelen.Models.DAL;
+using DidactischeLeermiddelen.Models.Domain;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DidactischeLeermiddelen.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(DidactischeLeermiddelen.App_Start.NinjectWebCommon), "Stop")]
 
@@ -61,6 +64,8 @@ namespace DidactischeLeermiddelen.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IMateriaalRepository>().To<MateriaalRepository>().InRequestScope();
+            kernel.Bind<DidactischeLeermiddelenContext>().ToSelf().InRequestScope();
         }        
     }
 }

@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Controllers
 {
     public class HomeController : Controller
     {
+        private IMateriaalRepository materiaalRepository;
+        public HomeController() { }
+        public HomeController(IMateriaalRepository materiaalRepository)
+        {
+            this.materiaalRepository = materiaalRepository;
+        }
         public ActionResult Index()
         {
+            List<Materiaal> materialen = materiaalRepository.FindAll().ToList();
             return View();
         }
 
