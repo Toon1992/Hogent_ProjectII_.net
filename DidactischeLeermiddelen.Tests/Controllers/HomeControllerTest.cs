@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         public void IndexMethodeGeeftCatalogusWeer()
         {
             ViewResult result= controller.Index() as ViewResult;
-            MaterialenViewModel vm=result.Model as MaterialenViewModel;
+            MaterialenViewModel vm=((MaterialenViewModel)result.Model);
             Assert.AreEqual(5,vm.Materialen.Count());
 
         }
