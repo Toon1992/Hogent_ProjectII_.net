@@ -28,5 +28,21 @@ namespace DidactischeLeermiddelen.Tests.Domain
             context.Toon.VoegMateriaalAanVerlanglijstToe(null,"Wereldbol",null,10,25,2.60M,null,null,null);
             Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof (ArgumentNullException))]
+        public void VoegMateriaalNullToe()
+        {
+            context.Toon.VoegMateriaalAanVerlanglijstToe(null);
+        }
+
+        [TestMethod]
+        public void VoegMateriaalToeDatAlInVerlanglijstStaat()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(null, "Wereldbol", null, 10, 25, 2.60M, null, null, null);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(null, "Wereldbol", null, 10, 25, 2.60M, null, null, null);
+            Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
+        }
     }
 }
