@@ -18,14 +18,14 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void VoegMateriaalAanVerlangLijstMetMateriaalObject()
         {
             Materiaal materiaal = new Materiaal("WereldBol",25,10);
-            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal,1);
             Assert.AreEqual(1,context.Toon.Verlanglijst.Materialen.Count);
         }
 
         [TestMethod]
         public void VoegMateriaalAanVerlangLijstMetvariabele()
         {          
-            context.Toon.VoegMateriaalAanVerlanglijstToe(null,"Wereldbol",null,10,25,2.60M,null,null,null);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(null,"Wereldbol",null,10,25,2.60M,null,null,null,1);
             Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
         }
 
@@ -33,15 +33,15 @@ namespace DidactischeLeermiddelen.Tests.Domain
         [ExpectedException(typeof (ArgumentNullException))]
         public void VoegMateriaalNullToe()
         {
-            context.Toon.VoegMateriaalAanVerlanglijstToe(null);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(null,1);
         }
 
         [TestMethod]
         public void VoegMateriaalToeDatAlInVerlanglijstStaat()
         {
             Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
-            context.Toon.VoegMateriaalAanVerlanglijstToe(null, "Wereldbol", null, 10, 25, 2.60M, null, null, null);
-            context.Toon.VoegMateriaalAanVerlanglijstToe(null, "Wereldbol", null, 10, 25, 2.60M, null, null, null);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal, 1);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal, 1);
             Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
         }
     }
