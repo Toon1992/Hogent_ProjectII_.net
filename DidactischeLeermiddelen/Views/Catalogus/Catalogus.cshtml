@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
+﻿@using System.Drawing
+@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
 
 
 <table class="table">
@@ -39,7 +40,8 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Foto)
+                <img src="@item.Foto" alt="@item.Foto"/>
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
