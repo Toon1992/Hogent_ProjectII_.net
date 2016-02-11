@@ -7,7 +7,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public interface IDoelgroepRepository
     {
-        IQueryable<Doelgroep> FindByDoelGroep(Doelgroep doelgroep);
+        IQueryable<Doelgroep> FindAll();
+        Doelgroep FindById(int id);
         void SaveChanges();
     }
 }

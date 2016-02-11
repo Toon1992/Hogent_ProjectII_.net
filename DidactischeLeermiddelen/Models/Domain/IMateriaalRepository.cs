@@ -9,7 +9,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     public interface IMateriaalRepository
     {
         IQueryable<Materiaal> FindAll();
-        IQueryable<Materiaal> FindByTrefWoord(string trefwoord);   
+        IQueryable<Materiaal> FindByTrefWoord(string trefwoord);
         void SaveChanges();
     }
 }

@@ -13,22 +13,29 @@ namespace DidactischeLeermiddelen.Models.DAL
             try
             {
                 //Leergebieden
-                Leergebied aardrijkskunde = new Leergebied {Naam = "Aardrijkskunde"};
-                Leergebied fysica = new Leergebied {Naam = "Fysica"};
+                Leergebied aardrijkskunde = new Leergebied { Naam = "Aardrijkskunde" };
+                Leergebied fysica = new Leergebied { Naam = "Fysica" };
                 Leergebied chemie = new Leergebied { Naam = "Chemie" };
                 Leergebied wiskunde = new Leergebied { Naam = "Wiskunde" };
 
                 //Doelgroepen
-                Doelgroep lagerOnderwijs = new Doelgroep {Naam = "Lager onderwijs"};
-                Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair onderwijs" };
+                Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
+                Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
+
 
                 //Materialen
-                Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4, ArtikelNr = 1, Firma = "Nova Rico", Naam = "Wereldbol", Foto = "~/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol",Prijs = 44.90M,Status = Status.Catalogus,Leergebieden = new List<Leergebied>{aardrijkskunde},Doelgroepen = new List<Doelgroep>{lagerOnderwijs, secundairOnderwijs}};
-                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2, Firma = "Texas Instruments", Naam = "TI 84+", Foto = "~/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs } };
-                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 3, Firma = "Ceti", Naam = "Microscoop Ceti", Foto = "~/Content/Images/mircoscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs } };
-                Materiaal pincet = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 4, Firma = "Zwilling", Naam = "Pincet", Foto = "~/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs,secundairOnderwijs } };
-                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "~/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs } };
-                Materiaal[] materialen = new Materiaal[] {wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek};
+                Materiaal wereldbol = new Materiaal { AantalInCatalogus = 4, ArtikelNr = 1, Firma = "Nova Rico", Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs } };
+                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2, Firma = "Texas Instruments", Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs } };
+                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 3, Firma = "Ceti", Naam = "Microscoop Ceti", Foto = "/Content/Images/microscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs } };
+                Materiaal pincet = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 4, Firma = "Zwilling", Naam = "Pincet", Foto = "/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs } };
+                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs } };
+                Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek };
+
+                secundairOnderwijs.Materialen = new List<Materiaal> { wereldbol, rekentoestel };
+                //lagerOnderwijs.Materialen = new List<Materiaal> {wereldbol, bordGeodriekhoek, pincet};
+                fysica.Materialen = new List<Materiaal> { bordGeodriekhoek, rekentoestel };
+
+
                 context.Materialen.AddRange(materialen);
                 context.SaveChanges();
             }

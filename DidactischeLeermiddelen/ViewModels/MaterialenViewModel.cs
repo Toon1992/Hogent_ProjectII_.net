@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
@@ -9,9 +12,7 @@ namespace DidactischeLeermiddelen.ViewModels
     public class MaterialenViewModel
     {
         public IEnumerable<MateriaalViewModel> Materialen { get; set; }
-        
 
-        
     }
 
     public class MateriaalViewModel
@@ -19,8 +20,11 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
+        [Display(Name = "Aantal")]
         public int AantalInCatalogus { get; set; }
+        [Display(Name = "Artikelnummer")]
         public int ArtikelNr { get; set; }
+        [DataType(DataType.Currency)]
         public decimal Prijs { get; set; }
         public string Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
