@@ -27,7 +27,7 @@ namespace DidactischeLeermiddelen.Controllers
             };
             return View(vm);
         }
-        
+
         public ActionResult VoegAanVerlanglijstToe(int id, int aantal,Verlanglijst verlanglijst)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
