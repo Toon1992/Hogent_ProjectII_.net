@@ -1,0 +1,88 @@
+﻿@using System.Drawing
+@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
+<section id="catalogus-content">
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Naam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Omschrijving)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AantalInCatalogus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArtikelNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prijs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doelgroepen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Leergebieden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Foto" alt="@item.Foto" />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Omschrijving)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AantalInCatalogus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArtikelNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prijs) €
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firma)
+                </td>
+                <td>
+                    @foreach (var doelgroep in item.Doelgroepen)
+                {
+                        @Html.DisplayFor(d => doelgroep.Naam)
+                        <br />
+                    }
+
+                </td>
+                <td>
+                    @foreach (var leergebied in item.Leergebieden)
+                {
+                        @Html.DisplayFor(d => leergebied.Naam)
+                        <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+
+    </table>
+</section>
+@section scripts
+{
+    <script src="~/Scripts/catalogusScript.js"></script>
+}
