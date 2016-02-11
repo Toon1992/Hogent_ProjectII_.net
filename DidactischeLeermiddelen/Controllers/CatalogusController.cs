@@ -33,10 +33,9 @@ namespace DidactischeLeermiddelen.Controllers
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
             if (materiaal != null)
             {
-                for (int i = 0; i < aantal; i++)
-                {
-                    verlanglijst.VoegMateriaalToe(materiaal);
-                }
+               
+                    verlanglijst.VoegMateriaalToe(materiaal, aantal);
+                
             }
             return RedirectToAction("Index");
         }

@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Reservaties = new List<Reservatie>();
             Verlanglijst = new Verlanglijst();
         }
-        public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
+        public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal, int aantal)
         {
             //Materiaal dat doorgevoerd wordt naar de verlanglijst mag niet null zijn
             if(materiaal == null)
@@ -40,11 +40,13 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Heeft verlanglijst al dit materiaal in zijn lijst staan?
             //Ja, niks doen
             //Nee, toevoegen aan de lijst
+            if(aantal>materiaal.AantalInCatalogus)
+                throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
             if (!Verlanglijst.BevatMateriaal(materiaal))
-                Verlanglijst.VoegMateriaalToe(materiaal);
+                Verlanglijst.VoegMateriaalToe(materiaal, aantal);
         }
 
-        public void VoegMateriaalAanVerlanglijstToe(String fotoSource, String naam, String omschrijving, int aantalInCatalogus, int artikelNr, decimal prijs, String firma, Doelgroep doelgroep, Leergebied leergebied)
+        public void VoegMateriaalAanVerlanglijstToe(String fotoSource, String naam, String omschrijving, int aantalInCatalogus, int artikelNr, decimal prijs, String firma, Doelgroep doelgroep, Leergebied leergebied, int aantal)
         {
             //Materiaal heeft altijd een naam
             if(string.IsNullOrEmpty(naam) || naam.Trim().Equals(""))
@@ -68,8 +70,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Heeft verlanglijst al dit materiaal in zijn lijst staan?
             //Ja, niks doen
             //Nee, toevoegen aan de lijst
-            if(!Verlanglijst.BevatMateriaal(materiaal))
-                Verlanglijst.VoegMateriaalToe(materiaal);
+            if (aantal > materiaal.AantalInCatalogus)
+                throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
+
+            if (!Verlanglijst.BevatMateriaal(materiaal))
+                Verlanglijst.VoegMateriaalToe(materiaal, aantal);
         }
 
         public void VoegReservatieToe(Reservatie reservatie)
