@@ -1,3 +1,27 @@
-﻿img {
-    max-width: 100px;
+﻿.title {
+    font-size: 2em;
+    margin: 0;
+}
+.manufacturer {
+    color: gray;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+}
+.info {
+    color: gray;
+    padding-left: 1em;
+}
+.doelgroep {
+    color: gray;
+}
+.description {
+    font-size: 1.25em;
+    color: #606060;
+}
+.materiaal {
+    padding: 3em 0 ;
+    border-bottom: 1px solid #dddbd5;
+}
+img {
+    width: 100px;
 }
