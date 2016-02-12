@@ -9,7 +9,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
 {
     class DummyContext
     {
-       public Gebruiker Toon { get; set; }
+        public Gebruiker Toon { get; set; }
+        public Materiaal Bol { get; set; }
+
 
         public DummyContext()
         {
@@ -19,6 +21,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 GebruikersId = 1000000,
                 Naam = "Toon"
             };
+
+            Bol=new Materiaal("Wereldbol",456,10);
 
 
         }
