@@ -19,13 +19,29 @@ namespace DidactischeLeermiddelen.Tests.Controllers
 
         private CatalogusController controller;
         private Mock<IMateriaalRepository> mockMateriaalRepository;
+        private Mock<IDoelgroepRepository> mockDoelgroepRepository;
+        private Mock<ILeergebiedRepository> mockLeergebiedRepository;
+        MaterialenViewModel vm;
+        Verlanglijst v=new Verlanglijst();
 
         [TestInitialize]
         public void OpzettenContext()
         {
             DummyContext context=new DummyContext();
             mockMateriaalRepository=new Mock<IMateriaalRepository>();
-            controller=new CatalogusController(mockMateriaalRepository.Object);
+            mockDoelgroepRepository=new Mock<IDoelgroepRepository>();
+            mockLeergebiedRepository=new Mock<ILeergebiedRepository>();
+            controller=new CatalogusController(mockMateriaalRepository.Object,mockDoelgroepRepository.Object,mockLeergebiedRepository.Object);
+            MateriaalViewModel m=new MateriaalViewModel(context.Bol);
+            List<MateriaalViewModel> models=new List<MateriaalViewModel>();
+            models.Add(m);
+
+
+            vm = new MaterialenViewModel()
+            {
+                Materialen = models
+
+            };
 
         }
 
@@ -33,10 +49,17 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         public void IndexMethodeGeeftCatalogusWeer()
         {
             ViewResult result= controller.Index() as ViewResult;
-            MaterialenViewModel vm=result.Model as MaterialenViewModel;
-            Assert.AreEqual(5,vm.Materialen.Count());
+            MaterialenViewModel vm=((MaterialenViewModel)result.Model);
+            Assert.AreEqual("Wereldbol",vm.Materialen.FirstOrDefault().Naam);
 
         }
-        
+
+        [TestMethod]
+        public void VoegToeAanVerlanglijstKeertTerugNaarIndexNaToevoegen()
+        {
+            MateriaalViewModel m = vm.Materialen.FirstOrDefault();
+            RedirectToRouteResult res=controller.VoegAanVerlanglijstToe(m.ArtikelNr,m.AantalInCatalogus,v) as RedirectToRouteResult;
+            Assert.AreEqual("Index",res.RouteValues["action"]);
+        }
     }
 }

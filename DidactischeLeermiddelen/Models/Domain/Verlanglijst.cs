@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
+using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -12,6 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         #region fields
         public List<Materiaal> Materialen { get; set; }
+       
         #endregion
 
         #region Methodes
@@ -26,14 +28,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             if(materiaal == null)
                 throw new ArgumentNullException("Het materiaal dat aan de verlanglijst wou worden gegeven is null!");
             //Materiaal mag nog niet voorkomen in verlanglijst van de gebruiker
-            for (int i = 0; i < aantal; i++)
+            if (aantal > materiaal.AantalInCatalogus)
+                throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
+            if (!Materialen.Contains(materiaal))
             {
-                Materialen.Add(materiaal);
+                for (int i = 0; i < aantal; i++)
+                {
+                    Materialen.Add(materiaal);
+                }
             }
-               
-            
-            
-            
             //Toevoegen van materiaal
             
         }
@@ -45,6 +48,11 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             return Materialen.Contains(materiaal);
         }
-        #endregion 
+        #endregion
+
+        public int GeefAantalMateriaalInVerlanglijst(Materiaal materiaal)
+        {
+            return Materialen.Count(m => m.ArtikelNr == materiaal.ArtikelNr);
+        }
     }
 }
