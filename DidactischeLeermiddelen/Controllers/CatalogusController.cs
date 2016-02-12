@@ -15,17 +15,19 @@ namespace DidactischeLeermiddelen.Controllers
         private IMateriaalRepository materiaalRepository;
         private IDoelgroepRepository doelgroepRepository;
         private ILeergebiedRepository leergebiedRepository;
+
         public CatalogusController(IMateriaalRepository materiaalRepository, IDoelgroepRepository doelgroepRepository, ILeergebiedRepository leergebiedRepository)
         {
             this.materiaalRepository = materiaalRepository;
             this.doelgroepRepository = doelgroepRepository;
             this.leergebiedRepository = leergebiedRepository;
         }
+
         public ActionResult Index(int doelgroepId = 0, int leergebiedId = 0)
         {
             List<Materiaal> materiaal;
-            Leergebied leergebied;
-            Doelgroep doelgroep;
+
+            //dit is code dat ik niet helemaal begrijp
             if (doelgroepId == 0 && leergebiedId == 0)
             {
                 materiaal = materiaalRepository.FindAll().ToList();
@@ -44,12 +46,18 @@ namespace DidactischeLeermiddelen.Controllers
                 var materiaalLeergebied = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
                 materiaal = materiaalDoelgroep.Intersect(materiaalLeergebied).ToList();
             }
-            MaterialenViewModel vm = new MaterialenViewModel()
-            {
-                Materialen = materiaal.Select(b => new MateriaalViewModel(b)),
-            };
-            ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
-            ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
+
+            //Aanmaken van verschillende viemodels die dan getoont zullen worden in de views
+            MaterialenViewModel vm = createMaterialenViewModel(materiaal);
+            DoelgroepViewModel dgvm = new DoelgroepViewModel(GetDoelgroepenSelectedList(doelgroepId));
+            LeergebiedViewModel lgvm = new LeergebiedViewModel(GetLeergebiedSelectedList(leergebiedId));
+            vm.DoelgroepenViewModel = dgvm;
+            vm.LeergebiedenViewModel = lgvm;
+
+
+            //ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
+            //ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
+
             if (Request.IsAjaxRequest())
             {
                 return PartialView("Catalogus", vm.Materialen);
@@ -112,6 +120,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
         {
+            
             return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
                 "DoelgroepId", "Naam", doelgroepId);
         }
