@@ -108,7 +108,7 @@
     <Compile Include="Domain\DummyContext.cs" />
     <Compile Include="Domain\GebruikerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Controllers\CatalogusControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
