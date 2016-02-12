@@ -5,13 +5,21 @@
 }
 
 <div class="form-horizontal">
-    <hr />  
+    <hr />
     <div class="form-group">
         <div class="col-md-12">
             @using (Html.BeginForm("Zoek", "Catalogus"))
             {
-                <input type="search" name="trefwoord" value="Naam of trefwoord" class="input-medium" />
-                <input type="submit" value="Search" />
+                @Html.TextBox("trefwoord","Naam of trefwoord", new {@class="col-lg-12 col-lg-offset-2)", onfocus = "if (this.value == 'Naam of trefwoord') { this.value = ''; }"})
+                <button type="submit" value="search" class="btn btn-default">
+                    <span class=".btn-lg"></span> Zoeken
+                </button>
+            }
+            @using (Html.BeginForm("VerwijderZoekResultaat", "Catalogus"))
+            {
+                <button type="submit" value="Clear" class="btn btn-default">
+                    <span class=".btn-lg"></span> Verwijder Resultaten
+                </button>
             }
         </div>
     </div>

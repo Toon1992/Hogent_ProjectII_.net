@@ -23,9 +23,22 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen;
         }
 
-        public IQueryable<Materiaal> FindByTrefWoord(string trefwoord)
+        public IList<Materiaal> FindByTrefWoord(string trefwoord)
         {
-            return materialen.Where(m => m.Naam.Contains(trefwoord) || m.Omschrijving.Contains(trefwoord));
+            //Lijsten opvullen met resultaten
+            List<Materiaal> naamMaterialen = materialen.Where(m => m.Naam.Contains(trefwoord)).ToList();
+            List<Materiaal> trefwoordMaterialen = materialen.Where(m =>m.Omschrijving.Contains(trefwoord)).ToList();
+
+            //Lijsten samen brengen
+            List<Materiaal> resultMaterialen = naamMaterialen;
+            foreach (var materiaal in trefwoordMaterialen)
+            {
+                //Als de materiaal nog niet in de resultaten zit mag dit toegvoegd worden
+                if(!resultMaterialen.Contains(materiaal))
+                    resultMaterialen.Add(materiaal);
+            }
+       
+            return resultMaterialen;
         }
 
         public IQueryable<Materiaal> FindByDoelgroep(int doelgroepId)
