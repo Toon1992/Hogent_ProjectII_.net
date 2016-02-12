@@ -34,7 +34,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         {
             ViewResult result= controller.Index() as ViewResult;
             MaterialenViewModel vm=((MaterialenViewModel)result.Model);
-            Assert.AreEqual(5,vm.Materialen.Count());
+            Assert.AreEqual("Wereldbol",vm.Materialen.FirstOrDefault().Naam);
 
         }
         
