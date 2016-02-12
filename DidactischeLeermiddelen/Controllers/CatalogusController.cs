@@ -1,6 +1,7 @@
 ﻿using DidactischeLeermiddelen.Models.Domain;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -57,16 +58,8 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View(vm);
         }
-        private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
-        {
-            return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
-            "DoelgroepId", "Naam", doelgroepId);
-        }
-        private SelectList GetLeergebiedSelectedList(int leergebiedId = 0)
-        {
-            return new SelectList(leergebiedRepository.FindAll().OrderBy(d => d.Naam),
-            "LeergebiedId", "Naam", leergebiedId);
-        }
+      
+
         public ActionResult VoegAanVerlanglijstToe(int id, int aantal, Verlanglijst verlanglijst)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
@@ -86,6 +79,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
         public ActionResult Zoek(String trefwoord)
         {
+
             //LijstMaken waar we het gezochte materiaal vinden
             IEnumerable<Materiaal> gezochteMaterialen = new List<Materiaal>();
             //DropDownlist maken
@@ -98,21 +92,40 @@ namespace DidactischeLeermiddelen.Controllers
             }
             else
             {
-                //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
-                gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+            gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
             }
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
+            MaterialenViewModel vm = createMaterialenViewModel(gezochteMaterialen);
+
+            return View("Index",vm);
+        }
+
+        public ActionResult VerwijderZoekResultaat()
+        {
+            return RedirectToAction("index");
+        }
+
+        //Hulpmethode voor het aanmaken van de materialenViewModel
+        private MaterialenViewModel createMaterialenViewModel(IEnumerable<Materiaal> lijst)
+        {
             MaterialenViewModel vm = new MaterialenViewModel()
             {
-                Materialen = gezochteMaterialen.Select(b => new MateriaalViewModel(b)),
-                Leergebieden = leergebiedRepository.FindAll().ToList(),
-                Doelgroepen = doelgroepRepository.FindAll().ToList(),
+                Materialen = lijst.Select(b => new MateriaalViewModel(b)),
             };
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("Catalogus1", vm);
-            }
-            return View("Index", vm);
+
+            return vm;
+        }
+        private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
+        {
+            return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
+                "DoelgroepId", "Naam", doelgroepId);
+        }
+
+        private SelectList GetLeergebiedSelectedList(int leergebiedId = 0)
+        {
+            return new SelectList(leergebiedRepository.FindAll().OrderBy(d => d.Naam),
+                "LeergebiedId", "Naam", leergebiedId);
         }
     }
 }
