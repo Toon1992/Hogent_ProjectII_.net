@@ -21,6 +21,7 @@ namespace DidactischeLeermiddelen.Controllers
             this.materiaalRepository = materiaalRepository;
             this.doelgroepRepository = doelgroepRepository;
             this.leergebiedRepository = leergebiedRepository;
+            
         }
         public ActionResult Index(int doelgroepId = 0, int leergebiedId = 0)
         {
