@@ -40,7 +40,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Heeft verlanglijst al dit materiaal in zijn lijst staan?
             //Ja, niks doen
             //Nee, toevoegen aan de lijst
-            if (aantal > materiaal.AantalInCatalogus)
+            if (aantal > materiaal.AantalInCatalogus || aantal <= 0)
                 throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
             if (!Verlanglijst.BevatMateriaal(materiaal))
                 Verlanglijst.VoegMateriaalToe(materiaal, aantal);

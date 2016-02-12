@@ -22,8 +22,6 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(1,context.Toon.Verlanglijst.Materialen.Count);
         }
 
-
-
         [TestMethod]
         [ExpectedException(typeof (ArgumentNullException))]
         public void VoegMateriaalNullToe()
