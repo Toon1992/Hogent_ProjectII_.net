@@ -80,41 +80,15 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 try
                 {
-                    verlanglijst.VoegMateriaalToe(materiaal, aantal);
-                    TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
-                }
-                catch (ArgumentException ex)
-                {
-                    TempData["Error"] = ex.Message;
-                }
+                verlanglijst.VoegMateriaalToe(materiaal, aantal);
 
             }
+                catch
+                {
+                }
+
+                TempData["message"]= $"Je artikel {materiaal.Naam} werd toegevoegd aan je verlanglijst";
             return RedirectToAction("Index");
-        }
-       
-        public ActionResult Zoek(String trefwoord)
-        {
-            //LijstMaken waar we het gezochte materiaal vinden
-            IEnumerable<Materiaal> gezochteMaterialen = new List<Materiaal>();
-
-            //DropDownlist maken
-            ViewBag.Doelgroepen = GetDoelgroepenSelectedList();
-            ViewBag.Leergebieden = GetLeergebiedSelectedList();
-
-            //Als er niks bevind in de textbox veranderd er niks
-            if (trefwoord == null || trefwoord.IsEmpty())
-                return View("Index");
-
-            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
-            gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-
-            //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
-            MaterialenViewModel vm = new MaterialenViewModel()
-            {
-                Materialen = gezochteMaterialen.Select(b => new MateriaalViewModel(b)),
-            };   
-
-            return View("Index",vm);
         }
     }
 }
