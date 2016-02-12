@@ -5,7 +5,7 @@
 }
 
 <div class="form-horizontal">
-    <hr />
+    <hr />  
     <div class="form-group">
         <div class="col-md-12">
             @using (Html.BeginForm("Zoek", "Catalogus"))
@@ -37,7 +37,7 @@
     </div>
 </div>
 <div id="catalogus">
-    @Html.Partial("Catalogus", Model.Materialen)
+    @Html.Partial("Catalogus1", Model.Materialen)
 </div>
 @section scripts
 {

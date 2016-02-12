@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using System.Web.WebPages;
 using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
-
 namespace DidactischeLeermiddelen.Controllers
 {
     public class CatalogusController : Controller
@@ -16,7 +15,6 @@ namespace DidactischeLeermiddelen.Controllers
         private IMateriaalRepository materiaalRepository;
         private IDoelgroepRepository doelgroepRepository;
         private ILeergebiedRepository leergebiedRepository;
-
         public CatalogusController(IMateriaalRepository materiaalRepository, IDoelgroepRepository doelgroepRepository, ILeergebiedRepository leergebiedRepository)
         {
             this.materiaalRepository = materiaalRepository;
@@ -34,23 +32,20 @@ namespace DidactischeLeermiddelen.Controllers
             }
             else if (doelgroepId == 0)
             {
-                leergebied = leergebiedRepository.FindById(leergebiedId);
-                materiaal = leergebied.Materialen;
+                materiaal = materiaalRepository.FindByLeergebied(leergebiedId).ToList();
             }
             else if (leergebiedId == 0)
             {
-                doelgroep = doelgroepRepository.FindById(doelgroepId);
-                materiaal = doelgroep.Materialen;
+                materiaal = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
             }
             else
             {
-                doelgroep = doelgroepRepository.FindById(doelgroepId);
-                leergebied = leergebiedRepository.FindById(leergebiedId);
-                materiaal = doelgroep.Materialen.Intersect(leergebied.Materialen).ToList();
+                var materiaalDoelgroep = materiaalRepository.FindByLeergebied(leergebiedId).ToList();
+                var materiaalLeergebied = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
+                materiaal = materiaalDoelgroep.Intersect(materiaalLeergebied).ToList();
             }
             MaterialenViewModel vm = new MaterialenViewModel()
             {
-
                 Materialen = materiaal.Select(b => new MateriaalViewModel(b)),
             };
             ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
@@ -77,28 +72,23 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     TempData["Error"] = ex.Message;
                 }
-
             }
             return RedirectToAction("Index");
         }
-       
         public ActionResult Zoek(String trefwoord)
-        {         
+        {
 
             //LijstMaken waar we het gezochte materiaal vinden
             IEnumerable<Materiaal> gezochteMaterialen = new List<Materiaal>();
-
             //DropDownlist maken
             ViewBag.Doelgroepen = GetDoelgroepenSelectedList();
             ViewBag.Leergebieden = GetLeergebiedSelectedList();
-
             //Als er niks bevind in de textbox veranderd er niks
             if (trefwoord == null || trefwoord.IsEmpty())
                 return RedirectToAction("Index");
 
             //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
             gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
             MaterialenViewModel vm = createMaterialenViewModel(gezochteMaterialen);
 
@@ -116,7 +106,7 @@ namespace DidactischeLeermiddelen.Controllers
             MaterialenViewModel vm = new MaterialenViewModel()
             {
                 Materialen = lijst.Select(b => new MateriaalViewModel(b)),
-            };
+            };   
 
             return vm;
         }

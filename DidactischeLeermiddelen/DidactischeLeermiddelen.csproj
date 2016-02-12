@@ -271,8 +271,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Catalogus\Catalogus.cshtml" />
     <Content Include="Views\Catalogus\Index.cshtml" />
-    <Content Include="Views\Verlanglijst\LegeVerlanglijst.cshtml" />
-    <Content Include="Views\Verlanglijst\Index.cshtml" />
+    <Content Include="Views\Catalogus\Catalogus1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
