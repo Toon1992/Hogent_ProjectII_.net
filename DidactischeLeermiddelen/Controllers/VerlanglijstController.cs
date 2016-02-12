@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Controllers
             VerlanglijstMaterialenViewModel vm = new VerlanglijstMaterialenViewModel()
             {
 
-                Materialen = verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b))
+                Materialen = verlanglijst.Materialen.Distinct().Select(b => new VerlanglijstViewModel(b))
             };
             return View(vm.Materialen);
         }
