@@ -9,7 +9,7 @@ using DidactischeLeermiddelen.Controllers;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Tests.Domain;
 using DidactischeLeermiddelen.ViewModels;
-using Moq;
+using moq;
 
 namespace DidactischeLeermiddelen.Tests.Controllers
 {

@@ -3,6 +3,21 @@
 @{
     ViewBag.Title = "Catalogus";
 }
+
+<div class="form-horizontal">
+    <hr />  
+    <div class="form-group">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Zoek", "Catalogus"))
+            {
+                <input type="search" name="trefwoord" value="Naam of trefwoord" class="input-medium" />
+                <input type="submit" value="Search" />
+            }
+        </div>
+    </div>
+</div>
+
+
 <div class="form-group">
     <div class="col-md-6">
         @Html.Label("DoelgroepId", "Doelgroep")
@@ -14,7 +29,7 @@
     </div>
 </div>
 <div id="catalogus">
-    @Html.Partial("Catalogus", Model.Materialen)
+    @Html.Partial("Catalogus1", Model.Materialen)
 </div>
 @section scripts
 {
