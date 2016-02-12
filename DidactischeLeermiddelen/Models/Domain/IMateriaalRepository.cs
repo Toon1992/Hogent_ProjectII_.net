@@ -10,6 +10,9 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         IQueryable<Materiaal> FindAll();
         IQueryable<Materiaal> FindByTrefWoord(string trefwoord);
+        IQueryable<Materiaal> FindByDoelgroep(int doelgroepId);
+        IQueryable<Materiaal> FindByLeergebied(int leergebiedId);
+
         void SaveChanges();
     }
 }

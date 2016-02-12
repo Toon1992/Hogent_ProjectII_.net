@@ -31,10 +31,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs } };
                 Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek };
 
-                secundairOnderwijs.Materialen = new List<Materiaal> { wereldbol, rekentoestel };
-                //lagerOnderwijs.Materialen = new List<Materiaal> {wereldbol, bordGeodriekhoek, pincet};
-                fysica.Materialen = new List<Materiaal> { bordGeodriekhoek, rekentoestel };
-
 
                 context.Materialen.AddRange(materialen);
                 context.SaveChanges();

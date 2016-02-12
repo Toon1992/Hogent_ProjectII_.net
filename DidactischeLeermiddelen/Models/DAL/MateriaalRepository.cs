@@ -28,6 +28,16 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen.Where(m => m.Naam.Contains(trefwoord) || m.Omschrijving.Contains(trefwoord));
         }
 
+        public IQueryable<Materiaal> FindByDoelgroep(int doelgroepId)
+        {
+            return materialen.Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId)));
+        }
+
+        public IQueryable<Materiaal> FindByLeergebied(int leergebiedId)
+        {
+            return materialen.Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId)));
+        }
+
         public void SaveChanges()
         {
             context.SaveChanges();
