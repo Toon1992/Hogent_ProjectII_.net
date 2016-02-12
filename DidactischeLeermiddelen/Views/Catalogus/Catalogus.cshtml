@@ -1,10 +1,9 @@
-﻿@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
-
-
+﻿@using System.Drawing
+@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Foto)
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Naam)
@@ -37,12 +36,11 @@
             Toevoegen aan verlanglijst
         </th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                <img src="@item.Foto" alt="@item.Foto"/>
+                <img src="@item.Foto" alt="@item.Foto" />
 
             </td>
             <td>
@@ -58,16 +56,25 @@
                 @Html.DisplayFor(modelItem => item.ArtikelNr)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Prijs) €
+                @Html.DisplayFor(modelItem => item.Prijs)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Firma)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doelgroepen)
+                @foreach (var doelgroep in item.Doelgroepen)
+                {
+                    @Html.DisplayFor(d => doelgroep.Naam)
+                    <br />
+                }
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Leergebieden)
+                @foreach (var leergebied in item.Leergebieden)
+                {
+                    @Html.DisplayFor(d => leergebied.Naam)
+                    <br />
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
@@ -80,8 +87,7 @@
                 }
             </td>
         </tr>
-        
-        
     }
 
 </table>
+

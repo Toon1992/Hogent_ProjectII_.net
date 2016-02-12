@@ -34,13 +34,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal, int aantal)
         {
             //Materiaal dat doorgevoerd wordt naar de verlanglijst mag niet null zijn
-            if(materiaal == null)
+            if (materiaal == null)
                 throw new ArgumentNullException("Materiaal mag niet null zijn");
 
             //Heeft verlanglijst al dit materiaal in zijn lijst staan?
             //Ja, niks doen
             //Nee, toevoegen aan de lijst
-            if(aantal>materiaal.AantalInCatalogus)
+            if (aantal > materiaal.AantalInCatalogus)
                 throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
             if (!Verlanglijst.BevatMateriaal(materiaal))
                 Verlanglijst.VoegMateriaalToe(materiaal, aantal);

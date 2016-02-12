@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DoelgroepRepository:IDoelgroepRepository
+    public class DoelgroepRepository : IDoelgroepRepository
     {
         private DidactischeLeermiddelenContext context;
         private DbSet<Doelgroep> doelgroepen;
@@ -17,9 +17,15 @@ namespace DidactischeLeermiddelen.Models.DAL
             this.context = context;
             doelgroepen = context.Doelgroepen;
         }
-        public IQueryable<Doelgroep> FindByDoelGroep(Doelgroep doelgroep)
+
+        public IQueryable<Doelgroep> FindAll()
         {
-            return doelgroepen.Where(d => d.Naam.Equals(doelgroep.Naam));
+            return doelgroepen;
+        }
+
+        public Doelgroep FindById(int id)
+        {
+            return doelgroepen.FirstOrDefault(d => d.DoelgroepId.Equals(id));
         }
 
         public void SaveChanges()

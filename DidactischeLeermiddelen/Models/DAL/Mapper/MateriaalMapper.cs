@@ -8,8 +8,21 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public MateriaalMapper()
         {
             HasKey(m => m.ArtikelNr);
-            HasMany(m => m.Doelgroepen).WithRequired().Map(m => m.MapKey("MateriaalNr")).WillCascadeOnDelete(false);
-            HasMany(m => m.Leergebieden).WithRequired().Map(m => m.MapKey("MateriaalNr")).WillCascadeOnDelete(false);
+
+            HasMany(m => m.Doelgroepen).WithMany().Map(m =>
+            {
+                m.MapLeftKey("ArtikelNr");
+                m.MapRightKey("DoelgroepId");
+                m.ToTable("MateriaalDoelgroep");
+            });
+
+            HasMany(m => m.Leergebieden).WithMany().Map(m =>
+            {
+                m.MapLeftKey("ArtikelNr");
+                m.MapRightKey("LeergebiedId");
+                m.ToTable("MateriaalLeergebied");
+            });
+
             Property(m => m.Naam).IsRequired();
             Property(m => m.AantalInCatalogus).IsRequired();
         }

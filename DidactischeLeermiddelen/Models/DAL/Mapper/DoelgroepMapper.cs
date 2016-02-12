@@ -11,7 +11,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
     {
         public DoelgroepMapper()
         {
-            HasKey(d => d.Naam);
+            Property(d => d.Naam);
         }
     }
 }
