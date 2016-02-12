@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
+using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -12,6 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         #region fields
         public List<Materiaal> Materialen { get; set; }
+       
         #endregion
 
         #region Methodes
@@ -45,6 +47,11 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             return Materialen.Contains(materiaal);
         }
-        #endregion 
+        #endregion
+
+        public int GeefAantalMateriaalInVerlanglijst(Materiaal materiaal)
+        {
+            return Materialen.Count(m => m.ArtikelNr == materiaal.ArtikelNr);
+        }
     }
 }
