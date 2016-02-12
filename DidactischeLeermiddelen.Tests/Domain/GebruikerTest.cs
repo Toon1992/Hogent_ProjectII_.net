@@ -20,9 +20,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Materiaal materiaal = new Materiaal("WereldBol",25,10);
             context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal, 1);
             Assert.AreEqual(1,context.Toon.Verlanglijst.Materialen.Count);
-        }
-
-        
+        }     
 
         [TestMethod]
         [ExpectedException(typeof (ArgumentNullException))]
