@@ -93,13 +93,21 @@ namespace DidactischeLeermiddelen.Controllers
             ViewBag.Leergebieden = GetLeergebiedSelectedList();
             //Als er niks bevind in de textbox veranderd er niks
             if (trefwoord == null || trefwoord.IsEmpty())
+            {
                 return RedirectToAction("Index");
-
+            }
+            else
+            {
             //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+                //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
             gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            }
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
             MaterialenViewModel vm = createMaterialenViewModel(gezochteMaterialen);
-
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Catalogus1", vm);
+            }
             return View("Index",vm);
         }
 
@@ -114,6 +122,8 @@ namespace DidactischeLeermiddelen.Controllers
             MaterialenViewModel vm = new MaterialenViewModel()
             {
                 Materialen = lijst.Select(b => new MateriaalViewModel(b)),
+                Doelgroepen = doelgroepRepository.FindAll().ToList(),
+                Leergebieden = leergebiedRepository.FindAll().ToList(),
             };   
 
             return vm;

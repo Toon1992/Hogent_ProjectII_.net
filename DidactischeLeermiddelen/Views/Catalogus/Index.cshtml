@@ -21,6 +21,11 @@
                     <span class=".btn-lg"></span> Verwijder Resultaten
                 </button>
             }
+            @using (Html.BeginForm("Zoek", "Catalogus"))
+            {
+                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
+                <div class="btn btn-default" id="zoek">Zoek</div>
+            }
         </div>
     </div>
 </div>
@@ -34,7 +39,7 @@
                 <label for="groepen"></label>              
                 <input type="checkbox" name="doelgroepen" id="groepen" value="@item.Text">@item.Text
             </div>
-           
+
         }
     </div>
     <div class="col-md-2">
@@ -44,7 +49,7 @@
             <div class="checkboxOpmaak">
                 <label for="gebieden"></label>
                 <input type="checkbox" name="leergebieden" id="gebieden" value="@item.Value">@item.Text
-            </div>
+    </div>
         }
     </div>
 

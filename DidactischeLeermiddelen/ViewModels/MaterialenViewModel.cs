@@ -32,7 +32,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public Status Status { get; set; }
-       
+
 
         public MateriaalViewModel(Materiaal materiaal)
         {

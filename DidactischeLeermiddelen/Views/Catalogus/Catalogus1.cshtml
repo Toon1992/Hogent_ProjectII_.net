@@ -1,69 +1,69 @@
 ﻿@using System.Drawing
-@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
-    <div class="container">
-        <div class="section pull-left">
-            <div class="col-md-2">
-                @foreach (var item in Model)
-                {
-                <img src="@item.Foto" alt="@item.Foto" />
-                <br />
-                }
+@model DidactischeLeermiddelen.ViewModels.MaterialenViewModel
 
-            </div>
-        </div>
-        <section class="pull-right">
-
-            @foreach (var item in Model)
+@foreach (var item in Model.Materialen)
             {
-            <div class="row materiaal">
-                <div class="col-md-2">
-                    <img src="@item.Foto" alt="@item.Foto" />
-                </div>
+    <div class="row materiaal">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <img src="@item.Foto" alt="@item.Foto" />
+        </div>
 
-                <div class="col-md-3">
-                    <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                    <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
-                    <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                    <h5 class="info">Artikelnummer: @Html.DisplayFor(modelItem => item.ArtikelNr)</h5>
-                    <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
-                </div>
-                <div class="col-md-2">
-                    <div class="leergebied">
-                        @foreach (var leergebied in item.Leergebieden)
-                        {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                        }
-
-                    </div>
-
-                </div>
-                <div class="col-md-2 doelgroep">
-                    @foreach (var doelgroep in item.Doelgroepen)
-                    {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                    }
-                </div>
-
-                <div class="col-md-2 ">
-                    <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
-                    <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
-
-                    @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new {id = item.ArtikelNr}))
-                    {
-                    <div class="form-group">
-                        <label class="sr-only" for="aantal">Aantal</label>
-                        <input type="number" name="aantal" value="1" class="input-medium" />
-                    </div>
-                    <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> Aan verlanglijst toevoegen
-                    </button>
-                    }
-                </div>
+        <div class="col-md-3 col-sm-4 col-xs-4">
+            <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
+            <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
+            <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
+            <h5 class="info">Artikelnummer: @Html.DisplayFor(modelItem => item.ArtikelNr)</h5>
+            <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
+        </div>
+        <div class="col-md-2 hidden-sm hidden-xs">
+            <div class="leergebied">
+                @foreach (var leergebied in item.Leergebieden)
+                {
+                    <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
+                }
             </div>
 
+        </div>
+        <div class="col-md-2 doelgroep hidden-sm hidden-xs">
+            @foreach (var doelgroep in item.Doelgroepen)
+            {
+                <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
 
             }
+        </div>
 
-        </section>
+        <div class="hidden-lg hidden-md col-sm-3 col-xs-3">
+            @foreach (var leergebied in item.Leergebieden)
+            {
+                <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
+            }
+            <br/>
+            @foreach (var doelgroep in item.Doelgroepen)
+            {
+                <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
+
+            }
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
+            <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
+
+            @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = item.ArtikelNr }))
+            {
+                <div class="form-group">
+                    <label class="sr-only" for="aantal">Aantal</label>
+                    <input type="number" name="aantal" value="1" class="input-medium" />
+                </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Verlanglijst
+                        </button>
+            }
+        </div>
     </div>
+
+
+
+}
+
+
+
