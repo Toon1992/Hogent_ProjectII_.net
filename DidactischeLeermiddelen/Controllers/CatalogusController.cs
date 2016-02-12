@@ -83,12 +83,10 @@ namespace DidactischeLeermiddelen.Controllers
                 }
                 catch (ArgumentException ex)
                 {
-                    TempData["Message"] = ex.Message;
+                    TempData["Error"] = ex.Message;
                 }
 
             }
-
-            TempData["message"]= $"Je artikel {materiaal.Naam} werd toegevoegd aan je verlanglijst";
             return RedirectToAction("Index");
         }
     }
