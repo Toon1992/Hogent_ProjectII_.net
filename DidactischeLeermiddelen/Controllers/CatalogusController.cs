@@ -87,6 +87,8 @@ namespace DidactischeLeermiddelen.Controllers
                 }
 
             }
+
+            TempData["message"]= $"Je artikel {materiaal.Naam} werd toegevoegd aan je verlanglijst";
             return RedirectToAction("Index");
         }
     }
