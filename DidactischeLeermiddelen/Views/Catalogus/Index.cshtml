@@ -42,7 +42,7 @@
         </div>
     </div>*@
 <div class="container">
-    <div class="col-md-2 hidden-sm hidden-xs" id="filterBox">
+    <div class="col-md-2" id="filterBox">
         <div class="leergebied">
             @Html.Label("Leergebied")
             @foreach (var leergebied in Model.Leergebieden)
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
+    <div class="col-md-10" id="catalogus">
         @Html.Partial("Catalogus1", Model)
     </div>
 </div>
