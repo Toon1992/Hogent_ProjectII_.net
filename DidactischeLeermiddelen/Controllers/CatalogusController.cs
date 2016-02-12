@@ -121,9 +121,9 @@ namespace DidactischeLeermiddelen.Controllers
         {
             MaterialenViewModel vm = new MaterialenViewModel()
             {
-                Materialen = lijst.Select(b => new MateriaalViewModel(b)),
-                Doelgroepen = doelgroepRepository.FindAll().ToList(),
-                Leergebieden = leergebiedRepository.FindAll().ToList(),
+                Materialen = lijst.Select(b => new MateriaalViewModel(b))
+                //Doelgroepen = doelgroepRepository.FindAll().ToList(),
+                //Leergebieden = leergebiedRepository.FindAll().ToList(),
             };   
 
             return vm;
