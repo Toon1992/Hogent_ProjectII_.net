@@ -1,19 +1,7 @@
 ﻿@using System.Drawing
-@model IEnumerable<DidactischeLeermiddelen.ViewModels.MateriaalViewModel>
-    <div class="container">
-        <div class="section pull-left">
-            <div class="col-md-2">
-                @foreach (var item in Model)
-                {
-                <img src="@item.Foto" alt="@item.Foto" />
-                <br />
-                }
+@model DidactischeLeermiddelen.ViewModels.MaterialenViewModel
 
-            </div>
-        </div>
-        <section class="pull-right">
-
-            @foreach (var item in Model)
+    @foreach (var item in Model.Materialen)
             {
             <div class="row materiaal">
                 <div class="col-md-2">
@@ -31,7 +19,7 @@
                     <div class="leergebied">
                         @foreach (var leergebied in item.Leergebieden)
                         {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
+                            <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
                         }
 
                     </div>
@@ -40,30 +28,31 @@
                 <div class="col-md-2 doelgroep">
                     @foreach (var doelgroep in item.Doelgroepen)
                     {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
+                        <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
 
                     }
                 </div>
 
-                <div class="col-md-2 ">
+                <div class="col-md-3 ">
                     <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
                     <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
 
-                    @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new {id = item.ArtikelNr}))
+                    @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = item.ArtikelNr }))
                     {
-                    <div class="form-group">
-                        <label class="sr-only" for="aantal">Aantal</label>
-                        <input type="number" name="aantal" value="1" class="input-medium" />
-                    </div>
-                    <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> Aan verlanglijst toevoegen
-                    </button>
+                        <div class="form-group">
+                            <label class="sr-only" for="aantal">Aantal</label>
+                            <input type="number" name="aantal" value="1" class="input-medium" />
+                        </div>
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Aan verlanglijst toevoegen
+                                </button>
                     }
                 </div>
             </div>
+   
 
 
-            }
+    }
 
-        </section>
-    </div>
+
+ 

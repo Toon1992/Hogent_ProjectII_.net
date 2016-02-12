@@ -5,7 +5,7 @@
 }
 
 <div class="form-horizontal">
-    <hr />  
+    <hr />
     <div class="form-group">
         <div class="col-md-12">
             @using (Html.BeginForm("Zoek", "Catalogus"))
@@ -13,23 +13,51 @@
                 <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" />
                 <input type="submit" value="Zoek" />
             }
+            @using (Html.BeginForm("Zoek", "Catalogus"))
+            {
+                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
+                <div class="btn btn-default" id="zoek">Zoek</div>
+            }
         </div>
     </div>
 </div>
 
 
-<div class="form-group">
-    <div class="col-md-6">
-        @Html.Label("DoelgroepId", "Doelgroep")
-        @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+@*<div class="form-group">
+        <div class="col-md-6">
+            @Html.Label("DoelgroepId", "Doelgroep")
+            @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+        </div>
+        <div class="col-md-6">
+            @Html.Label("LeergebiedId", "Leergebied")
+            @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+        </div>
+    </div>*@
+<div class="container">
+    <div class="col-md-2" id="filterBox">
+        <div class="leergebied">
+            @Html.Label("Leergebied")
+            @foreach (var leergebied in Model.Leergebieden)
+            {
+                <div class="checkbox">
+                    @Html.CheckBox("group1", new {id = "leergebied" + leergebied.LeergebiedId}) @leergebied.Naam<br/>
+                </div>
+            }
+        </div>
+        <div class="doelgroep">
+            @Html.Label("Doelgroep")
+            @foreach (var doelgroep in Model.Doelgroepen)
+            {
+                <div class="checkbox">
+                    @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
+                </div>
+            }
+        </div>
     </div>
-    <div class="col-md-6">
-        @Html.Label("LeergebiedId", "Leergebied")
-        @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+
+    <div class="col-md-10" id="catalogus">
+        @Html.Partial("Catalogus1", Model)
     </div>
-</div>
-<div id="catalogus">
-    @Html.Partial("Catalogus1", Model.Materialen)
 </div>
 @section scripts
 {

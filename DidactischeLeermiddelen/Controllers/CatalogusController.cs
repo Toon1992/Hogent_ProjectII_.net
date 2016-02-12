@@ -46,12 +46,14 @@ namespace DidactischeLeermiddelen.Controllers
             MaterialenViewModel vm = new MaterialenViewModel()
             {
                 Materialen = materiaal.Select(b => new MateriaalViewModel(b)),
+                Doelgroepen = doelgroepRepository.FindAll().ToList(),
+                Leergebieden = leergebiedRepository.FindAll().ToList(),
             };
             ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
             ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
             if (Request.IsAjaxRequest())
             {
-                return PartialView("Catalogus", vm.Materialen);
+                return PartialView("Catalogus1", vm);
             }
             return View(vm);
         }
@@ -91,14 +93,25 @@ namespace DidactischeLeermiddelen.Controllers
             ViewBag.Leergebieden = GetLeergebiedSelectedList();
             //Als er niks bevind in de textbox veranderd er niks
             if (trefwoord == null || trefwoord.IsEmpty())
-                return View("Index");
-            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
-            gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            {
+                gezochteMaterialen = materiaalRepository.FindAll();
+            }
+            else
+            {
+                //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+                gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            }
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
             MaterialenViewModel vm = new MaterialenViewModel()
             {
                 Materialen = gezochteMaterialen.Select(b => new MateriaalViewModel(b)),
+                Leergebieden = leergebiedRepository.FindAll().ToList(),
+                Doelgroepen = doelgroepRepository.FindAll().ToList(),
             };
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Catalogus1", vm);
+            }
             return View("Index", vm);
         }
     }
