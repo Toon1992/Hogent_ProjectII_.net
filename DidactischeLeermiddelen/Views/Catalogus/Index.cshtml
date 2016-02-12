@@ -10,7 +10,7 @@
         <div class="col-md-12">
             @using (Html.BeginForm("Zoek", "Catalogus"))
             {
-                @Html.TextBox("trefwoord","Naam of trefwoord", new {@class="col-lg-12 col-lg-offset-2)", onfocus = "if (this.value == 'Naam of trefwoord') { this.value = ''; }"})
+                @Html.TextBox("trefwoord", "Naam of trefwoord", new { @class = "col-lg-12 col-lg-offset-2)", onfocus = "if (this.value == 'Naam of trefwoord') { this.value = ''; }" })
                 <button type="submit" value="search" class="btn btn-default">
                     <span class=".btn-lg"></span> Zoeken
                 </button>
@@ -42,13 +42,13 @@
         </div>
     </div>*@
 <div class="container">
-    <div class="col-md-2" id="filterBox">
+    <div class="col-md-2 hidden-sm hidden-xs" id="filterBox">
         <div class="leergebied">
             @Html.Label("Leergebied")
             @foreach (var leergebied in Model.Leergebieden)
             {
                 <div class="checkbox">
-                    @Html.CheckBox("group1", new {id = "leergebied" + leergebied.LeergebiedId}) @leergebied.Naam<br/>
+                    @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
                 </div>
             }
         </div>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="col-md-10" id="catalogus">
+    <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
         @Html.Partial("Catalogus1", Model)
     </div>
 </div>
