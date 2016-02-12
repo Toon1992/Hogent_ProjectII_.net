@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class LeergebiedRepository:ILeergebiedRepository
+    public class LeergebiedRepository : ILeergebiedRepository
     {
         private DidactischeLeermiddelenContext context;
         private DbSet<Leergebied> leergebieden;
@@ -17,9 +17,15 @@ namespace DidactischeLeermiddelen.Models.DAL
             this.context = context;
             leergebieden = context.Leergebieden;
         }
-        public IQueryable<Leergebied> FindByLeergebiedList(Leergebied leergebied)
+
+        public IQueryable<Leergebied> FindAll()
         {
-            return leergebieden.Where(l => l.Naam.Equals(leergebied.Naam));
+            return leergebieden;
+        }
+
+        public Leergebied FindById(int id)
+        {
+            return leergebieden.FirstOrDefault(l => l.LeergebiedId.Equals(id));
         }
 
         public void SaveChanges()

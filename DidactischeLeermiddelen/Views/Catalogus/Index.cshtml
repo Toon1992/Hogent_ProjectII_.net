@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Catalogus";
 }
-<div id="catalogus">
-   @Html.Partial("Catalogus",Model.Materialen)
+<div class="form-group">
+    <div class="col-md-6">
+        @Html.Label("DoelgroepId", "Doelgroep")
+        @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+    </div>
+    <div class="col-md-6">
+        @Html.Label("LeergebiedId", "Leergebied")
+        @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+    </div>
 </div>
+<div id="catalogus">
+    @Html.Partial("Catalogus", Model.Materialen)
+</div>
+@section scripts
+{
+    <script src="~/Scripts/catalogusScript.js"></script>
+}

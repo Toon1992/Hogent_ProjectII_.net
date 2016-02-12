@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
     public interface ILeergebiedRepository
     {
-        IQueryable<Leergebied> FindByLeergebiedList(Leergebied leergebied);
+        IQueryable<Leergebied> FindAll();
+        Leergebied FindById(int id);
         void SaveChanges();
     }
 }

@@ -11,7 +11,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
     {
         public LeergebiedMapper()
         {
-            HasKey(l => l.Naam);
+            Property(l => l.Naam);
         }
     }
 }

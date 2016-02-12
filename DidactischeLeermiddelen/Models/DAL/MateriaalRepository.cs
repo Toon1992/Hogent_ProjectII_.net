@@ -8,7 +8,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class MateriaalRepository: IMateriaalRepository
+    public class MateriaalRepository : IMateriaalRepository
     {
         private DidactischeLeermiddelenContext context;
         private DbSet<Materiaal> materialen;
@@ -28,14 +28,14 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen.Where(m => m.Naam.Contains(trefwoord) || m.Omschrijving.Contains(trefwoord));
         }
 
-        public IQueryable<Materiaal> FindByDoelGroep(Doelgroep doelgroep)
+        public IQueryable<Materiaal> FindByDoelgroep(int doelgroepId)
         {
-            return materialen.Where(m => m.Doelgroepen.Contains(doelgroep));
+            return materialen.Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId)));
         }
 
-        public IQueryable<Materiaal> FindByLeergebiedList(Leergebied leergebied)
+        public IQueryable<Materiaal> FindByLeergebied(int leergebiedId)
         {
-            return materialen.Where(m => m.Leergebieden.Contains(leergebied));
+            return materialen.Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId)));
         }
 
         public void SaveChanges()
