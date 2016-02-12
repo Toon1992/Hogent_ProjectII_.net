@@ -76,10 +76,10 @@ namespace DidactischeLeermiddelen.Controllers
             {
 
                 verlanglijst.VoegMateriaalToe(materiaal, aantal);
-
+                TempData["message"]= $"Je artikel {materiaal.Naam} werd toegevoegd aan je verlanglijst";
             }
 
-            TempData["message"]= $"Je artikel {materiaal.Naam} werd toegevoegd aan je verlanglijst";
+            
             return RedirectToAction("Index");
         }
     }
