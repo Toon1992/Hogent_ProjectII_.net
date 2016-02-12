@@ -33,17 +33,19 @@ namespace DidactischeLeermiddelen.Controllers
             }
             else if (doelgroepId == 0)
             {
-                materiaal = materiaalRepository.FindByLeergebied(leergebiedId).ToList();
+                leergebied = leergebiedRepository.FindById(leergebiedId);
+                materiaal = leergebied.Materialen;
             }
             else if (leergebiedId == 0)
             {
-                materiaal = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
+                doelgroep = doelgroepRepository.FindById(doelgroepId);
+                materiaal = doelgroep.Materialen;
             }
             else
             {
-                var materiaalDoelgroep = materiaalRepository.FindByLeergebied(leergebiedId).ToList();
-                var materiaalLeergebied = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
-                materiaal = materiaalDoelgroep.Intersect(materiaalLeergebied).ToList();
+                doelgroep = doelgroepRepository.FindById(doelgroepId);
+                leergebied = leergebiedRepository.FindById(leergebiedId);
+                materiaal = doelgroep.Materialen.Intersect(leergebied.Materialen).ToList();
             }
             MaterialenViewModel vm = new MaterialenViewModel()
             {
@@ -75,8 +77,15 @@ namespace DidactischeLeermiddelen.Controllers
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
             if (materiaal != null)
             {
-
-                verlanglijst.VoegMateriaalToe(materiaal, aantal);
+                try
+                {
+                    verlanglijst.VoegMateriaalToe(materiaal, aantal);
+                    TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
+                }
+                catch (ArgumentException ex)
+                {
+                    TempData["Error"] = ex.Message;
+                }
 
             }
             return RedirectToAction("Index");
