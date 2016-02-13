@@ -58,7 +58,7 @@ namespace DidactischeLeermiddelen.Controllers
                 });
             }
 
-            MaterialenViewModel vm = CreateMaterialenViewModel(materialen);
+            MaterialenViewModel vm = CreateMaterialenViewModel(materialen.Distinct());
             if (Request.IsAjaxRequest())
             {
                 return PartialView("Catalogus", vm);
