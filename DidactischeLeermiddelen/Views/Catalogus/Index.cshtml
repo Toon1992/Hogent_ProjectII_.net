@@ -4,26 +4,13 @@
     ViewBag.Title = "Catalogus";
 }
 
-@*<div class="container">
-    <hr />
-    <div class="row">
-        <div class="col-md-2">
-            @using (Html.BeginForm("Zoek", "Catalogus"))
-            {
-                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
-                <div class="btn btn-default" id="zoek">Zoek</div>
-            }
-        </div>
-    </div>
-</div>*@
-
 <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
     <div class="container">
         <div class="col-sm-12 col-xs-12 text-center">
                 <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
                 @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
                 <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
-                    Zoeken
+                    <span class="glyphicon glyphicon-search"></span>  Zoek
                 </button>
 
         </div>
@@ -47,7 +34,7 @@
             @using (Html.BeginForm("Zoek", "Catalogus"))
             {
                 <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
-                <div class="btn btn-default" id="zoek">Zoek</div>
+                <div class="btn btn-default" id="zoek"><span class="glyphicon glyphicon-search"></span>  Zoek</div>
             }
         </div>
         <div class="leergebied">
@@ -71,7 +58,7 @@
     </div>
 
     <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
-        @Html.Partial("Catalogus1", Model)
+        @Html.Partial("Catalogus", Model)
     </div>
 </div>
 @section scripts

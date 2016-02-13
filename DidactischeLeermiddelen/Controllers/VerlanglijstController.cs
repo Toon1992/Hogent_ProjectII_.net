@@ -14,7 +14,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult Index(Verlanglijst verlanglijst)
         {
             if (verlanglijst.Materialen.Count == 0)
-                return PartialView("LegeVerlanglijst");
+                return View("LegeVerlanglijst");
             VerlanglijstMaterialenViewModel vm = new VerlanglijstMaterialenViewModel()
             {
 

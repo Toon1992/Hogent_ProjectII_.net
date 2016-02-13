@@ -4,12 +4,12 @@
     leergebieden: [],
     init : function() {
         $("#doelgroepLijst").change(function () {
-            $.get("Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
+            $.get("/Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
                 $("#catalogus").html(data);
             });
         });
         $("#leergebiedLijst").change(function () {
-            $.get("Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
+            $.get("/Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
                 $("#catalogus").html(data);
             });
         });
@@ -17,14 +17,14 @@
             
             if ($("#inhoud").val() !== ViewModel.trefwoord) {
                 ViewModel.trefwoord = $("#inhoud").val();
-                $.get("Catalogus/Zoek", { trefwoord: ViewModel.trefwoord }, function(data) {
+                $.get("/Catalogus/Zoek", { trefwoord: ViewModel.trefwoord }, function(data) {
                         $("#catalogus").html(data);
                 });
             }
         });
         $("#zoekMobile").click(function () {
             
-            $.get("Catalogus/Zoek", { trefwoord: $("#inhoudMobile").val() }, function(data) {
+            $.get("/Catalogus/Zoek", { trefwoord: $("#inhoudMobile").val() }, function(data) {
                 $("#catalogus").html(data)
             });
         });
@@ -44,7 +44,7 @@
             $.ajax({
                 type: "POST",
                 traditional: true, 
-                url: "Catalogus/Filter",
+                url: "/Catalogus/Filter",
                 data: { doelgroepenLijst: ViewModel.doelgroepen, leergebiedenLijst: ViewModel.leergebieden },
                 success: function (data) {
                     $("#catalogus").html(data);

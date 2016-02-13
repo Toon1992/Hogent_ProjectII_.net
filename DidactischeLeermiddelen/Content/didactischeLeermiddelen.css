@@ -1,4 +1,38 @@
-﻿.title {
+﻿.navbar-inverse {
+    background-color: #009c7c;
+    border: none;
+    -webkit-box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
+    -moz-box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
+    box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
+}
+.navbar-inverse .navbar-brand,.navbar-inverse .navbar-nav > li > a {
+    background-color: transparent;
+    color: #fff;
+    font-size: 1.5em;
+    font-family: "Roboto";
+    font-weight: 500;
+}
+.navbar-inverse .navbar-brand {
+    font-size: 2.5em;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+.navbar-inverse .navbar-nav > li > a:hover, 
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: #009c7c;
+    background-color: #fff;
+}
+.title {
     font-size: 2em;
     margin: 0;
 }
@@ -28,15 +62,25 @@ input[type="number"] {
     padding: 4px 0px;
     margin-bottom: 1em;
 }
-#zoek {
+#zoek,.btn-green{
     background-color: #009c7c;
     border-radius: 2px;
-    border: none;
+    border: 1px solid #009c7c;
     color: #fff;
     padding: 4px 12px;
 }
+#zoek:hover,.btn-green:hover{
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid #009c7c;
+    color: #009c7c;
+    padding: 4px 12px;
+}
+.home-img {
+    padding: 2em 0;
+}
 .overview {
-    padding-top: 1%;
+    padding-top: 3%;
 }
 .description {
     font-size: 1.25em;

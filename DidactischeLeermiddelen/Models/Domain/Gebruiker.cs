@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public bool IsLector { get; set; }
 
-        public int GebruikersId { get; set; }
+        public string GebruikersId { get; set; }
 
         public string Email { get; set; }
 
