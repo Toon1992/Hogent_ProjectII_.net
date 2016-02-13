@@ -11,12 +11,32 @@
     color: gray;
     padding-left: 1em;
 }
+.zoekfunctie {
+    margin-bottom: 3em;
+}
 .leergebied {
     margin-bottom: 3em;
-    
 }
 .doelgroep {
-    
+    margin-bottom: 3em;
+}
+input[type="number"] {
+    width: 50px;
+}
+#inhoud {
+    width: 100%;
+    padding: 4px 0px;
+    margin-bottom: 1em;
+}
+#zoek {
+    background-color: #009c7c;
+    border-radius: 2px;
+    border: none;
+    color: #fff;
+    padding: 4px 12px;
+}
+.overview {
+    padding-top: 1%;
 }
 .description {
     font-size: 1.25em;
@@ -46,4 +66,18 @@
 }
 img {
     width: 100px;
+}
+@media(max-width: 900px) {
+    #inhoudMobile {
+    width: 100%;
+    padding: 5px 0px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+#zoekMobile {
+    background-color: #009c7c;
+    border-radius: 2px;
+    color: #fff;
+    padding: 6px 12px;
+}
 }
