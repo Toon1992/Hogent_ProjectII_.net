@@ -25,7 +25,12 @@
         $("#zoekMobile").click(function () {
             
             $.get("/Catalogus/Zoek", { trefwoord: $("#inhoudMobile").val() }, function(data) {
-                $("#catalogus").html(data)
+                $("#catalogus").html(data);
+            });
+        });
+        $("#zoek").click(function () {
+            $.get("/Catalogus/Zoek", { trefwoord: $("#inhoud").val() }, function (data) {
+                $("#catalogus").html(data);
             });
         });
         $(".checkbox").change(function () {
