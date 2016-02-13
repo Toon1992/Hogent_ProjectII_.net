@@ -12,12 +12,8 @@ namespace DidactischeLeermiddelen.Infrastructure
         {
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                Gebruiker gebruiker = controllerContext.HttpContext.Session[VerlanglijstSessionKey] as Gebruiker;
                 IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
-                if (gebruiker == null)
-                {
-                    gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
-                }
+                Gebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
                 if (gebruiker == null)
                 {
                     gebruiker = new Gebruiker
