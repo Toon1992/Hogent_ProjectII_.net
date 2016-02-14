@@ -23,10 +23,6 @@ namespace DidactischeLeermiddelen.Models.DAL
             return gebruikers.FirstOrDefault(g => g.Email.Equals(email));
         }
 
-        public Gebruiker FindById(String id)
-        {
-            return gebruikers.FirstOrDefault(g => g.GebruikersId.Equals(id));
-        }
 
         public void SaveChanges()
         {

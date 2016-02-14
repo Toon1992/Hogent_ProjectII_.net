@@ -18,6 +18,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class MateriaalViewModel
     {
+        public int MateriaalId { get; set; }
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
@@ -28,12 +29,14 @@ namespace DidactischeLeermiddelen.ViewModels
         [DataType(DataType.Currency)]
         public decimal Prijs { get; set; }
         public string Firma { get; set; }
+
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public Status Status { get; set; }
 
         public MateriaalViewModel(Materiaal materiaal)
         {
+            MateriaalId = materiaal.MateriaalId;
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;

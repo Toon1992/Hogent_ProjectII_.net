@@ -99,11 +99,11 @@ namespace DidactischeLeermiddelen.Controllers
         [HttpPost]
         public ActionResult VoegAanVerlanglijstToe(int id, int aantal, Gebruiker gebruiker)
         {
-            Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
+            Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
             if (materiaal != null)
             {
                 try
-                {                  
+                {
                     gebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
