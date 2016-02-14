@@ -28,10 +28,10 @@ namespace DidactischeLeermiddelen.Infrastructure
                     repos.SaveChanges();
                 }
             
-                controllerContext.HttpContext.Session[VerlanglijstSessionKey] = ingelogdeGebruiker;
+                controllerContext.HttpContext.Session[VerlanglijstSessionKey] = gebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.
-                return ingelogdeGebruiker;
+                return gebruiker;
             }
             return null;
         }
