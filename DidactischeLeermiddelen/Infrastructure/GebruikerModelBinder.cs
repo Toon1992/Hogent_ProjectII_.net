@@ -27,14 +27,7 @@ namespace DidactischeLeermiddelen.Infrastructure
                     repos.AddGebruiker(gebruiker);
                     repos.SaveChanges();
                 }
-
-                if (ingelogdeGebruiker.Email == null)
-                    ingelogdeGebruiker = gebruiker;
-                else if (!ingelogdeGebruiker.Email.Equals(gebruiker.Email))
-                {
-                    ingelogdeGebruiker = gebruiker;
-                }
-
+            
                 controllerContext.HttpContext.Session[VerlanglijstSessionKey] = ingelogdeGebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.

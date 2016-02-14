@@ -104,8 +104,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 try
                 {
-                    Gebruiker gekozenGebruiker = gebruikerRepository.FindByName(gebruiker.Email);
-                    gekozenGebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
+                    gebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
                 }
