@@ -27,10 +27,14 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Gebruiker()
         {
             Reservaties = new List<Reservatie>();
-            Verlanglijst = new Verlanglijst();
+            //Verlanglijst = new Verlanglijst();
         }
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal, int aantal)
         {
+            if (Verlanglijst == null)
+            {
+                Verlanglijst = new Verlanglijst();
+            }
             //Materiaal dat doorgevoerd wordt naar de verlanglijst mag niet null zijn
             if (materiaal == null)
                 throw new ArgumentNullException("Materiaal mag niet null zijn");
