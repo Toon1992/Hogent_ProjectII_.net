@@ -21,17 +21,16 @@ namespace DidactischeLeermiddelen.Infrastructure
                     {
                         Naam = controllerContext.HttpContext.User.Identity.Name,
                         Email = controllerContext.HttpContext.User.Identity.Name,
-                        IsLector = controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent")? false : true,
-                        GebruikersId = controllerContext.HttpContext.User.Identity.GetUserId(),
+                        IsLector = controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent") ? false : true,
                     };
-                    gebruiker.Verlanglijst.VerlanglijstId = gebruiker.GebruikersId;
+                    
                     repos.AddGebruiker(gebruiker);
                     repos.SaveChanges();
                 }
 
-                if (ingelogdeGebruiker.GebruikersId == null)
+                if (ingelogdeGebruiker.Email == null)
                     ingelogdeGebruiker = gebruiker;
-                else if (!ingelogdeGebruiker.GebruikersId.Equals(gebruiker.GebruikersId))
+                else if (!ingelogdeGebruiker.Email.Equals(gebruiker.Email))
                 {
                     ingelogdeGebruiker = gebruiker;
                 }
@@ -39,7 +38,7 @@ namespace DidactischeLeermiddelen.Infrastructure
                 controllerContext.HttpContext.Session[VerlanglijstSessionKey] = ingelogdeGebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.
-                return ingelogdeGebruiker; 
+                return ingelogdeGebruiker;
             }
             return null;
         }

@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Toon = new Gebruiker()
             {
                 Email = "toon.de.true@hotmail.be",
-                GebruikersId = "1000000",
+                //GebruikersId = "1000000",
                 Naam = "Toon"
             };
 

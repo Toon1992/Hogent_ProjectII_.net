@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         #region fields
         public virtual List<Materiaal> Materialen { get; set; }
-        public string VerlanglijstId { get; set; }
+        public long Id { get; set; }
         #endregion
 
         #region Methodes
@@ -21,7 +21,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Verlanglijst()
         {
             Materialen = new List<Materiaal>();
-            VerlanglijstId = "1";
         }
         public void VoegMateriaalToe(Materiaal materiaal, int aantal)
         {
