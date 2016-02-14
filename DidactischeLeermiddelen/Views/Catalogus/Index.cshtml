@@ -7,11 +7,11 @@
 <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
     <div class="container">
         <div class="col-sm-12 col-xs-12 text-center">
-                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
-                @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
-                <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
-                    <span class="glyphicon glyphicon-search"></span>  Zoek
-                </button>
+            <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
+            @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
+            <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
+                <span class="glyphicon glyphicon-search"></span>  Zoek
+            </button>
 
         </div>
     </div>
@@ -42,7 +42,7 @@
             @foreach (var leergebied in Model.Leergebieden)
             {
                 <div class="checkbox">
-                    @Html.CheckBox("group1", new {id = "leergebied" + leergebied.LeergebiedId}) @leergebied.Naam<br/>
+                    @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
                 </div>
             }
         </div>
@@ -51,7 +51,7 @@
             @foreach (var doelgroep in Model.Doelgroepen)
             {
                 <div class="checkbox">
-                    @Html.CheckBox("group1", new {id = "doelgroep" + doelgroep.DoelgroepId}) @doelgroep.Naam<br/>
+                    @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
                 </div>
             }
         </div>

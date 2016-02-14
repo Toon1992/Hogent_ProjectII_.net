@@ -95,6 +95,7 @@ namespace DidactischeLeermiddelen.Controllers
             return View("Catalogus", vm);
         }
 
+        [HttpPost]
         public ActionResult VoegAanVerlanglijstToe(int id, int aantal, Gebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
@@ -113,6 +114,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return RedirectToAction("Index");
         }
+
         public ActionResult Zoek(string trefwoord)
         {
 
@@ -126,16 +128,16 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return RedirectToAction("Index");
             }
-                //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
-                //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-                gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+            //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+            gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
             MaterialenViewModel vm = CreateMaterialenViewModel(gezochteMaterialen);
             if (Request.IsAjaxRequest())
             {
                 return PartialView("Catalogus", vm);
             }
-            return View("Index",vm);
+            return View("Index", vm);
         }
 
         public ActionResult VerwijderZoekResultaat()
