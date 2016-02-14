@@ -12,7 +12,6 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public VerlanglijstMapper()
         {
             HasKey(v => v.Id);
-
         }
     }
 }

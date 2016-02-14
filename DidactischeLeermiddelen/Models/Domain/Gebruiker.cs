@@ -15,11 +15,9 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public bool IsLector { get; set; }
 
-        //public string GebruikersId { get; set; }
-
         public string Email { get; set; }
 
-        public List<Reservatie> Reservaties { get; set; }
+        public virtual List<Reservatie> Reservaties { get; set; }
 
         public virtual Verlanglijst Verlanglijst { get; set; }
         #endregion
