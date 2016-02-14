@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
@@ -103,13 +104,28 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 try
                 {
-                    gebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
+                    Gebruiker gekozenGebruiker = gebruikerRepository.FindByName(gebruiker.Email);
+                    gekozenGebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
                 }
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation(
+                                  "Class: {0}, Property: {1}, Error: {2}",
+                                  validationErrors.Entry.Entity.GetType().FullName,
+                                  validationError.PropertyName,
+                                  validationError.ErrorMessage);
+                        }
+                    }
                 }
             }
             return RedirectToAction("Index");

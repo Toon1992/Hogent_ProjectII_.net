@@ -16,10 +16,16 @@ namespace DidactischeLeermiddelen.Models.DAL
         {
             this.context = context;
             this.gebruikers = context.Gebruikers;
+           
         } 
         public Gebruiker FindByName(string email)
         {
             return gebruikers.FirstOrDefault(g => g.Email.Equals(email));
+        }
+
+        public Gebruiker FindById(String id)
+        {
+            return gebruikers.FirstOrDefault(g => g.GebruikersId.Equals(id));
         }
 
         public void SaveChanges()

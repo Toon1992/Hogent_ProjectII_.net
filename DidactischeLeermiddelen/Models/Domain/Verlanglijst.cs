@@ -21,6 +21,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Verlanglijst()
         {
             Materialen = new List<Materiaal>();
+            VerlanglijstId = "1";
         }
         public void VoegMateriaalToe(Materiaal materiaal, int aantal)
         {

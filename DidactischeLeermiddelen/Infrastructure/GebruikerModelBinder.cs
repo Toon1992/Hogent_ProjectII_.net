@@ -8,14 +8,13 @@ namespace DidactischeLeermiddelen.Infrastructure
     public class GebruikerModelBinder : IModelBinder
     {
         private const string VerlanglijstSessionKey = "gebruiker";
-        private Gebruiker gebruiker;
+        private Gebruiker ingelogdeGebruiker = new Gebruiker();
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
-                gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
-
+                Gebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
                 if (gebruiker == null)
                 {
                     gebruiker = new Gebruiker
@@ -30,10 +29,17 @@ namespace DidactischeLeermiddelen.Infrastructure
                     repos.SaveChanges();
                 }
 
-                controllerContext.HttpContext.Session[VerlanglijstSessionKey] = gebruiker;
+                if (ingelogdeGebruiker.GebruikersId == null)
+                    ingelogdeGebruiker = gebruiker;
+                else if (!ingelogdeGebruiker.GebruikersId.Equals(gebruiker.GebruikersId))
+                {
+                    ingelogdeGebruiker = gebruiker;
+                }
+
+                controllerContext.HttpContext.Session[VerlanglijstSessionKey] = ingelogdeGebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.
-                return gebruiker; 
+                return ingelogdeGebruiker; 
             }
             return null;
         }
