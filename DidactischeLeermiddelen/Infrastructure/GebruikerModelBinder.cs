@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 using Microsoft.AspNet.Identity;
@@ -23,7 +24,8 @@ namespace DidactischeLeermiddelen.Infrastructure
                         Email = controllerContext.HttpContext.User.Identity.Name,
                         IsLector = controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent") ? false : true,
                     };
-                    
+                    gebruiker.Verlanglijst = new Verlanglijst();
+                    gebruiker.Reservaties = new List<Reservatie>();
                     repos.AddGebruiker(gebruiker);
                     repos.SaveChanges();
                 }
