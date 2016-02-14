@@ -7,7 +7,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
     {
         public MateriaalMapper()
         {
-            HasKey(m => m.ArtikelNr);
+            HasKey(m => m.MateriaalId);
 
             HasMany(m => m.Doelgroepen).WithMany().Map(m =>
             {
@@ -24,6 +24,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             });
 
             Property(m => m.Naam).IsRequired();
+            Property(m => m.ArtikelNr).IsRequired();
             Property(m => m.AantalInCatalogus).IsRequired();
         }
     }

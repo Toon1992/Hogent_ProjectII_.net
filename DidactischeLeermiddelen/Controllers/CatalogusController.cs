@@ -1,6 +1,7 @@
 ﻿using DidactischeLeermiddelen.Models.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
@@ -10,24 +11,64 @@ using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
+    [Authorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;
         private IDoelgroepRepository doelgroepRepository;
         private ILeergebiedRepository leergebiedRepository;
-
-        public CatalogusController(IMateriaalRepository materiaalRepository, IDoelgroepRepository doelgroepRepository, ILeergebiedRepository leergebiedRepository)
+        private IGebruikerRepository gebruikerRepository;
+        public CatalogusController(IMateriaalRepository materiaalRepository, IDoelgroepRepository doelgroepRepository, ILeergebiedRepository leergebiedRepository, IGebruikerRepository gebruikerRepository)
         {
             this.materiaalRepository = materiaalRepository;
             this.doelgroepRepository = doelgroepRepository;
             this.leergebiedRepository = leergebiedRepository;
+            this.gebruikerRepository = gebruikerRepository;
+        }
+        public ActionResult Index()
+        {
+            List<Materiaal> materiaal = materiaalRepository.FindAll().ToList();
+            MaterialenViewModel vm = CreateMaterialenViewModel(materiaal);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Catalogus", vm);
+            }
+            return View(vm);
+        }
+        [HttpPost]
+        public ActionResult Filter(int[] doelgroepenLijst, int[] leergebiedenLijst)
+        {
+            List<Materiaal> materialen = new List<Materiaal>();
+            //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
+            if (doelgroepenLijst == null && leergebiedenLijst == null)
+            {
+                materialen = materiaalRepository.FindAll().ToList();
+            }
+            //Per leergebied en doelgroep worden alle materialen van de desbetreffende doelgroepen en
+            // leergebieden in de lijst gestoken en doorgegeven naar het vm
+            else
+            {
+                leergebiedenLijst.ForEach(i =>
+                {
+                    materialen.AddRange(materiaalRepository.FindByLeergebied(i));
+                });
+                doelgroepenLijst.ForEach(i =>
+                {
+                    materialen.AddRange(materiaalRepository.FindByDoelgroep(i));
+                });
+            }
+
+            MaterialenViewModel vm = CreateMaterialenViewModel(materialen.Distinct());
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Catalogus", vm);
+        }
+            return View("Catalogus", vm);
         }
 
-        public ActionResult Index(int doelgroepId = 0, int leergebiedId = 0)
+        public ActionResult FilterMobile(int doelgroepId = 0, int leergebiedId = 0)
         {
             List<Materiaal> materiaal;
-
-            //dit is code dat ik niet helemaal begrijp
             if (doelgroepId == 0 && leergebiedId == 0)
             {
                 materiaal = materiaalRepository.FindAll().ToList();
@@ -46,34 +87,23 @@ namespace DidactischeLeermiddelen.Controllers
                 var materiaalLeergebied = materiaalRepository.FindByDoelgroep(doelgroepId).ToList();
                 materiaal = materiaalDoelgroep.Intersect(materiaalLeergebied).ToList();
             }
-
-            //Aanmaken van verschillende viemodels die dan getoont zullen worden in de views
-            MaterialenViewModel vm = createMaterialenViewModel(materiaal);
-            DoelgroepViewModel dgvm = new DoelgroepViewModel(GetDoelgroepenSelectedList(doelgroepId));
-            LeergebiedViewModel lgvm = new LeergebiedViewModel(GetLeergebiedSelectedList(leergebiedId));
-            vm.DoelgroepenViewModel = dgvm;
-            vm.LeergebiedenViewModel = lgvm;
-
-
-            //ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
-            //ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
-
+            MaterialenViewModel vm = CreateMaterialenViewModel(materiaal, doelgroepId, leergebiedId);
             if (Request.IsAjaxRequest())
             {
-                return PartialView("Catalogus", vm.Materialen);
+                return PartialView("Catalogus", vm);
             }
-            return View(vm);
+            return View("Catalogus", vm);
         }
       
-
-        public ActionResult VoegAanVerlanglijstToe(int id, int aantal, Verlanglijst verlanglijst)
+        public ActionResult VoegAanVerlanglijstToe(int id, int aantal, Gebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.ArtikelNr == id);
             if (materiaal != null)
             {
                 try
                 {
-                    verlanglijst.VoegMateriaalToe(materiaal, aantal);
+                    gebruiker.VoegMateriaalAanVerlanglijstToe(materiaal, aantal);
+                    gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd toegevoegd aan verlanglijst";
                 }
                 catch (ArgumentException ex)
@@ -83,7 +113,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Zoek(String trefwoord)
+        public ActionResult Zoek(string trefwoord)
         {
 
             //LijstMaken waar we het gezochte materiaal vinden
@@ -96,17 +126,14 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return RedirectToAction("Index");
             }
-            else
-            {
-            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+                //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
                 //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-            gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-            }
+                gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
             //Van de gevondeMaterialen een viewmodel maken en doorsturen naar de index
-            MaterialenViewModel vm = createMaterialenViewModel(gezochteMaterialen);
+            MaterialenViewModel vm = CreateMaterialenViewModel(gezochteMaterialen);
             if (Request.IsAjaxRequest())
             {
-                return PartialView("Catalogus1", vm);
+                return PartialView("Catalogus", vm);
             }
             return View("Index",vm);
         }
@@ -117,15 +144,16 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         //Hulpmethode voor het aanmaken van de materialenViewModel
-        private MaterialenViewModel createMaterialenViewModel(IEnumerable<Materiaal> lijst)
+        private MaterialenViewModel CreateMaterialenViewModel(IEnumerable<Materiaal> lijst, int doelgroepId = 0, int leergebiedId = 0)
         {
             MaterialenViewModel vm = new MaterialenViewModel()
             {
                 Materialen = lijst.Select(b => new MateriaalViewModel(b))
                 //Doelgroepen = doelgroepRepository.FindAll().ToList(),
                 //Leergebieden = leergebiedRepository.FindAll().ToList(),
-            };   
-
+            };
+            ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
+            ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
             return vm;
         }
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)

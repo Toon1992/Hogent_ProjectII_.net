@@ -18,6 +18,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int AantalInCatalogus { get; set; }
         public int ArtikelNr { get; set; }
+        public int MateriaalId { get; set; }
 
         public Decimal Prijs { get; set; }
 
