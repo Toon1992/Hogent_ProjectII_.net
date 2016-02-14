@@ -12,9 +12,8 @@ namespace DidactischeLeermiddelen.ViewModels
     public class MaterialenViewModel
     {
         public IEnumerable<MateriaalViewModel> Materialen { get; set; }
-        public DoelgroepViewModel DoelgroepenViewModel { get; set; }
-        public LeergebiedViewModel LeergebiedenViewModel { get; set; }
-
+        public List<Doelgroep> Doelgroepen { get; set; }
+        public List<Leergebied> Leergebieden { get; set; }
     }
 
     public class MateriaalViewModel
@@ -32,7 +31,6 @@ namespace DidactischeLeermiddelen.ViewModels
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public Status Status { get; set; }
-
 
         public MateriaalViewModel(Materiaal materiaal)
         {

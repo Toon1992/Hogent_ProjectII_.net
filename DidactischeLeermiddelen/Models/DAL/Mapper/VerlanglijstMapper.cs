@@ -12,6 +12,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public VerlanglijstMapper()
         {
             HasMany(v => v.Materialen).WithOptional().Map(m => m.MapKey("VerlanglijstId")).WillCascadeOnDelete(false);
+           
         }
     }
 }

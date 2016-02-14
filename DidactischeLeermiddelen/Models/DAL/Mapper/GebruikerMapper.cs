@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public GebruikerMapper()
         {
             HasKey(g => g.GebruikersId);
-            HasOptional(g => g.Verlanglijst).WithRequired();
+            HasRequired(g => g.Verlanglijst).WithMany().Map(m=>m.MapKey("VerlanglijstID")).WillCascadeOnDelete(false);
             HasMany(g => g.Reservaties).WithOptional();
         }
     }
