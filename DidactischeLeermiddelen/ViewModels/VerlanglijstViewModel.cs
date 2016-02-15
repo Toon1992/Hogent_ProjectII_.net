@@ -14,8 +14,6 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
-        [Display(Name = "Aantal in uw verlanglijst")]
-        public int AantalInVerlanglijst { get; set; }
         public Status Status { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
@@ -23,9 +21,6 @@ namespace DidactischeLeermiddelen.ViewModels
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
-
-            //AantalInVerlanglijst = verlanglijst.GeefAantalMateriaalInVerlanglijst(materiaal);
-            
             Status = materiaal.Status;
         }
     }
