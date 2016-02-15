@@ -19,7 +19,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
-            MateriaalId = materiaal.ArtikelNr;
+            MateriaalId = materiaal.MateriaalId;
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
