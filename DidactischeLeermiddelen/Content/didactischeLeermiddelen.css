@@ -5,83 +5,99 @@
     -moz-box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
     box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
 }
-.navbar-inverse .navbar-brand,.navbar-inverse .navbar-nav > li > a {
-    background-color: transparent;
-    color: #fff;
-    font-size: 1.5em;
-    font-family: "Roboto";
-    font-weight: 500;
-}
-.navbar-inverse .navbar-brand {
-    font-size: 2.5em;
-}
+
+    .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.5em;
+        font-family: "Roboto";
+        font-weight: 500;
+    }
+
+    .navbar-inverse .navbar-brand {
+        font-size: 2.5em;
+    }
+
 @font-face {
     font-family: 'Roboto';
     src: url('../fonts/Roboto-Regular.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Roboto-Bold';
     src: url('../fonts/Roboto-Bold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Roboto-Light';
     src: url('../fonts/Roboto-Light.ttf') format('truetype');
 }
-.navbar-inverse .navbar-nav > li > a:hover, 
+
+.navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
     color: #009c7c;
     background-color: #fff;
 }
+
 .title {
     font-size: 2em;
     margin: 0;
 }
+
 .manufacturer {
     color: gray;
     margin-top: 0;
     margin-bottom: 1.5em;
+    margin-left: 0.5em;
 }
+
 .info {
     color: gray;
     padding-left: 1em;
 }
+
 .zoekfunctie {
     margin-bottom: 3em;
 }
+
 .leergebied {
     margin-bottom: 3em;
 }
+
 .doelgroep {
     margin-bottom: 3em;
 }
-input[type="number"] {
-    width: 50px;
-}
+
 #inhoud {
     width: 100%;
     padding: 4px 0px;
     margin-bottom: 1em;
 }
-#zoek,.btn-green{
+
+#zoek, .btn-green {
     background-color: #009c7c;
     border-radius: 2px;
     border: 1px solid #009c7c;
     color: #fff;
     padding: 4px 12px;
 }
-#zoek:hover,.btn-green:hover{
-    background-color: #fff;
-    border-radius: 2px;
-    border: 1px solid #009c7c;
-    color: #009c7c;
-    padding: 4px 12px;
-}
+
+    #zoek:hover, .btn-green:hover {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid #009c7c;
+        color: #009c7c;
+        padding: 4px 12px;
+    }
+
 .home-img {
     padding: 2em 0;
 }
+
 .overview {
     padding-top: 3%;
 }
+
 .description {
     font-size: 1.25em;
     color: #606060;
@@ -91,37 +107,49 @@ input[type="number"] {
     overflow: hidden;
 }*/
 .materiaal {
-    padding: 3em 0 ;
+    padding: 3em 0;
     border-bottom: 1px solid #dddbd5;
 }
-.materiaal:first-child {
-    border-top: 1px solid #dddbd5;
-}
+
+    .materiaal:first-child {
+        border-top: 1px solid #dddbd5;
+    }
+
 .catalogus {
     float: left;
     display: block;
 }
+
 #filterBox {
-    
     display: block;
 }
+
 #catalogus {
-    
 }
+
 img {
     width: 100px;
 }
+
 @media(max-width: 900px) {
     #inhoudMobile {
-    width: 100%;
-    padding: 5px 0px;
-    margin-bottom: 1em;
-    margin-top: 1em;
+        width: 100%;
+        padding: 5px 0px;
+        margin-bottom: 1em;
+        margin-top: 1em;
+    }
+
+    #zoekMobile {
+        background-color: #009c7c;
+        border-radius: 2px;
+        color: #fff;
+        padding: 6px 12px;
+    }
 }
-#zoekMobile {
-    background-color: #009c7c;
-    border-radius: 2px;
-    color: #fff;
-    padding: 6px 12px;
-}
+
+@media(max-width: 720px) {
+
+    .divMobileVerlanglijst {
+        margin-left: 5em;
+    }
 }
