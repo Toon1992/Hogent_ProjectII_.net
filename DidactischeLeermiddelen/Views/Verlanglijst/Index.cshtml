@@ -6,41 +6,30 @@
 
 <h2>Uw verlanglijst</h2>
 
-<p>
-    @*@Html.ActionLink("Create New", "Create")*@
-</p>
-<table class="table">
-    <tr>
-        <th>
+@foreach (var item in Model)
+            {
+    <div class="row materiaal">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <img src="@item.Foto" alt="@item.Foto" />
+        </div>
 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Naam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Omschrijving)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-    </tr>
+        <div class="col-md-3 col-sm-4 col-xs-4">
+            <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
+            <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
+            <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
+        </div>
+        
+        
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
+            {
+                <button type="submit" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove"></span> Verwijderen uit verlanglijst
+                </button>
+            }
+        </div>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <img src="@item.Foto" alt="@item.Foto"/>
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Omschrijving)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-    </tr>
+
 }
-
-</table>

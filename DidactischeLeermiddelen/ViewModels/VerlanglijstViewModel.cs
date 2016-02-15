@@ -11,6 +11,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class VerlanglijstViewModel
     {
+        public int MateriaalId { get; set; }
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
@@ -18,6 +19,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
+            MateriaalId = materiaal.ArtikelNr;
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;

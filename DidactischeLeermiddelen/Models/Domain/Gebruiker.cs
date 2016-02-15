@@ -39,6 +39,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             
         }
 
+        public void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
+        {
+            Verlanglijst.VerwijderMateriaal(materiaal);
+        }
+
         
         public void VoegReservatieToe(Reservatie reservatie)
         {

@@ -6,6 +6,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
+using Microsoft.Ajax.Utilities;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -35,6 +36,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             //Toevoegen van materiaal
             
+        }
+
+        public void VerwijderMateriaal(Materiaal materiaal)
+        {
+            Materialen.Remove(materiaal);
         }
 
         public Boolean BevatMateriaal(Materiaal materiaal)
