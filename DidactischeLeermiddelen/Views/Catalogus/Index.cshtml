@@ -3,64 +3,67 @@
 @{
     ViewBag.Title = "Catalogus";
 }
+<section id="catalogus-pagina">
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+        <div class="container">
+            <div class="col-sm-12 col-xs-12 text-center">
+                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
+                @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
+                <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
+                    <span class="glyphicon glyphicon-search"></span>  Zoek
+                </button>
 
-<div class="hidden-lg hidden-md col-sm-12 col-xs-12">
-    <div class="container">
-        <div class="col-sm-12 col-xs-12 text-center">
-            <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
-            @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
-            <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
-                <span class="glyphicon glyphicon-search"></span>  Zoek
-            </button>
+            </div>
+        </div>
+    </div>
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+        <div class="container">
+            <div class="col-sm-6 col-xs-6">
+                @Html.Label("DoelgroepId", "Doelgroep")
+                @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                @Html.Label("LeergebiedId", "Leergebied")
+                @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+            </div>
+        </div>
+    </div>
+    <div class="container overview">
+        <div class="col-md-2 hidden-sm hidden-xs" id="filterBox">
+            <div class="zoekfunctie">
+                @using (Html.BeginForm("Zoek", "Catalogus"))
+            {
+                    <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
+                    <div class="btn btn-default" id="zoek">
+                        <span class="glyphicon glyphicon-search"></span>  Zoek
+                    </div>
+                }
+            </div>
+            <div class="leergebied">
+                @Html.Label("Leergebied")
+                @foreach (var leergebied in Model.Leergebieden)
+            {
+                    <div class="checkbox">
+                        @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
+                    </div>
+                }
+            </div>
+            <div class="doelgroep">
+                @Html.Label("Doelgroep")
+                @foreach (var doelgroep in Model.Doelgroepen)
+            {
+                    <div class="checkbox">
+                        @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
+                    </div>
+                }
+            </div>
+        </div>
 
+        <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
+            @Html.Partial("Catalogus", Model)
         </div>
     </div>
-</div>
-<div class="hidden-lg hidden-md col-sm-12 col-xs-12">
-    <div class="container">
-        <div class="col-sm-6 col-xs-6">
-            @Html.Label("DoelgroepId", "Doelgroep")
-            @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
-        </div>
-        <div class="col-sm-6 col-xs-6">
-            @Html.Label("LeergebiedId", "Leergebied")
-            @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
-        </div>
-    </div>
-</div>
-<div class="container overview">
-    <div class="col-md-2 hidden-sm hidden-xs" id="filterBox">
-        <div class="zoekfunctie">
-            @using (Html.BeginForm("Zoek", "Catalogus"))
-            {
-                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
-                <div class="btn btn-default" id="zoek"><span class="glyphicon glyphicon-search"></span>  Zoek</div>
-            }
-        </div>
-        <div class="leergebied">
-            @Html.Label("Leergebied")
-            @foreach (var leergebied in Model.Leergebieden)
-            {
-                <div class="checkbox">
-                    @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
-                </div>
-            }
-        </div>
-        <div class="doelgroep">
-            @Html.Label("Doelgroep")
-            @foreach (var doelgroep in Model.Doelgroepen)
-            {
-                <div class="checkbox">
-                    @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
-                </div>
-            }
-        </div>
-    </div>
-
-    <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
-        @Html.Partial("Catalogus", Model)
-    </div>
-</div>
+</section>
 @section scripts
 {
     <script src="~/Scripts/catalogusScript.js"></script>

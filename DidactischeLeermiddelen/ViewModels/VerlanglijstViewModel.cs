@@ -16,6 +16,9 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
         public Status Status { get; set; }
+        public string Firma { get; set; }
+        public List<Leergebied> Leergebieden { get; set; }
+        public int AantalInCatalogus { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
@@ -24,6 +27,9 @@ namespace DidactischeLeermiddelen.ViewModels
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
             Status = materiaal.Status;
+            Firma = materiaal.Firma;
+            Leergebieden = materiaal.Leergebieden;
+            AantalInCatalogus = materiaal.AantalInCatalogus;
         }
     }
 

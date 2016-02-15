@@ -40,6 +40,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult Filter(int[] doelgroepenLijst, int[] leergebiedenLijst)
         {
             List<Materiaal> materialen = new List<Materiaal>();
+            List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null)
             {
@@ -55,8 +56,14 @@ namespace DidactischeLeermiddelen.Controllers
                 });
                 doelgroepenLijst.ForEach(i =>
                 {
-                    materialen.AddRange(materiaalRepository.FindByDoelgroep(i));
+                    materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
                 });
+                //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
+                if (materiaalDoelgroep.Any())
+                {
+                    materialen = materiaalDoelgroep.Intersect(materialen).ToList();
+                }
+                
             }
 
             MaterialenViewModel vm = CreateMaterialenViewModel(materialen.Distinct());
