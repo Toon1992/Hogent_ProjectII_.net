@@ -30,12 +30,16 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Materiaal mag nog niet voorkomen in verlanglijst van de gebruiker
             if (aantal > materiaal.AantalInCatalogus)
                 throw new ArgumentException("Het opgegeven aantal is te groot, gelieve een aantal te kiezen tussen 1 en het aantal in de catalogus");
-            if (!Materialen.Contains(materiaal))
+            if (!BevatMateriaal(materiaal))
             {
                 for (int i = 0; i < aantal; i++)
                 {
                     Materialen.Add(materiaal);
                 }
+            }
+            else
+            {
+                throw new ArgumentException("Het geselecteerde materiaal staat reeds in uw verlanglijst");
             }
             //Toevoegen van materiaal
             
