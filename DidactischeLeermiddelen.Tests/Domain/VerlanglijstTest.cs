@@ -25,17 +25,36 @@ namespace DidactischeLeermiddelen.Tests.Domain
         }
 
         [TestMethod]
-        public void BevatMateriaalAanroepenZonderDatMateriaalAanwezigIs()
+        public void BevatMateriaalAanroepenZonderDatMateriaalAanwezigIsGeeftFalse()
         {
-            context.Toon.Verlanglijst.VoegMateriaalToe(context.Bol, 2);
+            context.Toon.Verlanglijst.VoegMateriaalToe(context.Bol);
             Materiaal materiaal = new Materiaal("Test",123,3);
             Assert.IsFalse(context.Toon.Verlanglijst.BevatMateriaal(materiaal));
         }
-        [TestMethod]
-        public void GeefAantalMateriaalInVerlanglijstGeeftJuisteAantal()
+
+        public void BevatMateriaalAanroepenMetMateriaalAanwezigGeeftTrue()
         {
-            context.Toon.Verlanglijst.VoegMateriaalToe(context.Bol, 2);
-            Assert.AreEqual(2, context.Toon.Verlanglijst.GeefAantalMateriaalInVerlanglijst(context.Bol));
+            context.Toon.Verlanglijst.VoegMateriaalToe(context.Bol);
+            
+            Assert.IsTrue(context.Toon.Verlanglijst.BevatMateriaal(context.Bol));
+        }
+
+        [TestMethod]
+        public void VoegMateriaalAanVerlangLijstMetMateriaalObjectVoegtObjectToe()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+            Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VoegMateriaalToeDatAlInVerlanglijstStaat()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+            Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
         }
     }
 }
