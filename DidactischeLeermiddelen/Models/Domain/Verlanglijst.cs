@@ -39,7 +39,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             else
             {
-                throw new ArgumentException("Het geselecteerde materiaal staat reeds in uw verlanglijst");
+                throw new ArgumentException("Het geselecteerde materiaal staat reeds in uw  verlanglijst");
             }
             //Toevoegen van materiaal
             
