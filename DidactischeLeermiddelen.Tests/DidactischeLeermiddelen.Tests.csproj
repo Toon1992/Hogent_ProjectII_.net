@@ -106,7 +106,6 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Domain\DummyContext.cs" />
-    <Compile Include="Domain\GebruikerTest.cs" />
     <Compile Include="Domain\VerlanglijstTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CatalogusControllerTest.cs" />

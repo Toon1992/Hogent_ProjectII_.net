@@ -19,7 +19,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
             {
                 Email = "toon.de.true@hotmail.be",
                 //GebruikersId = "1000000",
-                Naam = "Toon"
+                Naam = "Toon",
+                Verlanglijst =  new Verlanglijst()
             };
 
             Bol=new Materiaal("Wereldbol",456,10);
