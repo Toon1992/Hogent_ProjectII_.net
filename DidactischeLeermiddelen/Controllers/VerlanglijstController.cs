@@ -11,14 +11,13 @@ namespace DidactischeLeermiddelen.Controllers
     public class VerlanglijstController : Controller
     {
         // GET: Verlanglijst
-        public ActionResult Index(Verlanglijst verlanglijst)
+        public ActionResult Index(Gebruiker gebruiker)
         {
-            if (verlanglijst.Materialen.Count == 0)
-                return PartialView("LegeVerlanglijst");
+            if (gebruiker.Verlanglijst.Materialen.Count == 0)
+                return View("LegeVerlanglijst");
             VerlanglijstMaterialenViewModel vm = new VerlanglijstMaterialenViewModel()
             {
-
-                Materialen = verlanglijst.Materialen.Distinct().Select(b => new VerlanglijstViewModel(b))
+                Materialen = gebruiker.Verlanglijst.Materialen.Distinct().Select(b => new VerlanglijstViewModel(b))
             };
             return View(vm.Materialen);
         }

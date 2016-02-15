@@ -12,5 +12,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public List<Materiaal> Materialen { get; set; }
         public DateTime Datum { get; set; }
+        public string ReservatieId { get; set; }
     }
 }

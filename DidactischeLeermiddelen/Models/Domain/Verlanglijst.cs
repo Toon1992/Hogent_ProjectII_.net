@@ -12,8 +12,8 @@ namespace DidactischeLeermiddelen.Models.Domain
     public class Verlanglijst
     {
         #region fields
-        public List<Materiaal> Materialen { get; set; }
-       
+        public virtual List<Materiaal> Materialen { get; set; }
+        public long Id { get; set; }
         #endregion
 
         #region Methodes

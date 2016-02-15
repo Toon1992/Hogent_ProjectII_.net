@@ -15,21 +15,17 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public bool IsLector { get; set; }
 
-        public int GebruikersId { get; set; }
-
         public string Email { get; set; }
 
-        public List<Reservatie> Reservaties { get; set; }
+        public virtual List<Reservatie> Reservaties { get; set; }
 
-        public Verlanglijst Verlanglijst { get; set; }
+        public virtual Verlanglijst Verlanglijst { get; set; }
         #endregion
 
         #region Methodes
 
         public Gebruiker()
         {
-            Reservaties = new List<Reservatie>();
-            Verlanglijst = new Verlanglijst();
         }
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal, int aantal)
         {
