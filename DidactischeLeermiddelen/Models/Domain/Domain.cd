@@ -14,21 +14,21 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Doelgroep">
     <Position X="1.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACEAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Doelgroep.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Leergebied">
     <Position X="1.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Models\Domain\Leergebied.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
     <Position X="6.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAIAAAACAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -38,7 +38,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Gebruiker">
     <Position X="6.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAIAAAAhAARgAAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAhAARgAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -59,7 +59,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAKAAAAAAAAAAAAEAAAAAAAAAQAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAAgAAAAAAAAAEAAAAAAAAAQAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Verlanglijst.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>

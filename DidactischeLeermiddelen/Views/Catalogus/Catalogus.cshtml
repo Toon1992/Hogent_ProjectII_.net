@@ -1,6 +1,10 @@
 ﻿@using System.Drawing
 @model DidactischeLeermiddelen.ViewModels.MaterialenViewModel
 
+@if(Model.Materialen.Count()==0)
+{
+    <p>Er zijn geen materialen die voldoen aan uw zoekopdracht.</p>
+}
 @foreach (var item in Model.Materialen)
             {
     <div class="row materiaal">
