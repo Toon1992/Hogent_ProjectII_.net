@@ -14,7 +14,7 @@ foreach (var item in Model.Materialen)
              <img src="@item.Foto" alt="@item.Foto"/>
          </div>
 
-         <div class="col-md-3 col-sm-4 col-xs-6">
+         <div class="col-md-3 col-sm-4 col-xs-12">
              <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
              <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
              <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
@@ -38,7 +38,7 @@ foreach (var item in Model.Materialen)
              }
          </div>
 
-         <div class="hidden-lg hidden-md col-sm-3 col-xs-7">
+         <div class="hidden-lg hidden-md col-sm-3 col-xs-9">
              @foreach (var leergebied in item.Leergebieden)
              {
                  <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
@@ -50,7 +50,7 @@ foreach (var item in Model.Materialen)
 
              }
          </div>
-         <div class="col-md-3 col-sm-3 col-xs-5">
+         <div class="col-md-3 col-sm-3 col-xs-6">
              <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
              <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
 
