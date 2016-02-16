@@ -131,6 +131,19 @@ img {
     width: 100px;
 }
 
+.zoekfunctieTop {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#zoekMobile {
+    background-color: #009c7c;
+    border-radius: 2px;
+    border: 1px solid #009c7c;
+    color: #fff;
+    padding: 4px 12px;
+}
+
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;
