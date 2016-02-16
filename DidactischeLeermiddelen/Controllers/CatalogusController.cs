@@ -61,7 +61,12 @@ namespace DidactischeLeermiddelen.Controllers
                 //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
                 if (materiaalDoelgroep.Any())
                 {
-                    materialen = materiaalDoelgroep.Intersect(materialen).ToList();
+                    //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
+                    //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
+                    //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
+                    materialen = materialen.Any()
+                        ? materiaalDoelgroep.Intersect(materialen).ToList()
+                        : materiaalDoelgroep;
                 }
                 
             }
