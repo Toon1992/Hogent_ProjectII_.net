@@ -1,69 +1,70 @@
-﻿@model IEnumerable<DidactischeLeermiddelen.ViewModels.VerlanglijstViewModel>
+﻿@model DidactischeLeermiddelen.ViewModels.MaterialenViewModel
 
 @{
-    ViewBag.Title = "Uw verlanglijst";
+    ViewBag.Title = "Catalogus";
 }
-
-<section id="verlanglijst-pagina">
-    <h2>Uw verlanglijst</h2>
-
-    @foreach (var item in Model)
-    {
-        <div class="row materiaal">
-            <div class="col-md-2 col-sm-2 col-xs-2">
-                <div class="checkbox">
-                    @Html.CheckBox("group1", new { id = item.MateriaalId })
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <img src="@item.Foto" alt="@item.Foto" />
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-3">
-                <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
-                <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
-            </div>
-            <div class="col-md-2 hidden-sm hidden-xs">
-                <div class="leergebied">
-                    @foreach (var leergebied in item.Leergebieden)
-                    {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                    }
-                </div>
+<section id="catalogus-pagina" class="">
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12 zoekfunctieTop">
+        <div class="container">
+            <div class="col-sm-12 col-xs-12 text-center">
+                <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoudMobile" />
+                @*<div class="btn btn-default" id="zoekMobile">Zoek</div>*@
+                <button type="submit" value="search" class="btn btn-default" id="zoekMobile">
+                    <span class="glyphicon glyphicon-search"></span>  Zoek
+                </button>
 
             </div>
-
-            <div class="col-md-3 col-sm-3 col-xs-4 divMobileVerlanglijst">
-                <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
-                @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
-                {
-                    <div class="form-group">
-                        <label class="sr-only" for="aantal">Aantal</label>
-                         <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium" />
-            
+        </div>
+    </div>
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+        <div class="container">
+            <div class="col-sm-6 col-xs-6">
+                @Html.Label("DoelgroepId", "Doelgroep")
+                @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                @Html.Label("LeergebiedId", "Leergebied")
+                @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+            </div>
+        </div>
+    </div>
+    <div class="container overview">
+        <div class="col-md-2 hidden-sm hidden-xs" id="filterBox">
+            <div class="zoekfunctie">
+                @using (Html.BeginForm("Zoek", "Catalogus"))
+            {
+                    <input type="search" name="trefwoord" placeholder="Naam of trefwoord" class="input-medium" id="inhoud" />
+                    <div class="btn btn-default" id="zoek">
+                        <span class="glyphicon glyphicon-search"></span>  Zoek
                     </div>
-                    <button type="submit" class="btn btn-danger">
-                        <span class="glyphicon glyphicon-remove"></span> Verwijderen
-                    </button>
+                }
+            </div>
+            <div class="leergebied">
+                @Html.Label("Leergebied")
+                @foreach (var leergebied in Model.Leergebieden)
+            {
+                    <div class="checkbox">
+                        @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
+                    </div>
+                }
+            </div>
+            <div class="doelgroep">
+                @Html.Label("Doelgroep")
+                @foreach (var doelgroep in Model.Doelgroepen)
+            {
+                    <div class="checkbox">
+                        @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
+                    </div>
                 }
             </div>
         </div>
 
-
-
-    }
-    <div class="col-md-offset-8 col-md-4">
-        <div>
-            <h4 id="reservatie-info">
-                Selecteer materiaal om te reserveren
-            </h4>
-            <div class="btn btn-success">Verder naar reserveren &raquo;</div>
+        <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">
+            @Html.Partial("Catalogus", Model)
         </div>
     </div>
 </section>
 @section scripts
 {
-    <script src="~/Scripts/verlanglijstScript.js"></script>
+    <script src="~/Scripts/catalogusScript.js"></script>
 }
