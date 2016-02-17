@@ -138,8 +138,8 @@ img {
 
 #zoekMobile {
     background-color: #009c7c;
-    border-radius: 2px;
-    border: 1px solid #009c7c;
+    border-radius: 1px;
+    border: 2px solid #009c7c;
     color: #fff;
     padding: 4px 12px;
 }
@@ -154,7 +154,7 @@ img {
 
     #zoekMobile {
         background-color: #009c7c;
-        border-radius: 2px;
+        border-radius: 1px;
         color: #fff;
         padding: 6px 12px;
     }
@@ -164,5 +164,10 @@ img {
 
     .divMobileVerlanglijst {
         margin-left: 5em;
+    }
+
+    .divStartSchermXs {
+        margin-left: 45px;
+        margin-right: 45px;
     }
 }
