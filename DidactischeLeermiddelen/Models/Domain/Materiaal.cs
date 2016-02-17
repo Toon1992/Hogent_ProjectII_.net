@@ -23,6 +23,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Decimal Prijs { get; set; }
 
         public string Firma { get; set; }
+        public bool IsReserveerBaar { get; set; }
 
         public virtual List<Doelgroep> Doelgroepen { get; set; }
         public virtual List<Leergebied> Leergebieden { get; set; }
