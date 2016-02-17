@@ -33,10 +33,10 @@
                 $("#catalogus").html(data);
             });
         });
-        $(".checkbox").change(function () {
+        $("#catalogus-pagina .checkbox").change(function () {
             ViewModel.doelgroepen = [];
             ViewModel.leergebieden = [];
-            $('input:checkbox:checked').map(function() {
+            $('input:checkbox:checked').map(function () {
                 var filter = $(this)[0].id;
                 var id = parseInt(filter.substr(filter.length - 1));
                 if (filter.indexOf("doelgroep") > -1) {
@@ -55,19 +55,6 @@
                     $("#catalogus").html(data);
                 }
             });
-            //var input = $(this).children()[0];
-            //var filter = input.id;
-            //    if (filter.indexOf("doelgroep") > -1) {
-            //        filter = parseInt(filter.substr(filter.length - 1));
-            //        $.get("Catalogus/Index", { doelgroepId: filter, leergebiedId: 0 }, function (data) {
-            //            $("#catalogus").html(data);
-            //        });
-            //    } else {
-            //        filter = parseInt(filter.substr(filter.length - 1));
-            //        $.get("Catalogus/Index", { doelgroepId: 0, leergebiedId: filter }, function (data) {
-            //            $("#catalogus").html(data);
-            //        });
-            //    }
         });
     }
 }

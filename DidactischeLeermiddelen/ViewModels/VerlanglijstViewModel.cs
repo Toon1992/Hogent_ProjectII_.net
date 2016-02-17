@@ -11,22 +11,25 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class VerlanglijstViewModel
     {
+        public int MateriaalId { get; set; }
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
-        [Display(Name = "Aantal in uw verlanglijst")]
-        public int AantalInVerlanglijst { get; set; }
         public Status Status { get; set; }
+        public string Firma { get; set; }
+        public List<Leergebied> Leergebieden { get; set; }
+        public int AantalInCatalogus { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
+            MateriaalId = materiaal.MateriaalId;
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
-
-            //AantalInVerlanglijst = verlanglijst.GeefAantalMateriaalInVerlanglijst(materiaal);
-            
             Status = materiaal.Status;
+            Firma = materiaal.Firma;
+            Leergebieden = materiaal.Leergebieden;
+            AantalInCatalogus = materiaal.AantalInCatalogus;
         }
     }
 
