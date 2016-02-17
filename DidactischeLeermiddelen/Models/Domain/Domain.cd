@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="DidactischeLeermiddelen.Models.Domain.Materiaal">
     <Position X="4" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAACAUAAAAAAAAAAAABAAAAAAAIAAAAAAAaACAAQA=</HashCode>
+      <HashCode>AAAAACAUAAAAAAAAAAAABAAAAIAAIAAAAAAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -38,7 +38,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Gebruiker">
     <Position X="6.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAhAARgAAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAhIARgAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -50,16 +50,8 @@
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
     <Position X="2" Y="5" Width="1.5" />
-    <AssociationLine Name="Materialen" Type="DidactischeLeermiddelen.Models.Domain.Materiaal" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.281" Y="5" />
-        <Point X="3.281" Y="4.276" />
-        <Point X="4.5" Y="4.276" />
-        <Point X="4.5" Y="3.901" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAIAAgAAAAAAAAAEAAAAAAAAAQAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAKAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Verlanglijst.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
