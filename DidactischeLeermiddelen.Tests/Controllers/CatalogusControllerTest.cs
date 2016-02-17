@@ -14,7 +14,7 @@ using Moq;
 namespace DidactischeLeermiddelen.Tests.Controllers
 {
     [TestClass]
-    public class HomeControllerTest
+    public class CatalogusControllerTest
     {
 
         private CatalogusController controller;
@@ -22,11 +22,12 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         private Mock<IDoelgroepRepository> mockDoelgroepRepository;
         private Mock<ILeergebiedRepository> mockLeergebiedRepository;
         private Mock<IGebruikerRepository> mockGebruikerRepository;
-
+        private Gebruiker gebruiker;
         [TestInitialize]
         public void OpzettenContext()
         {
             DummyContext context = new DummyContext();
+            gebruiker = context.Toon;
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockDoelgroepRepository=new Mock<IDoelgroepRepository>();
             mockLeergebiedRepository=new Mock<ILeergebiedRepository>();
@@ -38,9 +39,10 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         [TestMethod]
         public void IndexMethodeGeeftCatalogusWeer()
         {
-            ViewResult result = controller.Index() as ViewResult;
+            
+            ViewResult result = controller.Index(gebruiker) as ViewResult;
             MaterialenViewModel vm = result.Model as MaterialenViewModel;
-            Assert.AreEqual(9, vm.Materialen.Count());
+            Assert.AreEqual(5, vm.Materialen.Count());
 
         }
 
