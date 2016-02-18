@@ -10,59 +10,75 @@ else
     foreach (var item in Model.Materialen)
     {
         <div class="row materiaal">
-            <div class="col-md-2 col-sm-2 col-xs-6">
-                <img src="@item.Foto" alt="@item.Foto" />
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-12">
-                <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
-                <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                <h5 class="info">Artikelnummer: @Html.DisplayFor(modelItem => item.MateriaalId)</h5>
-                <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
-            </div>
-            <div class="col-md-2 hidden-sm hidden-xs">
-                <div class="leergebied">
-                    @foreach (var leergebied in item.Leergebieden)
-                    {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                    }
+            <div class="materiaal-content">
+                <div class="img-side">
+                    <div class="col-md-2 col-sm-2 col-xs-11 img-tag">
+                        <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+                    </div>
                 </div>
+                <div class="info-side">
+                    <div class="left-side text-center">
+                        <div class="col-md-4 col-sm-4 col-xs-11">
+                            <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
+                            <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
+                            <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
+                            <h5 class="info">ArtikelNr: @Html.DisplayFor(modelItem => item.ArtikelNr)</h5>
+                        </div>
+                        <div class="col-md-2 hidden-sm hidden-xs">
+                            <div class="leergebied">
+                                @foreach (var leergebied in item.Leergebieden)
+                                {
+                                    <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
+                                }
+                            </div>
 
+                        </div>
+                        <div class="col-md-2 doelgroep hidden-sm hidden-xs">
+                            @foreach (var doelgroep in item.Doelgroepen)
+                            {
+                                <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
+
+                            }
+                        </div>
+
+                        <div class="hidden-lg hidden-md col-sm-3 hidden-xs">
+                            @foreach (var leergebied in item.Leergebieden)
+                            {
+                                <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
+                            }
+                            <br/>
+                            @foreach (var doelgroep in item.Doelgroepen)
+                            {
+                                <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
+
+                            }
+                        </div>
+                        <div class="col-md-2 col-sm-3 hidden-xs">
+                            <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
+                            <h5>@Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
+
+                            @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new {id = item.MateriaalId}))
+                            {
+                                <button type="submit" class="btn btn-default btn-verlanglijst">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Verlanglijst
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="right-side hidden-lg hidden-md hidden-sm">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2 doelgroep hidden-sm hidden-xs">
-                @foreach (var doelgroep in item.Doelgroepen)
-                {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                }
-            </div>
-
-            <div class="hidden-lg hidden-md col-sm-3 col-xs-9">
-                @foreach (var leergebied in item.Leergebieden)
-                {
-                    <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                }
-                <br />
-                @foreach (var doelgroep in item.Doelgroepen)
-                {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                }
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-6">
-                <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
-                <h5>Nog @Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
-
+            <div class="hidden-lg hidden-md hidden-sm col-xs-11 text-center">
                 @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = item.MateriaalId }))
                 {
-                    <button type="submit" class="btn btn-default">
+                    <button type="submit" class="btn btn-default btn-verlanglijst">
                         <span class="glyphicon glyphicon-shopping-cart"></span> Verlanglijst
                     </button>
                 }
             </div>
         </div>
-
 
 
     }

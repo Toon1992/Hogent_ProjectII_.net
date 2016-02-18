@@ -38,7 +38,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VerwijderMateriaal(Materiaal materiaal)
         {
-            if(!BevatMateriaal(null))
+            if(!BevatMateriaal(materiaal))
                 throw new ArgumentException("Er bevindt zich niks in de materiaal lijst");
 
             if (Materialen.Contains(materiaal))
