@@ -74,6 +74,9 @@
                 }
             });
         });
+        $(".manufacturer").click(function() {
+            console.log($(this).text());
+        });
         $(".materiaal-content").click(function () {
             if ($(window).width() < 768) {
                 var materiaalId = $(this).find("img").attr("itemprop");

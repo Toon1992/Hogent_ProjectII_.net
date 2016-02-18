@@ -9,46 +9,45 @@
 
     @foreach (var item in Model.Materialen)
     {
-        <div class="row materiaal">
+        <div class="row materiaal" id="@item.MateriaalId">
             <div class="img-side">
-
-
-                <div class="col-md-1 col-sm-1 col-xs-1">
+                <div class="col-md-1 col-sm-1 hidden-xs">
                     <div class="checkbox">
                         @Html.CheckBox("group1", new { id = item.MateriaalId })
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-2">
+                <div class="col-md-2 col-sm-2 col-xs-12">
                     <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
                 </div>
             </div>
             <div class="info-side">
-                <div class="col-md-4 col-sm-6 col-xs-6">
+                <div class="checkbox hidden-lg hidden-md hidden-sm">
+                        @Html.CheckBox("group1", new { id = item.MateriaalId })
+                    </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
                     <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
-                    <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                    <h5 class="info">Status: @Html.DisplayFor(modelItem => item.Status)</h5>
                 </div>
                 <div class="col-md-2 hidden-sm hidden-xs">
                     <div class="leergebied">
                         @foreach (var leergebied in item.Leergebieden)
-                {
+                        {
                             <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
                         }
                     </div>
 
                 </div>
 
-                <div class="col-md-3 col-sm-3 col-xs-3 divMobileVerlanglijst">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     <h5>@Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
-                    @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
+                    @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
                     {
                         <div class="form-group">
                             <label class="sr-only" for="aantal">Aantal</label>
-                            <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium" />
+                            <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium"/>
 
                         </div>
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn btn-delete">
                             <span class="glyphicon glyphicon-remove"></span> Verwijderen
                         </button>
                     }
