@@ -27,6 +27,7 @@ namespace DidactischeLeermiddelen.Controllers
             this.leergebiedRepository = leergebiedRepository;
             this.gebruikerRepository = gebruikerRepository;
         }
+
         public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
             List<Materiaal> materialen = new List<Materiaal>();
@@ -44,7 +45,7 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         materialen = materiaalRepository.FindByTrefWoord(trefwoord).ToList();
                     }
-        } 
+                }
                 else
                 {
                     //Per leergebied en doelgroep worden alle materialen van de desbetreffende doelgroepen en
@@ -54,12 +55,12 @@ namespace DidactischeLeermiddelen.Controllers
                         materialen.AddRange(materiaalRepository.FindByLeergebied(i));
                     });
                     doelgroepenLijst.ForEach(i =>
-        {
+                    {
                         materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
                     });
                     //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
                     if (materiaalDoelgroep.Any())
-            {
+                    {
                         //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
                         //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
                         //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
@@ -68,7 +69,7 @@ namespace DidactischeLeermiddelen.Controllers
                             : materiaalDoelgroep;
                     }
                 }
-                
+            }
             materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
             MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", materialen,
                 doelgroepRepository, leergebiedRepository) as MaterialenViewModel;
@@ -127,7 +128,7 @@ namespace DidactischeLeermiddelen.Controllers
         {
             return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
                 "DoelgroepId", "Naam", doelgroepId);
-            }
+        }
 
         private SelectList GetLeergebiedSelectedList(int leergebiedId = 0)
         {
