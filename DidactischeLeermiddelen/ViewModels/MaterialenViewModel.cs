@@ -9,14 +9,14 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
 {
-    public class MaterialenViewModel
+    public class MaterialenViewModel : IViewModel
     {
         public IEnumerable<MateriaalViewModel> Materialen { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
     }
 
-    public class MateriaalViewModel
+    public class MateriaalViewModel : IViewModel
     {
         public int MateriaalId { get; set; }
         public string Foto { get; set; }

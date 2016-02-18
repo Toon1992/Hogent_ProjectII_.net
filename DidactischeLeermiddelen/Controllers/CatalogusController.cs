@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
         public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
-          List<Materiaal> materialen = new List<Materiaal>();
+            List<Materiaal> materialen = new List<Materiaal>();
             List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null && (trefwoord == null || trefwoord.IsEmpty()))
@@ -72,10 +72,15 @@ namespace DidactischeLeermiddelen.Controllers
                 ViewBag.Leergebieden = GetLeergebiedSelectedList();
                 //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
                 //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-                
+
             }
             materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
-            MaterialenViewModel vm = CreateMaterialenViewModel(materialen.Distinct().OrderBy(m => m.Naam));
+            MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", materialen,
+                doelgroepRepository, leergebiedRepository) as MaterialenViewModel;
+
+            ViewBag.Doelgroepen = GetDoelgroepenSelectedList(0);
+            ViewBag.Leergebieden = GetLeergebiedSelectedList(0);
+
             if (Request.IsAjaxRequest())
             {
                 return PartialView("Catalogus", vm);
@@ -109,19 +114,20 @@ namespace DidactischeLeermiddelen.Controllers
             Materiaal materiaal = materiaalRepository.FindById(id);
             return PartialView("Detail", new MateriaalViewModel(materiaal));
         }
+
         //Hulpmethode voor het aanmaken van de materialenViewModel
-        private MaterialenViewModel CreateMaterialenViewModel(IEnumerable<Materiaal> lijst, int doelgroepId = 0, int leergebiedId = 0)
-        {
-            MaterialenViewModel vm = new MaterialenViewModel()
-            {
-                Materialen = lijst.Select(b => new MateriaalViewModel(b)),
-                Doelgroepen = doelgroepRepository.FindAll().ToList(),
-                Leergebieden = leergebiedRepository.FindAll().ToList(),
-            };
-            ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
-            ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
-            return vm;
-        }
+        //private MaterialenViewModel CreateMaterialenViewModel(IEnumerable<Materiaal> lijst, int doelgroepId = 0, int leergebiedId = 0)
+        //{
+        //    MaterialenViewModel vm = new MaterialenViewModel()
+        //    {
+        //        Materialen = lijst.Select(b => new MateriaalViewModel(b)),
+        //        Doelgroepen = doelgroepRepository.FindAll().ToList(),
+        //        Leergebieden = leergebiedRepository.FindAll().ToList(),
+        //    };
+        //    ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
+        //    ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
+        //    return vm;
+        //}
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
         {
             return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
