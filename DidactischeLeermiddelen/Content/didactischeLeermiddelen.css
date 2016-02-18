@@ -72,9 +72,16 @@
     color: #009c7c;
 }
 .btn-verlanglijst:hover {
-    background-color: #009c7c;ve
+    background-color: #009c7c;
     border-color: white;
     color: white;
+}
+
+.btnCatalogusVerlanglijstMobile {
+    margin-top: 1em;
+    border-color: gray;
+    color: gray;
+    width: 113px;
 }
 .doelgroep {
     margin-bottom: 3em;
