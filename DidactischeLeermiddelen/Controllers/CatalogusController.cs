@@ -71,11 +71,7 @@ namespace DidactischeLeermiddelen.Controllers
                 }
             }
             materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
-            MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", materialen,
-                doelgroepRepository, leergebiedRepository) as MaterialenViewModel;
-
-            vm.DoelgroepSelectList = new DoelgroepViewModel(GetDoelgroepenSelectedList(0));
-            vm.LeergebiedSelectList = new LeergebiedViewModel(GetLeergebiedSelectedList(0));
+            MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 
             if (Request.IsAjaxRequest())
             {
