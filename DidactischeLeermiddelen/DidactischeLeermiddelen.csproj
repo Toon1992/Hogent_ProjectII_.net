@@ -198,6 +198,7 @@
     <Compile Include="Models\DAL\Mapper\DoelgroepMapper.cs" />
     <Compile Include="Models\DAL\Mapper\GebruikerMapper.cs" />
     <Compile Include="Models\DAL\Mapper\LeergebiedMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\ReservatieMapper.cs" />
     <Compile Include="Models\DAL\Mapper\VerlanglijstMapper.cs" />
     <Compile Include="Models\Domain\Doelgroep.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
