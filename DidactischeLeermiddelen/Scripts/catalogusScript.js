@@ -17,7 +17,7 @@
         $.ajax({
             type: "POST",
             traditional: true,
-            url: "/Catalogus/Filter",
+            url: "/Catalogus/Index",
             data: { doelgroepenLijst: ViewModel.doelgroepen, leergebiedenLijst: ViewModel.leergebieden },
             success: function (data) {
                 $("#catalogus").html(data);
@@ -35,19 +35,19 @@
             
             if ($("#inhoud").val() !== ViewModel.trefwoord) {
                 ViewModel.trefwoord = $("#inhoud").val();
-                $.get("/Catalogus/Filter", { trefwoord: ViewModel.trefwoord }, function(data) {
+                $.get("/Catalogus/Index", { trefwoord: ViewModel.trefwoord }, function(data) {
                         $("#catalogus").html(data);
                 });
             }
         });
         $("#zoekMobile").click(function () {
             
-            $.get("/Catalogus/Filter", { trefwoord: $("#inhoudMobile").val() }, function(data) {
+            $.get("/Catalogus/Index", { trefwoord: $("#inhoudMobile").val() }, function(data) {
                 $("#catalogus").html(data);
             });
         });
         $("#zoek").click(function () {
-            $.get("/Catalogus/Filter", { trefwoord: $("#inhoud").val() }, function (data) {
+            $.get("/Catalogus/Index", { trefwoord: $("#inhoud").val() }, function (data) {
                 $("#catalogus").html(data);
             });
         });
@@ -67,7 +67,7 @@
             $.ajax({
                 type: "POST",
                 traditional: true, 
-                url: "/Catalogus/Filter",
+                url: "/Catalogus/Index",
                 data: { doelgroepenLijst: ViewModel.doelgroepen, leergebiedenLijst: ViewModel.leergebieden },
                 success: function (data) {
                     $("#catalogus").html(data);

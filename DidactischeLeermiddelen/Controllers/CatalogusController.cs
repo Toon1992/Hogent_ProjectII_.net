@@ -26,64 +26,61 @@ namespace DidactischeLeermiddelen.Controllers
             this.leergebiedRepository = leergebiedRepository;
             this.gebruikerRepository = gebruikerRepository;
         }
-        public ActionResult Index(Gebruiker gebruiker)
+        public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
-            List<Materiaal> materialen = materiaalRepository.FindAll().ToList();
-            materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
-
-            MaterialenViewModel vm = CreateMaterialenViewModel(materialen);
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("Catalogus", vm);
-            }
-            return View(vm);
-        }
-        public ActionResult Filter(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
-        {
-            List<Materiaal> materialen = new List<Materiaal>();
+          List<Materiaal> materialen = new List<Materiaal>();
             List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null && (trefwoord == null || trefwoord.IsEmpty()))
             {
-                return RedirectToAction("Index");
+                materialen = materiaalRepository.FindAll().ToList();
             }
-            //Per leergebied en doelgroep worden alle materialen van de desbetreffende doelgroepen en
-            // leergebieden in de lijst gestoken en doorgegeven naar het vm
-            leergebiedenLijst.ForEach(i =>
+            else
             {
-                materialen.AddRange(materiaalRepository.FindByLeergebied(i));
-            });
-            doelgroepenLijst.ForEach(i =>
-            {
-                materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
-            });
-            //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
-            if (materiaalDoelgroep.Any())
-            {
-                //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
-                //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
-                //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
-                materialen = materialen.Any()
-                    ? materiaalDoelgroep.Intersect(materialen).ToList()
-                    : materiaalDoelgroep;
+                if (doelgroepenLijst == null && leergebiedenLijst == null)
+                {
+                    if (!trefwoord.IsEmpty())
+                    {
+                        materialen = materiaalRepository.FindByTrefWoord(trefwoord).ToList();
+                    }
+                }
+                else
+                {
+                    //Per leergebied en doelgroep worden alle materialen van de desbetreffende doelgroepen en
+                    // leergebieden in de lijst gestoken en doorgegeven naar het vm
+                    leergebiedenLijst.ForEach(i =>
+                    {
+                        materialen.AddRange(materiaalRepository.FindByLeergebied(i));
+                    });
+                    doelgroepenLijst.ForEach(i =>
+                    {
+                        materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
+                    });
+                    //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
+                    if (materiaalDoelgroep.Any())
+                    {
+                        //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
+                        //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
+                        //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
+                        materialen = materialen.Any()
+                            ? materiaalDoelgroep.Intersect(materialen).ToList()
+                            : materiaalDoelgroep;
+                    }
+                }
+                //DropDownlist maken
+                ViewBag.Doelgroepen = GetDoelgroepenSelectedList();
+                ViewBag.Leergebieden = GetLeergebiedSelectedList();
+                //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
+                //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
+                
             }
-            //DropDownlist maken
-            ViewBag.Doelgroepen = GetDoelgroepenSelectedList();
-            ViewBag.Leergebieden = GetLeergebiedSelectedList();
-            //Opzoek gaan naar de materialen in de repository die aan het trefwoord voldoet
-            //gezochteMaterialen = materiaalRepository.FindByTrefWoord(trefwoord);
-            if (trefwoord != null && !trefwoord.IsEmpty())
-            {
-                materialen = materiaalRepository.FindByTrefWoord(trefwoord).ToList();
-            }
-
             materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
             MaterialenViewModel vm = CreateMaterialenViewModel(materialen.Distinct().OrderBy(m => m.Naam));
             if (Request.IsAjaxRequest())
             {
                 return PartialView("Catalogus", vm);
             }
-            return View("Catalogus", vm);
+            return View("Index", vm);
         }
 
         [HttpPost]
