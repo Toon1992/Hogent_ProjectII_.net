@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using DidactischeLeermiddelen.Infrastructure;
+using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen
 {
@@ -16,6 +18,7 @@ namespace DidactischeLeermiddelen
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.Add(typeof(Gebruiker), new GebruikerModelBinder());
         }
     }
 }

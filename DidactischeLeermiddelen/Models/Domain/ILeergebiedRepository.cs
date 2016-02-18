@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -9,7 +6,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         IQueryable<Leergebied> FindAll();
         Leergebied FindById(int id);
-
         void SaveChanges();
     }
 }

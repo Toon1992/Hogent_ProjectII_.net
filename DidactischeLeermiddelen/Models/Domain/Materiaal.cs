@@ -18,10 +18,12 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int AantalInCatalogus { get; set; }
         public int ArtikelNr { get; set; }
+        public int MateriaalId { get; set; }
 
         public Decimal Prijs { get; set; }
 
         public string Firma { get; set; }
+        public bool IsReserveerBaar { get; set; }
 
         public virtual List<Doelgroep> Doelgroepen { get; set; }
         public virtual List<Leergebied> Leergebieden { get; set; }

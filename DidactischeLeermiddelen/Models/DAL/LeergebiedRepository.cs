@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class LeergebiedRepository:ILeergebiedRepository
+    public class LeergebiedRepository : ILeergebiedRepository
     {
         private DidactischeLeermiddelenContext context;
         private DbSet<Leergebied> leergebieden;

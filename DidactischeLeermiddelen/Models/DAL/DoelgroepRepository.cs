@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DoelgroepRepository:IDoelgroepRepository
+    public class DoelgroepRepository : IDoelgroepRepository
     {
         private DidactischeLeermiddelenContext context;
         private DbSet<Doelgroep> doelgroepen;

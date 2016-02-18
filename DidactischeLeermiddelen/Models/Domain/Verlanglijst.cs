@@ -4,14 +4,17 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
+using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
+using Microsoft.Ajax.Utilities;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Verlanglijst
     {
         #region fields
-        public List<Materiaal> Materialen { get; set; }
+        public virtual List<Materiaal> Materialen { get; set; }
+        public long Id { get; set; }
         #endregion
 
         #region Methodes
@@ -20,22 +23,32 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             Materialen = new List<Materiaal>();
         }
-        public void VoegMateriaalToe(Materiaal materiaal, int aantal)
+        public void VoegMateriaalToe(Materiaal materiaal)
         {
-            //Materiaal dat doorgegeven wordt mag niet null zijn
-            if(materiaal == null)
-                throw new ArgumentNullException("Het materiaal dat aan de verlanglijst wou worden gegeven is null!");
-            //Materiaal mag nog niet voorkomen in verlanglijst van de gebruiker
-            for (int i = 0; i < aantal; i++)
-            {
-                Materialen.Add(materiaal);
+            if (!BevatMateriaal(materiaal))
+            {               
+                    Materialen.Add(materiaal);
             }
-               
-            
-            
-            
-            //Toevoegen van materiaal
-            
+            else
+            {
+                throw new ArgumentException("Het geselecteerde materiaal staat reeds in uw  verlanglijst");
+            }
+            //Toevoegen van materiaal          
+        }
+
+        public void VerwijderMateriaal(Materiaal materiaal)
+        {
+            if(!BevatMateriaal(materiaal))
+                throw new ArgumentException("Er bevindt zich niks in de materiaal lijst");
+
+            if (Materialen.Contains(materiaal))
+            {
+                Materialen.Remove(materiaal);
+            }
+            else
+            {
+                throw new ArgumentException("Materiaal bevindt zich niet in de lijst");
+            }
         }
 
         public Boolean BevatMateriaal(Materiaal materiaal)
@@ -45,6 +58,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             return Materialen.Contains(materiaal);
         }
-        #endregion 
+        #endregion
+
+       
     }
 }
