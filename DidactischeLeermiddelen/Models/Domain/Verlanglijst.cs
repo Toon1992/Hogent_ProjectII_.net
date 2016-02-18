@@ -26,21 +26,29 @@ namespace DidactischeLeermiddelen.Models.Domain
         public void VoegMateriaalToe(Materiaal materiaal)
         {
             if (!BevatMateriaal(materiaal))
-            {
-               
+            {               
                     Materialen.Add(materiaal);
             }
             else
             {
                 throw new ArgumentException("Het geselecteerde materiaal staat reeds in uw  verlanglijst");
             }
-            //Toevoegen van materiaal
-            
+            //Toevoegen van materiaal          
         }
 
         public void VerwijderMateriaal(Materiaal materiaal)
         {
-            Materialen.Remove(materiaal);
+            if(!BevatMateriaal(materiaal))
+                throw new ArgumentException("Er bevindt zich niks in de materiaal lijst");
+
+            if (Materialen.Contains(materiaal))
+            {
+                Materialen.Remove(materiaal);
+            }
+            else
+            {
+                throw new ArgumentException("Materiaal bevindt zich niet in de lijst");
+            }
         }
 
         public Boolean BevatMateriaal(Materiaal materiaal)

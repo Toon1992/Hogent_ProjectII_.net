@@ -27,20 +27,23 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Gebruiker()
         {
         }
+
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
         {
-           
-            //Heeft verlanglijst al dit materiaal in zijn lijst staan?
-            //Ja, niks doen
-            //Nee, toevoegen aan de lijst
-            
-            
-                Verlanglijst.VoegMateriaalToe(materiaal);
+            if(materiaal == null)
+                throw new ArgumentNullException("Materiaal mag niet null zijn als die wordt toevoegd aan de verlanglijst!");
+
+            //aan de Velanglijst materiaal Toevoegen      
+            Verlanglijst.VoegMateriaalToe(materiaal);
             
         }
 
         public void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
         {
+            if (materiaal == null)
+                throw new ArgumentNullException("Materiaal mag niet null zijn als die wordt verwijdert van de verlanglijst!");
+
+            //Verwijderen van materiaal van de verlanglijst
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 

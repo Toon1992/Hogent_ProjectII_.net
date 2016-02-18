@@ -56,7 +56,7 @@
                 }
             });
         });
-        $(".materiaal").click(function () {
+        $(".materiaal-content").click(function () {
             if ($(window).width() < 768) {
                 var materiaalId = $(this).find("img").attr("itemprop");
                 $.get("/Catalogus/DetailView", { id: materiaalId }, function (data) {

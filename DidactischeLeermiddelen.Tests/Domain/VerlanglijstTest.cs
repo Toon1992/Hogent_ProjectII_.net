@@ -56,5 +56,47 @@ namespace DidactischeLeermiddelen.Tests.Domain
             context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
             Assert.AreEqual(1, context.Toon.Verlanglijst.Materialen.Count);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof (ArgumentNullException))]
+        public void ToevoegenVanEenNullMateriaal()
+        {
+            Materiaal materiaal = null;
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+        }
+
+        [TestMethod]
+        public void VerwijderMateriaalVanVerlanglijst()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            context.Toon.VoegMateriaalAanVerlanglijstToe(materiaal);
+            context.Toon.VerwijderMateriaalUitVerlanglijst(materiaal);
+            Assert.AreEqual(0, context.Toon.Verlanglijst.Materialen.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void VerwijderenVanEenNullMateriaal()
+        {
+            Materiaal materiaal = null;
+            context.Toon.VerwijderMateriaalUitVerlanglijst(materiaal);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerwijderenVanMateriaalMetEenLegeVerlanglijst()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            context.Toon.VerwijderMateriaalUitVerlanglijst(materiaal);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerwijderenVanMateriaalDatZichNietinDeLijstBevindt()
+        {
+            Materiaal materiaal = new Materiaal("WereldBol", 25, 10);
+            Materiaal verwijder = new Materiaal("Test", 123, 3);
+            context.Toon.VerwijderMateriaalUitVerlanglijst(verwijder);
+        }
     }
 }

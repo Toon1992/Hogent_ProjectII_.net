@@ -128,6 +128,7 @@ namespace DidactischeLeermiddelen.Controllers
                 }
                 catch (DbEntityValidationException dbEx)
                 {
+                    Console.WriteLine(dbEx.InnerException);
                     foreach (var validationErrors in dbEx.EntityValidationErrors)
                     {
                         foreach (var validationError in validationErrors.ValidationErrors)

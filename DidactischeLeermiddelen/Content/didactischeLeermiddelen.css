@@ -54,8 +54,7 @@
 }
 
 .info {
-    color: gray;
-    padding-left: 1em;
+    color: gray; 
 }
 
 .zoekfunctie {
@@ -216,6 +215,9 @@ img {
     .filtergroup {
         display: block;
         overflow: hidden;
+    }
+    .materiaal-content {
+        padding-bottom: 1em;
     }
     .footergroup {
         display: block;
