@@ -191,11 +191,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CatalogusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Infrastructure\VerlanglijstModelBinder.cs" />
+    <Compile Include="Controllers\VerlanglijstController.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />
+    <Compile Include="Models\DAL\GebruikerRepository.cs" />
     <Compile Include="Models\DAL\LeergebiedRepository.cs" />
     <Compile Include="Models\DAL\Mapper\DoelgroepMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\GebruikerMapper.cs" />
     <Compile Include="Models\DAL\Mapper\LeergebiedMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\VerlanglijstMapper.cs" />
     <Compile Include="Models\Domain\Doelgroep.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +206,7 @@
     </Compile>
     <Compile Include="Infrastructure\GebruikerModelBinder.cs" />
     <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
+    <Compile Include="Models\Domain\IGebruikerRepository.cs" />
     <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
     <Compile Include="Models\Domain\Leergebied.cs" />
     <Compile Include="Models\Domain\Materiaal.cs" />
@@ -211,6 +215,7 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
+    <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
     <Compile Include="Models\Domain\Status.cs" />
@@ -218,18 +223,28 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DoelgroepViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\MaterialenViewModel.cs" />
+    <Compile Include="ViewModels\VerlanglijstViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\didactischeLeermiddelen.css" />
+    <Content Include="Content\Images\adolf.jpg" />
+    <Content Include="Content\Images\basketbal.jpg" />
+    <Content Include="Content\Images\bok.jpg" />
+    <Content Include="Content\Images\catalogus.png" />
     <Content Include="Content\Images\erlenmeyer.jpg" />
     <Content Include="Content\Images\geodriehoek.jpg" />
     <Content Include="Content\Images\microscoopCeti.jpg" />
     <Content Include="Content\Images\pincet.jpg" />
+    <Content Include="Content\Images\reddingspop.jpg" />
     <Content Include="Content\Images\rekentoestel.jpg" />
+    <Content Include="Content\Images\reservaties.png" />
     <Content Include="Content\Images\wereldbol.jpg" />
+    <Content Include="Content\Images\zoeken.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -237,6 +252,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Models\Domain\Domain.cd" />
+    <Content Include="fonts\Roboto-Black.ttf" />
+    <Content Include="fonts\Roboto-Bold.ttf" />
+    <Content Include="fonts\Roboto-Light.ttf" />
+    <Content Include="fonts\Roboto-Regular.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\catalogusScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -249,6 +268,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\verlanglijstScript.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -267,8 +287,11 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Catalogus\Catalogus.cshtml" />
     <Content Include="Views\Catalogus\Index.cshtml" />
+    <Content Include="Views\Catalogus\Catalogus.cshtml" />
+    <Content Include="Views\Verlanglijst\Index.cshtml" />
+    <Content Include="Views\Verlanglijst\LegeVerlanglijst.cshtml" />
+    <Content Include="Views\Catalogus\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

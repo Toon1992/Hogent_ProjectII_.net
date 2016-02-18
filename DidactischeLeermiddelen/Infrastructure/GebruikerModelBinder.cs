@@ -1,22 +1,39 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
+using Microsoft.AspNet.Identity;
 
 namespace DidactischeLeermiddelen.Infrastructure
 {
     public class GebruikerModelBinder : IModelBinder
     {
+        private const string VerlanglijstSessionKey = "gebruiker";
+        private Gebruiker ingelogdeGebruiker = new Gebruiker();
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                Gebruiker gebruiker = new Gebruiker
+                IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
+                Gebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
+                if (gebruiker == null)
                 {
-                    Naam = controllerContext.HttpContext.User.Identity.Name,
-                    Email = controllerContext.HttpContext.User.Identity.Name
-                };
+                    gebruiker = new Gebruiker
+                    {
+                        Naam = controllerContext.HttpContext.User.Identity.Name,
+                        Email = controllerContext.HttpContext.User.Identity.Name,
+                        IsLector = controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent") ? false : true,
+                    };
+                    gebruiker.Verlanglijst = new Verlanglijst();
+                    gebruiker.Reservaties = new List<Reservatie>();
+                    repos.AddGebruiker(gebruiker);
+                    repos.SaveChanges();
+                }
+            
+                controllerContext.HttpContext.Session[VerlanglijstSessionKey] = gebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.
-                return gebruiker; 
+                return gebruiker;
             }
             return null;
         }

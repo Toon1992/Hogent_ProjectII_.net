@@ -1,3 +1,274 @@
-﻿img {
-    max-width: 100px;
+﻿.navbar-inverse {
+    background-color: #009c7c;
+    border: none;
+    -webkit-box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
+    -moz-box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
+    box-shadow: 0px 7px 12px 0px rgba(158,158,158,0.28);
 }
+
+    .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.5em;
+        font-family: "Roboto";
+        font-weight: 500;
+    }
+
+    .navbar-inverse .navbar-brand {
+        font-size: 2.5em;
+    }
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: #009c7c;
+    background-color: #fff;
+}
+
+.title {
+    font-size: 1.75em;
+    font-weight: 500;
+    margin: 0;
+}
+
+
+.manufacturer {
+    color: gray;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    margin-left: 0.5em;
+}
+
+.info {
+    color: gray; 
+}
+
+.zoekfunctie {
+    margin-bottom: 3em;
+}
+
+.leergebied {
+    margin-bottom: 3em;
+}
+.leergebied h4 {
+    font-size: 1.1em;
+}
+.btn-verlanglijst {
+    border-color: #009c7c;
+    color: #009c7c;
+}
+.btn-verlanglijst:hover {
+    background-color: #009c7c;
+    border-color: white;
+    color: white;
+}
+.btn-delete {
+    background-color: white;
+    border-color: #d9534f;
+    color: #d9534f;
+}
+.btn-delete:hover {
+    background-color: #d9534f;
+    color: white;
+    border-color: white;
+}
+
+.btnCatalogusVerlanglijstMobile {
+    margin-top: 1em;
+    border-color: gray;
+    color: gray;
+    width: 113px;
+}
+.doelgroep {
+    margin-bottom: 3em;
+}
+
+#inhoud {
+    width: 100%;
+    padding: 4px 0px;
+    margin-bottom: 1em;
+}
+
+#zoek, .btn-green {
+    background-color: #009c7c;
+    border-radius: 2px;
+    border: 1px solid #009c7c;
+    color: #fff;
+    padding: 4px 12px;
+}
+
+    #zoek:hover, .btn-green:hover {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid #009c7c;
+        color: #009c7c;
+        padding: 4px 12px;
+    }
+
+.home-img {
+    padding: 2em 0;
+}
+
+.overview {
+    padding-top: 3%;
+}
+
+.description {
+    font-size: 1.1em;
+    color: #606060;
+}
+/*.overview {
+    display: block;
+    overflow: hidden;
+}*/
+.materiaal {
+    padding: 3em 0;
+    border-bottom: 1px solid #dddbd5;
+}
+
+    .materiaal:first-child {
+        border-top: 1px solid #dddbd5;
+    }
+
+.catalogus {
+    float: left;
+    display: block;
+}
+
+#filterBox {
+    display: block;
+}
+
+#catalogus {
+}
+
+img {
+    width: 100px;
+}
+
+.zoekfunctieTop {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#zoekMobile {
+    background-color: #009c7c;
+    border-radius: 1px;
+    border: 2px solid #009c7c;
+    color: #fff;
+    padding: 4px 12px;
+}
+
+@media(max-width: 900px) {
+    #inhoudMobile {
+        width: 100%;
+        padding: 5px 0px;
+        margin-bottom: 1em;
+        margin-top: 1em;
+    }
+
+    #zoekMobile {
+        background-color: #009c7c;
+        border-radius: 1px;
+        color: #fff;
+        padding: 6px 12px;
+    }
+}
+
+/*@media(max-width: 720px) {
+
+    .divMobileVerlanglijst {
+        margin-left: 5em;
+    }
+
+    .divStartSchermXs {
+        margin-left: 45px;
+        margin-right: 45px;
+    }
+}*/
+@media(min-width: 382px) and (max-width: 991px) {
+    .mobile-home-item {
+        text-align: center;
+        margin-bottom: 4em;
+    }
+    .mobile-home-item h2 {
+        font-size: 26px;
+    }
+    .img-side {
+        display: block;
+    }
+    
+}
+@media(max-width: 767px) {
+    .img-side img {
+        width: 100px;
+    }
+    .img-side {
+        width: 100%;
+        display: block;
+        text-align: center;
+        padding: 1em 0;
+    }
+    .info-side {
+        width: 100%;
+        display: block;
+        overflow: hidden;
+        text-align: center;
+    }
+    .filtergroup {
+        display: block;
+        overflow: hidden;
+    }
+    .materiaal-content {
+        padding-bottom: 1em;
+    }
+    .footergroup {
+        display: block;
+        overflow: hidden;
+        margin-bottom:2em; 
+    }
+    .img-tag {
+        padding-bottom: 1em;
+    }
+    .radio, .checkbox {
+        padding-left: 15%;
+    }
+
+}
+@media(max-width: 381px) {
+    .mobile-home-item {
+        text-align: center;
+        margin-bottom: 4em;
+    }
+    .mobile-home-item h2 {
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .mobile-home-item img {
+        width: 80px;
+    }
+    /*.img-side {   
+        text-align: center;
+    }
+    .img-tag {
+        padding-bottom: 1em;
+    }
+    .info-side{
+        text-align: center;
+    }*/
+}
+

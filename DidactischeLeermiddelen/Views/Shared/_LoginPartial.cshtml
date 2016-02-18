@@ -5,17 +5,17 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>          
+    <ul class="nav navbar-nav">
+        @*<li>          
             <a>Hello @User.Identity.GetUserName() !</a>
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </li>*@
+        <li class="navbar-item"><a href="javascript:document.getElementById('logoutForm').submit()">Afmelden</a></li>
     </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">      
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <ul class="nav navbar-nav">      
+        <li class="navbar-item">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
