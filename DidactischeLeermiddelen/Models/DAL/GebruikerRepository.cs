@@ -26,7 +26,15 @@ namespace DidactischeLeermiddelen.Models.DAL
 
         public void SaveChanges()
         {
-            context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+               Console.WriteLine(e.InnerException.Message);
+            }
+            
         }
 
         public void AddGebruiker(Gebruiker gebruiker)

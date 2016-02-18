@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         {
             HasKey(g => g.Email);
             //HasRequired(g => g.Verlanglijst).WithMany().WillCascadeOnDelete(false);
-            HasOptional(g => g.Verlanglijst).WithRequired();
+            HasOptional(g => g.Verlanglijst).WithRequired().WillCascadeOnDelete(true);
             HasMany(g => g.Reservaties).WithOptional();
         }
     }

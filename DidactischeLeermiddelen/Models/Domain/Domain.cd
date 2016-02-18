@@ -64,7 +64,15 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
-    <Position X="1" Y="5.75" Width="3.75" />
+    <Position X="2" Y="5" Width="1.5" />
+    <AssociationLine Name="Materialen" Type="DidactischeLeermiddelen.Models.Domain.Materiaal" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.281" Y="5" />
+        <Point X="3.281" Y="4.276" />
+        <Point X="4.5" Y="4.276" />
+        <Point X="4.5" Y="3.901" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAKAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Verlanglijst.cs</FileName>
