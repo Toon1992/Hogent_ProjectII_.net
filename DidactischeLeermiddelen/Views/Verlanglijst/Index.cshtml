@@ -1,13 +1,13 @@
-﻿@model IEnumerable<DidactischeLeermiddelen.ViewModels.VerlanglijstViewModel>
+﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 
 @{
-    ViewBag.Title = "Uw verlanglijst";
+    ViewBag.Title = Model.Materialen.Count()==1? "1 artikel in verlanglijst" : Model.Materialen.Count()+ " artikelen in verlanglijst";
 }
 
 <section id="verlanglijst-pagina">
     <h2>Uw verlanglijst</h2>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Materialen)
     {
         <div class="row materiaal">
             <div class="img-side">

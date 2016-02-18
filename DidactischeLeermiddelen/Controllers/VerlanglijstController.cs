@@ -10,6 +10,7 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
 {
+    [Authorize]
     public class VerlanglijstController : Controller
     {
         private IMateriaalRepository materiaalRepository;
@@ -29,7 +30,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b))
             };
-            return View(vm.Materialen);
+            return View(vm);
         }
 
         [HttpPost]
