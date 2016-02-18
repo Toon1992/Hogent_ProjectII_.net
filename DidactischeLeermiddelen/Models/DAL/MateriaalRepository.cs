@@ -20,7 +20,12 @@ namespace DidactischeLeermiddelen.Models.DAL
         }
         public IQueryable<Materiaal> FindAll()
         {
-            return materialen;
+            return materialen.OrderBy(m => m.Naam);
+        }
+
+        public Materiaal FindById(int id)
+        {
+            return materialen.FirstOrDefault(m => m.MateriaalId.Equals(id));
         }
 
         public IList<Materiaal> FindByTrefWoord(string trefwoord)
@@ -38,17 +43,17 @@ namespace DidactischeLeermiddelen.Models.DAL
                     resultMaterialen.Add(materiaal);
             }
        
-            return resultMaterialen;
+            return resultMaterialen.OrderBy(m => m.Naam).ToList();
         }
 
         public IQueryable<Materiaal> FindByDoelgroep(int doelgroepId)
         {
-            return materialen.Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId)));
+            return materialen.Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId))).OrderBy(m => m.Naam);
         }
 
         public IQueryable<Materiaal> FindByLeergebied(int leergebiedId)
         {
-            return materialen.Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId)));
+            return materialen.Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId))).OrderBy(m => m.Naam);
         }
 
         public void SaveChanges()

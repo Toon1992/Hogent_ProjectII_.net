@@ -10,6 +10,7 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
 {
+    [Authorize]
     public class VerlanglijstController : Controller
     {
         private IMateriaalRepository materiaalRepository;
