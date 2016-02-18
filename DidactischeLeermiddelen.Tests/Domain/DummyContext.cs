@@ -16,6 +16,11 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
         public Gebruiker Toon { get; set; }
         public Materiaal Bol { get; set; }
+        public IQueryable<Materiaal> Materialen { get { return materialen.AsQueryable(); } }
+
+        public Materiaal Encyclopedie { get; set; }
+
+        public Materiaal Kaart { get; set; }
 
 
         public DummyContext()
@@ -27,18 +32,35 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             Toon = new Gebruiker()
             {
-                Email = "toon.de.true@hotmail.be",
+                Email = "student@student.hogent.be",
                 //GebruikersId = "1000000",
                 Naam = "Toon",
-                Verlanglijst =  new Verlanglijst(),
+                Verlanglijst = new Verlanglijst(),
                 IsLector = false,
                 Reservaties = new List<Reservatie>()
-               
+
             };
 
-            Bol=new Materiaal("Wereldbol",456,10);
+            Bol = new Materiaal("Wereldbol", 456, 10)
+            {
+                IsReserveerBaar = true
+            };
+            Kaart = new Materiaal("Kaart", 4587, 5)
+            {
+                IsReserveerBaar = true
+            }; ;
+            Encyclopedie = new Materiaal("Encyclopedie", 111, 80)
+            {
+                IsReserveerBaar = true,
+                MateriaalId = 2
+
+            }; ;
+            materialen.Add(Bol);
+            materialen.Add(Kaart);
+            materialen.Add(Encyclopedie);
 
 
         }
+
     }
 }
