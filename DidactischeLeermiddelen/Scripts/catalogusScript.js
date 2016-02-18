@@ -56,6 +56,15 @@
                 }
             });
         });
+        $(".materiaal").click(function () {
+            if ($(window).width() < 768) {
+                var materiaalId = $(this).find("img").attr("itemprop");
+                $.get("/Catalogus/DetailView", { id: materiaalId }, function (data) {
+                    $("#catalogus-pagina").html(data);
+                });
+            }
+
+        });
     }
 }
 $(document).ready(function () {

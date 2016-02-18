@@ -5,7 +5,8 @@
             //Selected row
             var x = $(this).parent().parent();
             if ($(this).children().is(":checked")) {
-                // highligt selected row               
+                // highligt selected row    
+                console.log(x);
                 x.css("background-color", "#dff0d8");
 
                 //Get id of selected material.

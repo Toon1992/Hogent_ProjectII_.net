@@ -176,6 +176,11 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("index");
         }
 
+        public ActionResult DetailView(int id)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            return PartialView("Detail", new MateriaalViewModel(materiaal));
+        }
         //Hulpmethode voor het aanmaken van de materialenViewModel
         private MaterialenViewModel CreateMaterialenViewModel(IEnumerable<Materiaal> lijst, int doelgroepId = 0, int leergebiedId = 0)
         {

@@ -23,6 +23,11 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen.OrderBy(m => m.Naam);
         }
 
+        public Materiaal FindById(int id)
+        {
+            return materialen.FirstOrDefault(m => m.MateriaalId.Equals(id));
+        }
+
         public IList<Materiaal> FindByTrefWoord(string trefwoord)
         {
             //Lijsten opvullen met resultaten
