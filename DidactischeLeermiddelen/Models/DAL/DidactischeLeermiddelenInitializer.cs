@@ -23,6 +23,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 //Doelgroepen
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
+                Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
 
 
                 //Materialen
@@ -33,7 +34,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 1223, MateriaalId = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true };
                 Materiaal ReddingsPop = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 68934, MateriaalId = 6, Firma = "Witte merk", Naam = "Reddingspop", Foto = "/Content/Images/reddingspop.jpg", Omschrijving = "Met behulp van deze pop wordt je een geweldig duiker", Prijs = 245.00M, Status = Status.Gereserveerd, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
                 Materiaal Basketbal = new Materiaal { AantalInCatalogus = 30, ArtikelNr = 29188, MateriaalId = 7, Firma = "Spalding", Naam = "Spalding basketbal", Foto = "/Content/Images/basketbal.jpg", Omschrijving = "Officiële NBA basketbal, hiermee scoort iedereen 3-punters", Prijs = 169.00M, Status = Status.Reserveerbaar, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
-                Materiaal Bok = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 2441, MateriaalId = 8, Firma = "Moeder natuur", Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M, Status = Status.TeLaat, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
+                Materiaal Bok = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 2441, MateriaalId = 8, Firma = "Moeder natuur", Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M, Status = Status.TeLaat, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs,kleuterOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = true };
                 Materiaal Duitser = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 9812, MateriaalId = 9, Firma = "Prisma", Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Status = Status.Geblokkeerd, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false };
                 Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek,ReddingsPop, Basketbal, Bok,Duitser };
 

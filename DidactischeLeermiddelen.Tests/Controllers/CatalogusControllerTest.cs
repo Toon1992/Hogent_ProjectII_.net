@@ -40,16 +40,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
 
         }
 
-        [TestMethod]
-        public void IndexMethodeGeeftCatalogusWeer()
-        {
-
-            ViewResult result = controller.Index(gebruiker) as ViewResult;
-            MaterialenViewModel vm = result.Model as MaterialenViewModel;
-            IEnumerable<MateriaalViewModel> lijst = vm.Materialen;
-            Assert.AreEqual(3, lijst.Count());
-
-        }
+        
 
         [TestMethod]
         public void VoegToeAanVerlanglijstVoegtToe()
