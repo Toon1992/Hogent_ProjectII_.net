@@ -12,9 +12,8 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public GebruikerMapper()
         {
             HasKey(g => g.Email);
-            //HasRequired(g => g.Verlanglijst).WithMany().WillCascadeOnDelete(false);
-            HasOptional(g => g.Verlanglijst).WithRequired().WillCascadeOnDelete(true);
-            HasMany(g => g.Reservaties).WithOptional();
+            HasOptional(g => g.Verlanglijst).WithRequired().Map(m => m.MapKey("GebruikerEmail")).WillCascadeOnDelete(false);
+            HasMany(g => g.Reservaties).WithRequired().Map(m => m.MapKey("GebruikerEmail"));
         }
     }
 }
