@@ -2,34 +2,52 @@
     trefwoord: null,
     doelgroepen: [],
     leergebieden: [],
+    filter : function() {
+        ViewModel.doelgroepen = [];
+        ViewModel.leergebieden = [];
+        var doelgroepId = $("#doelgroepLijst").val();
+        var leergebiedId = $("#leergebiedLijst").val();
+        if (doelgroepId !== "") {
+            ViewModel.doelgroepen.push(doelgroepId);
+        }
+        if (leergebiedId !== "") {
+            ViewModel.leergebieden.push(leergebiedId);
+        }
+        
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            url: "/Catalogus/Index",
+            data: { doelgroepenLijst: ViewModel.doelgroepen, leergebiedenLijst: ViewModel.leergebieden },
+            success: function (data) {
+                $("#catalogus").html(data);
+            }
+        });
+    },
     init : function() {
         $("#doelgroepLijst").change(function () {
-            $.get("/Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
-                $("#catalogus").html(data);
-            });
+            ViewModel.filter();
         });
         $("#leergebiedLijst").change(function () {
-            $.get("/Catalogus/FilterMobile", { doelgroepId: $("#doelgroepLijst").val(), leergebiedId: $("#leergebiedLijst").val() }, function (data) {
-                $("#catalogus").html(data);
-            });
+            ViewModel.filter();
         });
         $("#inhoud").keyup(function () {
             
             if ($("#inhoud").val() !== ViewModel.trefwoord) {
                 ViewModel.trefwoord = $("#inhoud").val();
-                $.get("/Catalogus/Zoek", { trefwoord: ViewModel.trefwoord }, function(data) {
+                $.get("/Catalogus/Index", { trefwoord: ViewModel.trefwoord }, function(data) {
                         $("#catalogus").html(data);
                 });
             }
         });
         $("#zoekMobile").click(function () {
             
-            $.get("/Catalogus/Zoek", { trefwoord: $("#inhoudMobile").val() }, function(data) {
+            $.get("/Catalogus/Index", { trefwoord: $("#inhoudMobile").val() }, function(data) {
                 $("#catalogus").html(data);
             });
         });
         $("#zoek").click(function () {
-            $.get("/Catalogus/Zoek", { trefwoord: $("#inhoud").val() }, function (data) {
+            $.get("/Catalogus/Index", { trefwoord: $("#inhoud").val() }, function (data) {
                 $("#catalogus").html(data);
             });
         });
@@ -49,7 +67,7 @@
             $.ajax({
                 type: "POST",
                 traditional: true, 
-                url: "/Catalogus/Filter",
+                url: "/Catalogus/Index",
                 data: { doelgroepenLijst: ViewModel.doelgroepen, leergebiedenLijst: ViewModel.leergebieden },
                 success: function (data) {
                     $("#catalogus").html(data);

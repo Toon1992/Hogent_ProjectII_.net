@@ -1,4 +1,5 @@
 ﻿var viewModel = {
+    materiaalList : [],
     init : function() {
         $("#verlanglijst-pagina .checkbox").change(function () {
             var amount = 0;
@@ -6,7 +7,9 @@
             var x = $(this).parent().parent();
             if ($(this).children().is(":checked")) {
                 // highligt selected row    
-                console.log(x);
+                var materiaalId = $(this).find("input")[0].id;
+                viewModel.materiaalList.push(materiaalId);
+                console.log($(this).find("input")[0].id);
                 x.css("background-color", "#dff0d8");
 
                 //Get id of selected material.
