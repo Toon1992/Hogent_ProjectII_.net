@@ -74,8 +74,8 @@ namespace DidactischeLeermiddelen.Controllers
             MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", materialen,
                 doelgroepRepository, leergebiedRepository) as MaterialenViewModel;
 
-            ViewBag.Doelgroepen = GetDoelgroepenSelectedList(0);
-            ViewBag.Leergebieden = GetLeergebiedSelectedList(0);
+            vm.DoelgroepSelectList = new DoelgroepViewModel(GetDoelgroepenSelectedList(0));
+            vm.LeergebiedSelectList = new LeergebiedViewModel(GetLeergebiedSelectedList(0));
 
             if (Request.IsAjaxRequest())
             {
@@ -111,19 +111,6 @@ namespace DidactischeLeermiddelen.Controllers
             return PartialView("Detail", new MateriaalViewModel(materiaal));
         }
 
-        //Hulpmethode voor het aanmaken van de materialenViewModel
-        //private MaterialenViewModel CreateMaterialenViewModel(IEnumerable<Materiaal> lijst, int doelgroepId = 0, int leergebiedId = 0)
-        //{
-        //    MaterialenViewModel vm = new MaterialenViewModel()
-        //    {
-        //        Materialen = lijst.Select(b => new MateriaalViewModel(b)),
-        //        Doelgroepen = doelgroepRepository.FindAll().ToList(),
-        //        Leergebieden = leergebiedRepository.FindAll().ToList(),
-        //    };
-        //    ViewBag.Doelgroepen = GetDoelgroepenSelectedList(doelgroepId);
-        //    ViewBag.Leergebieden = GetLeergebiedSelectedList(leergebiedId);
-        //    return vm;
-        //}
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
         {
             return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
