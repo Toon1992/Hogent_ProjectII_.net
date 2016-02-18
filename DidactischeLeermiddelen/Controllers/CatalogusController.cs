@@ -114,6 +114,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult VoegAanVerlanglijstToe(int id, Gebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
+
             if (materiaal != null)
             {
                 try
