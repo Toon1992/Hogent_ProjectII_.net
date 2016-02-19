@@ -18,6 +18,8 @@ namespace DidactischeLeermiddelen.Models.Domain
                     IViewModel vm = new MaterialenViewModel()
                     {
                         Materialen = lijst.Select(b => new MateriaalViewModel(b)),
+                        DoelgroepSelectList = new DoelgroepViewModel(doelgroepen),
+                        LeergebiedSelectList = new LeergebiedViewModel(leergebieden)
                     };
                     return vm;
                 case "VerlanglijstMaterialenViewModel":
