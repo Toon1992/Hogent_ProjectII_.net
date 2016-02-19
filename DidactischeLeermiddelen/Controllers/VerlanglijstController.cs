@@ -65,6 +65,11 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Confirmatie(int[] materiaal, int[] aantal, int week)
+        {
+            List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            return null;
+        }
         [HttpPost]
         public void MaakReservatie(List<int> ids, DateTime startDatum, Gebruiker gebruiker)
         {

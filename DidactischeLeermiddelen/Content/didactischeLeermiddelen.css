@@ -177,6 +177,10 @@ img {
     width: 16px;
     height: 16px;
 }
+.add-on {
+    padding: 4px 5px 4px 7px;
+    border: 1px solid #009c7c;
+}
 
 @media(max-width: 900px) {
     #inhoudMobile {

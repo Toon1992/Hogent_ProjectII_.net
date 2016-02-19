@@ -20,16 +20,16 @@ namespace DidactischeLeermiddelen.Models.Domain
                 throw new ArgumentException("U heeft nog geen items geselecteerd voor deze reservatie");
             foreach (Materiaal m in materialen)
             {
-                if (m.ReservatieData.Contains(startDatum))
-                {
-                    throw new ArgumentException(
-                        "Het materiaal {0} is reeds gereserveerd op deze datum, gelieve uw reservatie aan te passen.",
-                        m.Naam);
-                }
-                else
-                {
-                    m.ReservatieData.Add(startDatum);
-                }
+                //if (m.ReservatieData.Contains(startDatum))
+                //{
+                //    throw new ArgumentException(
+                //        "Het materiaal {0} is reeds gereserveerd op deze datum, gelieve uw reservatie aan te passen.",
+                //        m.Naam);
+                //}
+                //else
+                //{
+                //    m.ReservatieData.Add(startDatum);
+                //}
             }
             Materialen = materialen;
             StartDatum = startDatum;

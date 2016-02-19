@@ -8,7 +8,12 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public MateriaalMapper()
         {
             HasKey(m => m.MateriaalId);
-
+            HasMany(m => m.ReservatieData).WithMany().Map(m =>
+            {
+                m.ToTable("MateriaalReservatieData");
+                m.MapRightKey("Week");
+                m.MapLeftKey("ArtikelNr");
+            });
             HasMany(m => m.Doelgroepen).WithMany().Map(m =>
             {
                 m.MapLeftKey("ArtikelNr");
