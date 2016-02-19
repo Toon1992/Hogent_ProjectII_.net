@@ -26,7 +26,14 @@ namespace DidactischeLeermiddelen.Models.Domain
                         Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b))
                     };
                     return vmm;
+                case "ReservatieMaterialenViewModel":
+                    IViewModel rmv = new ReservatieMaterialenViewModel()
+                    {
+                        Materialen = lijst.Select(b => new ReservatieViewModel(b)),
+                    };
+                    return rmv;
             }
+
             return null;
         }
     }

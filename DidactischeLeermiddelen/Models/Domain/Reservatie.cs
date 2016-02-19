@@ -10,7 +10,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Reservatie
     {
-        public List<Materiaal> Materialen { get; set; }
+        public IEnumerable<Materiaal> Materialen { get; set; }
         public DateTime StartDatum { get; set; }
         public long ReservatieId { get; set; }
 
