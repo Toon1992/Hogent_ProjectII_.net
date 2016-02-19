@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CatalogusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReservatieController.cs" />
     <Compile Include="Controllers\VerlanglijstController.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />
     <Compile Include="Models\DAL\GebruikerRepository.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="ViewModels\DoelgroepViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\MaterialenViewModel.cs" />
+    <Compile Include="ViewModels\ReservatieViewModel.cs" />
     <Compile Include="ViewModels\VerlanglijstViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +381,8 @@
     <Content Include="Views\Verlanglijst\LegeVerlanglijst.cshtml" />
     <Content Include="Views\Catalogus\Detail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Reservatie\LegeReservatielijst.cshtml" />
+    <Content Include="Views\Reservatie\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
