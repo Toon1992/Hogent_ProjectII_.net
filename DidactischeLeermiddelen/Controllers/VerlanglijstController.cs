@@ -26,11 +26,9 @@ namespace DidactischeLeermiddelen.Controllers
         {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
-            VerlanglijstMaterialenViewModel vm = new VerlanglijstMaterialenViewModel()
-            {
-                Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b))
-            };
-            return View(vm.Materialen);
+
+            VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null,null,null,gebruiker) as VerlanglijstMaterialenViewModel;
+            return View(vm);
         }
 
         [HttpPost]

@@ -72,9 +72,26 @@
     color: #009c7c;
 }
 .btn-verlanglijst:hover {
-    background-color: #009c7c;ve
+    background-color: #009c7c;
     border-color: white;
     color: white;
+}
+.btn-delete {
+    background-color: white;
+    border-color: #d9534f;
+    color: #d9534f;
+}
+.btn-delete:hover {
+    background-color: #d9534f;
+    color: white;
+    border-color: white;
+}
+
+.btnCatalogusVerlanglijstMobile {
+    margin-top: 1em;
+    border-color: gray;
+    color: gray;
+    width: 113px;
 }
 .doelgroep {
     margin-bottom: 3em;
@@ -227,9 +244,10 @@ img {
     .img-tag {
         padding-bottom: 1em;
     }
-    /*.info {
-        display: none;  
-    }*/
+    .radio, .checkbox {
+        padding-left: 15%;
+    }
+
 }
 @media(max-width: 381px) {
     .mobile-home-item {

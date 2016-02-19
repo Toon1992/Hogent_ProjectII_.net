@@ -9,7 +9,7 @@ namespace DidactischeLeermiddelen.ViewModels
 {
 
 
-    public class VerlanglijstViewModel
+    public class VerlanglijstViewModel : IViewModel
     {
         public int MateriaalId { get; set; }
         public string Foto { get; set; }
@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.ViewModels
         }
     }
 
-    public class VerlanglijstMaterialenViewModel
+    public class VerlanglijstMaterialenViewModel : IViewModel
     {
         public IEnumerable<VerlanglijstViewModel> Materialen { get; set; }
 

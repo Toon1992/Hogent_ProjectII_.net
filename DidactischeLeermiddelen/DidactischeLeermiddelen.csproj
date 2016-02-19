@@ -216,6 +216,7 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
+    <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
     <Compile Include="Models\Domain\Status.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DoelgroepViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\MaterialenViewModel.cs" />
     <Compile Include="ViewModels\VerlanglijstViewModel.cs" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace DidactischeLeermiddelen.ViewModels
 {
-    public class DoelgroepViewModel
+    public class DoelgroepViewModel : IViewModel
     {
         // This property contains the available options
         public SelectList DoelgroepenLijst { get; set; }
@@ -22,7 +22,7 @@ namespace DidactischeLeermiddelen.ViewModels
         }
     }
 
-    public class LeergebiedViewModel
+    public class LeergebiedViewModel : IViewModel
     {
         public SelectList LeergebiedenSelectList { get; set; }
 

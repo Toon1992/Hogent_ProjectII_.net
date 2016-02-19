@@ -1,20 +1,22 @@
 ﻿var viewModel = {
+    materiaalList : [],
     init : function() {
         $("#verlanglijst-pagina .checkbox").change(function () {
             var amount = 0;
             //Selected row
-            var x = $(this).parent().parent();
+            var materiaalId = $(this).find("input")[0].id;
+            var materiaalRij = $("#" + materiaalId);
             if ($(this).children().is(":checked")) {
-                // highligt selected row    
-                console.log(x);
-                x.css("background-color", "#dff0d8");
+                //Het materiaalId
+                viewModel.materiaalList.push(materiaalId);
+                
 
-                //Get id of selected material.
-                var checkbox = $(this)[0];
-                var id = parseInt(checkbox.children[0].id);
+                // highligt selected row    
+                console.log(materiaalRij);
+                materiaalRij.css("background-color", "#dff0d8");   
             } else {
                 // dehighligt selected row
-                x.css('background', 'transparent');
+                materiaalRij.css('background', 'transparent');
             }
             $('input:checkbox:checked').map(function () {
                 amount++;
