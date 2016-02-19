@@ -27,6 +27,8 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual List<Doelgroep> Doelgroepen { get; set; }
         public virtual List<Leergebied> Leergebieden { get; set; }
 
+        public List<DateTime> ReservatieData { get; set; }  
+
         public Status Status { get; set; }
         #endregion
 
@@ -35,6 +37,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Naam = naam;
             ArtikelNr = artikeNr;
             AantalInCatalogus = aantal;
+            ReservatieData = new List<DateTime>();
         }
         public Materiaal() { }
     }

@@ -48,9 +48,10 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
         
-        public void VoegReservatieToe(Reservatie reservatie)
+        public void VoegReservatieToe(List<Materiaal> materialen, DateTime startDatum)
         {
-            throw new System.NotImplementedException();
+            Reservatie reservatie = new Reservatie(materialen, startDatum);
+            Reservaties.Add(reservatie);
         }
         #endregion
     }

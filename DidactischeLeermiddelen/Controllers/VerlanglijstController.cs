@@ -64,5 +64,38 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public void MaakReservatie(List<int> ids, DateTime startDatum, Gebruiker gebruiker)
+        {
+            List<Materiaal> materialen = ids.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            if (materialen != null)
+            {
+                try
+                {
+                    gebruiker.VoegReservatieToe(materialen, startDatum);
+                    gebruikerRepository.SaveChanges();
+                    TempData["Info"] = $"Reservatie werd aangemaakt";
+                }
+                catch (ArgumentException ex)
+                {
+                    TempData["Error"] = ex.Message;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation(
+                                  "Class: {0}, Property: {1}, Error: {2}",
+                                  validationErrors.Entry.Entity.GetType().FullName,
+                                  validationError.PropertyName,
+                                  validationError.ErrorMessage);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
