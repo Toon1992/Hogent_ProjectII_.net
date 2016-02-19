@@ -6,7 +6,7 @@ var viewModel = {
     materiaalList: [],
     aantalList: [],
     selectedWeek : null,
-    init : function() {
+    init: function () {
         $("#verlanglijst-pagina .checkbox").change(function () {
             var amount = 0;
             //Selected row
@@ -37,14 +37,35 @@ var viewModel = {
             $(this).blur();
             $(this).datepicker('hide');
             viewModel.selectedWeek = ev.date;
+            viewModel.materiaalList = [];
+            viewModel.aantalList = [];
+            $('input:checkbox:checked').map(function () {
+                var materiaalId = $(this).parent().find("input")[0].id;
+                var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                viewModel.materiaalList.push(parseInt(materiaalId));
+                viewModel.aantalList.push(parseInt(aantal));
+            });
+            var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                url: "/Verlanglijst/Confirmatie",
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek },
+                success: function (data) {
+                    $("#verlanglijst-pagina").html(data);
+                    viewModel.init();
+                }
+            });
         });
         $("#btn-reserveer").click(function () {
             if (viewModel.selectedWeek !== null) {
+                viewModel.materiaalList = [];
+                viewModel.aantalList = [];
                 $('input:checkbox:checked').map(function () {
                     var materiaalId = $(this).parent().find("input")[0].id;
                     var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
-                    viewModel.materiaalList.push(parseInt(materiaalId));
-                    viewModel.aantalList.push(parseInt(aantal));
+                        viewModel.materiaalList.push(parseInt(materiaalId));
+                        viewModel.aantalList.push(parseInt(aantal));                  
                 });
                 var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
                 $.ajax({
@@ -53,7 +74,8 @@ var viewModel = {
                     url: "/Verlanglijst/Confirmatie",
                     data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek },
                     success: function (data) {
-
+                        $("#verlanglijst-pagina").html(data);
+                        viewModel.init();
                     }
                 });
             }

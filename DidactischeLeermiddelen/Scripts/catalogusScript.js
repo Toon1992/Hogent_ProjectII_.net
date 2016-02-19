@@ -24,7 +24,7 @@
             }
         });
     },
-    init : function() {
+    init: function () {
         $("#doelgroepLijst").change(function () {
             ViewModel.filter();
         });

@@ -385,6 +385,7 @@
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Reservatie\LegeReservatielijst.cshtml" />
     <Content Include="Views\Reservatie\Index.cshtml" />
+    <Content Include="Views\Verlanglijst\Verlanglijst.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,28 +1,22 @@
 ﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
-
-@{
-    ViewBag.Title = Model.Materialen.Count()==1? "1 artikel in verlanglijst" : Model.Materialen.Count()+ " artikelen in verlanglijst";
-}
-<h2>Uw verlanglijst</h2>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<section id="verlanglijst-pagina">
     @foreach (var item in Model.Materialen)
     {
-        <div class="row materiaal" id="@item.MateriaalId">
+        <div class="row materiaal @(item.Geselecteerd ? "geselecteerd":"")"id="@item.MateriaalId">
             <div class="img-side">
                 <div class="col-md-1 col-sm-1 hidden-xs">
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new {id = item.MateriaalId})
-                        
+                        @Html.CheckBox("group1", new { id = item.MateriaalId })
+                        @Html.CheckBoxFor(m => item.Geselecteerd, new { id = item.MateriaalId })
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12">
-                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId" />
                 </div>
             </div>
             <div class="info-side">
                 <div class="checkbox hidden-lg hidden-md hidden-sm">
-                    @Html.CheckBox("group1", new {id = item.MateriaalId})
+                    @Html.CheckBox("group1", new { id = item.MateriaalId })
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
@@ -39,12 +33,12 @@
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    <h5>@Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
-                    @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
-                    {
+                    <h5>@Html.DisplayFor(modelItem => item.AantalBeschikbaar) beschikbaar</h5>
+                    @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
+                {
                         <div class="form-group">
                             <label class="sr-only" for="aantal">Aantal</label>
-                            <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium aantal"/>
+                            <input type="number" name="aantal" value="0" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" />
 
                         </div>
                         <button type="submit" class="btn btn-delete">
@@ -54,29 +48,4 @@
                 </div>
             </div>
         </div>
-
-
-
     }
-
-</section>
-    <div class="col-md-6">
-        <div class="form-group">
-            <div class="input-append date datecontrol">
-                <input type='text' name="date" readonly />
-                <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <h4 id="reservatie-info">
-                Selecteer materiaal om te reserveren
-            </h4>
-            <div class="btn btn-success" id="btn-reserveer">Verder naar reserveren &raquo;</div>
-        </div>
-    </div>
-    @section scripts
-{
-        <script src="~/Scripts/verlanglijstScript.js"></script>
-   }

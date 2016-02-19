@@ -23,9 +23,8 @@ namespace DidactischeLeermiddelen.ViewModels
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
             Status = materiaal.Status;
-            materiaal.ReservatieData.OrderBy(b => b.Day);
-            StartDatum = materiaal.ReservatieData.FirstOrDefault();
-            EindDatum = StartDatum.AddDays(4);
+            //StartDatum = materiaal.ReservatieData.FirstOrDefault();
+            //EindDatum = StartDatum.AddDays(4);
         }
     }
 

@@ -153,7 +153,11 @@
     display: block;
 }
 
-#catalogus {
+.onbeschikbaar {
+    background-color: red;
+}
+.geselecteerd {
+    background-color: #dff0d8;
 }
 
 img {

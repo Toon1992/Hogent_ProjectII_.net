@@ -19,6 +19,10 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Firma { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public int AantalInCatalogus { get; set; }
+        public int AantalBeschikbaar { get; set; }
+        public int AantalGeselecteerd { get; set; }
+        public bool Beschikbaar { get; set; }
+        public bool Geselecteerd { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
@@ -30,7 +34,10 @@ namespace DidactischeLeermiddelen.ViewModels
             Firma = materiaal.Firma;
             Leergebieden = materiaal.Leergebieden;
             AantalInCatalogus = materiaal.AantalInCatalogus;
+            AantalBeschikbaar = materiaal.AantalInCatalogus;
+            Beschikbaar = true;
         }
+        public VerlanglijstViewModel() { }
     }
 
     public class VerlanglijstMaterialenViewModel : IViewModel
