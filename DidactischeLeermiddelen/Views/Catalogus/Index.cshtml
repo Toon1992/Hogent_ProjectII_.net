@@ -18,14 +18,14 @@
     </div>
     <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
         <div class="container">
-            <div class="col-sm-6 col-xs-6">
+            @*<div class="col-sm-6 col-xs-6">
                 @Html.Label("DoelgroepId", "Doelgroep")
                 @Html.DropDownList("DoelgroepId", Model.DoelgroepSelectList.DoelgroepenLijst, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
             </div>
             <div class="col-sm-6 col-xs-6">
                 @Html.Label("LeergebiedId", "Leergebied")
                 @Html.DropDownList("LeergebiedId", Model.LeergebiedSelectList.LeergebiedenLijst, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
-            </div>
+            </div>*@
         </div>
     </div>
     <div class="container overview">
@@ -39,7 +39,7 @@
                     </div>
                 }
             </div>
-            <div class="leergebied">
+            @*<div class="leergebied">
                 @Html.Label("Leergebied")
                 @foreach (var leergebied in Model.LeergebiedSelectList.LeergebiedenLijst)
             {
@@ -56,7 +56,7 @@
                         @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.Value }) @doelgroep.Text<br />
                     </div>
                 }
-            </div>
+            </div>*@
         </div>
 
         <div class="col-md-10 col-sm-12 col-sm-12" id="catalogus">

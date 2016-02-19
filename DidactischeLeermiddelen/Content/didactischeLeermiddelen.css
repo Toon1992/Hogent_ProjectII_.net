@@ -172,6 +172,11 @@ img {
     color: #fff;
     padding: 4px 12px;
 }
+.add-on i {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
 
 @media(max-width: 900px) {
     #inhoudMobile {
