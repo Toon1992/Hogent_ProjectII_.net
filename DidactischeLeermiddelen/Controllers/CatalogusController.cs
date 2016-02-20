@@ -28,6 +28,11 @@ namespace DidactischeLeermiddelen.Controllers
             this.gebruikerRepository = gebruikerRepository;
         }
 
+        public CatalogusController()
+        {
+            
+        }
+
         public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
             List<Materiaal> materialen = new List<Materiaal>();
