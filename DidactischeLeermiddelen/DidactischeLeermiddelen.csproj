@@ -279,6 +279,7 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <None Include="Properties\PublishProfiles\projecten2groep6 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\catalogusScript.js" />
     <Content Include="Scripts\datepickerScript.js" />
@@ -382,13 +383,13 @@
     <Content Include="Views\Verlanglijst\Index.cshtml" />
     <Content Include="Views\Verlanglijst\LegeVerlanglijst.cshtml" />
     <Content Include="Views\Catalogus\Detail.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Reservatie\LegeReservatielijst.cshtml" />
     <Content Include="Views\Reservatie\Index.cshtml" />
     <Content Include="Views\Verlanglijst\Verlanglijst.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
