@@ -70,8 +70,10 @@ var viewModel = {
             $('input:checkbox:checked').map(function () {
                 var materiaalId = $(this).parent().find("input")[0].id;
                 var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
-                viewModel.materiaalList.push(parseInt(materiaalId));
-                viewModel.aantalList.push(parseInt(aantal));
+                if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
+                    viewModel.materiaalList.push(parseInt(materiaalId));
+                    viewModel.aantalList.push(parseInt(aantal));
+                }
             });
             var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
             $.ajax({
@@ -92,8 +94,10 @@ var viewModel = {
                 $('input:checkbox:checked').map(function () {
                     var materiaalId = $(this).parent().find("input")[0].id;
                     var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                    if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
                         viewModel.materiaalList.push(parseInt(materiaalId));
-                        viewModel.aantalList.push(parseInt(aantal));                  
+                        viewModel.aantalList.push(parseInt(aantal));
+                    }                 
                 });
                 var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
                 viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));

@@ -3,22 +3,22 @@
 <section id="reservatie-confirmatie">
     <div class="overzicht">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 col-sm-5 col-xs-6">
                 <h2 class="pull-right">Aantal</h2>
             </div>
-            <div class="col-md-offset-1 col-md-3">
+            <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-6">
                 <h2>Naam</h2>
             </div>
         </div>
         @foreach (var item in Model.Materialen)
         {
             <div class="row" id="@item.MateriaalId">
-                <div class="col-md-5">
+                <div class="col-md-5 col-sm-5 col-xs-6">
                     <h4 class="pull-right">
                         @item.AantalGeselecteerd
                     </h4>
                 </div>
-                <div class="col-md-offset-1 col-md-3">
+                <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-6">
                     <h4>
                         @item.Naam
                     </h4>
@@ -27,21 +27,24 @@
         }
     </div>
     <div class="row totaal">
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <h3 class="pull-right">Totaal</h3>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1 col-xs-2">
             <h3 class="pull-right">@Model.TotaalGeselecteerd</h3>
         </div>
-        <div class="col-md-offset-1 col-md-5">
+        <div class="col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 hidden-xs">
+            <h3>Reservatie voor @Model.GeselecteerdeWeek.ToString("d")</h3>
+        </div>
+        <div class="col-xs-12 hidden-lg hidden-md hidden-sm">
             <h3>Reservatie voor @Model.GeselecteerdeWeek.ToString("d")</h3>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="btn btn-green" id="btn-terug">Terug</div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="btn btn-green pull-right" id="btn-reserveer">Reserveer</div>
         </div>
     </div>

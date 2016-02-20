@@ -93,6 +93,12 @@
     color: gray;
     width: 113px;
 }
+#btn-reserveer {
+    text-align: right;
+}
+#btn-confirmeer {
+    text-align: right;
+}
 .doelgroep {
     margin-bottom: 3em;
 }
@@ -270,7 +276,12 @@ img {
     .radio, .checkbox {
         padding-left: 15%;
     }
-
+    #btn-reserveer {
+        text-align: left;
+    }
+    #btn-confirmeer {
+        text-align: left;
+    }
 }
 @media(max-width: 381px) {
     .mobile-home-item {
