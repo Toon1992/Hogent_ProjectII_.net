@@ -67,54 +67,122 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Confirmatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week, bool knop)
         {
+            //Variabelen
+            VerlanglijstMaterialenViewModel vm;
             List<Materiaal> materiaalVerlanglijst = gebruiker.Verlanglijst.Materialen;
-            List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-            int aantalBeschikbaar = 0;
-            //VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null, null, materiaalVerlanglijst, gebruiker) as VerlanglijstMaterialenViewModel;
-            VerlanglijstMaterialenViewModel vm = new VerlanglijstMaterialenViewModel
+            List<Materiaal> materialen = new List<Materiaal>();
+            Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
+            int aantalBeschikbaar;
+            int totaalGeselecteerd = 0;
+
+            if (materiaal != null)
+            {
+                materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+                //Map maken die de geselecteerde materialen met hun aantallen verbind.
+
+                for (int i = 0; i < materiaal.Length; i++)
+                {
+                    materiaalAantal.Add(materiaal[i], aantal[i]);
+                    totaalGeselecteerd += aantal[i];
+                }
+            }
+            //Wanneer op "Ga naar reservatie werd geklikt wordt eerst gekeken of de gekozen materialen met voldoende
+            //aantal stuks beschikbaar zijn, zoniet wordt het verlanglijstscherm terug getoont.
+            bool allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, week);
+            if (knop && allesBeschikbaar)
+            {
+                vm = new VerlanglijstMaterialenViewModel
+                {
+                    Materialen = materialen.Select(m => new VerlanglijstViewModel
+                    {
+                        AantalGeselecteerd = materiaalAantal[m.MateriaalId],
+                        Naam = m.Naam,                  
+                    }),
+                    GeselecteerdeWeek = FirstDateOfWeekISO8601(2016, week),
+                    TotaalGeselecteerd = totaalGeselecteerd
+                };
+                return PartialView("Confirmatie", vm);
+            }         
+            vm = new VerlanglijstMaterialenViewModel
             {
                 Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.AantalInCatalogus - m.ReservatieData.FirstOrDefault(r => r.Week.Equals(week)).Aantal,         
+                    AantalBeschikbaar = aantalBeschikbaar = m.AantalInCatalogus - (m.ReservatieData.FirstOrDefault(r => r.Week.Equals(week)) == null ? 0 : m.ReservatieData.FirstOrDefault(r => r.Week.Equals(week)).Aantal),
                     Beschikbaar = true,
                     Firma = m.Firma,
                     Foto = m.Foto,
-                    //AANTALGESELECTEERD IMPLEMENTERN
-                    Geselecteerd =  aantalBeschikbaar > 0? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)):false,
+                    AantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 0,
+                    Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                     Leergebieden = m.Leergebieden,
-                    AantalInCatalogus = 1,
+                    AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Naam = m.Naam,
-                    Omschrijving = m.Omschrijving,       
-                })
+                    Omschrijving = m.Omschrijving,
+                }),
+                GeselecteerdeWeek = FirstDateOfWeekISO8601(2016, week),
             };
-            //Melding geven indien niet alle gewenste materialen beschikbaar zijn.
-            for (int i = 0; i < materiaal.Length; i++)
-            {
-                //NULLPOINTERS FIXEN
-                aantalBeschikbaar = materialen[i].AantalInCatalogus - materialen[i].ReservatieData.FirstOrDefault(r => r.Week.Equals(week)).Aantal;
-                if (aantalBeschikbaar == 0)
-                {
-                    ModelState.AddModelError("", string.Format("Materiaal {0} is niet meer beschikbaar in beschikbaar van {1} tot {2}", materialen[i].Naam, FirstDateOfWeekISO8601(2016, week), FirstDateOfWeekISO8601(2016, week).AddDays(5)));
-                }
-                else if (aantalBeschikbaar < aantal[i])
-                {
-                    ModelState.AddModelError("",string.Format("Slechts {0} stuks van materiaal {1} beschikbaar", aantalBeschikbaar, materialen[i].Naam));
-                }   
-            }
             return PartialView("Verlanglijst", vm);
         }
-        [HttpPost]
-        public void MaakReservatie(List<int> ids, DateTime startDatum, Gebruiker gebruiker)
+        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
-            List<Materiaal> materialen = ids.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            //Variabelen
+            List<Materiaal> materialen = new List<Materiaal>();
+            Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
+            int aantalBeschikbaar = 0;
+
+            if (materiaal != null)
+            {
+                materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+                //Map maken die de geselecteerde materialen met hun aantallen verbind.
+
+                for (int i = 0; i < materiaal.Length; i++)
+                {
+                    materiaalAantal.Add(materiaal[i], aantal[i]);
+                }
+            }
+            //Melding geven indien niet alle gewenste materialen beschikbaar zijn.
+            if (materiaal != null)
+            {
+                for (int i = 0; i < materiaal.Length; i++)
+                {
+                    //Kijken of er voor de opgegeven week al reservatiedata beschikbaar is voor het geselecteerde materiaal
+                    var reservatieData = materialen[i].ReservatieData.FirstOrDefault(r => r.Week.Equals(week));
+                    if (reservatieData != null)
+                    {
+                        aantalBeschikbaar = materialen[i].AantalInCatalogus - reservatieData.Aantal;
+                        if (aantalBeschikbaar == 0)
+                        {
+                            ModelState.AddModelError("",
+                                string.Format("Materiaal {0} is niet meer beschikbaar in beschikbaar van {1} tot {2}",
+                                    materialen[i].Naam, FirstDateOfWeekISO8601(2016, week).ToString("d"),
+                                    FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")));
+                        }
+                        else if (aantalBeschikbaar < aantal[i])
+                        {
+                            ModelState.AddModelError("",
+                                string.Format("Slechts {0} stuks van materiaal {1} beschikbaar", aantalBeschikbaar,
+                                    materialen[i].Naam));
+                        }
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                return true;
+            }
+            return false;
+        }
+        [HttpPost]
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        {
+            List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
             if (materialen != null)
             {
                 try
                 {
-                    gebruiker.VoegReservatieToe(materialen, startDatum);
+                    //gebruiker.VoegReservatieToe(materialen, startDatum);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Reservatie werd aangemaakt";
                 }
@@ -153,7 +221,7 @@ namespace DidactischeLeermiddelen.Controllers
                 weekNum -= 1;
             }
             var result = firstThursday.AddDays(weekNum * 7);
-            return result.AddDays(-3);
+            return result.AddDays(-10);
         }
     }
 }

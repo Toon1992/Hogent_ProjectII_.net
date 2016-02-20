@@ -20,7 +20,7 @@ namespace DidactischeLeermiddelen.Models.DAL
         }
         public IQueryable<Materiaal> FindAll()
         {
-            return materialen.OrderBy(m => m.Naam);
+            return materialen.Include(m => m.Leergebieden).Include(m => m.Doelgroepen).OrderBy(m => m.Naam);
         }
 
         public Materiaal FindById(int id)

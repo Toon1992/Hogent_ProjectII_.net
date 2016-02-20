@@ -5,6 +5,7 @@
 var viewModel = {
     materiaalList: [],
     aantalList: [],
+    session : window.sessionStorage,
     selectedWeek : null,
     init: function () {
         $("#verlanglijst-pagina .checkbox").change(function () {
@@ -22,11 +23,6 @@ var viewModel = {
             $('input:checkbox:checked').map(function () {
                 amount++;
             });
-            if (amount === 0) {
-                $("#reservatie-info").text("Selecteer materiaal om te reserveren");
-            } else {
-                $("#reservatie-info").text("Reserveer " + amount + " materialen");
-            }
         });
         $(".datecontrol").datepicker({
             changeMonth: true,
@@ -49,15 +45,15 @@ var viewModel = {
             $.ajax({
                 type: "POST",
                 traditional: true,
-                url: "/Verlanglijst/Confirmatie",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek },
+                url: "/Verlanglijst/Controle",
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : false },
                 success: function (data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();
                 }
             });
         });
-        $("#btn-reserveer").click(function () {
+        $("#btn-confirmeer").click(function () {
             if (viewModel.selectedWeek !== null) {
                 viewModel.materiaalList = [];
                 viewModel.aantalList = [];
@@ -68,11 +64,14 @@ var viewModel = {
                         viewModel.aantalList.push(parseInt(aantal));                  
                 });
                 var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
+                viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
+                viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
+                viewModel.session.setItem("week", selectedWeek);
                 $.ajax({
                     type: "POST",
                     traditional: true,
-                    url: "/Verlanglijst/Confirmatie",
-                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek },
+                    url: "/Verlanglijst/Controle",
+                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : true},
                     success: function (data) {
                         $("#verlanglijst-pagina").html(data);
                         viewModel.init();
@@ -80,6 +79,35 @@ var viewModel = {
                 });
             }
             
+        });
+        $("#btn-reserveer").click(function() {
+            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
+            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
+            var selectedWeek = viewModel.session.getItem("week");
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                url: "/Verlanglijst/MaakReservatie",
+                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek },
+                success: function(data) {
+
+                }
+            });
+        });
+        $("#btn-terug").click(function() {
+            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
+            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
+            var selectedWeek = viewModel.session.getItem("week");
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                url: "/Verlanglijst/Controle",
+                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, knop: false },
+                success: function(data) {
+                    $("#verlanglijst-pagina").html(data);
+                    viewModel.init();
+                }
+            });
         });
     }
 }
