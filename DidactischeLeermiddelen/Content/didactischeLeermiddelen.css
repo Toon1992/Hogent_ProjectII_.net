@@ -152,12 +152,13 @@
 #filterBox {
     display: block;
 }
-
-.onbeschikbaar {
-    background-color: red;
-}
 .geselecteerd {
     background-color: #dff0d8;
+}
+.onbeschikbaar {
+     -webkit-filter: blur(3px) grayscale(1);
+    mozFilter: blur(3px) grayscale(1);
+    webkitFilter: blur(3px) grayscale(1);
 }
 
 img {

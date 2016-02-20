@@ -1,0 +1,48 @@
+﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
+<h2>Confirmatie reservatie</h2>
+<section id="reservatie-confirmatie">
+    <div class="overzicht">
+        <div class="row">
+            <div class="col-md-5">
+                <h2 class="pull-right">Aantal</h2>
+            </div>
+            <div class="col-md-offset-1 col-md-3">
+                <h2>Naam</h2>
+            </div>
+        </div>
+        @foreach (var item in Model.Materialen)
+        {
+            <div class="row" id="@item.MateriaalId">
+                <div class="col-md-5">
+                    <h4 class="pull-right">
+                        @item.AantalGeselecteerd
+                    </h4>
+                </div>
+                <div class="col-md-offset-1 col-md-3">
+                    <h4>
+                        @item.Naam
+                    </h4>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row totaal">
+        <div class="col-md-4">
+            <h3 class="pull-right">Totaal</h3>
+        </div>
+        <div class="col-md-1">
+            <h3 class="pull-right">@Model.TotaalGeselecteerd</h3>
+        </div>
+        <div class="col-md-offset-1 col-md-5">
+            <h3>Reservatie voor @Model.GeselecteerdeWeek.ToString("d")</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="btn btn-green" id="btn-terug">Terug</div>
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-green pull-right" id="btn-reserveer">Reserveer</div>
+        </div>
+    </div>
+</section>
