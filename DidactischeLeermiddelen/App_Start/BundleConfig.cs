@@ -23,7 +23,9 @@ namespace DidactischeLeermiddelen
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/moment.min.js",
                       "~/Scripts/bootstrap-datepicker.min.js",
+                      "~/Scripts/locales/bootstrap-datepicker.nl.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

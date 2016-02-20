@@ -160,7 +160,9 @@
     mozFilter: blur(3px) grayscale(1);
     webkitFilter: blur(3px) grayscale(1);
 }
-
+.datepicker table tr:hover {
+    background-color: #eee;
+}
 img {
     width: 100px;
 }
