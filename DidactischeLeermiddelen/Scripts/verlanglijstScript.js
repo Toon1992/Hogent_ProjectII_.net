@@ -1,13 +1,33 @@
-﻿Date.prototype.getWeek = function() {
-    var onejan = new Date(this.getFullYear(),0,1);
-    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-}
+﻿//Date.prototype.getWeek = function () {
+//    var onejan = new Date(this.getFullYear(),0,1);
+//    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+//}
+//Date.prototype.addDays = function (days) {
+//    var dat = new Date(this.valueOf());
+//    dat.setDate(dat.getDate() + days);
+//    return dat;
+//}
+
 var viewModel = {
     materiaalList: [],
     aantalList: [],
+    daysOfWeek : [],
     session : window.sessionStorage,
     selectedWeek : null,
     init: function () {
+        //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
+        var weekend = viewModel.checkIsWeekend;
+        if (weekend) {
+            var dagen = viewModel.getDaysOfWeek();
+            viewModel.daysOfWeek = $.map(dagen, function(date) {
+                var dag = date.getDate();
+                var maand = date.getMonth() + 1;
+                var jaar = date.getFullYear();
+                var datum = dag + '/' + maand + '/' + jaar;
+                return datum;
+            });
+        }
+
         $("#verlanglijst-pagina .checkbox").change(function () {
             var amount = 0;
             //Selected row
@@ -28,15 +48,19 @@ var viewModel = {
             changeMonth: true,
             changeYear: true,
             startDate: '+1d',
+            daysOfWeekDisabled: [0,6],
             format: "dd-mm-yyyy",
             language: "nl",
             todayHighlight: true,
-            calenderWeeks : true
-        }).on('dp.change', function(e) {
-            var value = $(this).val();
-            var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
-            var lastDate = moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
-            $(this).val(firstDate + " - " + lastDate);
+            calenderWeeks: true,
+            beforeShowDay: function (date) {
+                var dag = date.getDate();
+                var maand = date.getMonth() + 1;
+                var jaar = date.getFullYear();
+                var datum = dag + '/' + maand + '/' + jaar;
+
+                if (viewModel.daysOfWeek.indexOf(datum) > -1) return false;
+            }
         }).on('changeDate', function (ev) {
             $(this).blur();
             $(this).datepicker('hide');
@@ -117,6 +141,22 @@ var viewModel = {
                 }
             });
         });
+    },
+    checkIsWeekend : function(week) {
+            //Als vandaag een weekdag is 
+            if (today.getDay <= 5 && today.getDay !== 0) {
+                return true;
+            }
+        return false;
+    },
+    getDaysOfWeek : function() {
+        var dagen = [];
+        dagen.push(Date.parse('next monday'));
+        dagen.push(Date.parse('next tuesday'));
+        dagen.push(Date.parse('next wednesday'));
+        dagen.push(Date.parse('next thursday'));
+        dagen.push(Date.parse('next friday'));
+        return dagen;
     }
 }
 $(document).ready(function() {

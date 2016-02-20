@@ -221,7 +221,7 @@ namespace DidactischeLeermiddelen.Controllers
                 weekNum -= 1;
             }
             var result = firstThursday.AddDays(weekNum * 7);
-            return result.AddDays(-10);
+            return result.AddDays(-3);
         }
     }
 }

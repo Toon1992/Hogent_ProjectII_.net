@@ -160,8 +160,15 @@
     mozFilter: blur(3px) grayscale(1);
     webkitFilter: blur(3px) grayscale(1);
 }
-.datepicker table tr:hover {
+.datepicker table tbody tr:hover {
     background-color: #eee;
+}
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover{
+    color: #d8d8d8;
+    cursor: not-allowed;
+}
+.datepicker table tr td, .datepicker table tr td:hover{
+    color: #38bc31;
 }
 img {
     width: 100px;
