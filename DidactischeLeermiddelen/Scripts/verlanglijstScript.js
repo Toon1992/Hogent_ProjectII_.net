@@ -27,8 +27,16 @@ var viewModel = {
         $(".datecontrol").datepicker({
             changeMonth: true,
             changeYear: true,
+            startDate: '+1d',
             format: "dd-mm-yyyy",
-            language: "tr"
+            language: "nl",
+            todayHighlight: true,
+            calenderWeeks : true
+        }).on('dp.change', function(e) {
+            var value = $(this).val();
+            var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
+            var lastDate = moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
+            $(this).val(firstDate + " - " + lastDate);
         }).on('changeDate', function (ev) {
             $(this).blur();
             $(this).datepicker('hide');

@@ -26,10 +26,10 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
 
                 //ReservatieData
-                ReservatieData reservatieData1 = new ReservatieData() {Aantal = 4, Week = 8};
-                ReservatieData reservatieData2 = new ReservatieData() { Aantal = 2, Week = 8 };
-                ReservatieData reservatieData3 = new ReservatieData() { Aantal = 6, Week = 9 };
-                ReservatieData reservatieData4 = new ReservatieData() { Aantal = 13, Week = 9 };
+                ReservatieData reservatieData1 = new ReservatieData() {Aantal = 4, Week = 9};
+                ReservatieData reservatieData2 = new ReservatieData() { Aantal = 2, Week = 9 };
+                ReservatieData reservatieData3 = new ReservatieData() { Aantal = 6, Week = 10 };
+                ReservatieData reservatieData4 = new ReservatieData() { Aantal = 13, Week = 10 };
 
                 //Materialen
                 Materiaal wereldbol = new Materiaal { AantalInCatalogus = 4, ArtikelNr = 42324, MateriaalId = 1, Firma = "Nova Rico", Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, ReservatieData = new List<ReservatieData> { reservatieData1}};
