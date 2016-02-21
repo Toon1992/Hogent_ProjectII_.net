@@ -16,6 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string Omschrijving { get; set; }
 
         public int AantalInCatalogus { get; set; }
+
         public int ArtikelNr { get; set; }
         public int MateriaalId { get; set; }
 
@@ -26,7 +27,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public virtual List<Doelgroep> Doelgroepen { get; set; }
         public virtual List<Leergebied> Leergebieden { get; set; }
-        public virtual List<ReservatieData> ReservatieData { get; set; }  
+        public virtual List<Stuk> Stuks { get; set; }
 
         public Status Status { get; set; }
         #endregion

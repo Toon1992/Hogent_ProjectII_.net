@@ -8,18 +8,19 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAACAUAAAAAAAAAAAABAAAAIAAIAAAAAAAaACAARA=</HashCode>
+      <HashCode>AAAAAKAUAAAAAAAAAAAABAAAAIAAIAAAAAAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Doelgroepen" />
       <Property Name="Leergebieden" />
+      <Property Name="Stuks" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Doelgroep">
     <Position X="0.5" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAACEAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Doelgroep.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -29,7 +30,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Leergebied">
     <Position X="0.5" Y="2.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Models\Domain\Leergebied.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -41,7 +42,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAAAAIAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAIAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -68,14 +69,6 @@
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
     <Position X="2" Y="5" Width="1.5" />
-    <AssociationLine Name="Materialen" Type="DidactischeLeermiddelen.Models.Domain.Materiaal" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.281" Y="5" />
-        <Point X="3.281" Y="4.276" />
-        <Point X="4.5" Y="4.276" />
-        <Point X="4.5" Y="3.901" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAKAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Verlanglijst.cs</FileName>
@@ -83,6 +76,23 @@
     <ShowAsCollectionAssociation>
       <Property Name="Materialen" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Stuk">
+    <Position X="4.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Stuk.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="StatusData" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StatusData">
+    <Position X="4.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Models\Domain\StatusData.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="DidactischeLeermiddelen.Models.Domain.Status">
     <Position X="9.75" Y="3.25" Width="1.5" />
