@@ -74,8 +74,8 @@ namespace DidactischeLeermiddelen.Controllers
                             : materiaalDoelgroep;
                     }
                 }
-            }
-            materialen = gebruiker.GetType() == typeof(Lector) ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
+            }   
+            materialen = gebruiker is Lector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
             MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 
             if (Request.IsAjaxRequest())

@@ -99,17 +99,26 @@ var viewModel = {
             });
         });
         $("#btn-confirmeer").click(function () {
+            var invalid;
             if (viewModel.selectedWeek !== null) {
                 viewModel.materiaalList = [];
                 viewModel.aantalList = [];
                 $('input:checkbox:checked').map(function () {
                     var materiaalId = $(this).parent().find("input")[0].id;
                     var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                    if (parseInt(aantal) === 0) {
+                        $(".foutmelding").text("Kies minstens 1 stuk van het geselecteerde materiaal!");
+                        invalid = true;
+                        return false;
+                    }
                     if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
                         viewModel.materiaalList.push(parseInt(materiaalId));
                         viewModel.aantalList.push(parseInt(aantal));
                     }                 
                 });
+                if (invalid) {
+                    return false;
+                }
                 var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
                 viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
                 viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
@@ -124,8 +133,9 @@ var viewModel = {
                         viewModel.init();
                     }
                 });
+            } else {
+                $(".foutmelding").text("Selecteer een week!");
             }
-            
         });
         $("#btn-reserveer").click(function() {
             var materialen = JSON.parse(viewModel.session.getItem("materialen"));

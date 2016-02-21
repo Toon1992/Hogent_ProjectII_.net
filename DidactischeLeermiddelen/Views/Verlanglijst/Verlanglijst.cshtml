@@ -1,5 +1,6 @@
 ﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 <h2>Uw verlanglijst</h2>
+<h4 class="foutmelding"></h4>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 @foreach (var item in Model.Materialen)
 {

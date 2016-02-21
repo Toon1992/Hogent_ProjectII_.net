@@ -179,7 +179,9 @@
 img {
     width: 100px;
 }
-
+.foutmelding {
+    color: #b94a48;
+}
 .zoekfunctieTop {
     margin-top: 0.5em;
     margin-bottom: 0.5em;

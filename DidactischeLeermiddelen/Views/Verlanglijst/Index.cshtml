@@ -6,6 +6,7 @@
 
 <section id="verlanglijst-pagina">
     <h2>Uw verlanglijst</h2>
+    <h4 class="foutmelding"></h4>
     @foreach (var item in Model.Materialen)
     {
         <div class="row materiaal" id="@item.MateriaalId">
@@ -67,7 +68,7 @@
         </div>
     </div>
     <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-5 col-xs-12 text-center">
-        <div class="btn btn-success" id="btn-reserveer">Verder naar reserveren &raquo;</div>
+        <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
     </div>
 </section>
     
