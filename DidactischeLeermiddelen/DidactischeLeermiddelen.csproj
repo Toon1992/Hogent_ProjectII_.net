@@ -201,7 +201,6 @@
     <Compile Include="Models\DAL\Mapper\DoelgroepMapper.cs" />
     <Compile Include="Models\DAL\Mapper\GebruikerMapper.cs" />
     <Compile Include="Models\DAL\Mapper\LeergebiedMapper.cs" />
-    <Compile Include="Models\DAL\Mapper\ReservatieDataMapper.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieMapper.cs" />
     <Compile Include="Models\DAL\Mapper\StatusDataMapper.cs" />
     <Compile Include="Models\DAL\Mapper\StukMapper.cs" />
@@ -222,7 +221,6 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
-    <Compile Include="Models\Domain\ReservatieData.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />

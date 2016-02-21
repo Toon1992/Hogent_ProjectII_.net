@@ -17,9 +17,20 @@ var viewModel = {
     init: function () {
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = viewModel.checkIsWeekend;
-        if (weekend) {
-            var dagen = viewModel.getDaysOfWeek();
+        var vrijdagNaVijf = viewModel.vrijdagNaVijf;
+        var dagen;
+        if (weekend || vrijdagNaVijf) {
+            dagen = viewModel.getDaysOfNextWeek();
             viewModel.daysOfWeek = $.map(dagen, function(date) {
+                var dag = date.getDate();
+                var maand = date.getMonth() + 1;
+                var jaar = date.getFullYear();
+                var datum = dag + '/' + maand + '/' + jaar;
+                return datum;
+            });
+        } else {
+            dagen = viewModel.getDaysOfWeek();
+            viewModel.daysOfWeek = $.map(dagen, function (date) {
                 var dag = date.getDate();
                 var maand = date.getMonth() + 1;
                 var jaar = date.getFullYear();
@@ -146,20 +157,35 @@ var viewModel = {
             });
         });
     },
-    checkIsWeekend : function(week) {
+    checkIsWeekend : function() {
             //Als vandaag een weekdag is 
             if (today.getDay <= 5 && today.getDay !== 0) {
                 return true;
             }
         return false;
     },
-    getDaysOfWeek : function() {
+    vrijdagNaVijf : function() {
+        if (today.getDay === 5 && today.getHours >= 17) {
+            return true;
+        }
+        return false;
+    },
+    getDaysOfNextWeek:function() {
         var dagen = [];
         dagen.push(Date.parse('next monday'));
         dagen.push(Date.parse('next tuesday'));
         dagen.push(Date.parse('next wednesday'));
         dagen.push(Date.parse('next thursday'));
         dagen.push(Date.parse('next friday'));
+        return dagen;
+    },
+    getDaysOfWeek : function() {
+        var dagen = [];
+        dagen.push(Date.parse('monday'));
+        dagen.push(Date.parse('tuesday'));
+        dagen.push(Date.parse('wednesday'));
+        dagen.push(Date.parse('thursday'));
+        dagen.push(Date.parse('friday'));
         return dagen;
     }
 }
