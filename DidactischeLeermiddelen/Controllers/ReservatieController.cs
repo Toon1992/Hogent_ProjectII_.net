@@ -16,13 +16,17 @@ namespace DidactischeLeermiddelen.Controllers
         {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeReservatielijst");
+
             IEnumerable<Reservatie> reservatielijst = gebruiker.Reservaties;
-            IList<Materiaal> materriaallijst = new List<Materiaal>();
-            foreach (Materiaal m in reservatielijst.SelectMany(r => r.Materialen))
+            IList<Materiaal> materiaallijst = new List<Materiaal>();
+
+            foreach (Materiaal m in reservatielijst.Select(r => r.Materiaal))
             {
-                materriaallijst.Add(m);
+                materiaallijst.Add(m);
             }
-            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materriaallijst, gebruiker) as ReservatieMaterialenViewModel;
+
+            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materiaallijst, gebruiker) as ReservatieMaterialenViewModel;
+
             return View(vm);
         }
     }

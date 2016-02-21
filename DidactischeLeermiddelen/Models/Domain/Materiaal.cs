@@ -24,9 +24,9 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string Firma { get; set; }
         public bool IsReserveerBaar { get; set; }
 
-        public virtual List<Doelgroep> Doelgroepen { get; set; }
-        public virtual List<Leergebied> Leergebieden { get; set; }
-        public virtual List<ReservatieData> ReservatieData { get; set; }  
+        public virtual IList<Doelgroep> Doelgroepen { get; set; }
+        public virtual IList<Leergebied> Leergebieden { get; set; }
+        public virtual IList<ReservatieData> ReservatieData { get; set; }  
 
         public Status Status { get; set; }
         #endregion
