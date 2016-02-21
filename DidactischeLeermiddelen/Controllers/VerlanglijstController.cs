@@ -45,17 +45,17 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruiker.VerwijderMateriaalUitVerlanglijst(materiaal);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd verwijderd uit uw verlanglijst";
-                    MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
-                    m.Subject = "Bevestiging reservatie";
-                    m.Body = string.Format("Dear {0} <br/>" +
-                                           "Bedankt voor je bestelling van volgende materialen" + "<p>{1}</p>"
-                                           , gebruiker.Email,materiaal.Naam);
-                    m.IsBodyHtml = true;
+                    //MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
+                    //m.Subject = "Bevestiging reservatie";
+                    //m.Body = string.Format("Dear {0} <br/>" +
+                    //                       "Bedankt voor je bestelling van volgende materialen" + "<p>{1}</p>"
+                    //                       , gebruiker.Email,materiaal.Naam);
+                    //m.IsBodyHtml = true;
 
-                    SmtpClient smtp = new SmtpClient("smtp.gmail.com",587);
-                    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    smtp.EnableSsl = true;
-                    smtp.Send(m);
+                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com",587);
+                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+                    //smtp.EnableSsl = true;
+                    //smtp.Send(m);
 
                 }
                 catch (ArgumentException ex)
