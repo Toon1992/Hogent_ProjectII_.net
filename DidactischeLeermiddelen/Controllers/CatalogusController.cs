@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Controllers
             
         }
 
-        public ActionResult Index(IGebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
+        public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
             List<Materiaal> materialen = new List<Materiaal>();
             List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
@@ -86,7 +86,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public ActionResult VoegAanVerlanglijstToe(int id, IGebruiker gebruiker)
+        public ActionResult VoegAanVerlanglijstToe(int id, Gebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
 

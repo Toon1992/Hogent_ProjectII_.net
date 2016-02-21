@@ -1,25 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using System.Web.Services;
+using System.Web.Services.Protocols;
+using System.ComponentModel;
+using System.Web.UI.WebControls;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public class Lector:Gebruiker
+    public class Gebruiker
     {
-        public override Verlanglijst Verlanglijst { get; set; }
-        public override IList<Reservatie> Reservaties { get; set; }
-        public override void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
+        #region fields
+        public string Naam { get; set; }
+
+        public bool IsLector { get; set; }
+
+        public string Email { get; set; }
+
+        public virtual List<Reservatie> Reservaties { get; set; }
+
+        public virtual Verlanglijst Verlanglijst { get; set; }
+        #endregion
+
+        #region Methodes
+
+        public Gebruiker()
         {
-            if (materiaal == null)
+        }
+
+        public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
+        {
+            if(materiaal == null)
                 throw new ArgumentNullException("Materiaal mag niet null zijn als die wordt toevoegd aan de verlanglijst!");
 
             //aan de Velanglijst materiaal Toevoegen      
             Verlanglijst.VoegMateriaalToe(materiaal);
-
+            
         }
 
-        public override void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
+        public void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("Materiaal mag niet null zijn als die wordt verwijdert van de verlanglijst!");
@@ -28,12 +47,13 @@ namespace DidactischeLeermiddelen.Models.Domain
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 
-
-        public override void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
+        
+        public void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
         {
             Reservatie reservatie = new Reservatie();
             reservatie.MaakReservatie(materiaal, startDatum);
             Reservaties.Add(reservatie);
         }
+        #endregion
     }
 }

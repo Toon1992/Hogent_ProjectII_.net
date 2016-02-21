@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Controllers
     public class ReservatieController : Controller
     {
         // GET: Reservatie
-        public ActionResult Index(IGebruiker gebruiker)
+        public ActionResult Index(Gebruiker gebruiker)
         {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeReservatielijst");

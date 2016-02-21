@@ -14,7 +14,7 @@ namespace DidactischeLeermiddelen.Infrastructure
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
-                IGebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
+                Gebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
                 if (gebruiker == null)
                 {
                     if (controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent"))

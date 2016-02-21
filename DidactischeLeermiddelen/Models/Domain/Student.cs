@@ -5,14 +5,12 @@ using System.Web;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public class Student : IGebruiker
+    public class Student : Gebruiker
     {
-        public string Email { get; set; }
-        public string Naam { get; set; }
-        public Verlanglijst Verlanglijst { get; set; }
-        public IList<Reservatie> Reservaties { get; set; }
+        public override Verlanglijst Verlanglijst { get; set; }
+        public override IList<Reservatie> Reservaties { get; set; }
 
-        public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
+        public override void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException(
@@ -23,7 +21,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
+        public override void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException(
@@ -34,7 +32,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
 
-        public void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
+        public override void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
         {
             Reservatie reservatie = new Reservatie();
             reservatie.MaakReservatie(materiaal, startDatum);

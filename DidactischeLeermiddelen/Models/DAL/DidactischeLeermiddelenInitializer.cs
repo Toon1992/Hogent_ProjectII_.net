@@ -6,7 +6,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
@@ -24,12 +24,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
                 Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
-
-                //ReservatieData
-                ReservatieData reservatieData1 = new ReservatieData() {Aantal = 4, Week = 9};
-                ReservatieData reservatieData2 = new ReservatieData() { Aantal = 2, Week = 9 };
-                ReservatieData reservatieData3 = new ReservatieData() { Aantal = 6, Week = 10 };
-                ReservatieData reservatieData4 = new ReservatieData() { Aantal = 13, Week = 10 };
+              
 
                 //StatusData
                 //Altijd beschikbaar

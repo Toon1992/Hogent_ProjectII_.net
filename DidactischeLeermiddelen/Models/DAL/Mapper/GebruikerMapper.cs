@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL.Mapper
 {
-    public class GebruikerMapper:EntityTypeConfiguration<IGebruiker>
+    public class GebruikerMapper:EntityTypeConfiguration<Gebruiker>
     {
         public GebruikerMapper()    
         {

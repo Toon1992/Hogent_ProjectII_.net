@@ -7,8 +7,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public interface IGebruikerRepository
     {
-        IGebruiker FindByName(string email);
+        Gebruiker FindByName(string email);
         void SaveChanges();
-        void AddGebruiker(IGebruiker gebruiker);
+        void AddGebruiker(Gebruiker gebruiker);
     }
 }

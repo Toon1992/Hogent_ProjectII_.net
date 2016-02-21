@@ -10,7 +10,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class ViewModelFactory
     {
-        public static IViewModel CreateViewModel(String type, SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null, IGebruiker gebruiker = null)
+        public static IViewModel CreateViewModel(String type, SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null, Gebruiker gebruiker = null)
         {
             switch (type)
             {
