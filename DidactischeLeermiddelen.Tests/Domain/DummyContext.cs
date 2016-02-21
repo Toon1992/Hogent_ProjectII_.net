@@ -9,12 +9,12 @@ namespace DidactischeLeermiddelen.Tests.Domain
 {
     public class DummyContext
     {
-        private IList<Gebruiker> gebruikers;
+        private IList<IGebruiker> gebruikers;
         private IList<Materiaal> materialen;
         private IList<Doelgroep> doelgroepen;
         private IList<Leergebied> leergebieden;
 
-        public Gebruiker Toon { get; set; }
+        public IGebruiker Toon { get; set; }
         public Materiaal Bol { get; set; }
         public IQueryable<Materiaal> Materialen { get { return materialen.AsQueryable(); } }
 
@@ -25,18 +25,17 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
         public DummyContext()
         {
-            gebruikers = new List<Gebruiker>();
+            gebruikers = new List<IGebruiker>();
             materialen = new List<Materiaal>();
             doelgroepen = new List<Doelgroep>();
             leergebieden = new List<Leergebied>();
 
-            Toon = new Gebruiker()
+            Toon = new Student()
             {
                 Email = "student@student.hogent.be",
                 //GebruikersId = "1000000",
                 Naam = "Toon",
                 Verlanglijst = new Verlanglijst(),
-                IsLector = false,
                 Reservaties = new List<Reservatie>()
 
             };

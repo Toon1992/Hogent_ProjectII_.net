@@ -10,7 +10,7 @@ namespace DidactischeLeermiddelen.Models.DAL
     public class GebruikerRepository:IGebruikerRepository
     {
         private DidactischeLeermiddelenContext context;
-        private DbSet<Gebruiker> gebruikers;
+        private DbSet<IGebruiker> gebruikers;
 
         public GebruikerRepository(DidactischeLeermiddelenContext context)
         {
@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Models.DAL
             this.gebruikers = context.Gebruikers;
            
         } 
-        public Gebruiker FindByName(string email)
+        public IGebruiker FindByName(string email)
         {
             return gebruikers.FirstOrDefault(g => g.Email.Equals(email));
         }
@@ -37,7 +37,7 @@ namespace DidactischeLeermiddelen.Models.DAL
             
         }
 
-        public void AddGebruiker(Gebruiker gebruiker)
+        public void AddGebruiker(IGebruiker gebruiker)
         {
             gebruikers.Add(gebruiker);
         }

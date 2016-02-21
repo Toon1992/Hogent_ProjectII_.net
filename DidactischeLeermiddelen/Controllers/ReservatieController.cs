@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Controllers
     public class ReservatieController : Controller
     {
         // GET: Reservatie
-        public ActionResult Index(Gebruiker gebruiker)
+        public ActionResult Index(IGebruiker gebruiker)
         {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeReservatielijst");
@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.Controllers
                 materiaallijst.Add(m);
             }
 
-            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materiaallijst, gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materiaallijst,gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }

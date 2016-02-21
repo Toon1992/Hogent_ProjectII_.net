@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Controllers
             
         }
 
-        public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
+        public ActionResult Index(IGebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
             List<Materiaal> materialen = new List<Materiaal>();
             List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
@@ -75,7 +75,7 @@ namespace DidactischeLeermiddelen.Controllers
                     }
                 }
             }
-            materialen = gebruiker.IsLector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
+            materialen = gebruiker.GetType() == typeof(Lector) ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
             MaterialenViewModel vm = ViewModelFactory.CreateViewModel("MaterialenViewModel", GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 
             if (Request.IsAjaxRequest())
@@ -86,7 +86,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public ActionResult VoegAanVerlanglijstToe(int id, Gebruiker gebruiker)
+        public ActionResult VoegAanVerlanglijstToe(int id, IGebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
 

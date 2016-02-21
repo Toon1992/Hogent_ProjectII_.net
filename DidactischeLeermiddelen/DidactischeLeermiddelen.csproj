@@ -194,6 +194,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservatieController.cs" />
     <Compile Include="Controllers\VerlanglijstController.cs" />
+    <Compile Include="Models\Domain\IGebruiker.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />
     <Compile Include="Models\DAL\GebruikerRepository.cs" />
     <Compile Include="Models\DAL\LeergebiedRepository.cs" />
@@ -206,7 +207,6 @@
     <Compile Include="Models\DAL\Mapper\StukMapper.cs" />
     <Compile Include="Models\DAL\Mapper\VerlanglijstMapper.cs" />
     <Compile Include="Models\Domain\Doelgroep.cs" />
-    <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +214,7 @@
     <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
     <Compile Include="Models\Domain\IGebruikerRepository.cs" />
     <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
+    <Compile Include="Models\Domain\Lector.cs" />
     <Compile Include="Models\Domain\Leergebied.cs" />
     <Compile Include="Models\Domain\Materiaal.cs" />
     <Compile Include="Models\DAL\DidactischeLeermiddelenContext.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
     <Compile Include="Models\Domain\ReservatieData.cs" />
+    <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />

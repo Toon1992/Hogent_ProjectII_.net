@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.Controllers
             this.gebruikerRepository = gebruikerRepository;
         }
         // GET: Verlanglijst
-        public ActionResult Index(Gebruiker gebruiker)
+        public ActionResult Index(IGebruiker gebruiker)
         {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
@@ -35,7 +35,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public ActionResult VerwijderUitVerlanglijst(int id, Gebruiker gebruiker)
+        public ActionResult VerwijderUitVerlanglijst(int id, IGebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
             if (materiaal != null)
@@ -80,7 +80,7 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week, bool knop)
+        public ActionResult Controle(IGebruiker gebruiker, int[] materiaal, int[] aantal, int week, bool knop)
         {
             //Variabelen
             VerlanglijstMaterialenViewModel vm;
@@ -138,7 +138,7 @@ namespace DidactischeLeermiddelen.Controllers
             };
             return PartialView("Verlanglijst", vm);
         }
-        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        private bool ControleSelecteerdMateriaal(IGebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
             //Variabelen
             List<Materiaal> materialen = new List<Materiaal>();
@@ -188,7 +188,7 @@ namespace DidactischeLeermiddelen.Controllers
             return false;
         }
         [HttpPost]
-        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        public void MaakReservatie(IGebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
             List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
             if (materialen != null)

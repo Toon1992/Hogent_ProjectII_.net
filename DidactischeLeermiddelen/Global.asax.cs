@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ModelBinders.Binders.Add(typeof(Gebruiker), new GebruikerModelBinder());
+            ModelBinders.Binders.Add(typeof(IGebruiker), new GebruikerModelBinder());
         }
     }
 }

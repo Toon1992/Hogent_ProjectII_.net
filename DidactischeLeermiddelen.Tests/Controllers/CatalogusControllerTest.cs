@@ -22,7 +22,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         private Mock<IDoelgroepRepository> mockDoelgroepRepository;
         private Mock<ILeergebiedRepository> mockLeergebiedRepository;
         private Mock<IGebruikerRepository> mockGebruikerRepository;
-        private Gebruiker gebruiker;
+        private IGebruiker gebruiker;
         private Materiaal m;
         [TestInitialize]
         public void OpzettenContext()
