@@ -126,7 +126,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Beschikbaar = true,
                     Firma = m.Firma,
                     Foto = m.Foto,
-                    AantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 0,
+                    AantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 1,
                     Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                     Leergebieden = m.Leergebieden as List<Leergebied>,
                     AantalInCatalogus = m.AantalInCatalogus,

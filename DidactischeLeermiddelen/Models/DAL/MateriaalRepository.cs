@@ -20,7 +20,11 @@ namespace DidactischeLeermiddelen.Models.DAL
         }
         public IQueryable<Materiaal> FindAll()
         {
-            return materialen.Include(m => m.Leergebieden).Include(m => m.Doelgroepen).Include(m => m.Stuks).OrderBy(m => m.Naam);
+            return materialen
+                .Include(m => m.Leergebieden)
+                .Include(m => m.Doelgroepen)
+                .Include(m => m.Stuks)
+                .OrderBy(m => m.Naam);
         }
 
         public Materiaal FindById(int id)
@@ -31,13 +35,24 @@ namespace DidactischeLeermiddelen.Models.DAL
         public IList<Materiaal> FindByTrefWoord(string trefwoord)
         {
             //Lijsten opvullen met resultaten
-            List<Materiaal> naamMaterialen = materialen.Where(m => m.Naam.Contains(trefwoord)).ToList();
-            List<Materiaal> trefwoordMaterialen = materialen.Where(m =>m.Omschrijving.Contains(trefwoord)).ToList();
+            ICollection<Materiaal> resultMaterialen =
+                materialen
+                .Where(m => m.Naam.Contains(trefwoord))
+                .Include(m => m.Leergebieden)
+                .Include(m => m.Doelgroepen)
+                .Include(m => m.Stuks)
+                .ToList();
+            IEnumerable<Materiaal> trefwoordMaterialen = 
+                materialen
+                .Where(m =>m.Omschrijving.Contains(trefwoord))
+                .Include(m => m.Leergebieden)
+                .Include(m => m.Doelgroepen)
+                .Include(m => m.Stuks)
+                .ToList();
 
             //Lijsten samen brengen
-            List<Materiaal> resultMaterialen = naamMaterialen;
             foreach (var materiaal in trefwoordMaterialen)
-        {
+            {
                 //Als de materiaal nog niet in de resultaten zit mag dit toegvoegd worden
                 if(!resultMaterialen.Contains(materiaal))
                     resultMaterialen.Add(materiaal);
@@ -48,12 +63,21 @@ namespace DidactischeLeermiddelen.Models.DAL
 
         public IQueryable<Materiaal> FindByDoelgroep(int doelgroepId)
         {
-            return materialen.Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId))).OrderBy(m => m.Naam);
+            return materialen
+                .Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId)))
+                .Include(m => m.Leergebieden).Include(m => m.Doelgroepen)
+                .Include(m => m.Stuks)
+                .OrderBy(m => m.Naam);
         }
 
         public IQueryable<Materiaal> FindByLeergebied(int leergebiedId)
         {
-            return materialen.Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId))).OrderBy(m => m.Naam);
+            return materialen
+                .Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId)))
+                .Include(m => m.Leergebieden)
+                .Include(m => m.Doelgroepen)
+                .Include(m => m.Stuks)
+                .OrderBy(m => m.Naam);
         }
 
         public void SaveChanges()
