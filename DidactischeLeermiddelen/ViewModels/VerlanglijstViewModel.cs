@@ -32,7 +32,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Omschrijving = materiaal.Omschrijving;
             Status = materiaal.Status;
             Firma = materiaal.Firma;
-            Leergebieden = materiaal.Leergebieden;
+            Leergebieden = materiaal.Leergebieden as List<Leergebied>;
             AantalInCatalogus = materiaal.AantalInCatalogus;
             AantalBeschikbaar = materiaal.AantalInCatalogus;
             Beschikbaar = true;

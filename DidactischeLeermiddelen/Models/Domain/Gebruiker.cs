@@ -48,9 +48,10 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
         
-        public void VoegReservatieToe(List<Materiaal> materialen, DateTime startDatum)
+        public void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
         {
-            Reservatie reservatie = new Reservatie(materialen, startDatum);
+            Reservatie reservatie = new Reservatie();
+            reservatie.MaakReservatie(materiaal, startDatum);
             Reservaties.Add(reservatie);
         }
         #endregion

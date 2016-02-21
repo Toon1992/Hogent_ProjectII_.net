@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            var i = 0;
+           // var i = 0;
         }
 
         public static ApplicationDbContext Create()
