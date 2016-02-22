@@ -34,8 +34,7 @@ namespace DidactischeLeermiddelen.Controllers
                 return View("LegeVerlanglijst");
 
             VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null,null,null,gebruiker) as VerlanglijstMaterialenViewModel;
-            vm.GeselecteerdeWeek = FirstDateOfWeekISO8601(DateTime.Now.Year, (GetIso8601WeekOfYear(DateTime.Now)+1)%53).ToString("d",dtfi);
-            
+            vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now)+1)%53).ToString("d",dtfi);
             return View(vm);
         }
 
@@ -126,7 +125,7 @@ namespace DidactischeLeermiddelen.Controllers
                         AantalGeselecteerd = materiaalAantal[m.MateriaalId],
                         Naam = m.Naam,                  
                     }),
-                    GeselecteerdeWeek = FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d",dtfi),
+                    GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d",dtfi),
                     TotaalGeselecteerd = totaalGeselecteerd
                 };
                 return PartialView("Confirmatie", vm);
@@ -146,12 +145,12 @@ namespace DidactischeLeermiddelen.Controllers
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ? 
-                                    string.Format("Niet meer beschikbaar van {0} tot {1}",FirstDateOfWeekISO8601(2016, week).ToString("d"),FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")) :
+                                    string.Format("Niet meer beschikbaar van {0} tot {1}",HulpMethode.FirstDateOfWeekISO8601(2016, week).ToString("d"),HulpMethode.FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")) :
                                     aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar ): "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),
-                GeselecteerdeWeek = FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d",dtfi),
+                GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d",dtfi),
             };
             return PartialView("Verlanglijst", vm);
         }
@@ -200,64 +199,6 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return false;
         }
-
-
-                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    //smtp.EnableSsl = true;
-                    //smtp.Send(m);
-
-                }
-                catch (ArgumentException ex)
-                {
-                    TempData["Error"] = ex.Message;
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation(
-                                  "Class: {0}, Property: {1}, Error: {2}",
-                                  validationErrors.Entry.Entity.GetType().FullName,
-                                  validationError.PropertyName,
-                                  validationError.ErrorMessage);
-                        }
-                    }
-                }
-            }
-        }
-        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
-
-            DateTime firstThursday = jan1.AddDays(daysOffset);
-            var cal = CultureInfo.CurrentCulture.Calendar;
-            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            var weekNum = weekOfYear;
-            if (firstWeek <= 1)
-            {
-                weekNum -= 1;
-            }
-            var result = firstThursday.AddDays(weekNum * 7);
-            return result.AddDays(-3);
-        }
-        private int GetIso8601WeekOfYear(DateTime time)
-        {
-            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
-            // be the same week# as whatever Thursday, Friday or Saturday are,
-            // and we always get those right
-            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
-            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
-            {
-                time = time.AddDays(3);
-            }
-
-            // Return the week of our adjusted day
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        }
+       
     }
 }
