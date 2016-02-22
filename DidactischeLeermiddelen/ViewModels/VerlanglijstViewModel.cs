@@ -23,6 +23,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public int AantalGeselecteerd { get; set; }
         public bool Beschikbaar { get; set; }
         public bool Geselecteerd { get; set; }      
+        public string Beschikbaarheid { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
@@ -44,7 +45,7 @@ namespace DidactischeLeermiddelen.ViewModels
     {
         public IEnumerable<VerlanglijstViewModel> Materialen { get; set; }
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
-        public DateTime GeselecteerdeWeek { get; set; }
+        public string GeselecteerdeWeek { get; set; }
         public int TotaalGeselecteerd { get; set; }
     }
 }

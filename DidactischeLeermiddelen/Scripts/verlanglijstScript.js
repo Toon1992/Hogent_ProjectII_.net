@@ -16,8 +16,8 @@ var viewModel = {
     selectedWeek : null,
     init: function () {
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
-        var weekend = viewModel.checkIsWeekend;
-        var vrijdagNaVijf = viewModel.vrijdagNaVijf;
+        var weekend = IsWeekend();
+        var vrijdagNaVijf = VrijdagNaVijf();
         var dagen;
         if (weekend || vrijdagNaVijf) {
             dagen = viewModel.getDaysOfNextWeek();
@@ -40,7 +40,7 @@ var viewModel = {
         }
 
         $("#verlanglijst-pagina .checkbox").change(function () {
-            var amount = 0;
+            
             //Selected row
             var materiaalId = $(this).find("input")[0].id;
             var materiaalRij = $("#" + materiaalId);
@@ -51,14 +51,18 @@ var viewModel = {
                 // dehighligt selected row
                 materiaalRij.css('background', 'transparent');
             }
-            $('input:checkbox:checked').map(function () {
-                amount++;
-            });
+ 
+            //Wanneer een van de twee checkboxen aangeklikt wordt, krijgt de tweede dezelfde waarde als de eerste
+            var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
+            var selectedBox = $(this).find("input")[0].checked;
+            box[0].checked = selectedBox;
+            box[1].checked = selectedBox;
         });
         $(".datecontrol").datepicker({
             changeMonth: true,
             changeYear: true,
             startDate: '+1d',
+            defaultDate: "11/3/2016",
             daysOfWeekDisabled: [0,6],
             format: "dd-mm-yyyy",
             language: "nl",
@@ -100,26 +104,35 @@ var viewModel = {
         });
         $("#btn-confirmeer").click(function () {
             var invalid;
+            var date = $("input[name='date']")[0].value;
+            var selectedWeek = parseInt(Date.parse($("input[name='date']")[0].value).getWeek());
+            viewModel.selectedWeek = selectedWeek;
             if (viewModel.selectedWeek !== null) {
+                if ($('input:checkbox:checked').length === 0) {
+                    $(".foutmelding").text("Selecteer minstens 1 materiaal!");
+                    return false;
+                }
                 viewModel.materiaalList = [];
                 viewModel.aantalList = [];
-                $('input:checkbox:checked').map(function () {
+                $('input:checkbox:checked').each(function () {
                     var materiaalId = $(this).parent().find("input")[0].id;
-                    var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
-                    if (parseInt(aantal) === 0) {
-                        $(".foutmelding").text("Kies minstens 1 stuk van het geselecteerde materiaal!");
-                        invalid = true;
-                        return false;
-                    }
+                    //Indien het materiaal reeds in de lijst voorkomt.
                     if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
                         viewModel.materiaalList.push(parseInt(materiaalId));
+                        var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                        if (parseInt(aantal) === 0) {
+                            $(".foutmelding").text("Kies minstens 1 stuk van het geselecteerde materiaal!");
+                            invalid = true;
+                            return false;
+                        }
                         viewModel.aantalList.push(parseInt(aantal));
-                    }                 
+                    }
+                    
+                                   
                 });
                 if (invalid) {
                     return false;
                 }
-                var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
                 viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
                 viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
                 viewModel.session.setItem("week", selectedWeek);
@@ -131,7 +144,7 @@ var viewModel = {
                     success: function (data) {
                         $("#verlanglijst-pagina").html(data);
                         viewModel.init();
-                    }
+                    },
                 });
             } else {
                 $(".foutmelding").text("Selecteer een week!");
@@ -167,18 +180,8 @@ var viewModel = {
             });
         });
     },
-    checkIsWeekend : function() {
-            //Als vandaag een weekdag is 
-            if (today.getDay <= 5 && today.getDay !== 0) {
-                return true;
-            }
-        return false;
-    },
-    vrijdagNaVijf : function() {
-        if (today.getDay === 5 && today.getHours >= 17) {
-            return true;
-        }
-        return false;
+    getDefaultDate : function() {
+        return Date.parse('next monday');
     },
     getDaysOfNextWeek:function() {
         var dagen = [];
@@ -198,6 +201,12 @@ var viewModel = {
         dagen.push(Date.parse('friday'));
         return dagen;
     }
+}
+function IsWeekend() {
+    return Date.today().getDay <= 5 && Date.today().getDay !== 0;
+}
+function VrijdagNaVijf() {
+    return Date.today().getDay === 5 && Date.today().getHours >= 17;
 }
 $(document).ready(function() {
     viewModel.init();
