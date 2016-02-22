@@ -37,6 +37,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                         Week = i
                     });
                 }
+
                 //Beschikbaar van week 12
                 List<StatusData> statusData2 = new List<StatusData>();
                 for (int i = 1; i < 53; i++)
@@ -57,6 +58,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                         Week = i
                     });
                 }
+
                 //Nooit beschikbaar
                 List<StatusData> statusData4 = new List<StatusData>();
                 for (int i = 1; i < 53; i++)
@@ -97,6 +99,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                         StatusData = statusData4
                     });
                 }
+
                 List<Stuk> pincetStuks = new List<Stuk>();
                 for (int i = 1; i < 3; i++)
                 {

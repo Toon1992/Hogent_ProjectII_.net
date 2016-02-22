@@ -11,7 +11,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     public class Stuk
     {
         public int StukId { get; set; }
-
         public virtual List<StatusData> StatusData { get; set; }
     }
 }
