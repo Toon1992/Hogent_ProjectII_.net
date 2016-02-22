@@ -25,6 +25,7 @@ namespace DidactischeLeermiddelen.Controllers
             this.materiaalRepository = materiaalRepository;
             this.gebruikerRepository = gebruikerRepository;
         }
+
         // GET: Verlanglijst
         public ActionResult Index(Gebruiker gebruiker)
         {
@@ -121,7 +122,7 @@ namespace DidactischeLeermiddelen.Controllers
                         AantalGeselecteerd = materiaalAantal[m.MateriaalId],
                         Naam = m.Naam,
                     }),
-                    GeselecteerdeWeek = FirstDateOfWeekISO8601(2016, week),
+                    GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(2016, week),
                     TotaalGeselecteerd = totaalGeselecteerd
                 };
                 return PartialView("Confirmatie", vm);
@@ -142,7 +143,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),
-                GeselecteerdeWeek = FirstDateOfWeekISO8601(2016, week),
+                GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(2016, week),
             };
             return PartialView("Verlanglijst", vm);
         }
@@ -170,15 +171,15 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     //Kijken of er voor de opgegeven week al reservatiedata beschikbaar is voor het geselecteerde materiaal
                     var reservatieData = materialen[i].Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Reserveerbaar));
-                    if (reservatieData != null)
+                    if (reservatieData != 0)
                     {
                         aantalBeschikbaar = materialen[i].AantalInCatalogus - reservatieData;
                         if (aantalBeschikbaar == 0)
                         {
                             ModelState.AddModelError("",
                                 string.Format("Materiaal {0} is niet meer beschikbaar in beschikbaar van {1} tot {2}",
-                                    materialen[i].Naam, FirstDateOfWeekISO8601(2016, week).ToString("d"),
-                                    FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")));
+                                    materialen[i].Naam, HulpMethode.FirstDateOfWeekISO8601(2016, week).ToString("d"),
+                                    HulpMethode.FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")));
                         }
                         else if (aantalBeschikbaar < aantal[i])
                         {
@@ -195,67 +196,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return false;
         }
-        [HttpPost]
-        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
-        {
-            List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-            if (materialen != null)
-            {
-                try
-                {
-                    //gebruiker.VoegReservatieToe(materialen, startDatum);
-                    gebruikerRepository.SaveChanges();
-                    TempData["Info"] = $"Reservatie werd aangemaakt";
 
-                    //System.Net.Mail.MailMessage m =new System.Net.Mail.MailMessage("projecten2groep6@gmail.com","projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
-                    //m.Subject = "Bevestiging reservatie";
-                    //m.Body = string.Format("Dear {0} <br/>" +
-                    //                       "Bedankt voor je bestelling van volgende materialen" + 
-                    //                       "<p>{1}</p>",gebruiker.Email,materialen);
-                    //m.IsBodyHtml = true;
-
-                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    //smtp.EnableSsl = true;
-                    //smtp.Send(m);
-
-                }
-                catch (ArgumentException ex)
-                {
-                    TempData["Error"] = ex.Message;
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation(
-                                  "Class: {0}, Property: {1}, Error: {2}",
-                                  validationErrors.Entry.Entity.GetType().FullName,
-                                  validationError.PropertyName,
-                                  validationError.ErrorMessage);
-                        }
-                    }
-                }
-            }
-        }
-        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
-
-            DateTime firstThursday = jan1.AddDays(daysOffset);
-            var cal = CultureInfo.CurrentCulture.Calendar;
-            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            var weekNum = weekOfYear;
-            if (firstWeek <= 1)
-            {
-                weekNum -= 1;
-            }
-            var result = firstThursday.AddDays(weekNum * 7);
-            return result.AddDays(-3);
-        }
+       
     }
 }

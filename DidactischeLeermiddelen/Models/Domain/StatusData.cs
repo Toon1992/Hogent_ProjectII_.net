@@ -11,7 +11,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public long StatusDataId { get; set; }
         public int Week { get; set; }
-
         public Status Status { get; set; }
     }
 }

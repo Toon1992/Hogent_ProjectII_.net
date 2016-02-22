@@ -10,33 +10,11 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public override void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
-        {
-            if (materiaal == null)
-                throw new ArgumentNullException(
-                    "Materiaal mag niet null zijn als die wordt toevoegd aan de verlanglijst!");
-
-            //aan de Velanglijst materiaal Toevoegen      
-            Verlanglijst.VoegMateriaalToe(materiaal);
-
-        }
-
-        public override void VerwijderMateriaalUitVerlanglijst(Materiaal materiaal)
-        {
-            if (materiaal == null)
-                throw new ArgumentNullException(
-                    "Materiaal mag niet null zijn als die wordt verwijdert van de verlanglijst!");
-
-            //Verwijderen van materiaal van de verlanglijst
-            Verlanglijst.VerwijderMateriaal(materiaal);
-        }
-
-
-        public override void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
-        {
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal, startDatum);
-            Reservaties.Add(reservatie);
-        }
+        //public override void VoegReservatieToe(Materiaal materiaal, DateTime startDatum)
+        //{
+        //    Reservatie reservatie = new Reservatie();
+        //    reservatie.MaakReservatie(materiaal, startDatum);
+        //    Reservaties.Add(reservatie);
+        //}
     }
 }
