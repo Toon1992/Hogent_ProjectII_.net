@@ -157,7 +157,7 @@ var viewModel = {
             $.ajax({
                 type: "POST",
                 traditional: true,
-                url: "/Verlanglijst/MaakReservatie",
+                url: "/Reservatie/MaakReservatie",
                 data: { materiaal: materialen, aantal: aantallen, week: selectedWeek },
                 success: function(data) {
 
