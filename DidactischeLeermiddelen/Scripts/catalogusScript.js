@@ -76,7 +76,7 @@
         });
         $(".manufacturer").click(function () {
             var id = $(this).parent().parent().parent().parent().find("img").attr("itemprop");
-            $.get("Catalogus/Leverancier", { materiaalId: id }, function(data) {
+            $.get("/Catalogus/DetailView", { id: id }, function (data) {
                 $("#catalogus-pagina").html(data);
             });
         });
