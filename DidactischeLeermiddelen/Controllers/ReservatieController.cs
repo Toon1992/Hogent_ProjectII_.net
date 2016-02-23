@@ -61,12 +61,6 @@ namespace DidactischeLeermiddelen.Controllers
                     TempData["Info"] = $"Reservatie werd aangemaakt";
 
                     VerzendMailNaReservatie(gebruiker, materialen);
-
-                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    //smtp.EnableSsl = true;
-                    //smtp.Send(m);
-              
                 }
                 catch (ArgumentException ex)
                 {
@@ -84,7 +78,7 @@ namespace DidactischeLeermiddelen.Controllers
             m.Subject = "Bevestiging reservatie";
             m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
             m.IsBodyHtml = true;
-            m.Body += "<p>Dit zijn je reservaties: </p>";
+            m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
             m.Body += "<ul>";
             foreach (var item in materialen)
             {
