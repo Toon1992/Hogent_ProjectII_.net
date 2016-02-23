@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
+using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -90,6 +95,58 @@ namespace DidactischeLeermiddelen.Controllers
                     ModelState.AddModelError("", "Ongeldige login.");
                     return View(model);
             }
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult LoginOtherService(LoginViewModel model, string returnUrl)
+        {
+            if (model.Email == "" || model.Password == "")
+            {
+                ModelState.AddModelError("", "Ongeldige login.");
+                return View("Login", model);
+            }
+            IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
+            Gebruiker gebruiker = repos.FindByName(model.Email);
+            if (gebruiker == null)
+            {
+                if (model.Email.Contains("@student.hogent"))
+                {
+                    gebruiker = new Student()
+                    {
+                        Naam = model.Name,
+                        Email = model.Email
+                    };
+                }
+                else
+                {
+                    gebruiker = new Lector
+                    {
+                        Naam = model.Name,
+                        Email = model.Email
+                    };
+                }
+                gebruiker.Verlanglijst = new Verlanglijst();
+                gebruiker.Reservaties = new List<Reservatie>();
+                repos.AddGebruiker(gebruiker);
+                repos.SaveChanges();
+            }
+            Membership.ValidateUser("sf", "dsf");
+            //Thread.CurrentPrincipal = HttpContext.User = gebruiker;
+            return RedirectToLocal(returnUrl);
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public string HashPasswordSha256(string password)
+        {
+            System.Security.Cryptography.SHA256Managed crypt = new System.Security.Cryptography.SHA256Managed();
+            System.Text.StringBuilder hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password), 0, Encoding.UTF8.GetByteCount(password));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
         }
         // POST: /Account/LogOff
         [HttpPost]
