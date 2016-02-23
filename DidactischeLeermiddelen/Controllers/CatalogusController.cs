@@ -111,6 +111,12 @@ namespace DidactischeLeermiddelen.Controllers
             return PartialView("Detail", new MateriaalViewModel(materiaal));
         }
 
+        public ActionResult DetailViewFirma(int id)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            return PartialView("DetailFirma", new FirmaViewModel(materiaal.Firma));
+        }
+
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)
         {
             return new SelectList(doelgroepRepository.FindAll().OrderBy(d => d.Naam),
