@@ -62,11 +62,6 @@ namespace DidactischeLeermiddelen.Controllers
 
                     VerzendMailNaReservatie(gebruiker, materialen);
 
-                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    //smtp.EnableSsl = true;
-                    //smtp.Send(m);
-
                     return RedirectToAction("Index","Catalogus");
 
                 }
