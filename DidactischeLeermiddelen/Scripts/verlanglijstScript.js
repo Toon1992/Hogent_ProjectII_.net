@@ -160,7 +160,7 @@ var viewModel = {
                 url: "/Reservatie/MaakReservatie",
                 data: { materiaal: materialen, aantal: aantallen, week: selectedWeek },
                 success: function(data) {
-
+                    window.location.href = '/catalogus/';
                 }
             });
         });

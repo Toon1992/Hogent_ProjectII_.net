@@ -15,6 +15,9 @@ namespace DidactischeLeermiddelen.ViewModels
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
 
+        [Display(Name = "Naam")]
+        public string Name { get; set; }
+
         [Display(Name = "Herinner mij?")]
         public bool RememberMe { get; set; }
     }

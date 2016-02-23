@@ -10,6 +10,7 @@ namespace DidactischeLeermiddelen
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/loginScript.js",
                         "~/Scripts/datepickerScript.js",
                         "~/Scripts/datejs.js",
                         "~/Scripts/catalogusScript.js"));

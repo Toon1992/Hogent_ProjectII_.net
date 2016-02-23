@@ -48,7 +48,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public ActionResult MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
 
@@ -61,17 +61,12 @@ namespace DidactischeLeermiddelen.Controllers
                     TempData["Info"] = $"Reservatie werd aangemaakt";
 
                     VerzendMailNaReservatie(gebruiker, materialen);
-
-                    return RedirectToAction("Index","Catalogus");
-
                 }
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
                 }
             }
-
-            return View("LegeReservatieLijst");
         }
 
         private void VerzendMailNaReservatie(Gebruiker gebruiker, IList<Materiaal> materialen)
@@ -83,7 +78,7 @@ namespace DidactischeLeermiddelen.Controllers
             m.Subject = "Bevestiging reservatie";
             m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
             m.IsBodyHtml = true;
-            m.Body += "<p>Dit zijn je reservaties: </p>";
+            m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
             m.Body += "<ul>";
             foreach (var item in materialen)
             {

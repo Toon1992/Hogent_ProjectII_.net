@@ -105,7 +105,6 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return RedirectToAction("Index");
         }
-
         public ActionResult DetailView(int id)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
