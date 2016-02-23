@@ -194,6 +194,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservatieController.cs" />
     <Compile Include="Controllers\VerlanglijstController.cs" />
+    <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
+    <Compile Include="Models\Domain\Firma.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Models\Domain\IGebruiker.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />

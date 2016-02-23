@@ -131,6 +131,7 @@
 
 .overview {
     padding-top: 3%;
+    display: block;
 }
 
 .description {
@@ -162,9 +163,12 @@
     background-color: #dff0d8;
 }
 .onbeschikbaar {
-     -webkit-filter: blur(3px) grayscale(1);
-    mozFilter: blur(3px) grayscale(1);
-    webkitFilter: blur(3px) grayscale(1);
+
+    
+}
+.beschikbaarheid {
+    color: #b94a48;
+    font-size: 15px;
 }
 .datepicker table tbody tr:hover {
     background-color: #eee;
@@ -203,7 +207,6 @@ img {
     padding: 4px 5px 4px 7px;
     border: 1px solid #009c7c;
 }
-
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;

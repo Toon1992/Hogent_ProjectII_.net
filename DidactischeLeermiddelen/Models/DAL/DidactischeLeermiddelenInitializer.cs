@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 {
                     statusData1.Add(new StatusData
                     {
-                        Status = Status.Reserveerbaar,
+                        Status = Status.Beschikbaar,
                         Week = i
                     });
                 }
@@ -44,7 +44,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 {
                     statusData2.Add(new StatusData
                     {
-                        Status = i < 11 ? Status.Gereserveerd : Status.Reserveerbaar,
+                        Status = i < 11 ? Status.Gereserveerd : Status.Beschikbaar,
                         Week = i
                     });
                 }
@@ -54,7 +54,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 {
                     statusData3.Add(new StatusData
                     {
-                        Status = i > 11 ? Status.Gereserveerd : Status.Reserveerbaar,
+                        Status = i > 11 ? Status.Gereserveerd : Status.Beschikbaar,
                         Week = i
                     });
                 }
@@ -155,16 +155,19 @@ namespace DidactischeLeermiddelen.Models.DAL
                     });
                 }
 
+                Firma f=new Firma("Ceti","ceti@gmail.com",contactpersoon:"Silke");
+                Firma b = new Firma("Wissner", "wissner@gmail.com",adres:"Voskenslaan", contactpersoon: "Silke");
+                Firma c = new Firma("Texas Instruments", "instruments@gmail.com");
                 //Materialen
-                Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4,ArtikelNr = 1111, MateriaalId = 1, Firma = "Nova Rico", Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = wereldbolstuks};
-                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2222, MateriaalId = 2, Firma = "Texas Instruments", Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true, Stuks = rekentoestelStuks };
-                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 3333, MateriaalId = 3, Firma = "Ceti", Naam = "Microscoop Ceti", Foto = "/Content/Images/microscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true, Stuks = microscoopStuks };
-                Materiaal pincet = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 4444, MateriaalId = 4, Firma = "Zwilling", Naam = "Pincet", Foto = "/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = pincetStuks };
-                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5555, MateriaalId = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = geodriehoekStuks };
-                Materiaal ReddingsPop = new Materiaal { AantalInCatalogus = 5, ArtikelNr = 6666, MateriaalId = 6, Firma = "Witte merk", Naam = "Reddingspop", Foto = "/Content/Images/reddingspop.jpg", Omschrijving = "Met behulp van deze pop wordt je een geweldig duiker", Prijs = 245.00M, Status = Status.Gereserveerd, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false, Stuks = reddingspopStuks };
-                Materiaal Basketbal = new Materiaal { AantalInCatalogus = 30, ArtikelNr = 7777, MateriaalId = 7, Firma = "Spalding", Naam = "Spalding basketbal", Foto = "/Content/Images/basketbal.jpg", Omschrijving = "Officiële NBA basketbal, hiermee scoort iedereen 3-punters", Prijs = 169.00M, Status = Status.Reserveerbaar, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false, Stuks = basketbalStuks};
-                Materiaal Bok = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 8888, MateriaalId = 8, Firma = "Moeder natuur", Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M, Status = Status.TeLaat, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs, kleuterOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = true, Stuks = bokStuks };
-                Materiaal Duitser = new Materiaal { AantalInCatalogus = 21, ArtikelNr = 9999, MateriaalId = 9, Firma = "Prisma", Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Status = Status.Geblokkeerd, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false, Stuks = duitsStuks };
+                Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4,ArtikelNr = 1111, MateriaalId = 1, Firma = f, Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = wereldbolstuks};
+                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2222, MateriaalId = 2, Firma = c, Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true, Stuks = rekentoestelStuks };
+                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 3333, MateriaalId = 3, Firma = f, Naam = "Microscoop Ceti", Foto = "/Content/Images/microscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true, Stuks = microscoopStuks };
+                Materiaal pincet = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 4444, MateriaalId = 4, Firma = b, Naam = "Pincet", Foto = "/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = pincetStuks };
+                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5555, MateriaalId = 5, Firma = c, Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = geodriehoekStuks };
+                Materiaal ReddingsPop = new Materiaal { AantalInCatalogus = 5, ArtikelNr = 6666, MateriaalId = 6, Firma = f, Naam = "Reddingspop", Foto = "/Content/Images/reddingspop.jpg", Omschrijving = "Met behulp van deze pop wordt je een geweldig duiker", Prijs = 245.00M, Status = Status.Gereserveerd, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false, Stuks = reddingspopStuks };
+                Materiaal Basketbal = new Materiaal { AantalInCatalogus = 30, ArtikelNr = 7777, MateriaalId = 7, Firma = b, Naam = "Spalding basketbal", Foto = "/Content/Images/basketbal.jpg", Omschrijving = "Officiële NBA basketbal, hiermee scoort iedereen 3-punters", Prijs = 169.00M, Status = Status.Beschikbaar, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false, Stuks = basketbalStuks};
+                Materiaal Bok = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 8888, MateriaalId = 8, Firma = c, Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M, Status = Status.TeLaat, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs, kleuterOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = true, Stuks = bokStuks };
+                Materiaal Duitser = new Materiaal { AantalInCatalogus = 21, ArtikelNr = 9999, MateriaalId = 9, Firma = f, Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Status = Status.Geblokkeerd, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false, Stuks = duitsStuks };
                 Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek, ReddingsPop, Basketbal, Bok, Duitser };
 
 

@@ -1,14 +1,12 @@
 ﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 <h2>Uw verlanglijst</h2>
-<h4 class="foutmelding"></h4>
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 @foreach (var item in Model.Materialen)
 {
     <div class="row materiaal @(item.Geselecteerd ? "geselecteerd" : "") @(item.AantalBeschikbaar==0?"onbeschikbaar":"")" id="@item.MateriaalId">
         <div class="img-side">
             <div class="col-md-1 col-sm-1 hidden-xs">
                 <div class="checkbox">
-                    @Html.CheckBoxFor(m => item.Geselecteerd, new { id = item.MateriaalId })
+                    @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
                 </div>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -17,11 +15,12 @@
         </div>
         <div class="info-side">
             <div class="checkbox hidden-lg hidden-md hidden-sm">
-                @Html.CheckBoxFor(m => item.Geselecteerd, new { id = item.MateriaalId })
+                @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId})
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
                 <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
+                <h4 class="beschikbaarheid">@item.Beschikbaarheid</h4>
             </div>
             <div class="col-md-2 hidden-sm hidden-xs">
                 <div class="leergebied">
@@ -35,29 +34,34 @@
 
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <h5>Nog @Html.DisplayFor(modelItem => item.AantalBeschikbaar) beschikbaar</h5>
-                @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
+                @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
                 {
                     <div class="form-group">
                         <label class="sr-only" for="aantal">Aantal</label>
-                        <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="1" max=@item.AantalBeschikbaar class="input-medium aantal" />
+                        <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal"/>
 
                     </div>
-                        <button type="submit" class="btn btn-delete">
-                            <span class="glyphicon glyphicon-remove"></span> Verwijderen
-                        </button>
+                    <button type="submit" class="btn btn-delete">
+                        <span class="glyphicon glyphicon-remove"></span> Verwijderen
+                    </button>
                 }
             </div>
         </div>
     </div>
 }
-<div class="col-md-4 col-sm-5 col-xs-12">
-    <div class="form-group text-center">
-        <div class="input-append date datecontrol">
-            <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
-            <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+<div class="row">
+    <div class="col-md-3 col-sm-5 col-xs-12">
+        <div class="form-group text-center">
+            <div class="input-append date datecontrol">
+                <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-5 col-xs-12 text-center">
-    <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
+    <div class="col-md-5">
+        <h4 class="foutmelding"></h4>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
+    </div>
 </div>

@@ -16,13 +16,14 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
         public Status Status { get; set; }
-        public string Firma { get; set; }
+        public Firma Firma { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public int AantalInCatalogus { get; set; }
         public int AantalBeschikbaar { get; set; }
         public int AantalGeselecteerd { get; set; }
         public bool Beschikbaar { get; set; }
         public bool Geselecteerd { get; set; }      
+        public string Beschikbaarheid { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal)
         {
@@ -44,7 +45,7 @@ namespace DidactischeLeermiddelen.ViewModels
     {
         public IEnumerable<VerlanglijstViewModel> Materialen { get; set; }
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
-        public DateTime GeselecteerdeWeek { get; set; }
+        public string GeselecteerdeWeek { get; set; }
         public int TotaalGeselecteerd { get; set; }
     }
 }
