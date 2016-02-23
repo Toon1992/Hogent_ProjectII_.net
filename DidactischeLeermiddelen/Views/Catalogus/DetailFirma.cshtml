@@ -1,9 +1,17 @@
 ﻿@model DidactischeLeermiddelen.ViewModels.FirmaViewModel
 <h1>Details van firma @Html.DisplayFor(m => m.Naam):</h1>
-<div class= "detailFirma">
+<div class="detailFirma">
     <h1>Naam: @Html.DisplayFor(modelItem => Model.Naam)</h1>
     <h2>Email: @Html.DisplayFor(modelItem => Model.Email)</h2>
     <h3>Contactpersoon: @Html.DisplayFor(modelItem => Model.Contactpersoon)</h3>
     <h3>Adres: @Html.DisplayFor(modelItem => Model.Adres)</h3>
 
+</div>
+<div>
+    @using (Html.BeginForm("Index", "Catalogus"))
+            {
+        <button type="submit" class="btn btn-default btn-verlanglijst ">
+            &laquo; Catalogus
+        </button>
+    }
 </div>
