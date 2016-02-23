@@ -42,6 +42,11 @@ namespace DidactischeLeermiddelen.Controllers
             return View(vm);
         }
 
+        public ActionResult MaakReservatie()
+        {
+            return View("Index");
+        }
+
         [HttpPost]
         public ActionResult MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
@@ -57,26 +62,17 @@ namespace DidactischeLeermiddelen.Controllers
 
                     VerzendMailNaReservatie(gebruiker, materialen);
 
+                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+                    //smtp.EnableSsl = true;
+                    //smtp.Send(m);
+
                     return RedirectToAction("Index","Catalogus");
 
                 }
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation(
-                                  "Class: {0}, Property: {1}, Error: {2}",
-                                  validationErrors.Entry.Entity.GetType().FullName,
-                                  validationError.PropertyName,
-                                  validationError.ErrorMessage);
-                        }
-                    }
                 }
             }
 

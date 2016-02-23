@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public DateTime StartDatum { get; set; }
         public long ReservatieId { get; set; }
 
-        public void MaakReservatie(Materiaal materiaal, int aantal, int week)
+        public Boolean MaakReservatie(Materiaal materiaal, int week)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
@@ -31,34 +31,14 @@ namespace DidactischeLeermiddelen.Models.Domain
                 if (stuk != null)
                 {
                     stuk.StatusData[week].Status = Status.Gereserveerd;
+                    return true;
                 }
-
-                //foreach (Stuk t in )
-                //{
-                //    t.StatusData[week].Status = Status.Gereserveerd;
-                //    break;
-                //}
             }
             catch (Exception)
             {
                 Console.WriteLine("Er is een fout opgetreden tijdens het maken van reservaties");
             }
-
-            //foreach (Materiaal m in materialen)
-            //{
-            //    //if (m.ReservatieData.Contains(startDatum))
-            //    //{
-            //    //    throw new ArgumentException(
-            //    //        "Het materiaal {0} is reeds gereserveerd op deze datum, gelieve uw reservatie aan te passen.",
-            //    //        m.Naam);
-            //    //}
-            //    //else
-            //    //{
-            //    //    m.ReservatieData.Add(startDatum);
-            //    //}
-            //}
-            //Materialen = materialen;
-
+            return false;
         }
     }
 }

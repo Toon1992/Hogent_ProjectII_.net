@@ -32,6 +32,5 @@ namespace DidactischeLeermiddelen.ViewModels
     public class ReservatieMaterialenViewModel : IViewModel
     {
         public IEnumerable<ReservatieViewModel> Materialen { get; set; }
-
     }
 }
