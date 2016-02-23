@@ -74,8 +74,11 @@
                 }
             });
         });
-        $(".manufacturer").click(function() {
-            console.log($(this).text());
+        $(".manufacturer").click(function () {
+            var id = $(this).parent().parent().parent().parent().find("img").attr("itemprop");
+            $.get("Catalogus/Leverancier", { materiaalId: id }, function(data) {
+                $("#catalogus-pagina").html(data);
+            });
         });
         $(".materiaal-content").click(function () {
             if ($(window).width() < 768) {

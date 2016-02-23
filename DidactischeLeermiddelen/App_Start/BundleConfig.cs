@@ -12,8 +12,7 @@ namespace DidactischeLeermiddelen
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/loginScript.js",
                         "~/Scripts/datepickerScript.js",
-                        "~/Scripts/datejs.js",
-                        "~/Scripts/catalogusScript.js"));
+                        "~/Scripts/datejs.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

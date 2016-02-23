@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
@@ -130,9 +131,17 @@ namespace DidactischeLeermiddelen.Controllers
                 repos.AddGebruiker(gebruiker);
                 repos.SaveChanges();
             }
-            Membership.ValidateUser("sf", "dsf");
+            Membership.ValidateUser(model.Email, model.Password);
+            if (HttpContext.User != null)
+            {
+                if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+                {
+       
+                }
+                    return RedirectToLocal("/");
+            }
             //Thread.CurrentPrincipal = HttpContext.User = gebruiker;
-            return RedirectToLocal(returnUrl);
+            return RedirectToLocal("/");
         }
         [HttpPost]
         [AllowAnonymous]
