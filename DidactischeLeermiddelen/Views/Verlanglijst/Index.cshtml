@@ -13,9 +13,9 @@
             <div class="img-side">
                 <div class="col-md-1 col-sm-1 hidden-xs">
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new {id = item.MateriaalId})
-
+                        @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
                     </div>
+
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
@@ -23,7 +23,7 @@
             </div>
             <div class="info-side">
                 <div class="checkbox hidden-lg hidden-md hidden-sm">
-                    @Html.CheckBox("group1", new {id = item.MateriaalId})
+                    @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
@@ -59,16 +59,21 @@
 
 
     }
-    <div class="col-md-4 col-sm-5 col-xs-12">
-        <div class="form-group text-center">
-            <div class="input-append date datecontrol">
-                <input type='text' name="date" placeholder="Selecteer week" readonly/>
-                <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+    <div class="row">
+        <div class="col-md-3 col-sm-5 col-xs-12">
+            <div class="form-group text-center">
+                <div class="input-append date datecontrol">
+                    <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                    <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-5 col-xs-12 text-center">
-        <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
+        <div class="col-md-5">
+            <h4 class="foutmelding"></h4>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
+        </div>
     </div>
 </section>
     

@@ -26,7 +26,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             try
             {
                 IList<Stuk> stuks = materiaal.Stuks;
-                Stuk stuk = stuks.FirstOrDefault(t => t.StatusData[week].Status == Status.Reserveerbaar);
+                Stuk stuk = stuks.FirstOrDefault(t => t.StatusData[week].Status == Status.Beschikbaar);
 
                 if (stuk != null)
                 {

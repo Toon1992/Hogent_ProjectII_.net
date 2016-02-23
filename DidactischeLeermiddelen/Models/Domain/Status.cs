@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         TeLaat,
         Geblokkeerd,
         Gereserveerd,
-        Reserveerbaar,
+        Beschikbaar,
         Onbeschikbaar
     }
 }
