@@ -51,6 +51,16 @@
     margin-top: 0;
     margin-bottom: 1.5em;
     margin-left: 0.5em;
+    
+}
+
+.detailFirma {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+    /*display: block;*/
+    border: 2px solid gray;
 }
 
 .info {
