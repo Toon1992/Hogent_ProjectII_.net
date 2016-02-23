@@ -48,7 +48,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public ActionResult MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
 
@@ -66,17 +66,13 @@ namespace DidactischeLeermiddelen.Controllers
                     //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
                     //smtp.EnableSsl = true;
                     //smtp.Send(m);
-
-                    return RedirectToAction("Index","Catalogus");
-
+              
                 }
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
                 }
             }
-
-            return View("LegeReservatieLijst");
         }
 
         private void VerzendMailNaReservatie(Gebruiker gebruiker, IList<Materiaal> materialen)
