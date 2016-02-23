@@ -7,10 +7,24 @@
         <Position X="0.36" Y="0.218" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="Firma" Type="DidactischeLeermiddelen.Models.Domain.Firma" ManuallyRouted="true">
+      <Path>
+        <Point X="6.281" Y="4.286" />
+        <Point X="6.281" Y="4.719" />
+        <Point X="9.282" Y="4.719" />
+        <Point X="9.282" Y="5.598" />
+        <Point X="9.758" Y="5.598" />
+        <Point X="9.758" Y="8.262" />
+        <Point X="10.75" Y="8.262" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAKAUAAAAAAAAAAAABAAAAIAAIAAAAAAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Firma" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Doelgroepen" />
       <Property Name="Leergebieden" />
@@ -87,6 +101,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAhIARAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Firma">
+    <Position X="10.75" Y="6" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAABAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Models\Domain\Firma.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="DidactischeLeermiddelen.Models.Domain.Status">

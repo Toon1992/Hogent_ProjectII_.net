@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
@@ -41,6 +42,11 @@ namespace DidactischeLeermiddelen.Controllers
             return View(vm);
         }
 
+        public ActionResult MaakReservatie()
+        {
+            return View("Index");
+        }
+
         [HttpPost]
         public ActionResult MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
         {
@@ -54,12 +60,7 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Reservatie werd aangemaakt";
 
-                    //System.Net.Mail.MailMessage m =new System.Net.Mail.MailMessage("projecten2groep6@gmail.com","projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
-                    //m.Subject = "Bevestiging reservatie";
-                    //m.Body = string.Format("Dear {0} <br/>" +
-                    //                       "Bedankt voor je bestelling van volgende materialen" + 
-                    //                       "<p>{1}</p>",gebruiker.Email,materialen);
-                    //m.IsBodyHtml = true;
+                    VerzendMailNaReservatie(gebruiker, materialen);
 
                     //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                     //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
@@ -73,23 +74,31 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     TempData["Error"] = ex.Message;
                 }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation(
-                                  "Class: {0}, Property: {1}, Error: {2}",
-                                  validationErrors.Entry.Entity.GetType().FullName,
-                                  validationError.PropertyName,
-                                  validationError.ErrorMessage);
-                        }
-                    }
-                }
             }
 
             return View("LegeReservatieLijst");
+        }
+
+        private void VerzendMailNaReservatie(Gebruiker gebruiker, IList<Materiaal> materialen)
+        {
+
+            // ook nog datum erbij pakken tot wanneer uitgeleend
+            MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com");// hier nog gebruiker email pakken, nu testen of het werkt
+                
+            m.Subject = "Bevestiging reservatie";
+            m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
+            m.IsBodyHtml = true;
+            m.Body += "<p>Dit zijn je reservaties: </p>";
+            m.Body += "<ul>";
+            foreach (var item in materialen)
+            {
+                m.Body += $"<li>{item.Naam}</li>";
+            }
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
         }
     }
 }

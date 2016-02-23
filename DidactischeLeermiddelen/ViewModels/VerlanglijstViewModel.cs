@@ -16,7 +16,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
         public Status Status { get; set; }
-        public string Firma { get; set; }
+        public Firma Firma { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public int AantalInCatalogus { get; set; }
         public int AantalBeschikbaar { get; set; }

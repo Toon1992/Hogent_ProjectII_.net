@@ -23,6 +23,8 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
                 m.ToTable("MateriaalLeergebied");
             });
 
+            HasOptional(m => m.Firma).WithMany().WillCascadeOnDelete(false); // withrequired, dan maar 1 materiaal met die firma, kan meerdere materialen van zelfde firma zijn
+
             Property(m => m.Naam).IsRequired();
             Property(m => m.ArtikelNr).IsRequired();
             Property(m => m.AantalInCatalogus).IsRequired();

@@ -52,41 +52,27 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd verwijderd uit uw verlanglijst";
 
-                    //StreamReader reader = new StreamReader(Server.MapPath("~/Views/EmailReservatie.html"));
-                    MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
-                    m.Subject = "Bevestiging reservatie";
+                    ////StreamReader reader = new StreamReader(Server.MapPath("~/Views/EmailReservatie.html"));
+                    //MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com"); // hier nog gebruiker email pakken, nu testen of het werkt
+                    //m.Subject = "Bevestiging reservatie";
 
-                    m.IsBodyHtml = true;
-                    m.Body += "<p>Dit zijn je reservaties: </p>";
-                    m.Body += "<ul>";
-                    foreach (var item in lijst)
-                    {
-                        m.Body += $"<li>{item}</li>";
-                    }
-                    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-                    smtp.EnableSsl = true;
-                    smtp.Send(m);
+                    //m.IsBodyHtml = true;
+                    //m.Body += "<p>Dit zijn je reservaties: </p>";
+                    //m.Body += "<ul>";
+                    //foreach (var item in lijst)
+                    //{
+                    //    m.Body += $"<li>{item}</li>";
+                    //}
+                    //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                    //smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+                    //smtp.EnableSsl = true;
+                    //smtp.Send(m);
 
                 }
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation(
-                                  "Class: {0}, Property: {1}, Error: {2}",
-                                  validationErrors.Entry.Entity.GetType().FullName,
-                                  validationError.PropertyName,
-                                  validationError.ErrorMessage);
-                        }
-                    }
-                }
+                }               
             }
             return RedirectToAction("Index");
         }

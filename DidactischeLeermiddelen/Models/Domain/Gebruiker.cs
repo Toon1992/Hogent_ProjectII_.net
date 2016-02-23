@@ -38,14 +38,18 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week)
         {
+            int index = 0;
             materiaal.ForEach(m =>
             {
-                foreach (var a in aantal)
+                for(int i = 0; i < aantal[index];i++)
                 {
                     Reservatie reservatie = new Reservatie();
-                    reservatie.MaakReservatie(m, a, week);
-                    Reservaties.Add(reservatie);
-                }                          
+                    if (reservatie.MaakReservatie(m, week))
+                        Reservaties.Add(reservatie);
+
+                }
+
+                index++;
             });
 
             //Reservatie reservatie = new Reservatie();

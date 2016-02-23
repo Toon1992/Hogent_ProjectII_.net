@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public int ArtikelNr { get; set; }
         [DataType(DataType.Currency)]
         public decimal Prijs { get; set; }
-        public string Firma { get; set; }
+        public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public Status Status { get; set; }
