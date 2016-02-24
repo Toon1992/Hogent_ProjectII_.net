@@ -24,52 +24,16 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
                 Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
-              
 
-                //StatusData
-                //Altijd beschikbaar
-                List<StatusData> statusData1 = new List<StatusData>();
-                for (int i = 1; i < 53; i++)
+                List<StatusData> statusData = new List<StatusData>();
+                for (int i = 7; i < 13; i++)
                 {
-                    statusData1.Add(new StatusData
-                    {
-                        Status = Status.Beschikbaar,
-                        Week = i
-                    });
-                }
-
-                //Beschikbaar van week 12
-                List<StatusData> statusData2 = new List<StatusData>();
-                for (int i = 1; i < 53; i++)
-                {
-                    statusData2.Add(new StatusData
-                    {
-                        Status = i < 11 ? Status.Gereserveerd : Status.Beschikbaar,
-                        Week = i
-                    });
-                }
-                //Beschikbaar tot week 11
-                List<StatusData> statusData3 = new List<StatusData>();
-                for (int i = 1; i < 53; i++)
-                {
-                    statusData3.Add(new StatusData
-                    {
-                        Status = i > 11 ? Status.Gereserveerd : Status.Beschikbaar,
-                        Week = i
-                    });
-                }
-
-                //Nooit beschikbaar
-                List<StatusData> statusData4 = new List<StatusData>();
-                for (int i = 1; i < 53; i++)
-                {
-                    statusData4.Add(new StatusData
+                    statusData.Add(new StatusData
                     {
                         Status = Status.Gereserveerd,
                         Week = i
                     });
                 }
-
 
                 //Stuks
                 List<Stuk> wereldbolstuks = new List<Stuk>();
@@ -78,7 +42,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                     wereldbolstuks.Add(new Stuk()
                     {
                         StukId = 1111+i,
-                        StatusData = statusData2
+                        StatusData = statusData
                     });
                 }
                 List<Stuk> rekentoestelStuks = new List<Stuk>();
@@ -87,7 +51,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                     rekentoestelStuks.Add(new Stuk()
                     {
                         StukId = 2222 + i,
-                        StatusData = i < 11 ? statusData2: statusData3
+                        StatusData = statusData
                     });
                 }
                 List<Stuk> microscoopStuks = new List<Stuk>();
@@ -95,8 +59,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 {
                     microscoopStuks.Add(new Stuk()
                     {
-                        StukId = 3333 + i,
-                        StatusData = statusData4
+                        StukId = 3333 + i
                     });
                 }
 
@@ -106,7 +69,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     pincetStuks.Add(new Stuk()
                     {
                         StukId = 4444 + i,
-                        StatusData = statusData1
                     });
                 }
                 List<Stuk> geodriehoekStuks = new List<Stuk>();
@@ -115,7 +77,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                     geodriehoekStuks.Add(new Stuk()
                     {
                         StukId = 5555 + i,
-                        StatusData = i < 5 ? statusData2 : statusData3
+                        StatusData = statusData
                     });
                 }
                 List<Stuk> reddingspopStuks = new List<Stuk>();
@@ -124,7 +86,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     reddingspopStuks.Add(new Stuk()
                     {
                         StukId = 6666 + i,
-                        StatusData = i < 3 ? statusData1 : statusData3
                     });
                 }
                 List<Stuk> basketbalStuks = new List<Stuk>();
@@ -133,7 +94,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     basketbalStuks.Add(new Stuk()
                     {
                         StukId = 7777 + i,
-                        StatusData = i < 13 ? statusData1 : statusData3
                     });
                 }
                 List<Stuk> bokStuks = new List<Stuk>();
@@ -142,7 +102,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     bokStuks.Add(new Stuk()
                     {
                         StukId = 8888 + i,
-                        StatusData = statusData4
                     });
                 }
                 List<Stuk> duitsStuks = new List<Stuk>();
@@ -151,7 +110,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     duitsStuks.Add(new Stuk()
                     {
                         StukId = 9999 + i,
-                        StatusData = statusData1
                     });
                 }
 
