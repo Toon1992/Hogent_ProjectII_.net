@@ -32,7 +32,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 case "ReservatieMaterialenViewModel":
                     IViewModel rmv = new ReservatieMaterialenViewModel()
                     {
-                        Materialen = lijst.Select(b => new ReservatieViewModel(b)),
+                        Materialen = gebruiker.Reservaties.Select(b => new ReservatieViewModel(b)),
                     };
                     return rmv;
             }

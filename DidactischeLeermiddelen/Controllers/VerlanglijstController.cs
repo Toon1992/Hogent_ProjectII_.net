@@ -35,6 +35,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null,null,null,gebruiker) as VerlanglijstMaterialenViewModel;
             vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now)+1)%53).ToString("d",dtfi);
+            
             return View(vm);
         }
 
@@ -129,6 +130,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                     Leergebieden = m.Leergebieden as List<Leergebied>,
                     Doelgroepen = m.Doelgroepen as List<Doelgroep>,
+                    ArtikelNr = m.ArtikelNr,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ? 
@@ -186,6 +188,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return false;
         }
+
        
     }
 }

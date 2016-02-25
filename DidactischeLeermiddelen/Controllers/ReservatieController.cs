@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 
@@ -37,8 +38,10 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 materiaallijst.Add(m);
             }
+            ViewBag.Gebruikersnaam = gebruiker.Naam;
+            ViewBag.AantalReservaties = reservatielijst.Count();
 
-            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materiaallijst,gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, null,gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }
@@ -57,11 +60,9 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 try
                 {
-                    gebruiker.VoegReservatieToe(materialen, aantal, week);
+                    gebruiker.VoegReservatieToe(materialen, aantal, week,gebruiker);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Reservatie werd aangemaakt";
-
-                    VerzendMailNaReservatie(gebruiker, materialen);
                 }
                 catch (ArgumentException ex)
                 {
@@ -70,26 +71,6 @@ namespace DidactischeLeermiddelen.Controllers
             }
         }
 
-        private void VerzendMailNaReservatie(Gebruiker gebruiker, IList<Materiaal> materialen)
-        {
 
-            // ook nog datum erbij pakken tot wanneer uitgeleend
-            MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com");// hier nog gebruiker email pakken, nu testen of het werkt
-                
-            m.Subject = "Bevestiging reservatie";
-            m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
-            m.IsBodyHtml = true;
-            m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
-            m.Body += "<ul>";
-            foreach (var item in materialen)
-            {
-                m.Body += $"<li>{item.Naam}</li>";
-            }
-
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
-        }
     }
 }

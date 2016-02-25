@@ -46,5 +46,14 @@ namespace DidactischeLeermiddelen.Models.Domain
             AantalInCatalogus = Stuks.Select(s => s.HuidigeStatus).Count(s => s.Equals(Status.Beschikbaar));
         }
 
+        public int GeefAantalGeblokkeerd()
+        {
+            return Stuks.Select(s => s.HuidigeStatus).Count(s => s.Equals(Status.Geblokkeerd));
+        }
+
+        public int GeefAantalOnbeschikbaar()
+        {
+            return Stuks.Select(s => s.HuidigeStatus).Count(s => s.Equals(Status.Onbeschikbaar));
+        }
     }
 }

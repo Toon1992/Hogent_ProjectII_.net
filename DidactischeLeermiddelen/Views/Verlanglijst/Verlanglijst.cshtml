@@ -19,10 +19,8 @@
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                <h5 class="manufacturer glyphicon glyphicon-question-sign"> @Html.DisplayFor(modelItem => item.Firma.Naam)</h5>
-                <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                <h5 class="info">ArtikelNr: @Html.DisplayFor(modelItem => item.ArtikelNr)</h5>
                 <h5 class="aantal">In catalogus : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
+                <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalGeblokkeerd)</h5>
                 <h3 class="beschikbaarheid">@item.Beschikbaarheid</h3>
             </div>
             <div class="col-md-2 hidden-sm hidden-xs">
@@ -54,8 +52,6 @@
 
                 }
             </div>
-
-
 
             <div class="col-md-2 col-sm-2 col-xs-12">
                 <h4 class="price">€ @Html.DisplayFor(modelItem => item.Prijs)</h4>
