@@ -59,14 +59,40 @@
     cursor: pointer;
 }
 
+.paginaFirma {
+    text-align: center;
+    width: 100%;
+}
 .detailFirma {
     margin-top: 1em;
     margin-bottom: 1em;
     padding-left: 1em;
     padding-bottom: 1em;
-    /*display: block;*/
-    border: 2px solid gray;
 }
+.detailFirma table {
+    margin: 0 auto;
+}
+
+.detailFirma tr th, td{
+    font-size: 2em;
+    text-align: center;
+    padding-left: 3em;
+    padding-right: 3em;
+    
+}
+.detailFirma table {
+    border: 2px solid black;    
+}
+.detailFirma tr {
+    border-bottom: 2px solid black;
+    padding-top: 1em;
+    
+}
+
+.detailFirma tr:hover {
+    background-color: lightgray;
+}
+
 
 .info {
     color: gray; 
