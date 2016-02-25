@@ -248,6 +248,10 @@ img {
     padding: 4px 5px 4px 7px;
     border: 1px solid #009c7c;
 }
+
+.overzicht {
+    border-bottom: 1px solid black;
+}
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;

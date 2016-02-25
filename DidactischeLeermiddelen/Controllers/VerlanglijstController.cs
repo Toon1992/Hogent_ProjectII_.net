@@ -120,7 +120,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.AantalInCatalogus - (m.Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Gereserveerd))),
+                    AantalBeschikbaar = aantalBeschikbaar = m.AantalInCatalogus - (m.Stuks.Any(s => s.StatusData.Any(sd => sd.Week.Equals(week)))? m.Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Gereserveerd)) :0),
                     Beschikbaar = aantalBeschikbaar == 0,
                    
                     Firma = m.Firma,
@@ -164,7 +164,7 @@ namespace DidactischeLeermiddelen.Controllers
                 for (int i = 0; i < materiaal.Length; i++)
                 {
                     //Kijken of er voor de opgegeven week al reservatiedata beschikbaar is voor het geselecteerde materiaal
-                    var reservatieData = materialen[i].Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Gereserveerd));
+                    var reservatieData = materialen[i].Stuks.Any(s => s.StatusData.Any(sd => sd.Week.Equals(week))) ? materialen[i].Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Gereserveerd)): 0;
                     if (reservatieData != null)
                     {
                         aantalBeschikbaar = materialen[i].AantalInCatalogus - reservatieData;
