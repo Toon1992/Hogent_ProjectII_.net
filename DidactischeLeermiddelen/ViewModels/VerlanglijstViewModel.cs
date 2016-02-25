@@ -21,6 +21,8 @@ namespace DidactischeLeermiddelen.ViewModels
         public List<Doelgroep> Doelgroepen { get; set; } 
         public int AantalInCatalogus { get; set; }
         public int AantalBeschikbaar { get; set; }
+        public int AantalGeblokkeerd { get; set; }
+        public int AantalOnbeschikbaar { get; set; }
         public int AantalGeselecteerd { get; set; }
         public bool Beschikbaar { get; set; }
         public bool Geselecteerd { get; set; }      
