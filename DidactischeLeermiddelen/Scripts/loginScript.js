@@ -3,8 +3,8 @@
     email: null,
     init: function () {
         $("#btn-login").click(function(e) {
-            e.preventDefault();
-            viewModel.loginUser();
+            //e.preventDefault();
+            //viewModel.loginUser();
             //viewModel.email = $("#email").val();
             //viewModel.hashPassword();    
         }); 
