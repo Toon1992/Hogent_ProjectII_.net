@@ -35,6 +35,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null,null,null,gebruiker) as VerlanglijstMaterialenViewModel;
             vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now)+1)%53).ToString("d",dtfi);
+            
             return View(vm);
         }
 
@@ -187,6 +188,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return false;
         }
+
        
     }
 }
