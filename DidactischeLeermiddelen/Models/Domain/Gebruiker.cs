@@ -51,7 +51,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                     Reservatie reservatie = new Reservatie();
                     if (reservatie.MaakReservatie(m, week))
                         Reservaties.Add(reservatie);
-
                 }
 
                 index++;
