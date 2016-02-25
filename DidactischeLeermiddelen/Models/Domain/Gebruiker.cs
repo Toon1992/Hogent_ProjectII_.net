@@ -54,11 +54,10 @@ namespace DidactischeLeermiddelen.Models.Domain
                     if (reservatie.MaakReservatie(m, week))
                         Reservaties.Add(reservatie);
                 }
-                VerzendMailNaReservatie(gebruiker,materiaal,week);
-
                 index++;
             });
 
+            VerzendMailNaReservatie(gebruiker, materiaal, week);
             //Reservatie reservatie = new Reservatie();
             //reservatie.MaakReservatie(materiaal, startDatum);
             //Reservaties.Add(reservatie);
