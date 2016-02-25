@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
+using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -39,5 +40,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             AantalInCatalogus = aantal;
         }
         public Materiaal() { }
+
+        public void CheckNieuwAantal()
+        {
+            AantalInCatalogus = Stuks.Select(s => s.HuidigeStatus).Count(s => s.Equals(Status.Beschikbaar));
+        }
+
     }
 }

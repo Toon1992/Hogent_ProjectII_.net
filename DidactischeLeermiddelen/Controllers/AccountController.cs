@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -132,14 +133,13 @@ namespace DidactischeLeermiddelen.Controllers
                 repos.SaveChanges();
             }
             Membership.ValidateUser(model.Email, model.Password);
-            if (HttpContext.User != null)
-            {
-                if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
-                {
-       
-                }
-                    return RedirectToLocal("/");
-            }
+            // Create generic identity.
+            GenericIdentity MyIdentity = new GenericIdentity(model.Name);
+            // Create generic principal.
+            String[] MyStringArray = { "Student", "Lector" };
+            GenericPrincipal MyPrincipal = new GenericPrincipal(MyIdentity, MyStringArray);
+            Thread.CurrentPrincipal = MyPrincipal;
+            Thread.CurrentPrincipal = MyPrincipal;
             //Thread.CurrentPrincipal = HttpContext.User = gebruiker;
             return RedirectToLocal("/");
         }

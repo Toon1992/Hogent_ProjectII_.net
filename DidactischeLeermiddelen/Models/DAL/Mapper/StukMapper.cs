@@ -18,6 +18,8 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
                 m.MapRightKey("StukId");
                 m.MapLeftKey("StatusDataId");
             });
+
+          
         }
     }
 }
