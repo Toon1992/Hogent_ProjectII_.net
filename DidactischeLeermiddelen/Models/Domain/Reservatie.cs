@@ -19,29 +19,28 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
-            if(week <= 0)
+            if (week <= 0)
                 throw new ArgumentException("Week moet op zijn minst hoger dan nul zijn");
 
             StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
             Materiaal = materiaal;
 
-            try
-            {
-                IList<Stuk> stuks = materiaal.Stuks;
-                Stuk stuk = stuks.FirstOrDefault(t => t.HuidigeStatus == Status.Beschikbaar);
 
-                if (stuk != null)
-                {
-                    stuk.VoegNieuweStatusDataToe(week,Status.Gereserveerd);
-                    stuk.WordtGereserveerd();
-                    materiaal.CheckNieuwAantal();
-                    return true;
-                }
-            }
-            catch (Exception)
+            IList<Stuk> stuks = materiaal.Stuks;
+
+            if (stuks == null)
+                throw new ArgumentNullException("Materiaal heeft een lijst met Stuks nodig");
+
+            Stuk stuk = stuks.FirstOrDefault(t => t.HuidigeStatus == Status.Beschikbaar);
+
+            if (stuk != null)
             {
-                Console.WriteLine("Er is een fout opgetreden tijdens het maken van reservaties");
+                stuk.VoegNieuweStatusDataToe(week, Status.Gereserveerd);
+                stuk.WordtGereserveerd();
+                materiaal.CheckNieuwAantal();
+                return true;
             }
+
             return false;
         }
     }
