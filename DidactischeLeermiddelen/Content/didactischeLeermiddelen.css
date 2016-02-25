@@ -69,12 +69,15 @@
     padding-left: 1em;
     padding-bottom: 1em;
 }
+.detailFirma a {
+    
+}
 .detailFirma table {
     margin: 0 auto;
 }
 
 .detailFirma tr th, td{
-    font-size: 2em;
+    font-size: 1.75em;
     text-align: center;
     padding-left: 3em;
     padding-right: 3em;
