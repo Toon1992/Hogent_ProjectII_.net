@@ -84,7 +84,7 @@ var viewModel = {
             viewModel.aantalList = [];
             $('input:checkbox:checked').map(function () {
                 var materiaalId = $(this).parent().find("input")[0].id;
-                var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                var aantal = $("#" + materiaalId).find($(".input-medium")).val();
                 if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
                     viewModel.materiaalList.push(parseInt(materiaalId));
                     viewModel.aantalList.push(parseInt(aantal));
@@ -119,7 +119,7 @@ var viewModel = {
                     //Indien het materiaal reeds in de lijst voorkomt.
                     if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
                         viewModel.materiaalList.push(parseInt(materiaalId));
-                        var aantal = $(this).parent().parent().parent().parent().find(".aantal").val();
+                        var aantal = $("#" + materiaalId).find($(".input-medium")).val();
                         if (parseInt(aantal) === 0) {
                             $(".foutmelding").text("Kies minstens 1 stuk van het geselecteerde materiaal!");
                             invalid = true;
