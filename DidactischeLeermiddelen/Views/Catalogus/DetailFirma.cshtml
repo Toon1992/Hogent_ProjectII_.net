@@ -14,7 +14,7 @@
                 <td>Contactpersoon: @Html.DisplayFor(modelItem => Model.Contactpersoon)</td>
             </tr>
             <tr>
-                <td>Website: @Html.DisplayFor(m => m.Website)</td>
+                <td>Website: <a href="https://@Model.Website" target="blank">@Html.DisplayFor(m => m.Website)</a></td>
             </tr>
             <tr>
                 <td>Adres: @Html.DisplayFor(modelItem => Model.Adres)</td>
