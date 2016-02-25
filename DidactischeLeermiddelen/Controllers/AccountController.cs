@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,6 +19,7 @@ using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Newtonsoft.Json;
 
 namespace DidactischeLeermiddelen.Controllers
 {
@@ -84,6 +87,7 @@ namespace DidactischeLeermiddelen.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //FormsAuthentication.SetAuthCookie(model.Email, false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -100,13 +104,24 @@ namespace DidactischeLeermiddelen.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult LoginOtherService(LoginViewModel model, string returnUrl)
         {
-            if (model.Email == "" || model.Password == "")
+            var json = string.Empty;
+            string password = HashPasswordSha256(model.Password);
+            string url = "https://studservice.hogent.be/auth" + "/" + model.Email + "/" + password;
+            using (WebClient wc = new WebClient())
+            {
+                json = wc.DownloadString(url);
+            }
+            dynamic array = JsonConvert.DeserializeObject(json);
+            if (array.Equals("[]"))
             {
                 ModelState.AddModelError("", "Ongeldige login.");
                 return View("Login", model);
             }
+            var name = array.NAAM;
+
             IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
             Gebruiker gebruiker = repos.FindByName(model.Email);
             if (gebruiker == null)
@@ -132,16 +147,25 @@ namespace DidactischeLeermiddelen.Controllers
                 repos.AddGebruiker(gebruiker);
                 repos.SaveChanges();
             }
-            Membership.ValidateUser(model.Email, model.Password);
-            // Create generic identity.
-            GenericIdentity MyIdentity = new GenericIdentity(model.Name);
-            // Create generic principal.
-            String[] MyStringArray = { "Student", "Lector" };
-            GenericPrincipal MyPrincipal = new GenericPrincipal(MyIdentity, MyStringArray);
-            Thread.CurrentPrincipal = MyPrincipal;
-            Thread.CurrentPrincipal = MyPrincipal;
-            //Thread.CurrentPrincipal = HttpContext.User = gebruiker;
-            return RedirectToLocal("/");
+            var authTicket = new FormsAuthenticationTicket(
+                2,
+                model.Email,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+                false,
+                "some token that will be used to access the web service and that you have fetched"
+            );
+            var authCookie = new HttpCookie(
+                FormsAuthentication.FormsCookieName,
+                FormsAuthentication.Encrypt(authTicket)
+            )
+            {
+                HttpOnly = true
+            };
+            Response.AppendCookie(authCookie);
+            FormsAuthentication.SetAuthCookie(model.Email, false);
+            Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [AllowAnonymous]

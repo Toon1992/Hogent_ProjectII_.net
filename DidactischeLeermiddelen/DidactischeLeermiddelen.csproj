@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,6 +69,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -194,7 +197,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservatieController.cs" />
     <Compile Include="Controllers\VerlanglijstController.cs" />
+    <Compile Include="IService1.cs" />
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
+    <Compile Include="Models\Domain\AuthHeader.cs" />
+    <Compile Include="Models\Domain\CustomAuthorize.cs" />
+    <Compile Include="Models\Domain\CustomPrincipal.cs" />
     <Compile Include="Models\Domain\Firma.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />

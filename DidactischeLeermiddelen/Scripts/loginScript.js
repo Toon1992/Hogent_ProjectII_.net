@@ -56,11 +56,9 @@
             contentType: 'application/json',
             data: JSON.stringify(loginViewModel),
             success: function (data) {
-                console.log(data);
+                alert("ds");
             },
-            error: function (err) {
-                console.log(err);
-            }
+
         });
     }
 }

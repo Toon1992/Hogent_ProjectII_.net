@@ -12,6 +12,7 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
 {
+    [CustomAuthorize]
     public class ReservatieController : Controller
     {
         // GET: Reservatie

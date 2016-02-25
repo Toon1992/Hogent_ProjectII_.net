@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         private IMateriaalRepository materiaalRepository;

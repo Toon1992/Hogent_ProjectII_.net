@@ -13,7 +13,7 @@ using Ninject.Activation;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;

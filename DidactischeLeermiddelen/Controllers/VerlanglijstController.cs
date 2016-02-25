@@ -14,7 +14,7 @@ using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class VerlanglijstController : Controller
     {
         private IMateriaalRepository materiaalRepository;
