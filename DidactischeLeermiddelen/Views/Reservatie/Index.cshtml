@@ -5,31 +5,4 @@
 }
 
 <h2>Mijn Reservaties</h2>
-
-<table class="table">
-    @foreach (var item in Model.Materialen)
-    {
-        <tr>
-            <td>
-                <div class="col-md-2 col-sm-2 col-xs-11 img-tag">
-                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId" />
-                </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Omschrijving)
-            </td>
-            <td>
-                @item.StartDatum.ToShortDateString()
-            </td>
-            <td>
-                @item.EindDatum.ToShortDateString()
-            </td>
-        </tr>
-    }
-</table>
-
-
-
+<h4>@ViewBag.Gebruikersnaam</h4>
