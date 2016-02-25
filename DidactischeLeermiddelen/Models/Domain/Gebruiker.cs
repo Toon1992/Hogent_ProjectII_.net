@@ -4,6 +4,8 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
+using System.Diagnostics;
+using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -38,6 +40,9 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week)
         {
+            if(materiaal.Count != aantal.Length)
+                throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
+
             int index = 0;
             materiaal.ForEach(m =>
             {
