@@ -6,7 +6,7 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
@@ -113,9 +113,9 @@ namespace DidactischeLeermiddelen.Models.DAL
                     });
                 }
 
-                Firma f=new Firma("Ceti","ceti@gmail.com",contactpersoon:"Silke");
-                Firma b = new Firma("Wissner", "wissner@gmail.com",adres:"Voskenslaan", contactpersoon: "Silke");
-                Firma c = new Firma("Texas Instruments", "instruments@gmail.com"); //veranderen van firma werkt niet, blijft bij eerst initialisatie
+                Firma f=new Firma("Ceti","ceti@gmail.com","ceti.be",contactpersoon:"Silke");
+                Firma b = new Firma("Wissner", "wissner@gmail.com","wissner.com",adres:"Voskenslaan", contactpersoon: "Silke");
+                Firma c = new Firma("Texas Instruments", "instruments@gmail.com","texasinstruments.com"); //veranderen van firma werkt niet, blijft bij eerst initialisatie
                 //Materialen
                 Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4,ArtikelNr = 1111, MateriaalId = 1, Firma = b,Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true, Stuks = wereldbolstuks};
                 Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2222, MateriaalId = 2, Firma = c, Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true, Stuks = rekentoestelStuks };

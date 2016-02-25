@@ -1,17 +1,34 @@
 ﻿@model DidactischeLeermiddelen.ViewModels.FirmaViewModel
-<h1>Details van firma @Html.DisplayFor(m => m.Naam):</h1>
-<div class="detailFirma">
-    <h1>Naam: @Html.DisplayFor(modelItem => Model.Naam)</h1>
-    <h2>Email: @Html.DisplayFor(modelItem => Model.Email)</h2>
-    <h3>Contactpersoon: @Html.DisplayFor(modelItem => Model.Contactpersoon)</h3>
-    <h3>Adres: @Html.DisplayFor(modelItem => Model.Adres)</h3>
+<div class="paginaFirma">
+    <div class="detailFirma col-sm-12">
 
-</div>
-<div>
-    @using (Html.BeginForm("Index", "Catalogus"))
-            {
-        <button type="submit" class="btn btn-default btn-verlanglijst ">
-            &laquo; Catalogus
-        </button>
-    }
+        <table>
+            <tr><th>Details van firma @Html.DisplayFor(m => m.Naam):</th></tr>
+            <tr>
+                <td>Naam: @Html.DisplayFor(modelItem => Model.Naam)</td>
+            </tr>
+            <tr>
+                <td>Email: @Html.DisplayFor(modelItem => Model.Email)</td>
+            </tr>
+            <tr>
+                <td>Contactpersoon: @Html.DisplayFor(modelItem => Model.Contactpersoon)</td>
+            </tr>
+            <tr>
+                <td>Website: @Html.DisplayFor(m => m.Website)</td>
+            </tr>
+            <tr>
+                <td>Adres: @Html.DisplayFor(modelItem => Model.Adres)</td>
+            </tr>
+        </table>
+
+    </div>
+    <div>
+        @using (Html.BeginForm("Index", "Catalogus"))
+        {
+            <button type="submit" class="btn btn-default btn-verlanglijst ">
+                &laquo; Catalogus
+            </button>
+        }
+    </div>
+
 </div>
