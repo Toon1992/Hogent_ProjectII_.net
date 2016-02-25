@@ -17,12 +17,13 @@
             <div class="checkbox hidden-lg hidden-md hidden-sm">
                 @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId})
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
                 <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma.Naam)</h5>
-                <h4 class="beschikbaarheid">@item.Beschikbaarheid</h4>
+                <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
+                <h3 class="beschikbaarheid">@item.Beschikbaarheid</h3>
             </div>
-            <div class="col-md-2 hidden-sm hidden-xs">
+            <div class="col-md-2 col-sm-2 hidden-xs">
                 <div class="leergebied">
                     @foreach (var leergebied in item.Leergebieden)
                     {
@@ -31,8 +32,17 @@
                 </div>
 
             </div>
+            <div class="col-md-2 col-sm-2 hidden-xs">
+                <div class="doelgroep">
+                    @foreach (var doelgroep in item.Doelgroepen)
+                    {
+                        <h4>@Html.DisplayFor(d => doelgroep.Naam)</h4>
+                    }
+                </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            </div>
+
+            <div class="col-md-2 col-sm-2 col-xs-12">
                 <h5>Nog @Html.DisplayFor(modelItem => item.AantalBeschikbaar) beschikbaar</h5>
                 @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
                 {
