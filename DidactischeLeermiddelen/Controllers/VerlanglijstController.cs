@@ -129,6 +129,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                     Leergebieden = m.Leergebieden as List<Leergebied>,
                     Doelgroepen = m.Doelgroepen as List<Doelgroep>,
+                    ArtikelNr = m.ArtikelNr,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ? 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 
@@ -36,6 +37,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 materiaallijst.Add(m);
             }
+            ViewBag.Gebruikersnaam = gebruiker.Naam;
 
             ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, materiaallijst,gebruiker) as ReservatieMaterialenViewModel;
 
