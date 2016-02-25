@@ -128,6 +128,7 @@ namespace DidactischeLeermiddelen.Controllers
                     AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? aantalGeselecteerd == aantalBeschikbaar? 0 : 1: aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
                     Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                     Leergebieden = m.Leergebieden as List<Leergebied>,
+                    Doelgroepen = m.Doelgroepen as List<Doelgroep>,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ? 
@@ -165,6 +166,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     //Kijken of er voor de opgegeven week al reservatiedata beschikbaar is voor het geselecteerde materiaal
                     var reservatieData = materialen[i].Stuks.Count(s => s.StatusData.FirstOrDefault(sd => sd.Week.Equals(week)).Status.Equals(Status.Gereserveerd));
+
                     if (reservatieData != null)
                     {
                         aantalBeschikbaar = materialen[i].AantalInCatalogus - reservatieData;
