@@ -25,46 +25,10 @@
                 <div class="checkbox hidden-lg hidden-md hidden-sm">
                     @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                    <h5 class="manufacturer glyphicon glyphicon-question-sign"> @Html.DisplayFor(modelItem => item.Firma.Naam)</h5>
-                    <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                    <h5 class="info">ArtikelNr: @Html.DisplayFor(modelItem => item.ArtikelNr)</h5>
-                    <br/>
-                    <h4>Status stock : </h4>
                     <h5 class="aantal">In catalogus : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
-                    <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalGeblokkeerd)</h5>
-                    <h5 class="aantal">Tijdelijk onbeschikbaar : @Html.DisplayFor(modelItem => item.AantalOnbeschikbaar)</h5>
-
-                </div>
-                <div class="col-md-2 hidden-sm hidden-xs">
-                    <div class="leergebied">
-                        @foreach (var leergebied in item.Leergebieden)
-                        {
-                            <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                        }
-                    </div>
-
-                </div>
-                <div class="col-md-2 doelgroep hidden-sm hidden-xs">
-                    @foreach (var doelgroep in item.Doelgroepen)
-                    {
-                        <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                    }
-                </div>
-
-                <div class="hidden-lg hidden-md col-sm-3 hidden-xs">
-                    @foreach (var leergebied in item.Leergebieden)
-                    {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                    }
-                    <br />
-                    @foreach (var doelgroep in item.Doelgroepen)
-                    {
-                        <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                    }
+                    <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
                 </div>
 
 
