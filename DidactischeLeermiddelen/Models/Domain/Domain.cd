@@ -7,6 +7,11 @@
         <Position X="0.36" Y="0.218" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="Reservaties" Type="DidactischeLeermiddelen.Models.Domain.Reservatie">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.237" Y="0.06" Height="0.182" Width="2.082" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAACAQAIAAAAAAAAAAhgCAAIAAIAAAgCAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
@@ -17,6 +22,7 @@
     <ShowAsCollectionAssociation>
       <Property Name="Doelgroepen" />
       <Property Name="Leergebieden" />
+      <Property Name="Reservaties" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Doelgroep">
@@ -72,12 +78,6 @@
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Gebruiker">
     <Position X="10.5" Y="5.25" Width="1.5" />
-    <AssociationLine Name="Reservaties" Type="DidactischeLeermiddelen.Models.Domain.Reservatie" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.25" Y="5.25" />
-        <Point X="11.25" Y="2.632" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>EAAAAAAAACAAAAAAAAAAhIARAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
