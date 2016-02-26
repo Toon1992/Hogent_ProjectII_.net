@@ -43,14 +43,11 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
-    <Position X="10.5" Y="0.5" Width="3" />
+    <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAIEAAAAAAAAAAAAAAIAACAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Materiaal" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
     <Position X="6.75" Y="6.25" Width="1.5" />
@@ -94,13 +91,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAgAAAAAAABAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Models\Domain\Firma.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.ReservatieData">
-    <Position X="12" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\ReservatieData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="DidactischeLeermiddelen.Models.Domain.Status">

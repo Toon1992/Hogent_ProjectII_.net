@@ -11,10 +11,10 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Reservatie
     {
+        public long ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
-        public long ReservatieId { get; set; }
         public Status Status { get; set; }
 
         public Reservatie() { }
@@ -28,6 +28,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 throw new ArgumentException("Aantal moet groter dan 0 zijn.");
 
             StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
+            //ArtikelNr = materiaal.ArtikelNr;
             Materiaal = materiaal;
             Aantal = aantal;
 

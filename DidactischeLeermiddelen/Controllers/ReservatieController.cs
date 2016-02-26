@@ -34,9 +34,9 @@ namespace DidactischeLeermiddelen.Controllers
             IEnumerable<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
 
-            foreach (Materiaal m in reservatielijst.Select(r => r.Materiaal))
+            foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
             {
-                materiaallijst.Add(m);
+                materiaallijst.Add(materiaal);
             }
             ViewBag.Gebruikersnaam = gebruiker.Naam;
             ViewBag.AantalReservaties = reservatielijst.Count();

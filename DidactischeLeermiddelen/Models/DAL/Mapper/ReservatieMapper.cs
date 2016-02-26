@@ -12,7 +12,6 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public ReservatieMapper()
         {
             HasKey(m => m.ReservatieId);
-            HasRequired(m => m.Materiaal).WithMany().Map(m => m.MapKey("ReservatieId2")).WillCascadeOnDelete(false);
         }
     }
 }
