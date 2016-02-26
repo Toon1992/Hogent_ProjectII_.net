@@ -25,7 +25,6 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen
                 .Include(m => m.Leergebieden)
                 .Include(m => m.Doelgroepen)
-                .Include(m => m.Stuks)
                 .OrderBy(m => m.Naam);
         }
 
@@ -42,14 +41,12 @@ namespace DidactischeLeermiddelen.Models.DAL
                 .Where(m => m.Naam.Contains(trefwoord))
                 .Include(m => m.Leergebieden)
                 .Include(m => m.Doelgroepen)
-                .Include(m => m.Stuks)
                 .ToList();
             IEnumerable<Materiaal> trefwoordMaterialen = 
                 materialen
                 .Where(m =>m.Omschrijving.Contains(trefwoord))
                 .Include(m => m.Leergebieden)
                 .Include(m => m.Doelgroepen)
-                .Include(m => m.Stuks)
                 .ToList();
 
             //Lijsten samen brengen
@@ -68,7 +65,6 @@ namespace DidactischeLeermiddelen.Models.DAL
             return materialen
                 .Where(m => m.Doelgroepen.Any(d => d.DoelgroepId.Equals(doelgroepId)))
                 .Include(m => m.Leergebieden).Include(m => m.Doelgroepen)
-                .Include(m => m.Stuks)
                 .OrderBy(m => m.Naam);
         }
 
@@ -78,7 +74,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                 .Where(m => m.Leergebieden.Any(d => d.LeergebiedId.Equals(leergebiedId)))
                 .Include(m => m.Leergebieden)
                 .Include(m => m.Doelgroepen)
-                .Include(m => m.Stuks)
                 .OrderBy(m => m.Naam);
         }
 

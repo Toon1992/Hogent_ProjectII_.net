@@ -45,7 +45,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Firma = materiaal.Firma;
             Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
             Leergebieden = materiaal.Leergebieden as List<Leergebied>;
-            Status = materiaal.Status;
+            //Status = materiaal.Status;
         }
 
     }

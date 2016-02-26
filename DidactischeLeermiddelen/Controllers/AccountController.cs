@@ -121,16 +121,17 @@ namespace DidactischeLeermiddelen.Controllers
                 return View("Login", model);
             }
             var name = array.NAAM;
-
+            var vnaam = array.VOORNAAM;
+            var type = array.TYPE;
             IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
             Gebruiker gebruiker = repos.FindByName(model.Email);
             if (gebruiker == null)
             {
-                if (model.Email.Contains("@student.hogent"))
+                if (type.Equals("student"))
                 {
                     gebruiker = new Student()
                     {
-                        Naam = model.Name,
+                        Naam = vnaam+" "+name,
                         Email = model.Email
                     };
                 }
@@ -138,7 +139,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     gebruiker = new Lector
                     {
-                        Naam = model.Name,
+                        Naam = vnaam+" "+name,
                         Email = model.Email
                     };
                 }

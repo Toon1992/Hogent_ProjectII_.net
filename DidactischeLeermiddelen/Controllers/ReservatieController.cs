@@ -41,7 +41,7 @@ namespace DidactischeLeermiddelen.Controllers
             ViewBag.Gebruikersnaam = gebruiker.Naam;
             ViewBag.AantalReservaties = reservatielijst.Count();
 
-            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, null,gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, null,DateTime.Now,gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }
