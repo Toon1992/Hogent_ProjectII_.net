@@ -30,6 +30,10 @@
         </div>
     </div>
 <div class="container body-content">
+    @*@if (Request.IsAjaxRequest())
+    {
+        TempData.Clear();
+    }*@
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger">@TempData["Error"]</div>

@@ -141,6 +141,7 @@ namespace DidactischeLeermiddelen.Controllers
                 }),
                 GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d",dtfi),
             };
+
             return PartialView("Verlanglijst", vm);
         }
 
