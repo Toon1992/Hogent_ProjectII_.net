@@ -41,23 +41,27 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week,Gebruiker gebruiker)
         {
-            
-            if(materiaal.Count != aantal.Length)
+
+            if (materiaal.Count != aantal.Length)
                 throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
 
             int index = 0;
             materiaal.ForEach(m =>
             {
-                for(int i = 0; i < aantal[index];i++)
-                {
-                    Reservatie reservatie = new Reservatie();
-                    if (reservatie.MaakReservatie(m, week))
-                        Reservaties.Add(reservatie);
-                }
-                VerzendMailNaReservatie(gebruiker,materiaal,week);
+                Reservatie reservatie = new Reservatie(m, week, aantal[index]);
+                Reservaties.Add(reservatie);
+               
+                //for (int i = 0; i < aantal[index]; i++)
+                //{
+                //    Reservatie reservatie = new Reservatie();
+                //    if (reservatie.MaakReservatie(m, week))
+                //        Reservaties.Add(reservatie);
+                //}
+                
 
                 index++;
             });
+            VerzendMailNaReservatie(gebruiker, materiaal, week);
 
             //Reservatie reservatie = new Reservatie();
             //reservatie.MaakReservatie(materiaal, startDatum);

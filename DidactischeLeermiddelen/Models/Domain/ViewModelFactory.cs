@@ -11,7 +11,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class ViewModelFactory
     {
-        public static IViewModel CreateViewModel(String type, SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null, Gebruiker gebruiker = null)
+        public static IViewModel CreateViewModel(string type, SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null, DateTime startDatum =new DateTime(),Gebruiker gebruiker = null)
         {
             switch (type)
             {
@@ -26,7 +26,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 case "VerlanglijstMaterialenViewModel":
                     IViewModel vmm = new VerlanglijstMaterialenViewModel()
                     {
-                        Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b))
+                        Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
                     };
                     return vmm;
                 case "ReservatieMaterialenViewModel":
