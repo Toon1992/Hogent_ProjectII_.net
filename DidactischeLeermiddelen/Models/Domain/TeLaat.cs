@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             
         }
-
+        public TeLaat() { }
         public void Onbeschikbaar()
         {
             Reservatie.ToState(new Onbeschikbaar(Reservatie));

@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Gereserveerd(Reservatie reservatie):base(reservatie)
         {
         }
-
+        public Gereserveerd() { }
         public override void Reserveer()
         {
             throw new NotImplementedException();

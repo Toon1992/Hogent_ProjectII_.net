@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             
         }
-
+        public Onbeschikbaar() { }
         public override void Reserveer()
         {
             throw new NotImplementedException();

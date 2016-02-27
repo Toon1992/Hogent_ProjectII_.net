@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Controllers
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeReservatielijst");
 
-            IEnumerable<Reservatie> reservatielijst = gebruiker.Reservaties;
+            ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
 
             foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))

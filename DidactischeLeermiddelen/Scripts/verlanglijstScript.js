@@ -62,7 +62,6 @@ var viewModel = {
             changeMonth: true,
             changeYear: true,
             startDate: '+1d',
-            defaultDate: "11/3/2016",
             daysOfWeekDisabled: [0,6],
             format: "dd-mm-yyyy",
             language: "nl",
