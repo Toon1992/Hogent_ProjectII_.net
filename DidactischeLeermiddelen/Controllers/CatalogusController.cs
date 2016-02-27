@@ -80,6 +80,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (Request.IsAjaxRequest())
             {
+
                 return PartialView("Catalogus", vm);
             }
             return View("Index", vm);
