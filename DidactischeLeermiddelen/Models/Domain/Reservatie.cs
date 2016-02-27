@@ -30,27 +30,9 @@ namespace DidactischeLeermiddelen.Models.Domain
                 throw new ArgumentException("Aantal moet groter dan 0 zijn.");
 
             StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
-            //ArtikelNr = materiaal.ArtikelNr;
             Materiaal = materiaal;
             Aantal = aantal;
             ReservatieState = new Beschikbaar(this);
-             //ReservatieState = new Beschikbaar(this);
-            //ToState(new Beschikbaar(this));
-            //ReservatieState.Reserveer();
-
-            //IList<Stuk> stuks = materiaal.Stuks;
-
-            //if (stuks == null)
-            //    throw new ArgumentNullException("Materiaal heeft een lijst met Stuks nodig");
-
-            //Stuk stuk = stuks.FirstOrDefault(t => t.HuidigeStatus == Status.Beschikbaar);
-
-            //if (stuk != null)
-            //{
-            //    stuk.VoegNieuweStatusDataToe(week, Status.Gereserveerd);
-            //    stuk.WordtGereserveerd();
-            //    materiaal.CheckNieuwAantal(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week));
-            //}
         }
 
         public void Reserveer()
