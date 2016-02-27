@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -23,20 +24,23 @@ using Newtonsoft.Json;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IGebruikerRepository repository;
 
-        public AccountController()
+        public AccountController(IGebruikerRepository gebruikerRepository)
         {
+            repository = gebruikerRepository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IGebruikerRepository repository )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this.repository = repository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -105,14 +109,14 @@ namespace DidactischeLeermiddelen.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult LoginOtherService(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> LoginOtherService(LoginViewModel model, string returnUrl)
         {
             var json = string.Empty;
             string password = HashPasswordSha256(model.Password);
             string url = "https://studservice.hogent.be/auth" + "/" + model.Email + "/" + password;
-            using (WebClient wc = new WebClient())
+            using (HttpClient hc = new HttpClient())
             {
-                json = wc.DownloadString(url);
+                json = await hc.GetStringAsync(url); //wc.DownloadString(url);
             }
             dynamic array = JsonConvert.DeserializeObject(json);
             if (array.Equals("[]"))
@@ -120,11 +124,11 @@ namespace DidactischeLeermiddelen.Controllers
                 ModelState.AddModelError("", "Ongeldige login.");
                 return View("Login", model);
             }
-            var name = array.NAAM;
-            var vnaam = array.VOORNAAM;
-            var type = array.TYPE;
-            IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
-            Gebruiker gebruiker = repos.FindByName(model.Email);
+            var name = array.NAAM.ToString();
+            var vnaam = array.VOORNAAM.ToString();
+            var type = array.TYPE.ToString();
+            
+            Gebruiker gebruiker = repository.FindByName(model.Email);
             if (gebruiker == null)
             {
                 if (type.Equals("student"))
@@ -145,8 +149,8 @@ namespace DidactischeLeermiddelen.Controllers
                 }
                 gebruiker.Verlanglijst = new Verlanglijst();
                 gebruiker.Reservaties = new List<Reservatie>();
-                repos.AddGebruiker(gebruiker);
-                repos.SaveChanges();
+                repository.AddGebruiker(gebruiker);
+                repository.SaveChanges();
             }
             var authTicket = new FormsAuthenticationTicket(
                 2,
@@ -188,9 +192,9 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -2,14 +2,14 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="DidactischeLeermiddelen.Models.Domain.Materiaal">
     <Position X="5.25" Y="1" Width="3.5" />
-    <AssociationLine Name="Doelgroepen" Type="DidactischeLeermiddelen.Models.Domain.Doelgroep">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.36" Y="0.218" />
-      </MemberNameLabel>
-    </AssociationLine>
     <AssociationLine Name="Reservaties" Type="DidactischeLeermiddelen.Models.Domain.Reservatie">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="-0.237" Y="0.06" Height="0.182" Width="2.082" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Doelgroepen" Type="DidactischeLeermiddelen.Models.Domain.Doelgroep">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.36" Y="0.218" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -20,34 +20,35 @@
       <Property Name="Firma" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
+      <Property Name="Reservaties" />
       <Property Name="Doelgroepen" />
       <Property Name="Leergebieden" />
-      <Property Name="Reservaties" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Doelgroep">
     <Position X="0.5" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACEAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Doelgroep.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Materialen" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Leergebied">
     <Position X="0.5" Y="2.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Models\Domain\Leergebied.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
     <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIEAAAAAAAAAAAAAAIAACAAAgAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIEAAAAAAAAAAAAAAIAACAAAgAAAAAgAAAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Materiaal" />
+      <Property Name="Gebruiker" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
     <Position X="6.75" Y="6.25" Width="1.5" />

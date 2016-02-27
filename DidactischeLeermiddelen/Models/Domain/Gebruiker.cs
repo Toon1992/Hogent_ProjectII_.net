@@ -15,6 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public string Email { get; set; }
         public string Naam { get; set; }
+        public string Faculteit { get; set; }
         public virtual Verlanglijst Verlanglijst { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
 
@@ -49,6 +50,8 @@ namespace DidactischeLeermiddelen.Models.Domain
             materiaal.ForEach(m =>
             {
                 Reservatie reservatie = new Reservatie(m, week, aantal[index]);
+                reservatie.Gebruiker = gebruiker;
+                m.AddReservatie(reservatie);
                 Reservaties.Add(reservatie);
                
                 //for (int i = 0; i < aantal[index]; i++)

@@ -13,6 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public long ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
+        public virtual Gebruiker Gebruiker { get; set; }
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
         public Status Status { get; set; }
