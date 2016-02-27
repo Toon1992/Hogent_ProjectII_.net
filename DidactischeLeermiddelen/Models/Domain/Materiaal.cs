@@ -65,21 +65,24 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int GeefAantal(Status status, DateTime startDatum)
         {
-            switch (status)
-            {
-                case Status.Geblokkeerd: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Geblokkeerd)).Sum(r => r.Aantal);
-                case Status.Onbeschikbaar: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Onbeschikbaar)).Sum(r => r.Aantal);
-                case Status.Gereserveerd: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Gereserveerd)).Sum(r => r.Aantal);
-            }
+            //switch (status)
+            //{
+            //    case Status.Geblokkeerd: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
+            //    case Status.Onbeschikbaar: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal);
+            //    case Status.Gereserveerd: return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
+            //}
             return 0;
         }
 
         public int GeefAantalBeschikbaar(DateTime startDatum)
         {
-            return AantalInCatalogus - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Geblokkeerd)).Sum(r => r.Aantal)
-                              - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Onbeschikbaar)).Sum(r => r.Aantal)
-                              - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Gereserveerd)).Sum(r => r.Aantal);
+            return AantalInCatalogus;
         }
+
+        //    return AantalInCatalogus - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal)
+        //                      - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal)
+        //                      - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
+        //}
         //public int GeefAantalGeblokkeerd(DateTime startDatum)
         //{
         //    return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.Status.Equals(Status.Geblokkeerd)).Sum(r => r.Aantal);

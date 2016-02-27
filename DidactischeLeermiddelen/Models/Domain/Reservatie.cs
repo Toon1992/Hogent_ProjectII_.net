@@ -16,6 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual Gebruiker Gebruiker { get; set; }
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
+        public virtual ReservatieState ReservatieState { get; set; }
         public Status Status { get; set; }
 
         public Reservatie() { }
@@ -32,7 +33,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             //ArtikelNr = materiaal.ArtikelNr;
             Materiaal = materiaal;
             Aantal = aantal;
-
+            ReservatieState = new Beschikbaar(this);
+             //ReservatieState = new Beschikbaar(this);
+            //ToState(new Beschikbaar(this));
+            //ReservatieState.Reserveer();
 
             //IList<Stuk> stuks = materiaal.Stuks;
 
@@ -47,6 +51,16 @@ namespace DidactischeLeermiddelen.Models.Domain
             //    stuk.WordtGereserveerd();
             //    materiaal.CheckNieuwAantal(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week));
             //}
+        }
+
+        public void Reserveer()
+        {
+            ReservatieState.Reserveer();
+        }
+
+        public void ToState(ReservatieState reservatieState)
+        {
+            ReservatieState = reservatieState;
         }
     }
 }

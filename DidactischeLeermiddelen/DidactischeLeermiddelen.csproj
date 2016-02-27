@@ -199,10 +199,14 @@
     <Compile Include="Controllers\VerlanglijstController.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
+    <Compile Include="Models\Domain\Beschikbaar.cs" />
+    <Compile Include="Models\Domain\Catalogus.cs" />
     <Compile Include="Models\Domain\CustomAuthorize.cs" />
     <Compile Include="Models\Domain\CustomPrincipal.cs" />
     <Compile Include="Models\Domain\Firma.cs" />
+    <Compile Include="Models\Domain\Geblokkeerd.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />
     <Compile Include="Models\DAL\GebruikerRepository.cs" />
@@ -217,6 +221,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\GebruikerModelBinder.cs" />
+    <Compile Include="Models\Domain\Gereserveerd.cs" />
     <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
     <Compile Include="Models\Domain\IGebruikerRepository.cs" />
     <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
@@ -228,7 +233,10 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
+    <Compile Include="Models\Domain\Onbeschikbaar.cs" />
+    <Compile Include="Models\Domain\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
+    <Compile Include="Models\Domain\TeLaat.cs" />
     <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
