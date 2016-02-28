@@ -127,7 +127,7 @@ namespace DidactischeLeermiddelen.Controllers
             var name = array.NAAM.ToString();
             var vnaam = array.VOORNAAM.ToString();
             var type = array.TYPE.ToString();
-            
+            var faculteit = array.FACULTEIT.ToString();
             Gebruiker gebruiker = repository.FindByName(model.Email);
             if (gebruiker == null)
             {
@@ -136,7 +136,8 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruiker = new Student()
                     {
                         Naam = vnaam+" "+name,
-                        Email = model.Email
+                        Email = model.Email,
+                        Faculteit = faculteit
                     };
                 }
                 else
@@ -144,7 +145,8 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruiker = new Lector
                     {
                         Naam = vnaam+" "+name,
-                        Email = model.Email
+                        Email = model.Email,
+                        Faculteit = faculteit
                     };
                 }
                 gebruiker.Verlanglijst = new Verlanglijst();

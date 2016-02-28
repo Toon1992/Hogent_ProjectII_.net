@@ -19,7 +19,7 @@ namespace DidactischeLeermiddelen.Controllers
     {
         private IMateriaalRepository materiaalRepository;
         private IGebruikerRepository gebruikerRepository;
-
+        private DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
         public VerlanglijstController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository)
         {
             this.materiaalRepository = materiaalRepository;
@@ -28,13 +28,20 @@ namespace DidactischeLeermiddelen.Controllers
 
         // GET: Verlanglijst
         public ActionResult Index(Gebruiker gebruiker)
-        {
-            DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
+        {        
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
 
             VerlanglijstMaterialenViewModel vm = ViewModelFactory.CreateViewModel("VerlanglijstMaterialenViewModel",null,null,null,DateTime.Now,gebruiker) as VerlanglijstMaterialenViewModel;
-            vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now)+1)%53).ToString("d",dtfi);
+            if ((int) DateTime.Now.DayOfWeek == 6 || (int) DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour < 17))
+            {
+                vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53).ToString("d", dtfi);
+            }
+            else
+            {
+                vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
+            }
+            
             
             return View(vm);
         }
@@ -167,6 +174,25 @@ namespace DidactischeLeermiddelen.Controllers
                 return true;
             }
             return false;
+        }
+
+        public ActionResult ReservatieDetails(int id, int week)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            Dictionary<string, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<string, ICollection<ReservatieDetailViewModel>>();
+            foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))): materiaal.Reservaties)
+            {
+                if (!reservaties.ContainsKey(reservatie.StartDatum.ToString("d", dtfi)))
+                {
+                    reservaties.Add(reservatie.StartDatum.ToString("d", dtfi), new List<ReservatieDetailViewModel> { new ReservatieDetailViewModel {Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Status = reservatie.ReservatieState.GetType().BaseType.Name, Type = reservatie.Gebruiker is Student ? "Student":"Lector",AantalDagenGeblokkeerd = reservatie.Gebruiker is Lector ? reservatie.AantalDagenGeblokkeerd: 0}});
+                }
+                else
+                {
+                    var list = reservaties[reservatie.StartDatum.ToString("d", dtfi)];
+                    list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name, AantalDagenGeblokkeerd = reservatie.Gebruiker is Lector ? reservatie.AantalDagenGeblokkeerd : 0 });
+                }
+            }
+            return PartialView("DetailReservaties", new ReservatiesDetailViewModel {Reservaties = reservaties, Material = materiaal, GeselecteerdeWeek = week != -1 ? HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi):"" });
         }
 
        
