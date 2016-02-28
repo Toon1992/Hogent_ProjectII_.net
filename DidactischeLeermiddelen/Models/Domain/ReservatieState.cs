@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen
         {
             Reservatie = reservatie;
         }
-
+        public ReservatieState() { }
         public abstract void Reserveer();
 
         public abstract void Annuleer();

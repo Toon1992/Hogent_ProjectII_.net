@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             
         }
-
+        public Geblokkeerd() { }
         public override void Onblokkeer()
         {
             Reservatie.ToState(new Beschikbaar(Reservatie));

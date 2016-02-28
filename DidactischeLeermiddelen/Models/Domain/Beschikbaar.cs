@@ -9,6 +9,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Beschikbaar : ReservatieState
     {
+        public Beschikbaar() {}
         public Beschikbaar(Reservatie reservatie):base(reservatie)
         {
         }
