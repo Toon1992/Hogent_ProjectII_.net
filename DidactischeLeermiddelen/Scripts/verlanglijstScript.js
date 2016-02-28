@@ -58,7 +58,7 @@ var viewModel = {
             box[0].checked = selectedBox;
             box[1].checked = selectedBox;
         });
-        $(".datecontrol").datepicker({
+        $("#reservatie-date").datepicker({
             changeMonth: true,
             changeYear: true,
             startDate: '+1d',
@@ -89,7 +89,7 @@ var viewModel = {
                     viewModel.aantalList.push(parseInt(aantal));
                 }
             });
-            var selectedWeek = parseInt(new Date(viewModel.selectedWeek).getWeek());
+            var selectedWeek = viewModel.getWeek(Date.parse($("input[name='date']")[0].value));
             $.ajax({
                 type: "POST",
                 traditional: true,
@@ -101,10 +101,40 @@ var viewModel = {
                 }
             });
         });
+        $(".detail-materiaal").click(function () {
+            var materiaalId = $(this).parent().parent().find("input")[0].id; 
+            var date = Date.parse($("input[name='date']")[0].value);
+            var d = new Date(date);
+            var selectedWeek = viewModel.getWeek(d);
+            $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
+                $("#verlanglijst-pagina").html(data);
+                viewModel.init();
+            });
+        });
+        $("#reservatie-detail-date").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            startDate: '+1d',
+            daysOfWeekDisabled: [0, 6],
+            format: "dd-mm-yyyy",
+            language: "nl",
+            todayHighlight: true,
+            calenderWeeks: true
+        }).on('changeDate', function (ev) {
+            $(this).blur();
+            $(this).datepicker('hide');
+            var date = Date.parse($("input[name='date']")[0].value);
+            var selectedWeek = viewModel.getWeek(date);
+            var materiaalId = parseInt($(".materiaal-naam")[0].id);
+            $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
+                $("#verlanglijst-pagina").html(data);
+                viewModel.init();
+            });
+        });
         $("#btn-confirmeer").click(function () {
             var invalid;
-            var date = $("input[name='date']")[0].value;
-            var selectedWeek = parseInt(Date.parse($("input[name='date']")[0].value).getWeek());
+            var date = Date.parse($("input[name='date']")[0].value);
+            var selectedWeek = viewModel.getWeek(date);
             viewModel.selectedWeek = selectedWeek;
             if (viewModel.selectedWeek !== null) {
                 if ($('input:checkbox:checked').length === 0) {
@@ -125,9 +155,7 @@ var viewModel = {
                             return false;
                         }
                         viewModel.aantalList.push(parseInt(aantal));
-                    }
-                    
-                                   
+                    }                                 
                 });
                 if (invalid) {
                     return false;
@@ -179,6 +207,16 @@ var viewModel = {
             });
         });
     },
+    getWeek: function (date) {
+        var delen = date.toLocaleDateString().split("-");
+        var newDate;
+        if (delen[0] > 12) {
+            newDate = new Date(delen[1] + "-" + delen[0] + "-" + delen[2]);
+        } else {
+            newDate = new Date(delen[0] + "-" + delen[1] + "-" + delen[2]);
+        }
+        return newDate.getWeek();
+    },
     getDefaultDate : function() {
         return Date.parse('next monday');
     },
@@ -202,7 +240,7 @@ var viewModel = {
     }
 }
 function IsWeekend() {
-    return Date.today().getDay() >= 6 && Date.today().getDay() !== 0;
+    return Date.today().getDay() >= 6 || Date.today().getDay() === 0;
 }
 function VrijdagNaVijf() {
     return Date.today().getDay() === 5 && Date.today().getHours() >= 17;

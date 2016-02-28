@@ -249,6 +249,7 @@
     <Compile Include="ViewModels\FirmaViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\MaterialenViewModel.cs" />
+    <Compile Include="ViewModels\ReservatieDetailViewModel.cs" />
     <Compile Include="ViewModels\ReservatieViewModel.cs" />
     <Compile Include="ViewModels\VerlanglijstViewModel.cs" />
   </ItemGroup>
@@ -301,6 +302,7 @@
     <None Include="Properties\PublishProfiles\projecten2groep6 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\catalogusScript.js" />
+    <Content Include="Scripts\date-nl-BE.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\datepickerScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -377,6 +379,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\reservatieDetailScript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\verlanglijstScript.js" />
@@ -411,6 +414,7 @@
     <Content Include="Views\Verlanglijst\Confirmatie.cshtml" />
     <Content Include="Views\Reservatie\LegeReservatieLijst.cshtml" />
     <Content Include="Views\Catalogus\DetailFirma.cshtml" />
+    <Content Include="Views\Verlanglijst\DetailReservaties.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
