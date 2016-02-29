@@ -16,6 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual Gebruiker Gebruiker { get; set; }
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
+        public DateTime EindDatum { get; set; }
         public int AantalDagenGeblokkeerd { get; set; }
         public virtual ReservatieState ReservatieState { get; set; }
         public Status Status { get; set; }
@@ -31,6 +32,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 throw new ArgumentException("Aantal moet groter dan 0 zijn.");
 
             StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
+            EindDatum = StartDatum.AddDays(4);
             Materiaal = materiaal;
             Aantal = aantal;
             ReservatieState = new Beschikbaar(this);

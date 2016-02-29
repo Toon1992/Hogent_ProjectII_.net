@@ -11,7 +11,9 @@
 var viewModel = {
     materiaalList: [],
     aantalList: [],
-    daysOfWeek : [],
+    daysOfWeek: [],
+    startDatum: null,
+    eindDatum: null,
     session : window.sessionStorage,
     selectedWeek : null,
     init: function () {
@@ -101,6 +103,62 @@ var viewModel = {
                 }
             });
         });
+        $("#reservatie-end-date").daterangepicker({
+            "showDropdowns": true,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    "Zo",
+                    "Ma",
+                    "Di",
+                    "Wo",
+                    "Do",
+                    "Vr",
+                    "Za"
+                ],
+                "monthNames": [
+                    "Januari",
+                    "Februari",
+                    "Maart",
+                    "April",
+                    "Mei",
+                    "Juni",
+                    "July",
+                    "Augustus",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay": 1
+            },
+            "alwaysShowCalendars": true,
+        }, function(start, end, label) {
+            console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        }).on('apply.daterangepicker', function (ev, picker) {
+            var startDatum = picker.startDate.format('DD-MM-YYYY');
+            var eindDatum = picker.endDate.format('DD-MM-YYYY');
+            var datums = $("#reservatie-end-date").val();
+            var delen = datums.split("-");
+            viewModel.startDatum = delen[0];
+            viewModel.eindDatum = delen[1];
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                url: "/Verlanglijst/Controle",
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: startDatum, eindDatum : eindDatum, knop: false },
+                success: function (data) {
+                    //$("#verlanglijst-pagina").html(data);
+                    //viewModel.init();
+                }
+            });
+        });
         $(".detail-materiaal").click(function () {
             var materiaalId = $(this).parent().parent().find("input")[0].id; 
             var date = Date.parse($("input[name='date']")[0].value);
@@ -133,9 +191,20 @@ var viewModel = {
         });
         $("#btn-confirmeer").click(function () {
             var invalid;
-            var date = Date.parse($("input[name='date']")[0].value);
-            var selectedWeek = viewModel.getWeek(date);
-            viewModel.selectedWeek = selectedWeek;
+            var selectedWeek;
+            if (typeof  $("input[name='date']")[0] !== "undefined") {
+                var date = Date.parse($("input[name='date']")[0].value);
+                selectedWeek = viewModel.getWeek(date);
+                viewModel.selectedWeek = selectedWeek;
+            } else {
+                var datums = $("#reservatie-end-date").val();
+                var delen = datums.split("-");
+                viewModel.startDatum = delen[0];
+                viewModel.eindDatum = delen[1];
+                viewModel.selectedWeek = viewModel.startDatum + "-" + viewModel.eindDatum;
+            }
+            
+           
             if (viewModel.selectedWeek !== null) {
                 if ($('input:checkbox:checked').length === 0) {
                     $(".foutmelding").text("Selecteer minstens 1 materiaal!");
@@ -163,11 +232,13 @@ var viewModel = {
                 viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
                 viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
                 viewModel.session.setItem("week", selectedWeek);
+                viewModel.session.setItem("startDatum", viewModel.startDatum);
+                viewModel.session.setItem("eindDatum", viewModel.eindDatum);
                 $.ajax({
                     type: "POST",
                     traditional: true,
                     url: "/Verlanglijst/Controle",
-                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : true},
+                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, week: selectedWeek, knop : true},
                     success: function (data) {
                         $("#verlanglijst-pagina").html(data);
                         viewModel.init();
@@ -181,11 +252,13 @@ var viewModel = {
             var materialen = JSON.parse(viewModel.session.getItem("materialen"));
             var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
             var selectedWeek = viewModel.session.getItem("week");
+            var startDatum = viewModel.session.getItem("startDatum");
+            var eindDatum = viewModel.session.getItem("eindDatum");
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Reservatie/MaakReservatie",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek },
+                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, startDatum: startDatum, eindDatum: eindDatum },
                 success: function(data) {
                     window.location.href = '/catalogus/';
                 }
@@ -195,11 +268,13 @@ var viewModel = {
             var materialen = JSON.parse(viewModel.session.getItem("materialen"));
             var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
             var selectedWeek = viewModel.session.getItem("week");
+            var startDatum = viewModel.session.getItem("startDatum");
+            var eindDatum = viewModel.session.getItem("eindDatum");
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, knop: false },
+                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, knop: false, startDatum: startDatum, eindDatum:eindDatum },
                 success: function(data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();

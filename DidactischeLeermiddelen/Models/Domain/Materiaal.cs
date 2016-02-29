@@ -78,5 +78,16 @@ namespace DidactischeLeermiddelen.Models.Domain
                               - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal)
                               - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
         }
+
+        public int GeefAantalBeschikbaarLector(DateTime startDatum, DateTime eindDatum)
+        {
+            return AantalInCatalogus -
+                   Reservaties.Where(r => 
+                                (r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
+                                (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
+                                (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
+                                (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum) &&
+                                r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
+        }
     }
 }
