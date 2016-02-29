@@ -81,7 +81,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                TempData.Remove("Info");
+                //TempData.Remove("Info");
 
                 return PartialView("Catalogus", vm);
             }

@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         // GET: Verlanglijst
         public ActionResult Index(Gebruiker gebruiker)
-        {
+        {        
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
 
@@ -42,7 +42,7 @@ namespace DidactischeLeermiddelen.Controllers
                 vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
             }
             vm.Gebruiker = gebruiker;
-
+            
             return View(vm);
         }
 
@@ -64,7 +64,7 @@ namespace DidactischeLeermiddelen.Controllers
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
-                }
+                }               
             }
             return RedirectToAction("Index");
         }
@@ -103,7 +103,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Materialen = materialen.Select(m => new VerlanglijstViewModel
                     {
                         AantalGeselecteerd = materiaalAantal[m.MateriaalId],
-                        Naam = m.Naam,
+                        Naam = m.Naam,                  
                     }),
                     GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi),
                     StartDatum = startDatum,
@@ -112,7 +112,7 @@ namespace DidactischeLeermiddelen.Controllers
                     TotaalGeselecteerd = totaalGeselecteerd
                 };
                 return PartialView("Confirmatie", vm);
-            }
+            }         
             if (gebruiker is Lector)
             {
                 vm = new VerlanglijstMaterialenViewModel
@@ -143,32 +143,32 @@ namespace DidactischeLeermiddelen.Controllers
             }
             else if (gebruiker is Student)
             {          
-                vm = new VerlanglijstMaterialenViewModel
+            vm = new VerlanglijstMaterialenViewModel
+            {
+                Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                 {
-                    Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
-                    {
-                        AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
-                        Beschikbaar = aantalBeschikbaar == 0,
-
-                        Firma = m.Firma,
+                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
+                    Beschikbaar = aantalBeschikbaar == 0,
+        
+                    Firma = m.Firma,
                         Prijs = m.Prijs,
-                        Foto = m.Foto,
+                    Foto = m.Foto,
                         AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? aantalGeselecteerd == aantalBeschikbaar ? 0 : 1 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
-                        Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
-                        Leergebieden = m.Leergebieden as List<Leergebied>,
-                        Doelgroepen = m.Doelgroepen as List<Doelgroep>,
-                        ArtikelNr = m.ArtikelNr,
-                        AantalInCatalogus = m.AantalInCatalogus,
-                        MateriaalId = m.MateriaalId,
-                        Beschikbaarheid = aantalBeschikbaar == 0 ?
+                    Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
+                    Leergebieden = m.Leergebieden as List<Leergebied>,
+                    Doelgroepen = m.Doelgroepen as List<Doelgroep>,
+                    ArtikelNr = m.ArtikelNr,
+                    AantalInCatalogus = m.AantalInCatalogus,
+                    MateriaalId = m.MateriaalId,
+                    Beschikbaarheid = aantalBeschikbaar == 0 ? 
                                         string.Format("Niet meer beschikbaar van {0} tot {1}", HulpMethode.FirstDateOfWeekISO8601(2016, week).ToString("d"), HulpMethode.FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")) :
                                         aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
-                        Naam = m.Naam,
-                        Omschrijving = m.Omschrijving,
-                    }),
+                    Naam = m.Naam,
+                    Omschrijving = m.Omschrijving,
+                }),
                     GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi),
                     Gebruiker = gebruiker
-                };
+            };
             }
 
             return PartialView("Verlanglijst", vm);
@@ -206,14 +206,14 @@ namespace DidactischeLeermiddelen.Controllers
                                                 Convert.ToDateTime(eindDatum));
                     }
 
-                    if (aantalBeschikbaar == 0)
-                    {
+                        if (aantalBeschikbaar == 0)
+                        {
                         ModelState.AddModelError("", "error");
-                    }
-                    else if (aantalBeschikbaar < aantal[i])
-                    {
+                        }
+                        else if (aantalBeschikbaar < aantal[i])
+                        {
                         ModelState.AddModelError("", "error");
-                    }
+                        }
                 }
             }
             if (ModelState.IsValid)
@@ -242,6 +242,6 @@ namespace DidactischeLeermiddelen.Controllers
             return PartialView("DetailReservaties", new ReservatiesDetailViewModel { Reservaties = reservaties, Material = materiaal, GeselecteerdeWeek = week != -1 ? HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi) : "" });
         }
 
-
+       
     }
 }
