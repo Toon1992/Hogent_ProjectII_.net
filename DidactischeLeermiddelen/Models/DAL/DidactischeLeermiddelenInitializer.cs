@@ -42,17 +42,12 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Materiaal Bok = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 8888, MateriaalId = 8, Firma = c, Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M,  Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs, kleuterOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = true};
                 Materiaal Duitser = new Materiaal { AantalInCatalogus = 21, ArtikelNr = 9999, MateriaalId = 9, Firma = f, Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false};
                 Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek, ReddingsPop, Basketbal, Bok, Duitser };
-
-                
-                Reservatie reservatie = new Reservatie {Aantal = 10, Materiaal = rekentoestel, Status = Status.Gereserveerd};
-                Reservatie reservatie2 = new Reservatie {Aantal = 6, Materiaal = bordGeodriekhoek, Status = Status.Gereserveerd };
-
+                          
                 //rekentoestel.AddReservatie(reservatie);
                 //bordGeodriekhoek.AddReservatie(reservatie2);
 
                 context.Materialen.AddRange(materialen);
-                context.Reservaties.Add(reservatie);
-                context.Reservaties.Add(reservatie2);
+              
 
                 context.SaveChanges();
             }

@@ -56,7 +56,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week)
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week = 0)
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
 
