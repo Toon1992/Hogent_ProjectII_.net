@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using WebGrease.Css.Extensions;
 
@@ -43,6 +44,29 @@ namespace DidactischeLeermiddelen.Models.Domain
             IList<Materiaal> materialen = Reservaties.Select(m => m.Materiaal).ToList(); 
 
             VoegReservatieToe(materialen,aantal,week);
+        }
+
+        private void verzendMailNaarLectorNaBlokkering(ICollection<Reservatie> reservatiesOmTeBlokkeren)
+        {
+            MailMessage m = new MailMessage("projecten2groep6@gmail.com", this.Email);// hier nog gebruiker email pakken, nu testen of het werkt
+
+            m.Subject = "Bevestiging reservatie";
+            m.Body = string.Format("Dag {0} <br/>", this.Naam);
+            m.IsBodyHtml = true;
+            m.Body += "<p>U heeft zonet het volgende geblokkeerd: </p>";
+            m.Body += "<ul>";
+            foreach (var item in reservatiesOmTeBlokkeren )
+            {
+                m.Body += $"<li>{item.Aantal} x {item.Materiaal.Naam}</li>";
+            }
+            m.Body += "</ul>";
+            m.Body += "<br/>";
+            //m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
         }
     }
 }
