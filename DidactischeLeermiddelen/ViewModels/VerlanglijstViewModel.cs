@@ -57,5 +57,6 @@ namespace DidactischeLeermiddelen.ViewModels
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
         public string GeselecteerdeWeek { get; set; }
         public int TotaalGeselecteerd { get; set; }
+
     }
 }
