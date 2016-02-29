@@ -402,6 +402,7 @@
     <Content Include="Views\Verlanglijst\Confirmatie.cshtml" />
     <Content Include="Views\Reservatie\LegeReservatieLijst.cshtml" />
     <Content Include="Views\Catalogus\DetailFirma.cshtml" />
+    <Content Include="Views\Verlanglijst\ChartTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
