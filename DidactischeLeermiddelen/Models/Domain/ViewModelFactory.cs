@@ -9,36 +9,10 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public class ViewModelFactory
+    public abstract class ViewModelFactory
     {
-        public static IViewModel CreateViewModel(string type, SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null, DateTime startDatum =new DateTime(),Gebruiker gebruiker = null)
-        {
-            switch (type)
-            {
-                case "MaterialenViewModel":
-                    IViewModel vm = new MaterialenViewModel()
-                    {
-                        Materialen = lijst.Select(b => new MateriaalViewModel(b)),
-                        DoelgroepSelectList = new DoelgroepViewModel(doelgroepen),
-                        LeergebiedSelectList = new LeergebiedViewModel(leergebieden)
-                    };
-                    return vm;
-                case "VerlanglijstMaterialenViewModel":
-                    IViewModel vmm = new VerlanglijstMaterialenViewModel()
-                    {
-                        Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
-                    };
-                    return vmm;
-                case "ReservatieMaterialenViewModel":
-                    IViewModel rmv = new ReservatieMaterialenViewModel()
-                    {
-                        Materialen = gebruiker.Reservaties.Select(b => new ReservatieViewModel(b)),
-                    };
-                    return rmv;
-            }
-
-            return null;
-        }
+        public abstract IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden,
+            IEnumerable<Materiaal> lijst = null, DateTime startDatum = new DateTime(), Gebruiker gebruiker = null);
     }
 
     public class HulpMethode

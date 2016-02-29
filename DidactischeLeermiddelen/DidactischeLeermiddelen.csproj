@@ -234,10 +234,13 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\IMateriaalRepository.cs" />
+    <Compile Include="Models\Domain\MaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\Onbeschikbaar.cs" />
+    <Compile Include="Models\Domain\ReservatieMaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\TeLaat.cs" />
+    <Compile Include="Models\Domain\VerlanglijstMaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
