@@ -10,7 +10,9 @@ namespace DidactischeLeermiddelen
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/moment.js",
                         "~/Scripts/loginScript.js",
+                        "~/Scripts/daterangepicker.js",
                         "~/Scripts/datepickerScript.js",
                         "~/Scripts/datejs.js"));
 
@@ -30,6 +32,7 @@ namespace DidactischeLeermiddelen
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/daterangepicker.css",
                       "~/Content/bootstrap-datepicker3.min.css",
                       "~/Content/didactischeLeermiddelen.css",
                       "~/Content/site.css"));

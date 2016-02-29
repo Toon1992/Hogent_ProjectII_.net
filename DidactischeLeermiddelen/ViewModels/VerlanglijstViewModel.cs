@@ -48,6 +48,7 @@ namespace DidactischeLeermiddelen.ViewModels
             AantalGeblokkeerd = materiaal.GeefAantal(Status.Geblokkeerd, startdatum);
             AantalOnbeschikbaar = materiaal.GeefAantal(Status.Onbeschikbaar, startdatum);
         }
+
         public VerlanglijstViewModel() { }
     }
 
@@ -56,6 +57,10 @@ namespace DidactischeLeermiddelen.ViewModels
         public IEnumerable<VerlanglijstViewModel> Materialen { get; set; }
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
         public string GeselecteerdeWeek { get; set; }
+
+        public string StartDatum { get; set; }
+        public string EindDatum { get; set; }
         public int TotaalGeselecteerd { get; set; }
+        public Gebruiker Gebruiker { get; set; }
     }
 }
