@@ -80,6 +80,7 @@ namespace DidactischeLeermiddelen.Controllers
             DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             int totaalGeselecteerd = 0;
+            
 
             if (materiaal != null)
             {
@@ -138,7 +139,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Naam = m.Naam,
                         Omschrijving = m.Omschrijving,
                     }),
-                    GeselecteerdeWeek = startDatum + "-" + eindDatum,
+                    GeselecteerdeWeek = startDatum + " - " + eindDatum,
                     Gebruiker = gebruiker
                 };
             }
