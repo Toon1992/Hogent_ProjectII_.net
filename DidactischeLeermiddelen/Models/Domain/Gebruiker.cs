@@ -45,7 +45,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
             if (materiaal.Count != aantal.Length)
                 throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
-            
+
             int index = 0;
             materiaal.ForEach(m =>
             {
@@ -53,7 +53,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 reservatie.Gebruiker = gebruiker;
                 reservatie.Reserveer();
                 m.AddReservatie(reservatie);
-                Reservaties.Add(reservatie);
+                        Reservaties.Add(reservatie);
                 nieuweReservaties.Add(reservatie);
                 index++;
             });
