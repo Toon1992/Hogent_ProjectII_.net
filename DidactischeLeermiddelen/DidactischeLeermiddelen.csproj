@@ -198,8 +198,8 @@
     <Compile Include="Controllers\VerlanglijstController.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
-    <Compile Include="Models\DAL\ReservatieRepository.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
     <Compile Include="Models\Domain\StateMachine\Beschikbaar.cs" />
     <Compile Include="Models\Domain\StateMachine\Catalogus.cs" />
