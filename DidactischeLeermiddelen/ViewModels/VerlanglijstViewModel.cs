@@ -48,6 +48,7 @@ namespace DidactischeLeermiddelen.ViewModels
             AantalGeblokkeerd = materiaal.GeefAantal(Status.Geblokkeerd, startdatum);
             AantalOnbeschikbaar = materiaal.GeefAantal(Status.Onbeschikbaar, startdatum);
         }
+
         public VerlanglijstViewModel() { }
     }
 
