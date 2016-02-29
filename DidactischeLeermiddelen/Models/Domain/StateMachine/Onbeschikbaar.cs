@@ -16,17 +16,22 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Onbeschikbaar() { }
         public override void Reserveer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is onbeschikbaar");
         }
 
         public override void Annuleer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is onbeschikbaar");
         }
 
-        public override void Onblokkeer()
+        public override void Deblokkeer()
         {
             Reservatie.ToState(new Beschikbaar(Reservatie));
+        }
+
+        public override void Blokkeer()
+        {
+            throw new ArgumentException("Materiaal is onbeschikbaar");
         }
     }
 }

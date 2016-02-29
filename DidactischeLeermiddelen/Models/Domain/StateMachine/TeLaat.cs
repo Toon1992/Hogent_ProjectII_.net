@@ -21,17 +21,22 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public override void Reserveer()
         {
-            throw new NotImplementedException();
+            Reservatie.ToState(new Gereserveerd(Reservatie));
         }
 
         public override void Annuleer()
         {
-            throw new NotImplementedException();
+            Reservatie.ToState(new Beschikbaar(Reservatie));
         }
 
-        public override void Onblokkeer()
+        public override void Deblokkeer()
         {
             Reservatie.ToState(new Beschikbaar(Reservatie));
+        }
+
+        public override void Blokkeer()
+        {
+            Reservatie.ToState(new Geblokkeerd(Reservatie));
         }
     }
 }

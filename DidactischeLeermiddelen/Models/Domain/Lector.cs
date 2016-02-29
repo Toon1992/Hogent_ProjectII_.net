@@ -32,11 +32,17 @@ namespace DidactischeLeermiddelen.Models.Domain
             VerzendMailNaReservatie(nieuweReservaties, week, this); //gebruiker, materiaal, week);
         }
 
-        public void MaakBlokkeringen(IList<Materiaal> materiaal, int[] aantal, int week)
+        public void MaakBlokkeringen(ICollection<Reservatie> reservaties, int[] aantal, int week)
         {
+            reservaties.ForEach(r =>
+            {
+                r.Status = Status.Geblokkeerd;
+                r.ReservatieState.Blokkeer();
+            });
 
-            
-            VoegReservatieToe(materiaal,aantal,week);
+            IList<Materiaal> materialen = Reservaties.Select(m => m.Materiaal).ToList(); 
+
+            VoegReservatieToe(materialen,aantal,week);
         }
     }
 }
