@@ -76,6 +76,7 @@
         });
         $(".manufacturer").click(function () {
             var id = $(this).parent().parent().parent().parent().find("img").attr("itemprop");
+            //$(".tempdatas").html("");
             $.get("/Catalogus/DetailViewFirma", { id: id }, function (data) {
                 $("#catalogus-pagina").html(data);
             });

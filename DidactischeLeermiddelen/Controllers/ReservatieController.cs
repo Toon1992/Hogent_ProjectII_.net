@@ -13,6 +13,7 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
 {
+    [CustomAuthorize]
     public class ReservatieController : Controller
     {
         // GET: Reservatie
@@ -30,17 +31,17 @@ namespace DidactischeLeermiddelen.Controllers
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeReservatielijst");
 
-            IEnumerable<Reservatie> reservatielijst = gebruiker.Reservaties;
+            ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
 
-            foreach (Materiaal m in reservatielijst.Select(r => r.Materiaal))
+            foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
             {
-                materiaallijst.Add(m);
+                materiaallijst.Add(materiaal);
             }
             ViewBag.Gebruikersnaam = gebruiker.Naam;
             ViewBag.AantalReservaties = reservatielijst.Count();
 
-            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, null,gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = ViewModelFactory.CreateViewModel("ReservatieMaterialenViewModel", null, null, null,DateTime.Now,gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }

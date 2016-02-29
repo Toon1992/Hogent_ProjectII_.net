@@ -2,61 +2,57 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="DidactischeLeermiddelen.Models.Domain.Materiaal">
     <Position X="5.25" Y="1" Width="3.5" />
+    <AssociationLine Name="Reservaties" Type="DidactischeLeermiddelen.Models.Domain.Reservatie">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.237" Y="0.06" Height="0.182" Width="2.082" />
+      </MemberNameLabel>
+    </AssociationLine>
     <AssociationLine Name="Doelgroepen" Type="DidactischeLeermiddelen.Models.Domain.Doelgroep">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.36" Y="0.218" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="Firma" Type="DidactischeLeermiddelen.Models.Domain.Firma" ManuallyRouted="true">
-      <Path>
-        <Point X="6.281" Y="4.286" />
-        <Point X="6.281" Y="4.719" />
-        <Point X="9.282" Y="4.719" />
-        <Point X="9.282" Y="5.598" />
-        <Point X="9.758" Y="5.598" />
-        <Point X="9.758" Y="8.262" />
-        <Point X="10.75" Y="8.262" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAKAUAAAAAAAAAAAABAAAAIAAIAAAAAAAaACAARA=</HashCode>
+      <HashCode>AAAAACAQAIAAAAAAAAAAhgCAAIAAIAAAgCAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Firma" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
+      <Property Name="Reservaties" />
       <Property Name="Doelgroepen" />
       <Property Name="Leergebieden" />
-      <Property Name="Stuks" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Doelgroep">
     <Position X="0.5" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACEAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Doelgroep.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Materialen" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Leergebied">
     <Position X="0.5" Y="2.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Models\Domain\Leergebied.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
-    <Position X="10.5" Y="0.5" Width="3" />
+    <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAAAABAAAAAAAIAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIEAAAAAAAQAAIAAAIAACAAAgAAAAAgAAAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Materiaal" />
+      <Property Name="Gebruiker" />
+      <Property Name="ReservatieState" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Verlanglijst">
-    <Position X="2" Y="5" Width="1.5" />
+    <Position X="6.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAKAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Verlanglijst.cs</FileName>
@@ -65,53 +61,94 @@
       <Property Name="Materialen" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Stuk">
-    <Position X="4.25" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Stuk.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="StatusData" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.StatusData">
-    <Position X="4.25" Y="8.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
-      <FileName>Models\Domain\StatusData.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Lector" Collapsed="true">
-    <Position X="6" Y="8.5" Width="1.5" />
+    <Position X="9.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Lector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Student" Collapsed="true">
-    <Position X="8.25" Y="8.5" Width="1.5" />
+    <Position X="11.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Student.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Gebruiker">
-    <Position X="7" Y="5.5" Width="1.5" />
+    <Position X="10.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAhIARAAAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>EAAAAAAAACEAAAAAAAAAhIARAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Verlanglijst" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Reservaties" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Firma">
-    <Position X="10.75" Y="6" Width="7" />
+    <Position X="2" Y="5.25" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAABAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAgAAAAAAABAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Models\Domain\Firma.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="DidactischeLeermiddelen.Models.Domain.Status">
-    <Position X="9.75" Y="3.25" Width="1.5" />
+  <Class Name="DidactischeLeermiddelen.ReservatieState">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAGAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Domain\ReservatieState.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Reservatie" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Beschikbaar" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Beschikbaar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Catalogus" Collapsed="true">
+    <Position X="15.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Catalogus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Geblokkeerd" Collapsed="true">
+    <Position X="15.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Geblokkeerd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Gereserveerd" Collapsed="true">
+    <Position X="13.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Domain\Gereserveerd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.Onbeschikbaar" Collapsed="true">
+    <Position X="15.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Onbeschikbaar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Models.Domain.TeLaat" Collapsed="true">
+    <Position X="13.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\TeLaat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="DidactischeLeermiddelen.Models.Domain.Status" Collapsed="true">
+    <Position X="16" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAAAAAAAACAggAAABAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Status.cs</FileName>

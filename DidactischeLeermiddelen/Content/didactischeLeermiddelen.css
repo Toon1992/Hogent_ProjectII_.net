@@ -76,7 +76,7 @@
     margin: 0 auto;
 }
 
-.detailFirma tr th, td{
+.detailFirma tr th,.detailFirma td{
     font-size: 1.75em;
     text-align: center;
     padding-left: 3em;
@@ -95,8 +95,37 @@
 .detailFirma tr:hover {
     background-color: lightgray;
 }
-
-
+.detail-reservatie thead th{
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0.5em;
+    text-align: center;
+    border-bottom: 1px solid grey;
+}
+.detail-reservatie thead th:first-child{
+    border: none;
+}
+.detail-reservatie tbody th {
+    padding-right: 2em;
+}
+.detail-reservatie thead {
+    margin-bottom: 2em;
+}
+.detail-reservatie tr td {
+    padding-left: 2em;
+    padding-right: 2em;  
+    text-align: center;
+}
+.detail-reservatie-header .form-group {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+.detail-materiaal{
+    padding-top: 2em;
+}
+.teLaat {
+    color: red;
+}
 .info {
     color: gray; 
 }
