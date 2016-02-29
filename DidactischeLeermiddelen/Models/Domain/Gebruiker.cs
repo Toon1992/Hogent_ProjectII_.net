@@ -40,28 +40,9 @@ namespace DidactischeLeermiddelen.Models.Domain
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 
-        public void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week,Gebruiker gebruiker)
-        {
-            ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
-            if (materiaal.Count != aantal.Length)
-                throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
-
-            int index = 0;
-            materiaal.ForEach(m =>
-            {
-                Reservatie reservatie = new Reservatie(m, week, aantal[index]);
-                reservatie.Gebruiker = gebruiker;
-                reservatie.Reserveer();
-                m.AddReservatie(reservatie);
-                        Reservaties.Add(reservatie);
-                nieuweReservaties.Add(reservatie);
-                index++;
-            });
-
-            VerzendMailNaReservatie(nieuweReservaties, week, gebruiker); //gebruiker, materiaal, week);
-        }
-
-        private void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, int week, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        public abstract void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week);
+           
+        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, int week, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
             DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
             DateTime eindDatum = startDatum.AddDays(4);

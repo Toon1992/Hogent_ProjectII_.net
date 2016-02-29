@@ -199,6 +199,7 @@
     <Compile Include="IService1.cs" />
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
+    <Compile Include="Models\DAL\ReservatieRepository.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
     <Compile Include="Models\Domain\Beschikbaar.cs" />
     <Compile Include="Models\Domain\Catalogus.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
     <Compile Include="Models\Domain\IGebruikerRepository.cs" />
     <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
+    <Compile Include="Models\Domain\IReservatieRepository.cs" />
     <Compile Include="Models\Domain\Lector.cs" />
     <Compile Include="Models\Domain\Leergebied.cs" />
     <Compile Include="Models\Domain\Materiaal.cs" />

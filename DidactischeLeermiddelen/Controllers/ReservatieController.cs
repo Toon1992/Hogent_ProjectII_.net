@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using DidactischeLeermiddelen.Models.DAL;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 
@@ -19,11 +20,13 @@ namespace DidactischeLeermiddelen.Controllers
         // GET: Reservatie
         private IMateriaalRepository materiaalRepository;
         private IGebruikerRepository gebruikerRepository;
+        private IReservatieRepository reservatieRepository;
 
-        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository)
+        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository, IReservatieRepository reservatieRepository)
         {
             this.materiaalRepository = materiaalRepository;
             this.gebruikerRepository = gebruikerRepository;
+            this.reservatieRepository = reservatieRepository;
         }
 
         public ActionResult Index(Gebruiker gebruiker)
@@ -56,11 +59,13 @@ namespace DidactischeLeermiddelen.Controllers
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
 
+            IList<Reservatie> reservaties = reservatieRepository.FindAll().ToList();
+
             if (materialen != null)
             {
                 try
                 {
-                    gebruiker.VoegReservatieToe(materialen, aantal, week,gebruiker);
+                    gebruiker.VoegReservatieToe(materialen, aantal, week);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Reservatie werd aangemaakt";
                 }

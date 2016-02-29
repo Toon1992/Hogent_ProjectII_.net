@@ -44,13 +44,16 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek, ReddingsPop, Basketbal, Bok, Duitser };
 
                 
-                //Reservatie reservatie = new Reservatie {Aantal = 10, Materiaal = rekentoestel, Status = Status.Gereserveerd};
-                //Reservatie reservatie2 = new Reservatie {Aantal = 6, Materiaal = bordGeodriekhoek, Status = Status.Gereserveerd };
+                Reservatie reservatie = new Reservatie {Aantal = 10, Materiaal = rekentoestel, Status = Status.Gereserveerd};
+                Reservatie reservatie2 = new Reservatie {Aantal = 6, Materiaal = bordGeodriekhoek, Status = Status.Gereserveerd };
 
                 //rekentoestel.AddReservatie(reservatie);
                 //bordGeodriekhoek.AddReservatie(reservatie2);
 
                 context.Materialen.AddRange(materialen);
+                context.Reservaties.Add(reservatie);
+                context.Reservaties.Add(reservatie2);
+
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)
