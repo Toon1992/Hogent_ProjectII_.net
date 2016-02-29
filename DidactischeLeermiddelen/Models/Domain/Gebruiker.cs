@@ -15,6 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public string Email { get; set; }
         public string Naam { get; set; }
+        public string Faculteit { get; set; }
         public virtual Verlanglijst Verlanglijst { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
 
@@ -41,43 +42,40 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week,Gebruiker gebruiker)
         {
-            
-            if(materiaal.Count != aantal.Length)
+            ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
+            if (materiaal.Count != aantal.Length)
                 throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
 
             int index = 0;
             materiaal.ForEach(m =>
             {
-                for(int i = 0; i < aantal[index];i++)
-                {
-                    Reservatie reservatie = new Reservatie();
-                    if (reservatie.MaakReservatie(m, week))
+                Reservatie reservatie = new Reservatie(m, week, aantal[index]);
+                reservatie.Gebruiker = gebruiker;
+                reservatie.Reserveer();
+                m.AddReservatie(reservatie);
                         Reservaties.Add(reservatie);
-                }
+                nieuweReservaties.Add(reservatie);
                 index++;
             });
 
-            VerzendMailNaReservatie(gebruiker, materiaal, week);
-            //Reservatie reservatie = new Reservatie();
-            //reservatie.MaakReservatie(materiaal, startDatum);
-            //Reservaties.Add(reservatie);
+            VerzendMailNaReservatie(nieuweReservaties, week, gebruiker); //gebruiker, materiaal, week);
         }
 
-        private void VerzendMailNaReservatie(Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        private void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, int week, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
             DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
             DateTime eindDatum = startDatum.AddDays(4);
             // ook nog datum erbij pakken tot wanneer uitgeleend
-            MailMessage m = new MailMessage("projecten2groep6@gmail.com", "projecten2groep6@gmail.com");// hier nog gebruiker email pakken, nu testen of het werkt
+            MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
             m.Subject = "Bevestiging reservatie";
             m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
             m.IsBodyHtml = true;
             m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
             m.Body += "<ul>";
-            foreach (var item in materialen)
+            foreach (var item in reservaties)
             {
-                m.Body += $"<li>{item.Naam}</li>";
+                m.Body += $"<li>{item.Aantal} x {item.Materiaal.Naam}</li>";
             }
             m.Body += "</ul>";
             m.Body += "<br/>";

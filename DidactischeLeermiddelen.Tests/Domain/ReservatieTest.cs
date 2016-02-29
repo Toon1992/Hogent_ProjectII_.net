@@ -42,8 +42,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakReservatieMetNullMateriaal()
         {
             Materiaal materiaal = null;
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal,1);
+            Reservatie reservatie = new Reservatie(materiaal, 1, 1);
         }
 
         [TestMethod]
@@ -51,8 +50,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakReservatieMetMinderdanNulWeken()
         {
             Materiaal materiaal = new Materiaal("Test", 123, 3);
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal, -1);
+            Reservatie reservatie = new Reservatie(materiaal, -1, 1);
         }
 
         [TestMethod]
@@ -60,8 +58,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakReservatieOpWeeknul()
         {
             Materiaal materiaal = new Materiaal("Test", 123, 3);
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal, 0);
+            Reservatie reservatie = new Reservatie(materiaal, 0, 1);
         }
 
         [TestMethod]
@@ -69,19 +66,17 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakReservatieZonderStuksLijst()
         {
             Materiaal materiaal = new Materiaal("Test", 123, 3);
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal, 2);
+            Reservatie reservatie = new Reservatie(materiaal, 2, 1);
         }
 
-        [TestMethod]      
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void ErMagGeenReservatieGemaaktworden()
         {
             Materiaal materiaal = new Materiaal("Test", 123, 3);
-            materiaal.Stuks = new List<Stuk>() {new Stuk() {HuidigeStatus = Status.Gereserveerd} };
-            Reservatie reservatie = new Reservatie();
-            reservatie.MaakReservatie(materiaal, 2);
+            Reservatie reservatie = new Reservatie(materiaal, 2, 2);
+            Reservatie reservatie1 = new Reservatie(materiaal, 2, 2);
 
-            Assert.IsFalse(reservatie.MaakReservatie(materiaal, 2));
         }
     }
 }

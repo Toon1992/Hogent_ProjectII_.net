@@ -1,0 +1,91 @@
+﻿@using WebGrease.Css.Extensions
+@model DidactischeLeermiddelen.ViewModels.ReservatiesDetailViewModel
+@{
+    ViewBag.Title = "Details " + @Model.Material.Naam;
+}
+    <div class="detail-reservatie-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2 class="materiaal-naam" id="@Model.Material.MateriaalId">@Model.Material.Naam</h2>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-append date datecontrol" id="reservatie-detail-date">
+                            <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                            <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<div class="detail-reservatie">
+    <div class="container">
+        <div class="row">
+
+
+            @if (Model.Reservaties.Count == 0)
+            {
+                <div class="col-md-12">
+                    @if (@Model.GeselecteerdeWeek == "")
+                    {
+                        <h4>Er zijn nog geen reservaties voor @Model.Material.Naam</h4>
+                    }
+                    else
+                    {
+                        <h4>Geen reservaties op @Model.GeselecteerdeWeek</h4>
+                    }
+                    
+                </div>
+            }
+            else
+            {
+
+                <table class="table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Type</th>
+                            <th>Naam</th>
+                            <th>Status</th>
+                            <th>Aantal</th>
+                            <th>Aantal dagen geblokeerd</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Reservaties)
+                    {
+                        <tr>
+                            <th><h4>Reservaties op @item.Key</h4></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        foreach (var data in item.Value)
+                        {
+                            <tr>
+                                <td></td>
+                                <td><h5>@data.Type</h5></td>
+                                <td><h5>@data.Naam</h5></td>
+                                <td><h5 class="@(data.Status.Equals("teLaat")?"Telaat":"")">@data.Status</h5></td>
+                                <td><h5>@data.Aantal</h5></td>
+                                <td><h5>@data.AantalDagenGeblokkeerd</h5></td>
+                            </tr>
+
+                        }
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
+    <div>
+        @using (Html.BeginForm("Index", "Verlanglijst"))
+        {
+            <button type="submit" class="btn btn-default btn-verlanglijst ">
+                &laquo; Verlanglijst
+            </button>
+        }
+    </div>

@@ -30,13 +30,13 @@ namespace DidactischeLeermiddelen.ViewModels
         public int ArtikelNr { get; set; }
         public Decimal Prijs { get; set; }
 
-        public VerlanglijstViewModel(Materiaal materiaal)
+        public VerlanglijstViewModel(Materiaal materiaal, DateTime startdatum)
         {
             MateriaalId = materiaal.MateriaalId;
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
-            Status = materiaal.Status;
+            //Status = materiaal.Status;
             Firma = materiaal.Firma;
             Leergebieden = materiaal.Leergebieden as List<Leergebied>;
             Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
@@ -45,9 +45,10 @@ namespace DidactischeLeermiddelen.ViewModels
             Beschikbaar = true;
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
-            AantalGeblokkeerd = materiaal.GeefAantalGeblokkeerd();
-            AantalOnbeschikbaar = materiaal.GeefAantalOnbeschikbaar();
+            AantalGeblokkeerd = materiaal.GeefAantal(Status.Geblokkeerd, startdatum);
+            AantalOnbeschikbaar = materiaal.GeefAantal(Status.Onbeschikbaar, startdatum);
         }
+
         public VerlanglijstViewModel() { }
     }
 
@@ -57,5 +58,6 @@ namespace DidactischeLeermiddelen.ViewModels
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
         public string GeselecteerdeWeek { get; set; }
         public int TotaalGeselecteerd { get; set; }
+
     }
 }

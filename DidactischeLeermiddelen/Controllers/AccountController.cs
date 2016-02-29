@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,23 +20,27 @@ using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Newtonsoft.Json;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IGebruikerRepository repository;
 
-        public AccountController()
+        public AccountController(IGebruikerRepository gebruikerRepository)
         {
+            repository = gebruikerRepository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IGebruikerRepository repository )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this.repository = repository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -84,6 +91,7 @@ namespace DidactischeLeermiddelen.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //FormsAuthentication.SetAuthCookie(model.Email, false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -100,48 +108,71 @@ namespace DidactischeLeermiddelen.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult LoginOtherService(LoginViewModel model, string returnUrl)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LoginOtherService(LoginViewModel model, string returnUrl)
         {
-            if (model.Email == "" || model.Password == "")
+            var json = string.Empty;
+            string password = HashPasswordSha256(model.Password);
+            string url = "https://studservice.hogent.be/auth" + "/" + model.Email + "/" + password;
+            using (HttpClient hc = new HttpClient())
+            {
+                json = await hc.GetStringAsync(url); //wc.DownloadString(url);
+            }
+            dynamic array = JsonConvert.DeserializeObject(json);
+            if (array.Equals("[]"))
             {
                 ModelState.AddModelError("", "Ongeldige login.");
                 return View("Login", model);
             }
-            IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
-            Gebruiker gebruiker = repos.FindByName(model.Email);
+            var name = array.NAAM.ToString();
+            var vnaam = array.VOORNAAM.ToString();
+            var type = array.TYPE.ToString();
+            var faculteit = array.FACULTEIT.ToString();
+            Gebruiker gebruiker = repository.FindByName(model.Email);
             if (gebruiker == null)
             {
-                if (model.Email.Contains("@student.hogent"))
+                if (type.Equals("student"))
                 {
                     gebruiker = new Student()
                     {
-                        Naam = model.Name,
-                        Email = model.Email
+                        Naam = vnaam+" "+name,
+                        Email = model.Email,
+                        Faculteit = faculteit
                     };
                 }
                 else
                 {
                     gebruiker = new Lector
                     {
-                        Naam = model.Name,
-                        Email = model.Email
+                        Naam = vnaam+" "+name,
+                        Email = model.Email,
+                        Faculteit = faculteit
                     };
                 }
                 gebruiker.Verlanglijst = new Verlanglijst();
                 gebruiker.Reservaties = new List<Reservatie>();
-                repos.AddGebruiker(gebruiker);
-                repos.SaveChanges();
+                repository.AddGebruiker(gebruiker);
+                repository.SaveChanges();
             }
-            Membership.ValidateUser(model.Email, model.Password);
-            // Create generic identity.
-            GenericIdentity MyIdentity = new GenericIdentity(model.Name);
-            // Create generic principal.
-            String[] MyStringArray = { "Student", "Lector" };
-            GenericPrincipal MyPrincipal = new GenericPrincipal(MyIdentity, MyStringArray);
-            Thread.CurrentPrincipal = MyPrincipal;
-            Thread.CurrentPrincipal = MyPrincipal;
-            //Thread.CurrentPrincipal = HttpContext.User = gebruiker;
-            return RedirectToLocal("/");
+            var authTicket = new FormsAuthenticationTicket(
+                2,
+                model.Email,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+                false,
+                "some token that will be used to access the web service and that you have fetched"
+            );
+            var authCookie = new HttpCookie(
+                FormsAuthentication.FormsCookieName,
+                FormsAuthentication.Encrypt(authTicket)
+            )
+            {
+                HttpOnly = true
+            };
+            Response.AppendCookie(authCookie);
+            FormsAuthentication.SetAuthCookie(model.Email, false);
+            Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [AllowAnonymous]
@@ -163,9 +194,9 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

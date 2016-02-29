@@ -17,40 +17,15 @@
             <div class="checkbox hidden-lg hidden-md hidden-sm">
                 @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId})
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
                 <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
                 <h5 class="aantal">In catalogus : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
                 <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalGeblokkeerd)</h5>
+                <h5 class="aantal">Onbeschikbaar: @Html.DisplayFor(modelItem => item.AantalOnbeschikbaar)</h5>
                 <h3 class="beschikbaarheid">@item.Beschikbaarheid</h3>
             </div>
-            <div class="col-md-2 hidden-sm hidden-xs">
-                <div class="leergebied">
-                    @foreach (var leergebied in item.Leergebieden)
-                    {
-                        <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                    }
-                </div>
-
-            </div>
-            <div class="col-md-2 doelgroep hidden-sm hidden-xs">
-                @foreach (var doelgroep in item.Doelgroepen)
-                {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                }
-            </div>
-
-            <div class="hidden-lg hidden-md col-sm-3 hidden-xs">
-                @foreach (var leergebied in item.Leergebieden)
-                {
-                    <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                }
-                <br />
-                @foreach (var doelgroep in item.Doelgroepen)
-                {
-                    <h5>@Html.DisplayFor(d => doelgroep.Naam)</h5>
-
-                }
+            <div class="col-md-2 co-sm-2">
+                <h4 class="detail-materiaal"><a>Details</a></h4>
             </div>
 
             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -72,7 +47,14 @@
     </div>
 }
 <div class="row">
-   
+    <div class="col-md-3 col-sm-5 col-xs-12">
+        <div class="form-group text-center">
+            <div class="input-append date datecontrol" id="reservatie-date">
+                <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+    </div>
     <div class="col-md-5">
         <h4 class="foutmelding"></h4>
     </div>

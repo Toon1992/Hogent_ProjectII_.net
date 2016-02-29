@@ -10,10 +10,11 @@ using System.Web.Mvc;
 using System.Web.WebPages;
 using DidactischeLeermiddelen.ViewModels;
 using Ninject.Activation;
+using Ninject.Web.Mvc.Filter;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
+    [CustomAuthorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;
@@ -80,6 +81,8 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (Request.IsAjaxRequest())
             {
+                //TempData.Remove("Info");
+
                 return PartialView("Catalogus", vm);
             }
             return View("Index", vm);
@@ -114,6 +117,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult DetailViewFirma(int id)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
+            //TempData.Remove("Info");
             return PartialView("DetailFirma", new FirmaViewModel(materiaal.Firma));
         }
 
