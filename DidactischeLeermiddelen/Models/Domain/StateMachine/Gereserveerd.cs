@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Gereserveerd() { }
         public override void Reserveer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is al gereserveerd");
         }
 
         public override void Annuleer()
@@ -24,9 +24,14 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public override void Onblokkeer()
+        public override void Deblokkeer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is gereserveerd");
+        }
+
+        public override void Blokkeer()
+        {
+            Reservatie.ToState(new Geblokkeerd(Reservatie));
         }
     }
 }
