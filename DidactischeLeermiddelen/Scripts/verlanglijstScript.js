@@ -151,11 +151,19 @@ var viewModel = {
             var delen = datums.split("-");
             viewModel.startDatum = delen[0];
             viewModel.eindDatum = delen[1];
+            $('input:checkbox:checked').map(function () {
+                var materiaalId = $(this).parent().find("input")[0].id;
+                var aantal = $("#" + materiaalId).find($(".input-medium")).val();
+                if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
+                    viewModel.materiaalList.push(parseInt(materiaalId));
+                    viewModel.aantalList.push(parseInt(aantal));
+                }
+            });
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: startDatum, eindDatum : eindDatum, knop: false },
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: viewModel.startDatum, eindDatum : viewModel.eindDatum, knop: false },
                 success: function (data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();
@@ -203,7 +211,7 @@ var viewModel = {
                 viewModel.eindDatum = delen[1];
                 viewModel.selectedWeek = viewModel.startDatum + "-" + viewModel.eindDatum;
             }
-            viewModel.startDatum = $("input[name='date']").val();
+            
            
             if (viewModel.selectedWeek !== null) {
                 if ($('input:checkbox:checked').length === 0) {
