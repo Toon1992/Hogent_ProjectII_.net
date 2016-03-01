@@ -27,9 +27,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
 
-            //if (aantal <= 0)
-            //    throw new ArgumentException("Aantal moet groter dan 0 zijn.");
-
             if (gebruker is Student)
             {
                 var week = HulpMethode.GetIso8601WeekOfYear(Convert.ToDateTime(startDatum));

@@ -40,6 +40,19 @@ namespace DidactischeLeermiddelen.Models.Domain
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 
+        public void VerwijderReservatie(Reservatie r)
+        {
+            if (Reservaties.Contains(r))
+            {
+                Reservaties.Remove(r);
+            }
+            else
+            {
+                throw new ArgumentException("Er is geen reservatie om te verwijderen");
+            }
+            
+        }
+
         protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum,
             bool isBlokkeer)
         {

@@ -45,7 +45,7 @@ namespace DidactischeLeermiddelen.Controllers
             ViewBag.AantalReservaties = reservatielijst.Count();
 
             ReservatieMaterialenViewModelFactory rvmf = new ReservatieMaterialenViewModelFactory();
-            ReservatieMaterialenViewModel vm = rvmf.CreateViewModel(null, null, null,DateTime.Now,gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = rvmf.CreateViewModel(null, null, null, DateTime.Now, gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }
@@ -74,8 +74,8 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         Student student = gebruiker as Student;
 
-                        if(student != null)
-                            student.maakReservaties(potentieleReservaties,startDatum,eindDatum);
+                        if (student != null)
+                            student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
                                              
                        
                         TempData["Info"] = $"Reservatie werd aangemaakt";
@@ -86,8 +86,8 @@ namespace DidactischeLeermiddelen.Controllers
                         Lector lector = gebruiker as Lector;
 
                         if (lector != null)
-                            lector.MaakBlokkeringen(potentieleReservaties,startDatum,eindDatum);
-                      
+                            lector.MaakBlokkeringen(potentieleReservaties, startDatum, eindDatum);
+
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
 
@@ -97,6 +97,22 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     TempData["Error"] = ex.Message;
                 }
+            }
+        }
+
+        [HttpPost]
+        public void VerwijderReservatie(int id, Gebruiker gebruiker)
+        {
+            Reservatie r = reservatieRepository.FindById(id);
+            try
+            {
+                gebruiker.VerwijderReservatie(r);
+                gebruikerRepository.SaveChanges();
+                TempData["Info"] = "Reservatie is succesvol verwijderd";
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
             }
         }
 
