@@ -30,7 +30,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 index++;
             });
 
-            VerzendMailNaReservatie(nieuweReservaties, week, this); //gebruiker, materiaal, week);
+            VerzendMailNaReservatie(nieuweReservaties, startDatum, eindDatum, this); //gebruiker, materiaal, week);
         }
 
         public void MaakBlokkeringen(ICollection<Reservatie> reservaties, int[] aantal, string startDatum, string eindDatum)
@@ -44,9 +44,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             IList<Materiaal> materialen = Reservaties.Select(m => m.Materiaal).ToList(); 
 
             VoegReservatieToe(materialen,aantal,startDatum, eindDatum);
+            VerzendMailNaarLectorNaBlokkering(reservaties,startDatum,eindDatum);
         }
 
-        private void verzendMailNaarLectorNaBlokkering(ICollection<Reservatie> reservatiesOmTeBlokkeren)
+        private void VerzendMailNaarLectorNaBlokkering(ICollection<Reservatie> reservatiesOmTeBlokkeren,string startDatum,string eindDatum)
         {
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", this.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
@@ -61,7 +62,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             m.Body += "</ul>";
             m.Body += "<br/>";
-            //m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
+            m.Body += $"<p>De periode van blokkering is van {startDatum} tot {eindDatum}</p>";
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");

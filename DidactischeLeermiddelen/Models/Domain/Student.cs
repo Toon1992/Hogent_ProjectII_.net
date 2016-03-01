@@ -29,7 +29,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 index++;
             });
 
-           VerzendMailNaReservatie(nieuweReservaties, week, this); //gebruiker, materiaal, week);
+           VerzendMailNaReservatie(nieuweReservaties, startDatum,eindDatum, this); //gebruiker, materiaal, week);
         }
     }
 }

@@ -42,10 +42,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public abstract void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, string startdatum, string eindDatum);
            
-        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, int week, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, string startDatum,string eindDatum, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
-            DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
-            DateTime eindDatum = startDatum.AddDays(4);
             // ook nog datum erbij pakken tot wanneer uitgeleend
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
