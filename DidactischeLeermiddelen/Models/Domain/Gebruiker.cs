@@ -40,9 +40,47 @@ namespace DidactischeLeermiddelen.Models.Domain
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 
-        public abstract void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, string startdatum, string eindDatum);
-           
-        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, string startDatum,string eindDatum, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        public void VerwijderReservatie(Reservatie r)
+        {
+            if (Reservaties.Contains(r))
+            {
+                Reservaties.Remove(r);
+            }
+            else
+            {
+                throw new ArgumentException("Er is geen reservatie om te verwijderen");
+            }
+            
+        }
+
+        protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum,
+            bool isBlokkeer)
+        {
+            ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
+
+            for (int index = 0; index < aantal; index++)
+            {
+                Reservatie reservatie = new Reservatie(this, materiaal, startdatum,
+                    eindDatum);
+                reservatie.Gebruiker = this;
+                if (!isBlokkeer)
+                {
+                    reservatie.Reserveer();
+                }
+                else
+                {
+                    reservatie.Blokkeer();
+                }
+                materiaal.AddReservatie(reservatie);
+                Reservaties.Add(reservatie);
+                nieuweReservaties.Add(reservatie);
+
+            }
+
+           // VerzendMailNaReservatie(nieuweReservaties, startdatum, eindDatum, this); //gebruiker, materiaal, week);
+        }
+
+        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
             // ook nog datum erbij pakken tot wanneer uitgeleend
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt

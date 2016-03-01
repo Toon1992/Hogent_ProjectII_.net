@@ -175,6 +175,11 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
+                $.getJson("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(data) {
+                    var dataTable = new google.visualization.DataTable(data);
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    chart.draw(dataTable, { width: 400, height: 240 });
+                });
                 viewModel.init();
             });
         });

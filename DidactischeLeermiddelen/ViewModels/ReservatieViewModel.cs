@@ -14,9 +14,9 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Firma { get; set; }
         public int MateriaalId { get; set; }
         public string Omschrijving { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime StartDatum { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime EindDatum { get; set; }
         public int AantalStuksGereserveerd { get; set; }
 

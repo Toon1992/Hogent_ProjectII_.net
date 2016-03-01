@@ -22,12 +22,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Status Status { get; set; }
 
         public Reservatie() { }
-        public Reservatie(Gebruiker gebruker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
+        public Reservatie(Gebruiker gebruker, Materiaal materiaal, string startDatum, string eindDatum/*, int aantal*/)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
-            if (aantal <= 0)
-                throw new ArgumentException("Aantal moet groter dan 0 zijn.");
+
+            //if (aantal <= 0)
+            //    throw new ArgumentException("Aantal moet groter dan 0 zijn.");
 
             if (gebruker is Student)
             {
@@ -41,7 +42,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 EindDatum = Convert.ToDateTime(eindDatum);
             }
             Materiaal = materiaal;
-            Aantal = aantal;
+           // Aantal = aantal;
             ReservatieState = new Beschikbaar(this);
         }
 
