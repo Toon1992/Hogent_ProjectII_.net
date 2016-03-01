@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-   public interface IReservatieRepository
+    public interface IReservatieRepository
     {
         IQueryable<Reservatie> FindAll();
-        IList<Reservatie> FindById(string email);
+        IList<Reservatie> FindByEmail(string email);
+        Reservatie FindById(int id);
         void SaveChanges();
     }
 }

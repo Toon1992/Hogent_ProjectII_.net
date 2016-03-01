@@ -11,43 +11,54 @@
 @foreach (var item in Model.Materialen)
 {
     <div class="row materiaal">
-        <div class="materiaal-content">
-            <div class="img-side">
-                <div class="col-md-2 col-sm-2 col-xs-12 img-tag">
-                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+    <div class="materiaal-content">
+        <div class="img-side">
+            <div class="col-md-2 col-sm-2 col-xs-12 img-tag">
+                <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+            </div>
+        </div>
+        <div class="info-side">
+            <div class="left-side text-center">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
+                    <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
                 </div>
             </div>
-            <div class="info-side">
-                <div class="left-side text-center">
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                        <h4 class="description">@Html.DisplayFor(modelItem => item.Omschrijving)</h4>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-4">
-                    <div class="startdatum">
-                        <h4>Startdatum</h4>
-                        <h5>@Html.DisplayFor(modelItem => item.StartDatum)</h5>
-                    </div>
-
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-4">
-                    <div class="einddatum">
-                        <h4>Einddatum</h4>
-                        <h5>@Html.DisplayFor(modelItem => item.EindDatum)</h5>
-                    </div>
-
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-4">
-                    <div class="aantal">
-                        <h4>Aantal stuks</h4>
-                        <h5>@Html.DisplayFor(modelItem => item.AantalStuksGereserveerd)</h5>
-                    </div>
-
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                <div class="startdatum">
+                    <h4>Startdatum</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.StartDatum)</h5>
                 </div>
 
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                <div class="einddatum">
+                    <h4>Einddatum</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.EindDatum)</h5>
+                </div>
 
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                <div class="aantal">
+                    <h4>Aantal stuks</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.AantalStuksGereserveerd)</h5>
+                </div>
+
+            </div>
+            <div class="row text-center">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    @using (Html.BeginForm("VerwijderReservatie", "Reservatie", new { id = item.MateriaalId })) // hier nog reservatieId nemen
+                    {
+
+                        <button type="submit" class="btn btn-delete">
+                            <span class="glyphicon glyphicon-remove"></span> Verwijderen
+                        </button>
+                    }
+
+
+                </div>
             </div>
         </div>
     </div>
+        </div>
 }

@@ -23,10 +23,15 @@ namespace DidactischeLeermiddelen.Models.DAL
             return reservaties;
         }
 
-        public IList<Reservatie> FindById(string email)
+        public IList<Reservatie> FindByEmail(string email)
         {
             return reservaties.Where(r => r.Gebruiker.Email.Equals(email)).ToList();
         }
+
+        public Reservatie FindById(int id)
+        {
+            return reservaties.FirstOrDefault(r => r.ReservatieId==id);
+        } 
 
         public void SaveChanges()
         {
