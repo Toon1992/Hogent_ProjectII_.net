@@ -33,10 +33,12 @@
                     @if (@Model.GeselecteerdeWeek == "")
                     {
                         <h4>Er zijn nog geen reservaties voor @Model.Material.Naam</h4>
+
                     }
                     else
                     {
                         <h4>Geen reservaties op @Model.GeselecteerdeWeek</h4>
+
                     }
 
                 </div>
@@ -82,11 +84,11 @@
     </div>
 </div>
 
-    <div>
-        @using (Html.BeginForm("Index", "Verlanglijst"))
-        {
-            <button type="submit" class="btn btn-default btn-verlanglijst ">
-                &laquo; Verlanglijst
-            </button>
-        }
-    </div>
+<div>
+    @using (Html.BeginForm("Index", "Verlanglijst"))
+    {
+        <button type="submit" class="btn btn-default btn-verlanglijst ">
+            &laquo; Verlanglijst
+        </button>
+    }
+</div>

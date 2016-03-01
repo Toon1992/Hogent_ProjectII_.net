@@ -258,7 +258,10 @@ var viewModel = {
                 $(".foutmelding").text("Selecteer een week!");
             }
         });
-        $("#btn-reserveer").click(function() {
+        $("#btn-reserveer").click(function () {
+
+            $("#divLoading").addClass('toon');
+            $("#divLoading").click(false);
             var materialen = JSON.parse(viewModel.session.getItem("materialen"));
             var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
             var selectedWeek = viewModel.session.getItem("week");
@@ -268,8 +271,10 @@ var viewModel = {
                 type: "POST",
                 traditional: true,
                 url: "/Reservatie/MaakReservatie",
-                data: { materiaal: materialen, aantal: aantallen, startDatum: startDatum, eindDatum: eindDatum },
+                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, startDatum: startDatum, eindDatum: eindDatum },
                 success: function (data) {
+
+                    $("#divLoading").hide();
                     window.location.href = '/catalogus/';
                 }
             });

@@ -51,7 +51,37 @@
     margin-top: 0;
     margin-bottom: 1.5em;
     margin-left: 0.5em;
-    
+}
+
+#divLoading {
+    display: none;
+}
+#divLoading.toon {
+    display: block;
+    position: fixed;
+    z-index: 100;
+    background-image: url('Images/ajax-loader.gif');
+    background-color: #8688a0;
+    opacity: 0.6;
+    background-repeat: no-repeat;
+    background-position: center;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+}
+
+.toongif {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    z-index: 101;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+    width: 100px;
+    height: 100px;
 }
 
 .manufacturer:hover {
@@ -63,71 +93,82 @@
     text-align: center;
     width: 100%;
 }
+
 .detailFirma {
     margin-top: 1em;
     margin-bottom: 1em;
     padding-left: 1em;
     padding-bottom: 1em;
 }
-.detailFirma a {
-    
-}
-.detailFirma table {
-    margin: 0 auto;
-}
 
-.detailFirma tr th,.detailFirma td{
-    font-size: 1.75em;
-    text-align: center;
-    padding-left: 3em;
-    padding-right: 3em;
-    
-}
-.detailFirma table {
-    border: 2px solid black;    
-}
-.detailFirma tr {
-    border-bottom: 2px solid black;
-    padding-top: 1em;
-    
-}
+    .detailFirma a {
+    }
 
-.detailFirma tr:hover {
-    background-color: lightgray;
-}
-.detail-reservatie thead th{
+    .detailFirma table {
+        margin: 0 auto;
+    }
+
+    .detailFirma tr th, .detailFirma td {
+        font-size: 1.75em;
+        text-align: center;
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
+    .detailFirma table {
+        border: 2px solid black;
+    }
+
+    .detailFirma tr {
+        border-bottom: 2px solid black;
+        padding-top: 1em;
+    }
+
+        .detailFirma tr:hover {
+            background-color: lightgray;
+        }
+
+.detail-reservatie thead th {
     padding-left: 2em;
     padding-right: 2em;
     padding-bottom: 0.5em;
     text-align: center;
     border-bottom: 1px solid grey;
 }
-.detail-reservatie thead th:first-child{
-    border: none;
-}
+
+    .detail-reservatie thead th:first-child {
+        border: none;
+    }
+
 .detail-reservatie tbody th {
     padding-right: 2em;
 }
+
 .detail-reservatie thead {
     margin-bottom: 2em;
 }
+
 .detail-reservatie tr td {
     padding-left: 2em;
-    padding-right: 2em;  
+    padding-right: 2em;
     text-align: center;
 }
+
 .detail-reservatie-header .form-group {
     padding-top: 20px;
     padding-bottom: 10px;
 }
-.detail-materiaal{
+
+.detail-materiaal {
     padding-top: 2em;
 }
+
 .teLaat {
     color: red;
 }
+
 .info {
-    color: gray; 
+    color: gray;
 }
 
 .zoekfunctie {
@@ -137,28 +178,33 @@
 .leergebied {
     margin-bottom: 3em;
 }
-.leergebied h4 {
-    font-size: 1.1em;
-}
+
+    .leergebied h4 {
+        font-size: 1.1em;
+    }
+
 .btn-verlanglijst {
     border-color: #009c7c;
     color: #009c7c;
 }
-.btn-verlanglijst:hover {
-    background-color: #009c7c;
-    border-color: white;
-    color: white;
-}
+
+    .btn-verlanglijst:hover {
+        background-color: #009c7c;
+        border-color: white;
+        color: white;
+    }
+
 .btn-delete {
     background-color: white;
     border-color: #d9534f;
     color: #d9534f;
 }
-.btn-delete:hover {
-    background-color: #d9534f;
-    color: white;
-    border-color: white;
-}
+
+    .btn-delete:hover {
+        background-color: #d9534f;
+        color: white;
+        border-color: white;
+    }
 
 .btnCatalogusVerlanglijstMobile {
     margin-top: 1em;
@@ -166,12 +212,15 @@
     color: gray;
     width: 113px;
 }
+
 #btn-reserveer {
     text-align: right;
 }
+
 #btn-confirmeer {
     text-align: right;
 }
+
 .doelgroep {
     margin-bottom: 3em;
 }
@@ -232,30 +281,36 @@
 #filterBox {
     display: block;
 }
+
 .geselecteerd {
     background-color: #dff0d8;
 }
-.onbeschikbaar {
 
-    
+.onbeschikbaar {
 }
+
 .beschikbaarheid {
     color: #b94a48;
     font-size: 15px;
 }
+
 .datepicker table tbody tr:hover {
     background-color: #eee;
 }
-.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover{
+
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
     color: #d8d8d8;
     cursor: not-allowed;
 }
-.datepicker table tr td, .datepicker table tr td:hover{
+
+.datepicker table tr td, .datepicker table tr td:hover {
     color: #38bc31;
 }
+
 .daterangepicker td.active, .daterangepicker td.active:hover {
     background-color: #44BD35;
 }
+
 .daterangepicker td.in-range {
     background-color: rgba(39, 201, 20, 0.53);
     color: black;
@@ -265,9 +320,11 @@
 img {
     width: 100px;
 }
+
 .foutmelding {
     color: #b94a48;
 }
+
 .zoekfunctieTop {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -280,11 +337,13 @@ img {
     color: #fff;
     padding: 4px 12px;
 }
+
 .add-on i {
     cursor: pointer;
     width: 16px;
     height: 16px;
 }
+
 .add-on {
     padding: 4px 5px 4px 7px;
     border: 1px solid #009c7c;
@@ -293,6 +352,7 @@ img {
 .overzicht {
     border-bottom: 1px solid black;
 }
+
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;
@@ -325,67 +385,81 @@ img {
         text-align: center;
         margin-bottom: 4em;
     }
-    .mobile-home-item h2 {
-        font-size: 26px;
-    }
+
+        .mobile-home-item h2 {
+            font-size: 26px;
+        }
+
     .img-side {
         display: block;
     }
-    
 }
+
 @media(max-width: 767px) {
     .img-side img {
         width: 100px;
     }
+
     .img-side {
         width: 100%;
         display: block;
         text-align: center;
         padding: 1em 0;
     }
+
     .info-side {
         width: 100%;
         display: block;
         overflow: hidden;
         text-align: center;
     }
+
     .filtergroup {
         display: block;
         overflow: hidden;
     }
+
     .materiaal-content {
         padding-bottom: 1em;
     }
+
     .footergroup {
         display: block;
         overflow: hidden;
-        margin-bottom:2em; 
+        margin-bottom: 2em;
     }
+
     .img-tag {
         padding-bottom: 1em;
     }
+
     .radio, .checkbox {
         padding-left: 15%;
     }
+
     #btn-reserveer {
         text-align: left;
     }
+
     #btn-confirmeer {
         text-align: left;
     }
 }
+
 @media(max-width: 381px) {
     .mobile-home-item {
         text-align: center;
         margin-bottom: 4em;
     }
-    .mobile-home-item h2 {
-        font-size: 20px;
-        font-weight: 600;
-    }
-    .mobile-home-item img {
-        width: 80px;
-    }
+
+        .mobile-home-item h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .mobile-home-item img {
+            width: 80px;
+        }
     /*.img-side {   
         text-align: center;
     }
@@ -396,4 +470,3 @@ img {
         text-align: center;
     }*/
 }
-
