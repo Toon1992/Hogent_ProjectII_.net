@@ -83,10 +83,10 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             return AantalInCatalogus -
                    Reservaties.Where(r => 
-                                (r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
+                                ((r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
                                 (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
                                 (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
-                                (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum) &&
+                                (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum)) &&
                                 r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
         }
     }

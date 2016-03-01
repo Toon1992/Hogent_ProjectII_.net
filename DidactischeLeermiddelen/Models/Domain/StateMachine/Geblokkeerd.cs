@@ -14,19 +14,24 @@ namespace DidactischeLeermiddelen.Models.Domain
             
         }
         public Geblokkeerd() { }
-        public override void Onblokkeer()
+        public override void Deblokkeer()
         {
             Reservatie.ToState(new Beschikbaar(Reservatie));
         }
 
         public override void Reserveer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is geblokkeerd");
         }
 
         public override void Annuleer()
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Materiaal is geblokkeerd");
+        }
+
+        public override void Blokkeer()
+        {
+            throw new ArgumentException("Materiaal is al geblokkeerd");
         }
     }
 }

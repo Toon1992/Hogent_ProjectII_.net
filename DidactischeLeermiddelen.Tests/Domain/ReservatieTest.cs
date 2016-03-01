@@ -20,9 +20,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakJuistReservatie()
         {
             Materiaal materiaal =new Materiaal("Test", 123, 3);
-            materiaal.Stuks = new List<Stuk>() {new Stuk() {HuidigeStatus = Status.Beschikbaar} };
+            //materiaal.Stuks = new List<Stuk>() {new Stuk() {HuidigeStatus = Status.Beschikbaar} };
             int[] aantal = new[] {1};
-           context.Toon.VoegReservatieToe(new List<Materiaal>() { materiaal }, aantal,5,context.Toon );
+           context.Toon.VoegReservatieToe(new List<Materiaal>() { materiaal }, aantal,5);
             Assert.AreEqual(1,context.Toon.Reservaties.Count);                  
         }
 
@@ -31,9 +31,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void MaakReservatieMetMeerAantalenDanMaterialen()
         {
             Materiaal materiaal = new Materiaal("Test", 123, 3);
-            materiaal.Stuks = new List<Stuk>() { new Stuk() { HuidigeStatus = Status.Beschikbaar } };
+            //materiaal.Stuks = new List<Stuk>() { new Stuk() { HuidigeStatus = Status.Beschikbaar } };
             int[] aantal = new[] { 1,1 };
-            context.Toon.VoegReservatieToe(new List<Materiaal>() { materiaal }, aantal, 5,context.Toon);
+            context.Toon.VoegReservatieToe(new List<Materiaal>() { materiaal }, aantal, 5);
             
         }
 

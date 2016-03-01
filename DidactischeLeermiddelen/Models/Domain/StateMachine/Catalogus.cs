@@ -7,24 +7,29 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public class Beschikbaar : ReservatieState
+    public class Catalogus : ReservatieState
     {
-        public Beschikbaar() {}
-        public Beschikbaar(Reservatie reservatie):base(reservatie)
+        public Catalogus(Reservatie reservatie) : base(reservatie)
         {
+            
         }
-
+        public Catalogus() { }
         public override void Reserveer()
         {
-            Reservatie.ToState(new Gereserveerd(Reservatie));
+            throw new NotImplementedException();
         }
 
         public override void Annuleer()
         {
-            throw new ArgumentException("Materiaal is reeds beschikbaar");
+            throw new NotImplementedException();
         }
 
-        public override void Onblokkeer()
+        public override void Deblokkeer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Blokkeer()
         {
             throw new NotImplementedException();
         }

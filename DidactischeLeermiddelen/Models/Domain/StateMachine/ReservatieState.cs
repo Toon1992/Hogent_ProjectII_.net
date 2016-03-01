@@ -17,9 +17,9 @@ namespace DidactischeLeermiddelen
         }
         public ReservatieState() { }
         public abstract void Reserveer();
-
         public abstract void Annuleer();
-        public abstract void Onblokkeer();
+        public abstract void Deblokkeer();
+        public abstract void Blokkeer();
 
     }
 }
