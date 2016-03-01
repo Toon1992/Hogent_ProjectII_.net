@@ -161,6 +161,7 @@
 
 .detail-materiaal {
     padding-top: 2em;
+    cursor: pointer;
 }
 
 .teLaat {
