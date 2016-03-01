@@ -51,7 +51,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", this.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
-            m.Subject = "Bevestiging reservatie";
+            m.Subject = "Blokkering van reservatie";
             m.Body = string.Format("Dag {0} <br/>", this.Naam);
             m.IsBodyHtml = true;
             m.Body += "<p>U heeft zonet het volgende geblokkeerd: </p>";
