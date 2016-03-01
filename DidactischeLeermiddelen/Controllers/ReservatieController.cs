@@ -59,13 +59,38 @@ namespace DidactischeLeermiddelen.Controllers
         public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, string startDatum, string eindDatum)
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-            if (materialen != null)
+
+            if (materialen.Count > 0)
             {
+                IDictionary<Materiaal, int> potentieleReservaties = new Dictionary<Materiaal, int>();
+                for (int index = 0; index < materialen.Count; index++)
+                {
+                    potentieleReservaties.Add(materialen[index], aantal[index]);
+                }
+
                 try
                 {
-                    gebruiker.VoegReservatieToe(materialen, aantal, startDatum,eindDatum);
-                    gebruikerRepository.SaveChanges();
-                    TempData["Info"] = $"Reservatie werd aangemaakt";
+                    if (gebruiker is Student)
+                    {
+                        Student student = gebruiker as Student;
+
+                        if(student != null)
+                            student.maakReservaties(potentieleReservaties,startDatum,eindDatum);
+                                             
+                        gebruikerRepository.SaveChanges();
+                        TempData["Info"] = $"Reservatie werd aangemaakt";
+                    }
+                    else
+                    {
+                      
+                        Lector lector = gebruiker as Lector;
+
+                        if (lector != null)
+                            lector.MaakBlokkeringen(potentieleReservaties,startDatum,eindDatum);
+
+                        gebruikerRepository.SaveChanges();
+                        TempData["Info"] = $"Reservatie werd aangemaakt";
+                    }
                 }
                 catch (ArgumentException ex)
                 {

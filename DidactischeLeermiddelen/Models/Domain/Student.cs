@@ -11,25 +11,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public override void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, string startDatum, string eindDatum)
+        public void maakReservaties(IDictionary<Materiaal, int> PotentieleReservaties, string startDatum,
+            string eindDatum)
         {
-            ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
-            if (materiaal.Count != aantal.Length)
-                throw new ArgumentException("Er moeten evenveel aantallen zijn als materialen");
-
-            int index = 0;
-            materiaal.ForEach(m =>
+            foreach (KeyValuePair< Materiaal, int> potentiele in PotentieleReservaties)
             {
-                Reservatie reservatie = new Reservatie(this, m, startDatum, eindDatum, aantal[index]);
-                reservatie.Gebruiker = this;
-                reservatie.Reserveer();
-                m.AddReservatie(reservatie);
-                Reservaties.Add(reservatie);
-                nieuweReservaties.Add(reservatie);
-                index++;
-            });
-
-           VerzendMailNaReservatie(nieuweReservaties, startDatum,eindDatum, this); //gebruiker, materiaal, week);
+                VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, false);
+            }
         }
     }
 }
