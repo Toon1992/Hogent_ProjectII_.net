@@ -284,6 +284,7 @@
     <Content Include="Content\Images\rekentoestel.jpg" />
     <Content Include="Content\Images\reservaties.png" />
     <Content Include="Content\Images\wereldbol.jpg" />
+    <Content Include="Content\Images\woordenboek.jpg" />
     <Content Include="Content\Images\zoeken.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -424,6 +425,7 @@
     <Content Include="Views\Reservatie\LegeReservatieLijst.cshtml" />
     <Content Include="Views\Catalogus\DetailFirma.cshtml" />
     <Content Include="Views\Verlanglijst\DetailReservaties.cshtml" />
+    <Content Include="Views\ChartSample\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
