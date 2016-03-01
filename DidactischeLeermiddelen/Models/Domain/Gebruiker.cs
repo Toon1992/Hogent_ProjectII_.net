@@ -40,7 +40,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Verlanglijst.VerwijderMateriaal(materiaal);
         }
 
-        public abstract void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week);
+        public abstract void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, string startdatum, string eindDatum);
            
         protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, int week, Gebruiker gebruiker )//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {

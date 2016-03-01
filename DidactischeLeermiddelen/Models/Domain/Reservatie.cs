@@ -22,17 +22,24 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Status Status { get; set; }
 
         public Reservatie() { }
-        public Reservatie(Materiaal materiaal, int week, int aantal)
+        public Reservatie(Gebruiker gebruker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
-            if (week <= 0)
-                throw new ArgumentException("Week moet op zijn minst hoger dan nul zijn");
             if (aantal <= 0)
                 throw new ArgumentException("Aantal moet groter dan 0 zijn.");
 
-            StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Today.Year, week);
-            EindDatum = StartDatum.AddDays(4);
+            if (gebruker is Student)
+            {
+                var week = HulpMethode.GetIso8601WeekOfYear(Convert.ToDateTime(startDatum));
+                StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+                EindDatum = StartDatum.AddDays(4);
+            }
+            if (gebruker is Lector)
+            {
+                StartDatum = Convert.ToDateTime(startDatum);
+                EindDatum = Convert.ToDateTime(eindDatum);
+            }
             Materiaal = materiaal;
             Aantal = aantal;
             ReservatieState = new Beschikbaar(this);

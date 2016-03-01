@@ -56,14 +56,14 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week = 0)
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, string startDatum, string eindDatum)
         {
             IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
             if (materialen != null)
             {
                 try
                 {
-                    gebruiker.VoegReservatieToe(materialen, aantal, week);
+                    gebruiker.VoegReservatieToe(materialen, aantal, startDatum,eindDatum);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Reservatie werd aangemaakt";
                 }

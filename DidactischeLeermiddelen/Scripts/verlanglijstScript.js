@@ -92,11 +92,12 @@ var viewModel = {
                 }
             });
             var selectedWeek = viewModel.getWeek(Date.parse($("input[name='date']")[0].value));
+            var startDatum = $("input[name='date']")[0].value;
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : false },
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : false, startDatum: startDatum },
                 success: function (data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();
@@ -204,6 +205,7 @@ var viewModel = {
                 var date = Date.parse($("input[name='date']")[0].value);
                 selectedWeek = viewModel.getWeek(date);
                 viewModel.selectedWeek = selectedWeek;
+                viewModel.startDatum = $("input[name='date']")[0].value;
             } else {
                 var datums = $("#reservatie-end-date").val();
                 var delen = datums.split("-");
