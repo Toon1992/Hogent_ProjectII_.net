@@ -23,7 +23,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 Reservatie reservatie = new Reservatie(this, m, startDatum,eindDatum, aantal[index]);
                 reservatie.Gebruiker = this;
-                reservatie.Reserveer();
+                reservatie.Blokkeer();
                 m.AddReservatie(reservatie);
                 Reservaties.Add(reservatie);
                 nieuweReservaties.Add(reservatie);

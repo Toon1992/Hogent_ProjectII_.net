@@ -50,6 +50,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState.Reserveer();
         }
 
+        public void Blokkeer()
+        {
+            ReservatieState.Blokkeer();
+        }
+
         public void ToState(ReservatieState reservatieState)
         {
             ReservatieState = reservatieState;

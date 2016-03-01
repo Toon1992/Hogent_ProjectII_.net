@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         // GET: Verlanglijst
         public ActionResult Index(Gebruiker gebruiker)
-        {        
+        {
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
 
@@ -43,7 +43,7 @@ namespace DidactischeLeermiddelen.Controllers
                 vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
             }
             vm.Gebruiker = gebruiker;
-            
+
             return View(vm);
         }
 
@@ -65,7 +65,7 @@ namespace DidactischeLeermiddelen.Controllers
                 catch (ArgumentException ex)
                 {
                     TempData["Error"] = ex.Message;
-                }               
+                }
             }
             return RedirectToAction("Index");
         }
@@ -97,7 +97,7 @@ namespace DidactischeLeermiddelen.Controllers
                 eindDate = Convert.ToDateTime(eindDatum);
                 datum = startDate.ToString("d", dtfi) + " - " + eindDate.ToString("d", dtfi);
             }
-            
+
 
             if (materiaal != null)
             {
@@ -113,7 +113,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             //Wanneer op "Ga naar reservatie werd geklikt wordt eerst gekeken of de gekozen materialen met voldoende
             //aantal stuks beschikbaar zijn, zoniet wordt het verlanglijstscherm terug getoont.
-            bool allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal,startDate, eindDate);
+            bool allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate);
 
             if (knop && allesBeschikbaar)
             {
@@ -122,7 +122,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Materialen = materialen.Select(m => new VerlanglijstViewModel
                     {
                         AantalGeselecteerd = materiaalAantal[m.MateriaalId],
-                        Naam = m.Naam,                  
+                        Naam = m.Naam,
                     }),
                     GeselecteerdeWeek = datum,
                     StartDatum = startDatum,
@@ -131,7 +131,7 @@ namespace DidactischeLeermiddelen.Controllers
                     TotaalGeselecteerd = totaalGeselecteerd
                 };
                 return PartialView("Confirmatie", vm);
-            }         
+            }
             if (gebruiker is Lector)
             {
                 vm = new VerlanglijstMaterialenViewModel
@@ -139,6 +139,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                     {
                         AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaarLector(Convert.ToDateTime(startDatum), Convert.ToDateTime(eindDatum)),
+                        AantalGeblokkeerd = m.GeefAantal(Status.Geblokkeerd, startDate),
                         Beschikbaar = aantalBeschikbaar == 0,
                         Firma = m.Firma,
                         Prijs = m.Prijs,
@@ -151,7 +152,7 @@ namespace DidactischeLeermiddelen.Controllers
                         AantalInCatalogus = m.AantalInCatalogus,
                         MateriaalId = m.MateriaalId,
                         Beschikbaarheid = aantalBeschikbaar == 0 ?
-                                        string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum), Convert.ToDateTime(eindDatum)) :
+                                        string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum).ToString("d"), Convert.ToDateTime(eindDatum).ToString("d")) :
                                         aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
                         Naam = m.Naam,
                         Omschrijving = m.Omschrijving,
@@ -161,33 +162,33 @@ namespace DidactischeLeermiddelen.Controllers
                 };
             }
             else if (gebruiker is Student)
-            {          
-            vm = new VerlanglijstMaterialenViewModel
             {
-                Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
+                vm = new VerlanglijstMaterialenViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
-                    Beschikbaar = aantalBeschikbaar == 0,
-        
-                    Firma = m.Firma,
+                    Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
+                    {
+                        AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
+                        Beschikbaar = aantalBeschikbaar == 0,
+
+                        Firma = m.Firma,
                         Prijs = m.Prijs,
-                    Foto = m.Foto,
+                        Foto = m.Foto,
                         AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? aantalGeselecteerd == aantalBeschikbaar ? 0 : 1 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
-                    Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
-                    Leergebieden = m.Leergebieden as List<Leergebied>,
-                    Doelgroepen = m.Doelgroepen as List<Doelgroep>,
-                    ArtikelNr = m.ArtikelNr,
-                    AantalInCatalogus = m.AantalInCatalogus,
-                    MateriaalId = m.MateriaalId,
-                    Beschikbaarheid = aantalBeschikbaar == 0 ? 
-                                        string.Format("Niet meer beschikbaar van {0} tot {1}", startDate.ToString("d"), eindDate.ToString("d")) :
-                                        aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
-                    Naam = m.Naam,
-                    Omschrijving = m.Omschrijving,
-                }),
+                        Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
+                        Leergebieden = m.Leergebieden as List<Leergebied>,
+                        Doelgroepen = m.Doelgroepen as List<Doelgroep>,
+                        ArtikelNr = m.ArtikelNr,
+                        AantalInCatalogus = m.AantalInCatalogus,
+                        MateriaalId = m.MateriaalId,
+                        Beschikbaarheid = aantalBeschikbaar == 0 ?
+                                            string.Format("Niet meer beschikbaar van {0} tot {1}", startDate.ToString("d"), eindDate.ToString("d")) :
+                                            aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
+                        Naam = m.Naam,
+                        Omschrijving = m.Omschrijving,
+                    }),
                     GeselecteerdeWeek = datum,
                     Gebruiker = gebruiker
-            };
+                };
             }
 
             return PartialView("Verlanglijst", vm);
@@ -221,17 +222,17 @@ namespace DidactischeLeermiddelen.Controllers
                     }
                     else if (gebruiker is Lector)
                     {
-                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(startDatum,eindDatum);
+                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(startDatum, eindDatum);
                     }
 
-                        if (aantalBeschikbaar == 0)
-                        {
+                    if (aantalBeschikbaar == 0)
+                    {
                         ModelState.AddModelError("", "error");
-                        }
-                        else if (aantalBeschikbaar < aantal[i])
-                        {
+                    }
+                    else if (aantalBeschikbaar < aantal[i])
+                    {
                         ModelState.AddModelError("", "error");
-                        }
+                    }
                 }
             }
             if (ModelState.IsValid)
@@ -245,21 +246,77 @@ namespace DidactischeLeermiddelen.Controllers
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             Dictionary<string, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<string, ICollection<ReservatieDetailViewModel>>();
-            foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))) : materiaal.Reservaties)
+            foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum) : materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
-                if (!reservaties.ContainsKey(reservatie.StartDatum.ToString("d", dtfi)))
+                if (reservatie.Gebruiker is Lector)
                 {
-                    reservaties.Add(reservatie.StartDatum.ToString("d", dtfi), new List<ReservatieDetailViewModel> { new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Status = reservatie.ReservatieState.GetType().BaseType.Name, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", AantalDagenGeblokkeerd = reservatie.Gebruiker is Lector ? reservatie.AantalDagenGeblokkeerd : 0 } });
+                    bool overschrijft = false;
+                    //Kijken of de blokkeren van de lector een reservatie van de student overschrijft.
+                    reservaties.ForEach(e =>
+                    {
+                        DateTime startStudent = Convert.ToDateTime(e.Key);
+                        DateTime eindStudent = startStudent.AddDays(4);
+                        overschrijft = OverschrijftReservatie(startStudent, eindStudent, reservatie.StartDatum,
+                            reservatie.EindDatum);
+                        if (overschrijft)
+                        {
+                            reservaties[e.Key].Add(new ReservatieDetailViewModel
+                            {
+                                Aantal = reservatie.Aantal,
+                                Naam = reservatie.Gebruiker.Naam,
+                                Type = "Lector",
+                                Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                                GeblokkeerdTot = reservatie.EindDatum.ToString("d")
+                            });
+                        }
+                    });
+                    //Indien de blokkering van de lector niemand overschrijft wordt de blokkering in de map gestoken
+                    if (!overschrijft)
+                    {
+                        int ww = HulpMethode.GetIso8601WeekOfYear(reservatie.StartDatum);
+                        DateTime date = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, ww);
+                        reservaties.Add(date.ToString("d", dtfi), CreateReservatieDetail(reservatie));
+                    }
                 }
                 else
                 {
-                    var list = reservaties[reservatie.StartDatum.ToString("d", dtfi)];
-                    list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name, AantalDagenGeblokkeerd = reservatie.Gebruiker is Lector ? reservatie.AantalDagenGeblokkeerd : 0 });
+
+                    if (!reservaties.ContainsKey(reservatie.StartDatum.ToString("d", dtfi)))
+                    {
+                        reservaties.Add(reservatie.StartDatum.ToString("d", dtfi),CreateReservatieDetail(reservatie));
+                    }
+                    else
+                    {
+                        var list = reservaties[reservatie.StartDatum.ToString("d", dtfi)];
+                        list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
+                    }
                 }
             }
             return PartialView("DetailReservaties", new ReservatiesDetailViewModel { Reservaties = reservaties, Material = materiaal, GeselecteerdeWeek = week != -1 ? HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi) : "" });
         }
 
-       
+        public bool OverschrijftReservatie(DateTime startStudent, DateTime eindStudent, DateTime startLector, DateTime eindLector)
+        {
+            return ((startStudent <= startLector && eindStudent >= startLector) ||
+                    (startStudent >= startLector && eindStudent <= eindLector) ||
+                    (startStudent <= startLector && eindStudent >= eindLector) ||
+                    (startStudent >= startLector && eindStudent >= eindLector && startStudent <= eindLector));
+        }
+
+        public List<ReservatieDetailViewModel> CreateReservatieDetail(Reservatie reservatie)
+        {
+            return new List<ReservatieDetailViewModel>
+            {
+                new ReservatieDetailViewModel
+                {
+                    Aantal = reservatie.Aantal,
+                    Naam = reservatie.Gebruiker.Naam,
+                    Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                    Type = reservatie.Gebruiker is Student ? "Student" : "Lector",
+                    GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
+                }
+            };
+        }
+
     }
 }
