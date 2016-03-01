@@ -170,7 +170,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
                     Beschikbaar = aantalBeschikbaar == 0,
-        
+                    AantalGeblokkeerd = m.GeefAantal(Status.Geblokkeerd, startDate),
                     Firma = m.Firma,
                         Prijs = m.Prijs,
                     Foto = m.Foto,
