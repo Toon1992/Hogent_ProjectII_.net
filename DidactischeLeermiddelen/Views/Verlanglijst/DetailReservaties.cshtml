@@ -54,7 +54,7 @@
                         <th>Naam</th>
                         <th>Status</th>
                         <th>Aantal</th>
-                        <th>Aantal dagen geblokeerd</th>
+                        <th>Aantal dagen geblokkeerd</th>
                     </tr>
                     </thead>
                     @foreach (var item in Model.Reservaties)
@@ -83,6 +83,8 @@
         </div>
     </div>
 </div>
+
+<div id="chart_div"></div>
 
 <div>
     @using (Html.BeginForm("Index", "Verlanglijst"))

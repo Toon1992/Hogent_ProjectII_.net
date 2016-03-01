@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
@@ -260,6 +261,14 @@ namespace DidactischeLeermiddelen.Controllers
             return PartialView("DetailReservaties", new ReservatiesDetailViewModel { Reservaties = reservaties, Material = materiaal, GeselecteerdeWeek = week != -1 ? HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi) : "" });
         }
 
-       
+        public JsonResult ReservatieDetailsGrafiek(int id)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            var reservaties = materiaal.Reservaties;
+            string output = new JavaScriptSerializer().Serialize(reservaties);
+            return Json(output);
+        }
+
+
     }
 }
