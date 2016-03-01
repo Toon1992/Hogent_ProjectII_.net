@@ -19,7 +19,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Naam { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
-        public int AantalDagenGeblokkeerd { get; set; }
+        public string GeblokkeerdTot { get; set; }
         public DateTime StartDatum { get; set; }
     }
 }

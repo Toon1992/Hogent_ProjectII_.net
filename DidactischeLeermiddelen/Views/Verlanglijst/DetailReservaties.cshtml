@@ -54,7 +54,7 @@
                         <th>Naam</th>
                         <th>Status</th>
                         <th>Aantal</th>
-                        <th>Aantal dagen geblokkeerd</th>
+                        <th>Geblokkeerd tot</th>
                     </tr>
                     </thead>
                     @foreach (var item in Model.Reservaties)
@@ -71,9 +71,9 @@
                                 <td></td>
                                 <td><h5>@data.Type</h5></td>
                                 <td><h5>@data.Naam</h5></td>
-                                <td><h5 class="@(data.Status.Equals("teLaat") ? "Telaat" : "")">@data.Status</h5></td>
+                                <td><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">@data.Status</h5></td>
                                 <td><h5>@data.Aantal</h5></td>
-                                <td><h5>@data.AantalDagenGeblokkeerd</h5></td>
+                                <td><h5>@data.GeblokkeerdTot</h5></td>
                             </tr>
 
                         }

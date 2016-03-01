@@ -144,7 +144,7 @@ var viewModel = {
             //"endDate": Date.parse("tomorrow").toLocaleDateString(),
             "minDate": Date.parse("tomorrow").toLocaleDateString()
         }, function(start, end, label) {
-            console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+            
         }).on('apply.daterangepicker', function (ev, picker) {
             var startDatum = picker.startDate.format('DD-MM-YYYY');
             var eindDatum = picker.endDate.format('DD-MM-YYYY');

@@ -37,7 +37,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 //    reservatie.Status = Status.Geblokkeerd;
                 //    TimeSpan span = Convert.ToDateTime(startDatum) - Convert.ToDateTime(eindDatum);
                 //    reservatie.AantalDagenGeblokkeerd = span.Days;
-
+           
                 //    gebruikerReservatie = reservatie;
                 //    materiaalReservatie = reservatie;
 
