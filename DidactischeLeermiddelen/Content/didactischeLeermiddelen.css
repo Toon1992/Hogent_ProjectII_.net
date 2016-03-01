@@ -253,6 +253,15 @@
 .datepicker table tr td, .datepicker table tr td:hover{
     color: #38bc31;
 }
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #44BD35;
+}
+.daterangepicker td.in-range {
+    background-color: rgba(39, 201, 20, 0.53);
+    color: black;
+}
+
+
 img {
     width: 100px;
 }

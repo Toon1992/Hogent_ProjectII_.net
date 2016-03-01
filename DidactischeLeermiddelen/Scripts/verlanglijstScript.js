@@ -106,10 +106,10 @@ var viewModel = {
         $("#reservatie-end-date").daterangepicker({
             "showDropdowns": true,
             "locale": {
-                "format": "DD/MM/YYYY",
+                "format": "DD/MM/YYYY",       
                 "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
+                "applyLabel": "Kies",
+                "cancelLabel": "Annuleer",
                 "fromLabel": "From",
                 "toLabel": "To",
                 "customRangeLabel": "Custom",
@@ -139,6 +139,9 @@ var viewModel = {
                 "firstDay": 1
             },
             "alwaysShowCalendars": true,
+            //"startDate": Date.parse("tomorrow").toLocaleDateString(),
+            //"endDate": Date.parse("tomorrow").toLocaleDateString(),
+            "minDate": Date.parse("tomorrow").toLocaleDateString()
         }, function(start, end, label) {
             console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
         }).on('apply.daterangepicker', function (ev, picker) {
@@ -148,22 +151,27 @@ var viewModel = {
             var delen = datums.split("-");
             viewModel.startDatum = delen[0];
             viewModel.eindDatum = delen[1];
+            $('input:checkbox:checked').map(function () {
+                var materiaalId = $(this).parent().find("input")[0].id;
+                var aantal = $("#" + materiaalId).find($(".input-medium")).val();
+                if (viewModel.materiaalList.indexOf(parseInt(materiaalId)) < 0) {
+                    viewModel.materiaalList.push(parseInt(materiaalId));
+                    viewModel.aantalList.push(parseInt(aantal));
+                }
+            });
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: startDatum, eindDatum : eindDatum, knop: false },
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: viewModel.startDatum, eindDatum : viewModel.eindDatum, knop: false },
                 success: function (data) {
-                    //$("#verlanglijst-pagina").html(data);
-                    //viewModel.init();
+                    $("#verlanglijst-pagina").html(data);
+                    viewModel.init();
                 }
             });
         });
         $(".detail-materiaal").click(function () {
-            var materiaalId = $(this).parent().parent().find("input")[0].id; 
-            var date = Date.parse($("input[name='date']")[0].value);
-            var d = new Date(date);
-            var selectedWeek = viewModel.getWeek(d);
+            var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
                 viewModel.init();
