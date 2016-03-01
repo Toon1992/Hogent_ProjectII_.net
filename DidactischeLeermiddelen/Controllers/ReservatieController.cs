@@ -76,21 +76,22 @@ namespace DidactischeLeermiddelen.Controllers
 
                         if (student != null)
                             student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
-
-                        gebruikerRepository.SaveChanges();
+                                             
+                       
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
                     else
                     {
-
+                      
                         Lector lector = gebruiker as Lector;
 
                         if (lector != null)
                             lector.MaakBlokkeringen(potentieleReservaties, startDatum, eindDatum);
 
-                        gebruikerRepository.SaveChanges();
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
+
+                    gebruikerRepository.SaveChanges();
                 }
                 catch (ArgumentException ex)
                 {

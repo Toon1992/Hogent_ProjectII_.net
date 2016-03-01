@@ -39,7 +39,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
-            AantalInCatalogus = materiaal.AantalInCatalogus;
+            AantalInCatalogus = materiaal.CheckNieuwAantal();
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
             Firma = materiaal.Firma;

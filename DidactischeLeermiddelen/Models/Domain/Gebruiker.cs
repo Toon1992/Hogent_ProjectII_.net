@@ -21,7 +21,6 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
         {
-
             if (materiaal == null)
                 throw new ArgumentNullException(
                     "Materiaal mag niet null zijn als die wordt toevoegd aan de verlanglijst!");
@@ -50,7 +49,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 throw new ArgumentException("Er is geen reservatie om te verwijderen");
             }
-            
+
         }
 
         protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum,
@@ -58,26 +57,25 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
 
-            for (int index = 0; index < aantal; index++)
+            Reservatie reservatie = new Reservatie(this, materiaal, startdatum,
+                eindDatum, aantal);
+            reservatie.Gebruiker = this;
+            if (!isBlokkeer)
             {
-                Reservatie reservatie = new Reservatie(this, materiaal, startdatum,
-                    eindDatum);
-                reservatie.Gebruiker = this;
-                if (!isBlokkeer)
-                {
-                    reservatie.Reserveer();
-                }
-                else
-                {
-                    reservatie.Blokkeer();
-                }
-                materiaal.AddReservatie(reservatie);
-                Reservaties.Add(reservatie);
-                nieuweReservaties.Add(reservatie);
-
+                reservatie.Reserveer();
+            }
+            else
+            {
+                reservatie.Blokkeer();
             }
 
-           // VerzendMailNaReservatie(nieuweReservaties, startdatum, eindDatum, this); //gebruiker, materiaal, week);
+            materiaal.AddReservatie(reservatie);
+            Reservaties.Add(reservatie);
+
+            nieuweReservaties.Add(reservatie);
+
+
+            // VerzendMailNaReservatie(nieuweReservaties, startdatum, eindDatum, this); //gebruiker, materiaal, week);
         }
 
         protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
