@@ -16,37 +16,36 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r=>r.Status != Status.Geblokkeerd).OrderBy(r=>r.StartDatum).ToList();
+                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r => r.Status != Status.Geblokkeerd).OrderBy(r => r.StartDatum).ToList();
 
-                for (int index = potentiele.Value; index > 0; index--)
-                {
-                    if (potentiele.Key.CheckNieuwAantal() >= index)
-                    {
-                        VoegReservatieToe(potentiele.Key, 1, startDatum, eindDatum, true);
-                    }
-                    else
-                    {
-                        Reservatie reservatie = reservaties.First();
 
-                        Gebruiker gebruiker = reservatie.Gebruiker;
-                        Materiaal materiaal = reservatie.Materiaal;
+                //if (potentiele.Key.CheckNieuwAantal() >= index)
+                //{
+                VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
+                //}
+                //else
+                //{
+                //    Reservatie reservatie = reservaties.First();
 
-                        Reservatie gebruikerReservatie = gebruiker.Reservaties.First(r => r.Equals(reservatie));
-                        Reservatie materiaalReservatie = materiaal.Reservaties.First(r => r.Equals(reservatie));
+                //    Gebruiker gebruiker = reservatie.Gebruiker;
+                //    Materiaal materiaal = reservatie.Materiaal;
 
-                        reservatie.Blokkeer();
-                        reservatie.Status = Status.Geblokkeerd;
-                        TimeSpan span = Convert.ToDateTime(startDatum) - Convert.ToDateTime(eindDatum);
-                        reservatie.AantalDagenGeblokkeerd = span.Days;
+                //    Reservatie gebruikerReservatie = gebruiker.Reservaties.First(r => r.Equals(reservatie));
+                //    Reservatie materiaalReservatie = materiaal.Reservaties.First(r => r.Equals(reservatie));
 
-                        gebruikerReservatie = reservatie;
-                        materiaalReservatie = reservatie;
-                        
-                        reservaties.Remove(reservatie);
+                //    reservatie.Blokkeer();
+                //    reservatie.Status = Status.Geblokkeerd;
+                //    TimeSpan span = Convert.ToDateTime(startDatum) - Convert.ToDateTime(eindDatum);
+                //    reservatie.AantalDagenGeblokkeerd = span.Days;
 
-                        VoegReservatieToe(reservatie.Materiaal,1,startDatum,eindDatum,true);
-                    }
-                }
+                //    gebruikerReservatie = reservatie;
+                //    materiaalReservatie = reservatie;
+
+                //    reservaties.Remove(reservatie);
+
+                //    VoegReservatieToe(reservatie.Materiaal,1,startDatum,eindDatum,true);
+                //}
+
             }
 
             //VerzendMailNaarLectorNaBlokkering(reservaties, startDatum, eindDatum);
