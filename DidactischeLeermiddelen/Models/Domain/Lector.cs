@@ -12,16 +12,41 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public void MaakBlokkeringen(IDictionary<Materiaal, int> PotentieleReservaties, string startDatum, string eindDatum)
+        public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
         {
-           
-
-            foreach (KeyValuePair<Materiaal, int> potentiele in PotentieleReservaties)
+            foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                if (potentiele.Key.CheckNieuwAantal(Convert.ToDateTime(startDatum)) >= potentiele.Value)
+                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r=>r.Status != Status.Geblokkeerd).OrderBy(r=>r.StartDatum).ToList();
+
+                for (int index = potentiele.Value; index > 0; index--)
                 {
-                    VoegReservatieToe(potentiele.Key,potentiele.Value, startDatum, eindDatum, false);
-                }            
+                    if (potentiele.Key.CheckNieuwAantal() >= index)
+                    {
+                        VoegReservatieToe(potentiele.Key, 1, startDatum, eindDatum, true);
+                    }
+                    else
+                    {
+                        Reservatie reservatie = reservaties.First();
+
+                        Gebruiker gebruiker = reservatie.Gebruiker;
+                        Materiaal materiaal = reservatie.Materiaal;
+
+                        Reservatie gebruikerReservatie = gebruiker.Reservaties.First(r => r.Equals(reservatie));
+                        Reservatie materiaalReservatie = materiaal.Reservaties.First(r => r.Equals(reservatie));
+
+                        reservatie.Blokkeer();
+                        reservatie.Status = Status.Geblokkeerd;
+                        TimeSpan span = Convert.ToDateTime(startDatum) - Convert.ToDateTime(eindDatum);
+                        reservatie.AantalDagenGeblokkeerd = span.Days;
+
+                        gebruikerReservatie = reservatie;
+                        materiaalReservatie = reservatie;
+                        
+                        reservaties.Remove(reservatie);
+
+                        VoegReservatieToe(reservatie.Materiaal,1,startDatum,eindDatum,true);
+                    }
+                }
             }
 
             //VerzendMailNaarLectorNaBlokkering(reservaties, startDatum, eindDatum);
