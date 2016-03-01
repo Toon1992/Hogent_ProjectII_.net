@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual IList<Doelgroep> Doelgroepen { get; set; }
         public virtual IList<Leergebied> Leergebieden { get; set; }
 
-        public bool Onbeschikbaar { get; set; }
+       // public bool Onbeschikbaar { get; set; }
         #endregion
 
         public Materiaal(string naam, int artikeNr, int aantal)
@@ -51,13 +51,9 @@ namespace DidactischeLeermiddelen.Models.Domain
             Reservaties.Add(reservatie);
         }
 
-        public int CheckNieuwAantal(DateTime startDatum)
+        public int CheckNieuwAantal()
         {
-            Reservatie reservatie = Reservaties.FirstOrDefault(r => r.StartDatum.Equals(startDatum));
-            if (reservatie != null)
-            {
-                return AantalInCatalogus - reservatie.Aantal;
-            }
+            //AantalInCatalogus = Reservaties.Count(r => r.Status.Equals(Status.Beschikbaar));
             return AantalInCatalogus;
         }
 
