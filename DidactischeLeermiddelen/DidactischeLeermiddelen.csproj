@@ -272,6 +272,7 @@
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\didactischeLeermiddelen.css" />
     <Content Include="Content\Images\adolf.jpg" />
+    <Content Include="Content\Images\ajax-loader%281%29.gif" />
     <Content Include="Content\Images\basketbal.jpg" />
     <Content Include="Content\Images\bok.jpg" />
     <Content Include="Content\Images\catalogus.png" />
