@@ -222,10 +222,10 @@
     </Compile>
     <Compile Include="Infrastructure\GebruikerModelBinder.cs" />
     <Compile Include="Models\Domain\StateMachine\Gereserveerd.cs" />
-    <Compile Include="Models\Domain\IDoelgroepRepository.cs" />
-    <Compile Include="Models\Domain\IGebruikerRepository.cs" />
-    <Compile Include="Models\Domain\ILeergebiedRepository.cs" />
-    <Compile Include="Models\Domain\IReservatieRepository.cs" />
+    <Compile Include="Models\Domain\InterfaceRepositories\IDoelgroepRepository.cs" />
+    <Compile Include="Models\Domain\InterfaceRepositories\IGebruikerRepository.cs" />
+    <Compile Include="Models\Domain\InterfaceRepositories\ILeergebiedRepository.cs" />
+    <Compile Include="Models\Domain\InterfaceRepositories\IReservatieRepository.cs" />
     <Compile Include="Models\Domain\Lector.cs" />
     <Compile Include="Models\Domain\Leergebied.cs" />
     <Compile Include="Models\Domain\Materiaal.cs" />
@@ -233,7 +233,7 @@
     <Compile Include="Models\DAL\DidactischeLeermiddelenInitializer.cs" />
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
-    <Compile Include="Models\Domain\IMateriaalRepository.cs" />
+    <Compile Include="Models\Domain\InterfaceRepositories\IMateriaalRepository.cs" />
     <Compile Include="Models\Domain\MaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Onbeschikbaar.cs" />
     <Compile Include="Models\Domain\ReservatieMaterialenViewModelFactory.cs" />
@@ -272,6 +272,7 @@
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\didactischeLeermiddelen.css" />
     <Content Include="Content\Images\adolf.jpg" />
+    <Content Include="Content\Images\ajax-loader%281%29.gif" />
     <Content Include="Content\Images\basketbal.jpg" />
     <Content Include="Content\Images\bok.jpg" />
     <Content Include="Content\Images\catalogus.png" />

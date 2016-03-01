@@ -16,7 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public override void Reserveer()
         {
-           
+            Reservatie.ToState(new Gereserveerd(Reservatie));
         }
 
         public override void Annuleer()
