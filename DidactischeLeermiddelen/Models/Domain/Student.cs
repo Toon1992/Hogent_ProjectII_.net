@@ -11,7 +11,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public override void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, int week)
+        public override void VoegReservatieToe(IList<Materiaal> materiaal, int[] aantal, string startDatum, string eindDatum)
         {
             ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
             if (materiaal.Count != aantal.Length)
@@ -20,7 +20,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             int index = 0;
             materiaal.ForEach(m =>
             {
-                Reservatie reservatie = new Reservatie(m, week, aantal[index]);
+                Reservatie reservatie = new Reservatie(this, m, startDatum, eindDatum, aantal[index]);
                 reservatie.Gebruiker = this;
                 reservatie.Reserveer();
                 m.AddReservatie(reservatie);
@@ -29,7 +29,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 index++;
             });
 
-            VerzendMailNaReservatie(nieuweReservaties, week, this); //gebruiker, materiaal, week);
+           VerzendMailNaReservatie(nieuweReservaties, week, this); //gebruiker, materiaal, week);
         }
     }
 }

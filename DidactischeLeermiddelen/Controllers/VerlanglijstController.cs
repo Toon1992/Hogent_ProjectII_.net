@@ -78,8 +78,25 @@ namespace DidactischeLeermiddelen.Controllers
             List<Materiaal> materialen = new List<Materiaal>();
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
+            DateTime startDate = new DateTime(), eindDate = new DateTime();
+            string datum = "";
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             int totaalGeselecteerd = 0;
+
+            var dateFromString = Convert.ToDateTime(startDatum);
+            var ww = HulpMethode.GetIso8601WeekOfYear(dateFromString);
+            if (gebruiker is Student)
+            {
+                startDate = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, ww);
+                eindDate = startDate.AddDays(4);
+                datum = startDate.ToString("d", dtfi);
+            }
+            if (gebruiker is Lector)
+            {
+                startDate = Convert.ToDateTime(startDatum);
+                eindDate = Convert.ToDateTime(eindDatum);
+                datum = startDate.ToString("d", dtfi) + " - " + eindDate.ToString("d", dtfi);
+            }
             
 
             if (materiaal != null)
@@ -96,7 +113,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             //Wanneer op "Ga naar reservatie werd geklikt wordt eerst gekeken of de gekozen materialen met voldoende
             //aantal stuks beschikbaar zijn, zoniet wordt het verlanglijstscherm terug getoont.
-            bool allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, week, startDatum, eindDatum);
+            bool allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal,startDate, eindDate);
 
             if (knop && allesBeschikbaar)
             {
@@ -107,7 +124,7 @@ namespace DidactischeLeermiddelen.Controllers
                         AantalGeselecteerd = materiaalAantal[m.MateriaalId],
                         Naam = m.Naam,                  
                     }),
-                    GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi),
+                    GeselecteerdeWeek = datum,
                     StartDatum = startDatum,
                     EindDatum = eindDatum,
                     Gebruiker = gebruiker,
@@ -139,7 +156,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Naam = m.Naam,
                         Omschrijving = m.Omschrijving,
                     }),
-                    GeselecteerdeWeek = startDatum + " - " + eindDatum,
+                    GeselecteerdeWeek = datum,
                     Gebruiker = gebruiker
                 };
             }
@@ -163,20 +180,20 @@ namespace DidactischeLeermiddelen.Controllers
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ? 
-                                        string.Format("Niet meer beschikbaar van {0} tot {1}", HulpMethode.FirstDateOfWeekISO8601(2016, week).ToString("d"), HulpMethode.FirstDateOfWeekISO8601(2016, week).AddDays(5).ToString("d")) :
+                                        string.Format("Niet meer beschikbaar van {0} tot {1}", startDate.ToString("d"), eindDate.ToString("d")) :
                                         aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),
-                    GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi),
+                    GeselecteerdeWeek = datum,
                     Gebruiker = gebruiker
             };
             }
 
             return PartialView("Verlanglijst", vm);
         }
-
-        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week, string startDatum, string eindDatum)
+        //private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week, string startDatum, string eindDatum)
+        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             //Variabelen
             List<Materiaal> materialen = new List<Materiaal>();
@@ -200,12 +217,11 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     if (gebruiker is Student)
                     {
-                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week));
+                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum);
                     }
                     else if (gebruiker is Lector)
                     {
-                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(Convert.ToDateTime(startDatum),
-                                                Convert.ToDateTime(eindDatum));
+                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(startDatum,eindDatum);
                     }
 
                         if (aantalBeschikbaar == 0)
