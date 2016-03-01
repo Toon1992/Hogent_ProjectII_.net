@@ -425,6 +425,7 @@
     <Content Include="Views\Reservatie\LegeReservatieLijst.cshtml" />
     <Content Include="Views\Catalogus\DetailFirma.cshtml" />
     <Content Include="Views\Verlanglijst\DetailReservaties.cshtml" />
+    <Content Include="Views\ChartSample\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
