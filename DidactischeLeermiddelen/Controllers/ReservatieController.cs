@@ -36,7 +36,6 @@ namespace DidactischeLeermiddelen.Controllers
 
             ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
-
             foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
             {
                 materiaallijst.Add(materiaal);
@@ -106,7 +105,10 @@ namespace DidactischeLeermiddelen.Controllers
             try
             {
                 gebruiker.VerwijderReservatie(r);
+                reservatieRepository.Remove(r);
+                reservatieRepository.SaveChanges();
                 gebruikerRepository.SaveChanges();
+                
                 TempData["Info"] = "Reservatie is succesvol verwijderd";
             }
             catch (ArgumentException ex)

@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public ReservatieMapper()
         {
             HasKey(m => m.ReservatieId);
-            //HasRequired(m => m.ReservatieState).WithOptional();
+            HasRequired(m => m.ReservatieState).WithOptional().WillCascadeOnDelete(false);
         }
     }
 }
