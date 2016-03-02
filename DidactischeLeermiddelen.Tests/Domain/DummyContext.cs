@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Tests.Domain
@@ -15,6 +16,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         private IList<Leergebied> leergebieden;
 
         public Gebruiker Toon { get; set; }
+        public Gebruiker LectorGebruiker { get; set; }
         public Materiaal Bol { get; set; }
         public IQueryable<Materiaal> Materialen { get { return materialen.AsQueryable(); } }
 
@@ -37,6 +39,16 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 Email = "student@student.hogent.be",
                 //GebruikersId = "1000000",
                 Naam = "Toon",
+                Verlanglijst = new Verlanglijst(),
+                Reservaties = new List<Reservatie>()
+
+            };
+
+            LectorGebruiker = new Lector()
+            {
+                Email = "lector@hogent.be",
+                //GebruikersId = "1000000",
+                Naam = "lector",
                 Verlanglijst = new Verlanglijst(),
                 Reservaties = new List<Reservatie>()
 

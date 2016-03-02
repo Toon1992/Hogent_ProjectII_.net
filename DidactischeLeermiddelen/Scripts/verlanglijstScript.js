@@ -267,6 +267,7 @@ var viewModel = {
 
             $("#divLoading").addClass('toon');
             $("#divLoading").click(false);
+            $(".navNotClick").click(false);
             var materialen = JSON.parse(viewModel.session.getItem("materialen"));
             var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
             var selectedWeek = viewModel.session.getItem("week");
