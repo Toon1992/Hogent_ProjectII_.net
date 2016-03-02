@@ -55,7 +55,6 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult VerwijderUitVerlanglijst(int id, Gebruiker gebruiker)
         {
             Materiaal materiaal = materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id);
-            List<String> lijst = new List<String>() { "bla", "sdsfsfd", "ésdsdsf" };
 
             if (materiaal != null)
             {

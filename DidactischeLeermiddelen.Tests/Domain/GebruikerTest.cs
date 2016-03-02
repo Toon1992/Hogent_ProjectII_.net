@@ -20,7 +20,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Reservatie r = new Reservatie();
             context.Toon.Reservaties.Add(r);
             context.Toon.VerwijderReservatie(r);
-            Assert.AreEqual(context.Toon.Reservaties.Count, 0);
+            Assert.AreEqual(0, context.Toon.Reservaties.Count);
         }
 
         [TestMethod]

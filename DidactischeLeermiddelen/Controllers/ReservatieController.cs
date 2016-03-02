@@ -100,7 +100,7 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public void VerwijderReservatie(int id, Gebruiker gebruiker)
+        public ActionResult VerwijderReservatie(int id, Gebruiker gebruiker)
         {
             Reservatie r = reservatieRepository.FindById(id);
             try
@@ -113,6 +113,8 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 TempData["Error"] = ex.Message;
             }
+
+            return RedirectToAction("Index");
         }
 
 
