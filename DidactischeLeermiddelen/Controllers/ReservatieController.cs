@@ -36,7 +36,6 @@ namespace DidactischeLeermiddelen.Controllers
 
             ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
-
             foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
             {
                 materiaallijst.Add(materiaal);

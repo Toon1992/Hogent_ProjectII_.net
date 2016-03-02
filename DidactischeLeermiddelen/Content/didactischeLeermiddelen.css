@@ -161,6 +161,7 @@
 
 .detail-materiaal {
     padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 .teLaat {
@@ -219,6 +220,9 @@
 
 #btn-confirmeer {
     text-align: right;
+}
+#reservatie-delete {
+    margin-top: 1em;
 }
 
 .doelgroep {
@@ -444,6 +448,10 @@ img {
     #btn-confirmeer {
         text-align: left;
     }
+    .detail-materiaal {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
 }
 
 @media(max-width: 381px) {
