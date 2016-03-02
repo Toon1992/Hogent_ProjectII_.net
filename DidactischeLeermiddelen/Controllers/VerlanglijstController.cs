@@ -142,7 +142,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                     {
                         AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaarLector(Convert.ToDateTime(startDatum), Convert.ToDateTime(eindDatum)),
-                        AantalGeblokkeerd = m.GeefAantal(Status.Geblokkeerd, startDate),
+                        AantalGeblokkeerd = m.GeefAantal(new Geblokkeerd(), startDate),
                         Beschikbaar = aantalBeschikbaar == 0,
                         Firma = m.Firma,
                         Prijs = m.Prijs,
@@ -172,7 +172,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
                     Beschikbaar = aantalBeschikbaar == 0,
-                    AantalGeblokkeerd = m.GeefAantal(Status.Geblokkeerd, startDate),
+                    AantalGeblokkeerd = m.GeefAantal(new Geblokkeerd(), startDate),
                     Firma = m.Firma,
                         Prijs = m.Prijs,
                     Foto = m.Foto,
