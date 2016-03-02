@@ -278,7 +278,22 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         int ww = HulpMethode.GetIso8601WeekOfYear(reservatie.StartDatum);
                         DateTime date = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, ww);
-                        reservaties.Add(date, CreateReservatieDetail(reservatie));
+                        if (reservaties.ContainsKey(date))
+                        {
+                            reservaties[date].Add(new ReservatieDetailViewModel
+                            {
+                                Aantal = reservatie.Aantal,
+                                Email = reservatie.Gebruiker.Email,
+                                Type = "Lector",
+                                Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                                GeblokkeerdTot = reservatie.EindDatum.ToString("d")
+                            });
+                        }
+                        else
+                        {
+                            reservaties.Add(date, CreateReservatieDetail(reservatie));
+                        }
+                        
                     }
                 }
                 else
