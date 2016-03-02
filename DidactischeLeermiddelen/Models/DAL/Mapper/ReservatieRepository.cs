@@ -32,7 +32,11 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         {
             return reservaties.FirstOrDefault(r => r.ReservatieId == id);
         }
-        
+
+        public void Remove(Reservatie reservatie)
+        {
+            throw new NotImplementedException();
+        }
 
         public void SaveChanges()
         {

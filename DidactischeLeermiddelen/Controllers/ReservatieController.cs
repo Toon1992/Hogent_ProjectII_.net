@@ -106,7 +106,10 @@ namespace DidactischeLeermiddelen.Controllers
             try
             {
                 gebruiker.VerwijderReservatie(r);
+                reservatieRepository.Remove(r);
+                reservatieRepository.SaveChanges();
                 gebruikerRepository.SaveChanges();
+                
                 TempData["Info"] = "Reservatie is succesvol verwijderd";
             }
             catch (ArgumentException ex)
