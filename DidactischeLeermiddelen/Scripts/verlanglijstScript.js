@@ -175,12 +175,10 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function (data) {
+                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
                     google.charts.load('current', { packages: ['corechart', 'bar'] });
-                    google.charts.setOnLoadCallback(drawBasic);
-                    var dataTable = new google.visualization.DataTable(data);
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                    chart.draw(dataTable, { width: 400, height: 240 });
+                    google.charts.setOnLoadCallback(drawMaterial);
+                    drawMaterial(dataMateriaal);
                 });
                 viewModel.init();
             });
@@ -341,6 +339,37 @@ function IsWeekend() {
 }
 function VrijdagNaVijf() {
     return Date.today().getDay() === 5 && Date.today().getHours() >= 17;
+}
+
+function drawMaterial(dataMateriaal) {
+    
+    var data = new google.visualization.DataTable();
+    var rows = new Array();
+    data.addColumn('date', 'Datum');
+    data.addColumn('number', 'Aantal beschikbaar');
+    var obj = JSON.parse(dataMateriaal);
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var value = obj[key];
+            rows.push([key, value]);
+        }
+    }
+    data.addRows(rows);
+    var options = {
+        chart: {
+            title: 'Beschikbaarheid per week'
+        },
+        //hAxis: {
+        //    title: 'Total Population',
+        //    minValue: 0,
+        //},
+        //vAxis: {
+        //    title: 'City'
+        
+        bars: 'horizontal'
+    };
+    var material = new google.charts.Bar(document.getElementById('chart_div'));
+    material.draw(data, options);
 }
 $(document).ready(function() {
     viewModel.init();
