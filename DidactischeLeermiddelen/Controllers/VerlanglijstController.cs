@@ -40,11 +40,29 @@ namespace DidactischeLeermiddelen.Controllers
             VerlanglijstMaterialenViewModel vm = vvmf.CreateViewModel(null, null, null, DateTime.Now, gebruiker) as VerlanglijstMaterialenViewModel;
             if ((int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour < 17))
             {
-                vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53).ToString("d", dtfi);
+                DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,(HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2)%53);
+                DateTime eindDatum = new DateTime();
+                if (gebruiker is Lector)
+                {
+                    eindDatum = startDatum.AddDays(4);
+                }
+                string startD = startDatum.ToString("d", dtfi);
+                string eindD = eindDatum.ToString("d", dtfi);
+                return Controle(gebruiker, null, null, false, startD,eindD);
+                //vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53).ToString("d", dtfi);
             }
             else
             {
-                vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
+                DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,(HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1)%53);
+                DateTime eindDatum = startDatum.AddDays(4);
+                if (gebruiker is Lector)
+                {
+                    eindDatum = startDatum.AddDays(4);
+                }
+                string startD = startDatum.ToString("d", dtfi);
+                string eindD = eindDatum.ToString("d", dtfi);
+                return Controle(gebruiker, null, null, false, startD, eindD);
+                //vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
             }
             vm.Gebruiker = gebruiker;
             
@@ -73,7 +91,7 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, bool knop, string startDatum, string eindDatum, int week = 0)
+        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, bool knop, string startDatum, string eindDatum)
         {
             //Variabelen
             VerlanglijstMaterialenViewModel vm = null;
@@ -133,7 +151,11 @@ namespace DidactischeLeermiddelen.Controllers
                     Gebruiker = gebruiker,
                     TotaalGeselecteerd = totaalGeselecteerd
                 };
-                return PartialView("Confirmatie", vm);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("Confirmatie", vm);
+                }
+                return View("Index", vm);
             }         
             if (gebruiker is Lector)
             {
@@ -170,7 +192,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
+                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDate),
                     Beschikbaar = aantalBeschikbaar == 0,
                     AantalGeblokkeerd = m.GeefAantal(new Geblokkeerd(), startDate),
                     Firma = m.Firma,
@@ -194,7 +216,11 @@ namespace DidactischeLeermiddelen.Controllers
             };
             }
 
-            return PartialView("Verlanglijst", vm);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Verlanglijst", vm);
+            }
+            return View("Index", vm);
         }
         //private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, int week, string startDatum, string eindDatum)
         private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum)

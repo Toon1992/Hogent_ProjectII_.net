@@ -30,7 +30,6 @@
             </div>
 
             <div class="col-md-2 col-sm-2 col-xs-12">
-                <h4 class="price">€ @Html.DisplayFor(modelItem => item.Prijs)</h4>
                 <h5>Nog @Html.DisplayFor(modelItem => item.AantalBeschikbaar) reserveerbaar</h5>
                 @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
                 {
@@ -70,10 +69,10 @@
             </div>
         </div>
     }
-    <div class="col-md-5">
-        <h4 class="foutmelding"></h4>
-    </div>
-    <div class="col-md-4 text-center">
+    <div class="col-md-offset-5 col-md-4 col-sm-offset-5 col-sm-4 col-xs-12 text-center">
         <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <h4 class="foutmelding"></h4>
     </div>
 </div>

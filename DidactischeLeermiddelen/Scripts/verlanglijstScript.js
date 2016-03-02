@@ -97,7 +97,7 @@ var viewModel = {
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, week: selectedWeek, knop : false, startDatum: startDatum },
+                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, knop : false, startDatum: startDatum },
                 success: function (data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();
@@ -253,7 +253,7 @@ var viewModel = {
                     type: "POST",
                     traditional: true,
                     url: "/Verlanglijst/Controle",
-                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, week: selectedWeek, knop : true},
+                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, knop : true},
                     success: function (data) {
                         $("#verlanglijst-pagina").html(data);
                         viewModel.init();

@@ -13,7 +13,7 @@
             <div class="img-side">
                 <div class="col-md-1 col-sm-1 hidden-xs">
                     <div class="checkbox">
-                        @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
+                        @Html.CheckBoxFor(m => item.Geselecteerd, new {@class = item.MateriaalId, id = item.MateriaalId})
                     </div>
 
                 </div>
@@ -23,26 +23,27 @@
             </div>
             <div class="info-side">
                 <div class="checkbox hidden-lg hidden-md hidden-sm">
-                    @Html.CheckBoxFor(m => item.Geselecteerd, new { @class = item.MateriaalId, id = item.MateriaalId })
+                    @Html.CheckBoxFor(m => item.Geselecteerd, new {@class = item.MateriaalId, id = item.MateriaalId})
                 </div>
-                <div class="col-md-4 col-sm-3 col-xs-12">
+                <div class="col-md-4 col-sm-4 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
                     <h5 class="aantal">In catalogus : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
                     <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalGeblokkeerd)</h5>
                     <h5 class="aantal">Onbeschikbaar: @Html.DisplayFor(modelItem => item.AantalOnbeschikbaar)</h5>
+                    <h3 class="beschikbaarheid">@item.Beschikbaarheid</h3>
                 </div>
                 <div class="col-md-2 col-sm-2">
                     <h4 class="detail-materiaal"><a>Details</a></h4>
                 </div>
 
 
-                <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="col-md-2 col-sm-3 col-xs-12">
                     <h5>Nog @Html.DisplayFor(modelItem => item.AantalBeschikbaar) reserveerbaar</h5>
                     @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
                     {
                         <div class="form-group">
                             <label class="sr-only" for="aantal">Aantal</label>
-                            <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium aantal"/>
+                            <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal"/>
 
                         </div>
                         <button type="submit" class="btn btn-delete">
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+        
     }
    
     <div class="row">
@@ -77,7 +79,7 @@
             </div>
         }
 
-        <div class="col-md-offset-5 col-md-4 col-sm-offset-5 col-sm-4 col-xs-12 text-center">
+        <div class="col-md-offset-5 col-md-4 col-sm-offset-3 col-sm-4 col-xs-12 text-center">
             <div class="btn btn-success" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
