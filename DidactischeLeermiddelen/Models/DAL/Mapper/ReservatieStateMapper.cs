@@ -4,6 +4,7 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 
 namespace DidactischeLeermiddelen.Models.DAL.Mapper
 {
@@ -19,6 +20,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             Map<Catalogus>(l => l.Requires("Type").HasValue("Catalogus"));
             Map<TeLaat>(l => l.Requires("Type").HasValue("TeLaat"));
             Map<Geblokkeerd>(l => l.Requires("Type").HasValue("Geblokkeerd"));
+            Map<Opgehaald>(l => l.Requires("Type").HasValue("Opgehaald"));
         }
     }
 }

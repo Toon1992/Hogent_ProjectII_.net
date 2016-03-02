@@ -246,7 +246,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult ReservatieDetails(int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            Dictionary<string, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<string, ICollection<ReservatieDetailViewModel>>();
+            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
             foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum) : materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
                 if (reservatie.Gebruiker is Lector)
@@ -276,19 +276,19 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         int ww = HulpMethode.GetIso8601WeekOfYear(reservatie.StartDatum);
                         DateTime date = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, ww);
-                        reservaties.Add(date.ToString("d", dtfi), CreateReservatieDetail(reservatie));
+                        reservaties.Add(date, CreateReservatieDetail(reservatie));
                     }
                 }
                 else
             {
 
-                if (!reservaties.ContainsKey(reservatie.StartDatum.ToString("d", dtfi)))
+                if (!reservaties.ContainsKey(reservatie.StartDatum))
                 {
-                        reservaties.Add(reservatie.StartDatum.ToString("d", dtfi),CreateReservatieDetail(reservatie));
+                        reservaties.Add(reservatie.StartDatum,CreateReservatieDetail(reservatie));
                 }
                 else
                 {
-                    var list = reservaties[reservatie.StartDatum.ToString("d", dtfi)];
+                    var list = reservaties[reservatie.StartDatum];
                         list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
                     }
                 }

@@ -142,7 +142,7 @@ var viewModel = {
             "alwaysShowCalendars": true,
             //"startDate": Date.parse("tomorrow").toLocaleDateString(),
             //"endDate": Date.parse("tomorrow").toLocaleDateString(),
-            "minDate": Date.parse("tomorrow").toLocaleDateString()
+            "minDate": Date.parse("today").toLocaleDateString()
         }, function(start, end, label) {
             
         }).on('apply.daterangepicker', function (ev, picker) {
@@ -175,7 +175,9 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.getJson("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(data) {
+                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function (data) {
+                    google.charts.load('current', { packages: ['corechart', 'bar'] });
+                    google.charts.setOnLoadCallback(drawBasic);
                     var dataTable = new google.visualization.DataTable(data);
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(dataTable, { width: 400, height: 240 });
@@ -188,7 +190,7 @@ var viewModel = {
             changeYear: true,
             startDate: '+1d',
             daysOfWeekDisabled: [0, 6],
-            format: "dd-mm-yyyy",
+            format: "dd/mm/yyyy",
             language: "nl",
             todayHighlight: true,
             calenderWeeks: true
