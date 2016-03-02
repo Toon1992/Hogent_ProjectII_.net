@@ -15,7 +15,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
-        public Status Status { get; set; }
+        //public Status Status { get; set; }
         public Firma Firma { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; } 
@@ -45,8 +45,8 @@ namespace DidactischeLeermiddelen.ViewModels
             Beschikbaar = true;
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
-            AantalGeblokkeerd = materiaal.GeefAantal(Status.Geblokkeerd, startdatum);
-            AantalOnbeschikbaar = materiaal.GeefAantal(Status.Onbeschikbaar, startdatum);
+            AantalGeblokkeerd = materiaal.GeefAantal(new Geblokkeerd(), startdatum);
+            AantalOnbeschikbaar = materiaal.GeefAantal(new Onbeschikbaar(), startdatum);
         }
 
         public VerlanglijstViewModel() { }

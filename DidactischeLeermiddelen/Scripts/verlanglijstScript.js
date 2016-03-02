@@ -345,7 +345,7 @@ function drawMaterial(dataMateriaal) {
     
     var data = new google.visualization.DataTable();
     var rows = new Array();
-    data.addColumn('date', 'Datum');
+    data.addColumn('string', 'Datum');
     data.addColumn('number', 'Aantal beschikbaar');
     var obj = JSON.parse(dataMateriaal);
     for (var key in obj) {
