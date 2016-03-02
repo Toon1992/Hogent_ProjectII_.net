@@ -31,7 +31,12 @@ namespace DidactischeLeermiddelen.Models.DAL
         public Reservatie FindById(int id)
         {
             return reservaties.FirstOrDefault(r => r.ReservatieId==id);
-        } 
+        }
+
+        public void Remove(Reservatie reservatie)
+        {
+            reservaties.Remove(reservatie);
+        }
 
         public void SaveChanges()
         {

@@ -11,6 +11,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         IQueryable<Reservatie> FindAll();
         IList<Reservatie> FindByEmail(string email);
         Reservatie FindById(int id);
+        void Remove(Reservatie reservatie);
         void SaveChanges();
     }
 }
