@@ -5,6 +5,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Mail;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
@@ -80,6 +81,9 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
+            DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime eind = start.AddDays(4);
+            eindDatum = eind.ToShortDateString();
             // ook nog datum erbij pakken tot wanneer uitgeleend
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
@@ -90,7 +94,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             m.Body += "<ul>";
             foreach (var item in reservaties)
             {
-                m.Body += $"<li>{item.Key.Naam} x {item.Value}</li>";
+                m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
             }
             m.Body += "</ul>";
             m.Body += "<br/>";

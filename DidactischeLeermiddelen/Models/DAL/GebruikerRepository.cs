@@ -24,7 +24,7 @@ namespace DidactischeLeermiddelen.Models.DAL
         {
             return gebruikers.FirstOrDefault(g => g.Email.Equals(email));
         }
-
+        
 
         public void SaveChanges()
         {

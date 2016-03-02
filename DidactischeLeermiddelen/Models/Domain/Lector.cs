@@ -54,6 +54,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     VoegReservatieToe(potentiele.Key, aantal, startDatum, eindDatum, true);
 
                 }
+
                 //else
                 //{
                 //    Reservatie reservatie = reservaties.First();
@@ -82,7 +83,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             //VerzendMailNaarLectorNaBlokkering(reservaties, startDatum, eindDatum);
         }
 
-        private void VerzendMailNaarLectorNaBlokkering(ICollection<Reservatie> reservatiesOmTeBlokkeren, string startDatum, string eindDatum)
+        private void VerzendMailNaarLectorNaBlokkering(IDictionary<Materiaal, int> reservatiesOmTeBlokkeren, string startDatum, string eindDatum)
         {
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", this.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
@@ -93,7 +94,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             m.Body += "<ul>";
             foreach (var item in reservatiesOmTeBlokkeren)
             {
-                m.Body += $"<li>{item.Aantal} x {item.Materiaal.Naam}</li>";
+                m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
             }
             m.Body += "</ul>";
             m.Body += "<br/>";
