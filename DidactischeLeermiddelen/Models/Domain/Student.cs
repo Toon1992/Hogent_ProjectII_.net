@@ -14,9 +14,16 @@ namespace DidactischeLeermiddelen.Models.Domain
         public void maakReservaties(IDictionary<Materiaal, int> PotentieleReservaties, string startDatum,
             string eindDatum)
         {
-            foreach (KeyValuePair< Materiaal, int> potentiele in PotentieleReservaties)
+            try
             {
-                VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, false);
+                foreach (KeyValuePair<Materiaal, int> potentiele in PotentieleReservaties)
+                {
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, false);
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Iets fout gelopen hier");
             }
             VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
         }

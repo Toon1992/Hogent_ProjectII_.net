@@ -20,7 +20,9 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
+                ICollection<Reservatie> reservaties;
+                if (potentiele.Key.Reservaties != null)
+                    reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
                 int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarLector(start, einde);
 
                 if (aantalBeschikbaar >= potentiele.Value)
@@ -30,28 +32,28 @@ namespace DidactischeLeermiddelen.Models.Domain
                 else
                 {
                     int aantal = potentiele.Value - aantalBeschikbaar;
-                    int berekenAantal = aantal;
+                   
 
                     IList<Reservatie> res = potentiele.Key.Reservaties.Where(r => r.StartDatum <= start).ToList();
 
-                    while (berekenAantal > 0)
+                    while (aantal > 0)
                     {
                         Reservatie last = res.Last();
                         
-                        if (last.Aantal < berekenAantal)
+                        if (last.Aantal < aantal)
                         {
-                            berekenAantal -= last.Aantal;
+                            aantal -= last.Aantal;
                         }
                         else
                         {
-                            berekenAantal = 0;
+                            aantal = 0;
                         }
 
                         last.ReservatieState.Blokkeer();
                         res.Remove(last);
                     }
 
-                    VoegReservatieToe(potentiele.Key, aantal, startDatum, eindDatum, true);
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
 
                 }
 
