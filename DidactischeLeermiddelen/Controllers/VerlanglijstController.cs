@@ -222,11 +222,6 @@ namespace DidactischeLeermiddelen.Controllers
                     if (gebruiker is Student)
                     {
                         aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum);
-                    }
-                    else if (gebruiker is Lector)
-                    {
-                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(startDatum, eindDatum);
-                    }
 
                         if (aantalBeschikbaar == 0)
                         {
@@ -237,7 +232,13 @@ namespace DidactischeLeermiddelen.Controllers
                         ModelState.AddModelError("", "error");
                         }
                 }
+                    else if (gebruiker is Lector)
+                    {
+                        aantalBeschikbaar = materialen[i].GeefAantalBeschikbaarLector(startDatum, eindDatum);
+                    }
+                }
             }
+
             if (ModelState.IsValid)
             {
                 return true;
@@ -273,6 +274,7 @@ namespace DidactischeLeermiddelen.Controllers
                             });
                         }
                     });
+
                     //Indien de blokkering van de lector niemand overschrijft wordt de blokkering in de map gestoken
                     if (!overschrijft)
                     {
@@ -301,7 +303,7 @@ namespace DidactischeLeermiddelen.Controllers
 
                 if (!reservaties.ContainsKey(reservatie.StartDatum))
                 {
-                        reservaties.Add(reservatie.StartDatum,CreateReservatieDetail(reservatie));
+                        reservaties.Add(reservatie.StartDatum, CreateReservatieDetail(reservatie));
                 }
                 else
                 {
@@ -350,9 +352,9 @@ namespace DidactischeLeermiddelen.Controllers
                     if (map.ContainsKey(r.StartDatum.ToLongDateString()))
                     {
                         map[r.StartDatum.ToLongDateString()] -= r.Aantal;
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         map.Add(r.StartDatum.ToLongDateString(), materiaal.AantalInCatalogus - r.Aantal);
                     }
                     
