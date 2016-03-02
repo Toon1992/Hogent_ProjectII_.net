@@ -21,7 +21,7 @@ namespace DidactischeLeermiddelen.Infrastructure
                     {
                         gebruiker = new Student()
                         {
-                            Naam = controllerContext.HttpContext.User.Identity.Name,
+                            Naam = "Student",
                             Email = controllerContext.HttpContext.User.Identity.Name
                         };
                     }
@@ -29,7 +29,7 @@ namespace DidactischeLeermiddelen.Infrastructure
                     {
                         gebruiker = new Lector
                         {
-                            Naam = controllerContext.HttpContext.User.Identity.Name,
+                            Naam = "Lector",
                             Email = controllerContext.HttpContext.User.Identity.Name,
                         };
                     }

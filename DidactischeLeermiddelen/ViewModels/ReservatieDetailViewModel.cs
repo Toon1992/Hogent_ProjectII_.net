@@ -16,7 +16,7 @@ namespace DidactischeLeermiddelen.ViewModels
     public class ReservatieDetailViewModel
     {
         public int Aantal { get; set; }
-        public string Naam { get; set; }
+        public string Email { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
         public string GeblokkeerdTot { get; set; }
