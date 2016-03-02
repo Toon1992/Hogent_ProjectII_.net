@@ -73,7 +73,6 @@ namespace DidactischeLeermiddelen.Controllers
                     if (gebruiker is Student)
                     {
                         Student student = gebruiker as Student;
-
                         if (student != null)
                             student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
                                              

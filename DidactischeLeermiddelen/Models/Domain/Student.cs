@@ -18,6 +18,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, false);
             }
+            VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
         }
     }
 }

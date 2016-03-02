@@ -78,7 +78,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             // VerzendMailNaReservatie(nieuweReservaties, startdatum, eindDatum, this); //gebruiker, materiaal, week);
         }
 
-        protected void VerzendMailNaReservatie(ICollection<Reservatie> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
             // ook nog datum erbij pakken tot wanneer uitgeleend
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
@@ -90,7 +90,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             m.Body += "<ul>";
             foreach (var item in reservaties)
             {
-                m.Body += $"<li>{item.Aantal} x {item.Materiaal.Naam}</li>";
+                m.Body += $"<li>{item.Key.Naam} x {item.Value}</li>";
             }
             m.Body += "</ul>";
             m.Body += "<br/>";
