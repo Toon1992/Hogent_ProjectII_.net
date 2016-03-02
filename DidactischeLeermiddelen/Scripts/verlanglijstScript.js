@@ -142,7 +142,7 @@ var viewModel = {
             "alwaysShowCalendars": true,
             //"startDate": Date.parse("tomorrow").toLocaleDateString(),
             //"endDate": Date.parse("tomorrow").toLocaleDateString(),
-            "minDate": Date.parse("tomorrow").toLocaleDateString()
+            "minDate": Date.parse("today").toLocaleDateString()
         }, function(start, end, label) {
             
         }).on('apply.daterangepicker', function (ev, picker) {
@@ -191,7 +191,7 @@ var viewModel = {
             changeYear: true,
             startDate: '+1d',
             daysOfWeekDisabled: [0, 6],
-            format: "dd-mm-yyyy",
+            format: "dd/mm/yyyy",
             language: "nl",
             todayHighlight: true,
             calenderWeeks: true

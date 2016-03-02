@@ -237,6 +237,7 @@
     <Compile Include="Models\Domain\MaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Onbeschikbaar.cs" />
     <Compile Include="Models\Domain\ReservatieMaterialenViewModelFactory.cs" />
+    <Compile Include="Models\Domain\StateMachine\Opgehaald.cs" />
     <Compile Include="Models\Domain\StateMachine\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\StateMachine\TeLaat.cs" />
