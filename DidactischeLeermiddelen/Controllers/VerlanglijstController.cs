@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Newtonsoft.Json;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -319,12 +320,30 @@ namespace DidactischeLeermiddelen.Controllers
             };
         }
 
-        public JsonResult ReservatieDetailsGrafiek(int id)
+        public JsonResult ReservatieDetailsGrafiek(int id, string datum)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             var reservaties = materiaal.Reservaties;
-            string output = new JavaScriptSerializer().Serialize(reservaties);
-            return Json(output);
+            DateTime date = new DateTime();
+            if (datum == null)
+            {
+                date = DateTime.Now;
+            }
+            else
+            {
+                date = Convert.ToDateTime(datum);
+            }
+            //var json = JsonConvert.SerializeObject(reservaties);
+            //var jsonSerialiser = new JavaScriptSerializer();
+            //var json = jsonSerialiser.Serialize(reservaties);
+            //string output = new JavaScriptSerializer().Serialize(reservaties);
+            var list = JsonConvert.SerializeObject(reservaties,
+            Formatting.None,
+             new JsonSerializerSettings()
+            {
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+             });
+            return Json(list);
         }
 
     }

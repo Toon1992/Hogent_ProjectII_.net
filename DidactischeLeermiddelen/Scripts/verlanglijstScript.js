@@ -175,10 +175,13 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.getJson("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(data) {
-                    var dataTable = new google.visualization.DataTable(data);
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                    chart.draw(dataTable, { width: 400, height: 240 });
+                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
+                    google.charts.load('current', { packages: ['corechart', 'bar'] });
+                    google.charts.setOnLoadCallback(drawMaterial);
+                    //var dataTable = new google.visualization.DataTable(data);
+                    //var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    //chart.draw(dataTable, { width: 400, height: 240 });
+                    drawMaterial(dataMateriaal);
                 });
                 viewModel.init();
             });
@@ -339,6 +342,33 @@ function IsWeekend() {
 }
 function VrijdagNaVijf() {
     return Date.today().getDay() === 5 && Date.today().getHours() >= 17;
+}
+
+function drawMaterial(dataMateriaal) {
+    var data = google.visualization.arrayToDataTable([
+      ['City', '2010 Population', '2000 Population'],
+      ['New York City, NY', 8175000, 8008000],
+      ['Los Angeles, CA', 3792000, 3694000],
+      ['Chicago, IL', 2695000, 2896000],
+      ['Houston, TX', 2099000, 1953000],
+      ['Philadelphia, PA', 1526000, 1517000]
+    ]);
+
+    var options = {
+        chart: {
+            title: 'Population of Largest U.S. Cities'
+        },
+        hAxis: {
+            title: 'Total Population',
+            minValue: 0,
+        },
+        vAxis: {
+            title: 'City'
+        },
+        bars: 'horizontal'
+    };
+    var material = new google.charts.Bar(document.getElementById('chart_div'));
+    material.draw(data, options);
 }
 $(document).ready(function() {
     viewModel.init();
