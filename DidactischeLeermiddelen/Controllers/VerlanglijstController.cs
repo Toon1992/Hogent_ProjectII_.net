@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -320,31 +321,41 @@ namespace DidactischeLeermiddelen.Controllers
             };
         }
 
-        public JsonResult ReservatieDetailsGrafiek(int id, string datum)
+        public JsonResult ReservatieDetailsGrafiek(int id, string datum = null)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            var reservaties = materiaal.Reservaties;
+            var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
             DateTime date = new DateTime();
-            if (datum == null)
+            date = datum == null ? DateTime.Now : Convert.ToDateTime(datum);
+            Dictionary<DateTime, int> map = new Dictionary<DateTime, int>();
+            foreach (Reservatie r in reservaties)
             {
-                date = DateTime.Now;
+                if (r.StartDatum <= date.AddMonths(1))
+                {
+                    foreach (DateTime d in map.Keys)
+                    {
+                        if (d >= r.StartDatum && d <= r.EindDatum)
+                        {
+                            map[d] -= r.Aantal;
+                        }
+                        else
+                        {
+                            map.Add(r.StartDatum, materiaal.AantalInCatalogus - r.Aantal);
+                        }
+                    }
+                }
+                
             }
-            else
-            {
-                date = Convert.ToDateTime(datum);
-            }
-            //var json = JsonConvert.SerializeObject(reservaties);
-            //var jsonSerialiser = new JavaScriptSerializer();
-            //var json = jsonSerialiser.Serialize(reservaties);
-            //string output = new JavaScriptSerializer().Serialize(reservaties);
-            var list = JsonConvert.SerializeObject(reservaties,
-            Formatting.None,
-             new JsonSerializerSettings()
-            {
-            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-             });
-            return Json(list);
+            string json = (new JavaScriptSerializer()).Serialize(map);
+            
+            return Json(json);
         }
+
+        public List<T> CreateEmptyGenericList<T>(T example)
+        {
+            return new List<T>();
+        } 
+
 
     }
 }

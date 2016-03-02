@@ -178,9 +178,6 @@ var viewModel = {
                 $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
                     google.charts.load('current', { packages: ['corechart', 'bar'] });
                     google.charts.setOnLoadCallback(drawMaterial);
-                    //var dataTable = new google.visualization.DataTable(data);
-                    //var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                    //chart.draw(dataTable, { width: 400, height: 240 });
                     drawMaterial(dataMateriaal);
                 });
                 viewModel.init();
@@ -345,26 +342,30 @@ function VrijdagNaVijf() {
 }
 
 function drawMaterial(dataMateriaal) {
-    var data = google.visualization.arrayToDataTable([
-      ['City', '2010 Population', '2000 Population'],
-      ['New York City, NY', 8175000, 8008000],
-      ['Los Angeles, CA', 3792000, 3694000],
-      ['Chicago, IL', 2695000, 2896000],
-      ['Houston, TX', 2099000, 1953000],
-      ['Philadelphia, PA', 1526000, 1517000]
-    ]);
-
+    
+    var data = new google.visualization.DataTable();
+    var rows = new Array();
+    data.addColumn('date', 'Datum');
+    data.addColumn('number', 'Aantal beschikbaar');
+    var obj = JSON.parse(dataMateriaal);
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var value = obj[key];
+            rows.push([key, value]);
+        }
+    }
+    data.addRows(rows);
     var options = {
         chart: {
-            title: 'Population of Largest U.S. Cities'
+            title: 'Beschikbaarheid per week'
         },
-        hAxis: {
-            title: 'Total Population',
-            minValue: 0,
-        },
-        vAxis: {
-            title: 'City'
-        },
+        //hAxis: {
+        //    title: 'Total Population',
+        //    minValue: 0,
+        //},
+        //vAxis: {
+        //    title: 'City'
+        
         bars: 'horizontal'
     };
     var material = new google.charts.Bar(document.getElementById('chart_div'));
