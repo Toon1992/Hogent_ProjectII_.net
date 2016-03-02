@@ -57,10 +57,10 @@
                         <th>Geblokkeerd tot</th>
                     </tr>
                     </thead>
-                    @foreach (var item in Model.Reservaties)
+                    @foreach (var item in Model.Reservaties.OrderBy(r => r.Key))
                     {
                         <tr>
-                            <th><h4>Reservaties op @item.Key</h4></th>
+                            <th><h4>Reservaties op @item.Key.ToString("d")</h4></th>
                             <th></th>
                             <th></th>
                             <th></th>

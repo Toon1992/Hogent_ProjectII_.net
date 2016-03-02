@@ -19,6 +19,7 @@ namespace DidactischeLeermiddelen.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime EindDatum { get; set; }
         public int AantalStuksGereserveerd { get; set; }
+        public ReservatieState Status { get; set; }
 
         public ReservatieViewModel(Reservatie reservatie)
         {
@@ -30,6 +31,7 @@ namespace DidactischeLeermiddelen.ViewModels
             StartDatum = reservatie.StartDatum;
             EindDatum = StartDatum.AddDays(4);
             AantalStuksGereserveerd = reservatie.Aantal;
+            Status = reservatie.ReservatieState;
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -11,6 +12,8 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -140,7 +143,7 @@ namespace DidactischeLeermiddelen.Controllers
                     Materialen = materiaalVerlanglijst.Select(m => new VerlanglijstViewModel
                     {
                         AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaarLector(Convert.ToDateTime(startDatum), Convert.ToDateTime(eindDatum)),
-                        AantalGeblokkeerd = m.GeefAantal(Status.Geblokkeerd, startDate),
+                        AantalGeblokkeerd = m.GeefAantal(new Geblokkeerd(), startDate),
                         Beschikbaar = aantalBeschikbaar == 0,
                         Firma = m.Firma,
                         Prijs = m.Prijs,
@@ -170,7 +173,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week)),
                     Beschikbaar = aantalBeschikbaar == 0,
-        
+                    AantalGeblokkeerd = m.GeefAantal(new Geblokkeerd(), startDate),
                     Firma = m.Firma,
                         Prijs = m.Prijs,
                     Foto = m.Foto,
@@ -246,7 +249,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult ReservatieDetails(int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            Dictionary<string, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<string, ICollection<ReservatieDetailViewModel>>();
+            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
             foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum) : materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
                 if (reservatie.Gebruiker is Lector)
@@ -276,19 +279,19 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         int ww = HulpMethode.GetIso8601WeekOfYear(reservatie.StartDatum);
                         DateTime date = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, ww);
-                        reservaties.Add(date.ToString("d", dtfi), CreateReservatieDetail(reservatie));
+                        reservaties.Add(date, CreateReservatieDetail(reservatie));
                     }
                 }
                 else
             {
 
-                if (!reservaties.ContainsKey(reservatie.StartDatum.ToString("d", dtfi)))
+                if (!reservaties.ContainsKey(reservatie.StartDatum))
                 {
-                        reservaties.Add(reservatie.StartDatum.ToString("d", dtfi),CreateReservatieDetail(reservatie));
+                        reservaties.Add(reservatie.StartDatum,CreateReservatieDetail(reservatie));
                 }
                 else
                 {
-                    var list = reservaties[reservatie.StartDatum.ToString("d", dtfi)];
+                    var list = reservaties[reservatie.StartDatum];
                         list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
                     }
                 }
@@ -318,6 +321,40 @@ namespace DidactischeLeermiddelen.Controllers
                 }
             };
         }
-       
+
+        public JsonResult ReservatieDetailsGrafiek(int id, string datum = null)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
+            DateTime date = new DateTime();
+            date = datum == null ? DateTime.Now : Convert.ToDateTime(datum);
+            Dictionary<string, int> map = new Dictionary<string, int>();
+            foreach (Reservatie r in reservaties)
+            {
+                if (r.StartDatum <= date.AddMonths(1))
+                {
+                    if (map.ContainsKey(r.StartDatum.ToLongDateString()))
+                    {
+                        map[r.StartDatum.ToLongDateString()] -= r.Aantal;
+                    }
+                    else
+                    {
+                        map.Add(r.StartDatum.ToLongDateString(), materiaal.AantalInCatalogus - r.Aantal);
+                    }
+                    
+                }
+                
+            }
+            string json = JsonConvert.SerializeObject(map, new KeyValuePairConverter());
+            
+            return Json(json);
+        }
+
+        public List<T> CreateEmptyGenericList<T>(T example)
+        {
+            return new List<T>();
+        } 
+
+
     }
 }

@@ -14,7 +14,8 @@ namespace DidactischeLeermiddelen
                         "~/Scripts/loginScript.js",
                         "~/Scripts/daterangepicker.js",
                         "~/Scripts/datepickerScript.js",
-                        "~/Scripts/datejs.js"));
+                        "~/Scripts/datejs.js",
+                        "~/https://www.gstatic.com/charts/loader.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

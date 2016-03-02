@@ -237,6 +237,7 @@
     <Compile Include="Models\Domain\MaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Onbeschikbaar.cs" />
     <Compile Include="Models\Domain\ReservatieMaterialenViewModelFactory.cs" />
+    <Compile Include="Models\Domain\StateMachine\Opgehaald.cs" />
     <Compile Include="Models\Domain\StateMachine\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\StateMachine\TeLaat.cs" />
@@ -244,7 +245,6 @@
     <Compile Include="Models\Domain\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
-    <Compile Include="Models\Domain\Status.cs" />
     <Compile Include="Models\Domain\Verlanglijst.cs" />
     <Compile Include="Models\DAL\ReservatieRepository.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />

@@ -142,7 +142,7 @@ var viewModel = {
             "alwaysShowCalendars": true,
             //"startDate": Date.parse("tomorrow").toLocaleDateString(),
             //"endDate": Date.parse("tomorrow").toLocaleDateString(),
-            "minDate": Date.parse("tomorrow").toLocaleDateString()
+            "minDate": Date.parse("today").toLocaleDateString()
         }, function(start, end, label) {
             
         }).on('apply.daterangepicker', function (ev, picker) {
@@ -175,10 +175,10 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.getJson("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(data) {
-                    var dataTable = new google.visualization.DataTable(data);
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                    chart.draw(dataTable, { width: 400, height: 240 });
+                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
+                    google.charts.load('current', { packages: ['corechart', 'bar'] });
+                    google.charts.setOnLoadCallback(drawMaterial);
+                    drawMaterial(dataMateriaal);
                 });
                 viewModel.init();
             });
@@ -188,7 +188,7 @@ var viewModel = {
             changeYear: true,
             startDate: '+1d',
             daysOfWeekDisabled: [0, 6],
-            format: "dd-mm-yyyy",
+            format: "dd/mm/yyyy",
             language: "nl",
             todayHighlight: true,
             calenderWeeks: true
@@ -339,6 +339,37 @@ function IsWeekend() {
 }
 function VrijdagNaVijf() {
     return Date.today().getDay() === 5 && Date.today().getHours() >= 17;
+}
+
+function drawMaterial(dataMateriaal) {
+    
+    var data = new google.visualization.DataTable();
+    var rows = new Array();
+    data.addColumn('string', 'Datum');
+    data.addColumn('number', 'Aantal beschikbaar');
+    var obj = JSON.parse(dataMateriaal);
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var value = obj[key];
+            rows.push([key, value]);
+        }
+    }
+    data.addRows(rows);
+    var options = {
+        chart: {
+            title: 'Beschikbaarheid per week'
+        },
+        //hAxis: {
+        //    title: 'Total Population',
+        //    minValue: 0,
+        //},
+        //vAxis: {
+        //    title: 'City'
+        
+        bars: 'horizontal'
+    };
+    var material = new google.charts.Bar(document.getElementById('chart_div'));
+    material.draw(data, options);
 }
 $(document).ready(function() {
     viewModel.init();

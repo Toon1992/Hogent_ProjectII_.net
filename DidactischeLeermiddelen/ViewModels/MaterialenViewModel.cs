@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
-        public Status Status { get; set; }
+        //public Status Status { get; set; }
 
         public MateriaalViewModel(Materiaal materiaal)
         {
@@ -39,7 +39,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
-            AantalInCatalogus = materiaal.CheckNieuwAantal();
+            AantalInCatalogus = materiaal.AantalInCatalogus;
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
             Firma = materiaal.Firma;
