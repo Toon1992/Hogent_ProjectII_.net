@@ -318,6 +318,14 @@ namespace DidactischeLeermiddelen.Controllers
                 }
             };
         }
-       
+
+        public JsonResult ReservatieDetailsGrafiek(int id)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            var reservaties = materiaal.Reservaties;
+            string output = new JavaScriptSerializer().Serialize(reservaties);
+            return Json(output);
+        }
+
     }
 }
