@@ -14,14 +14,46 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
         {
+            DateTime start = Convert.ToDateTime(startDatum);
+            DateTime einde = Convert.ToDateTime(eindDatum);
+            
+
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
                 ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
+                int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarLector(start, einde);
 
-                //if (potentiele.Key.CheckNieuwAantal() >= index)
-                //{
-                VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
-                //}
+                if (aantalBeschikbaar >= potentiele.Value)
+                {
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
+                }
+                else
+                {
+                    int aantal = potentiele.Value - aantalBeschikbaar;
+                    int berekenAantal = aantal;
+
+                    IList<Reservatie> res = potentiele.Key.Reservaties.Where(r => r.StartDatum <= start).ToList();
+
+                    while (berekenAantal > 0)
+                    {
+                        Reservatie last = res.Last();
+                        
+                        if (last.Aantal < berekenAantal)
+                        {
+                            berekenAantal -= last.Aantal;
+                        }
+                        else
+                        {
+                            berekenAantal = 0;
+                        }
+
+                        last.ReservatieState.Blokkeer();
+                        res.Remove(last);
+                    }
+
+                    VoegReservatieToe(potentiele.Key, aantal, startDatum, eindDatum, true);
+
+                }
                 //else
                 //{
                 //    Reservatie reservatie = reservaties.First();
