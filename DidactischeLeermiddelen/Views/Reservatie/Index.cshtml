@@ -54,7 +54,7 @@
             </div>
             <div class="row">
                 <div class="col-md-1 col-sm-2 hidden-xs">
-                    @using (Html.BeginForm("VerwijderReservatie", "Reservatie", new { id = item.MateriaalId })) // hier nog reservatieId nemen
+                    @using (Html.BeginForm("VerwijderReservatie", "Reservatie", new { id = item.ReservatieId })) // hier nog reservatieId nemen
                     {
 
                         <button type="submit" class="btn btn-delete">

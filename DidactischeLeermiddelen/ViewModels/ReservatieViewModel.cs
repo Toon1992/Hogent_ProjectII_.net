@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
@@ -20,6 +21,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public DateTime EindDatum { get; set; }
         public int AantalStuksGereserveerd { get; set; }
         public ReservatieState Status { get; set; }
+        public long ReservatieId { get; set; }
 
         public ReservatieViewModel(Reservatie reservatie)
         {
@@ -32,6 +34,7 @@ namespace DidactischeLeermiddelen.ViewModels
             EindDatum = StartDatum.AddDays(4);
             AantalStuksGereserveerd = reservatie.Aantal;
             Status = reservatie.ReservatieState;
+            ReservatieId = reservatie.ReservatieId;
         }
     }
 
