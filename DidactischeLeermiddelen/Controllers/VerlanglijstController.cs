@@ -249,7 +249,7 @@ namespace DidactischeLeermiddelen.Controllers
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservaties = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
-            foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => r.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum) : materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
+            foreach (Reservatie reservatie in week != -1 ? materiaal.Reservaties.Where(r => HulpMethode.GetIso8601WeekOfYear(r.StartDatum).Equals(week) || HulpMethode.GetIso8601WeekOfYear(r.EindDatum).Equals(week)).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum) : materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
                 if (reservatie.Gebruiker is Lector)
                 {
