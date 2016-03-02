@@ -16,8 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r => r.Status != Status.Geblokkeerd).OrderBy(r => r.StartDatum).ToList();
-
+                ICollection<Reservatie> reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
 
                 //if (potentiele.Key.CheckNieuwAantal() >= index)
                 //{

@@ -19,7 +19,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public DateTime EindDatum { get; set; }
         public int AantalDagenGeblokkeerd { get; set; }
         public virtual ReservatieState ReservatieState { get; set; }
-        public Status Status { get; set; }
+        //public Status Status { get; set; }
 
         public Reservatie() { }
         public Reservatie(Gebruiker gebruker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
