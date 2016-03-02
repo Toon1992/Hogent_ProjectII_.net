@@ -40,7 +40,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             Naam = naam;
             ArtikelNr = artikeNr;
             AantalInCatalogus = aantal;
-            Reservaties = new List<Reservatie>();
         }
         public Materiaal() { }
 
