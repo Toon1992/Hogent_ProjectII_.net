@@ -264,7 +264,7 @@ namespace DidactischeLeermiddelen.Controllers
                             reservaties[e.Key].Add(new ReservatieDetailViewModel
                             {
                                 Aantal = reservatie.Aantal,
-                                Naam = reservatie.Gebruiker.Naam,
+                                Email = reservatie.Gebruiker.Email,
                                 Type = "Lector",
                                 Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
                                 GeblokkeerdTot = reservatie.EindDatum.ToString("d")
@@ -289,7 +289,7 @@ namespace DidactischeLeermiddelen.Controllers
                 else
                 {
                     var list = reservaties[reservatie.StartDatum];
-                        list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Naam = reservatie.Gebruiker.Naam, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
+                        list.Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Email = reservatie.Gebruiker.Email, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
                     }
                 }
             }
@@ -311,7 +311,7 @@ namespace DidactischeLeermiddelen.Controllers
                 new ReservatieDetailViewModel
                 {
                     Aantal = reservatie.Aantal,
-                    Naam = reservatie.Gebruiker.Naam,
+                    Email = reservatie.Gebruiker.Email,
                     Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
                     Type = reservatie.Gebruiker is Student ? "Student" : "Lector",
                     GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
@@ -319,13 +319,13 @@ namespace DidactischeLeermiddelen.Controllers
             };
         }
 
-        public JsonResult ReservatieDetailsGrafiek(int id)
-        {
-            Materiaal materiaal = materiaalRepository.FindById(id);
-            var reservaties = materiaal.Reservaties;
-            string output = new JavaScriptSerializer().Serialize(reservaties);
-            return Json(output);
-        }
+        //public JsonResult ReservatieDetailsGrafiek(int id)
+        //{
+        //    Materiaal materiaal = materiaalRepository.FindById(id);
+        //    var reservaties = materiaal.Reservaties;
+        //    string output = new JavaScriptSerializer().Serialize(reservaties);
+        //    return Json(output);
+        //}
 
     }
 }
