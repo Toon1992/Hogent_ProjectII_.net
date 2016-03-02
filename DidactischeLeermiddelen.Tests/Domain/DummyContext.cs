@@ -21,6 +21,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public Materiaal Encyclopedie { get; set; }
 
         public Materiaal Kaart { get; set; }
+        public Reservatie Reservatie { get; set; }
+        public Student Student { get; set; }
 
 
         public DummyContext()
@@ -54,6 +56,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 MateriaalId = 2
 
             }; ;
+            Reservatie = new Reservatie();
+            Student = new Student();
             materialen.Add(Bol);
             materialen.Add(Kaart);
             materialen.Add(Encyclopedie);

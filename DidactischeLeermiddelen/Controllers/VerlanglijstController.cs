@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -327,26 +328,24 @@ namespace DidactischeLeermiddelen.Controllers
             var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
             DateTime date = new DateTime();
             date = datum == null ? DateTime.Now : Convert.ToDateTime(datum);
-            Dictionary<DateTime, int> map = new Dictionary<DateTime, int>();
+            Dictionary<string, int> map = new Dictionary<string, int>();
             foreach (Reservatie r in reservaties)
             {
                 if (r.StartDatum <= date.AddMonths(1))
                 {
-                    foreach (DateTime d in map.Keys)
+                    if (map.ContainsKey(r.StartDatum.ToLongDateString()))
                     {
-                        if (d >= r.StartDatum && d <= r.EindDatum)
-                        {
-                            map[d] -= r.Aantal;
-                        }
-                        else
-                        {
-                            map.Add(r.StartDatum, materiaal.AantalInCatalogus - r.Aantal);
-                        }
+                        map[r.StartDatum.ToLongDateString()] -= r.Aantal;
                     }
+                    else
+                    {
+                        map.Add(r.StartDatum.ToLongDateString(), materiaal.AantalInCatalogus - r.Aantal);
+                    }
+                    
                 }
                 
             }
-            string json = (new JavaScriptSerializer()).Serialize(map);
+            string json = JsonConvert.SerializeObject(map, new KeyValuePairConverter());
             
             return Json(json);
         }
