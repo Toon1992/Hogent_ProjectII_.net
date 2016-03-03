@@ -45,40 +45,58 @@
             }
             else
             {
+                <div class="row materiaal">
+                    <div class="info-side">
+                        <div class="col-md-2 col-sm-2 hidden-xs"></div>
+                        <div class="col-md-1 col-sm-1 hidden-xs"><h4>Type</h4></div>
+                        <div class="col-md-3 col-sm-3 hidden-xs"><h4>Naam</h4></div>
+                        <div class="col-md-2 col-sm-2 hidden-xs"><h4>Status</h4></div>
+                        <div class="col-md-1 col-sm-1 hidden-xs"><h4>Aantal</h4></div>
+                        <div class="col-md-2 col-sm-2 hidden-xs"><h4>Geblokkeerd tot</h4></div>
+                    </div>
+                </div>
+                foreach (var item in Model.Reservaties.OrderBy(r => r.Key))
+                 {
+                       
+                     <div class="row materiaal">
+                         <div class="info-side">
+                             
+                             
 
-                <table class="table-responsive">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Type</th>
-                        <th>Naam</th>
-                        <th>Status</th>
-                        <th>Aantal</th>
-                        <th>Geblokkeerd tot</th>
-                    </tr>
-                    </thead>
-                    @foreach (var item in Model.Reservaties.OrderBy(r => r.Key))
-                    {
-                        <tr>
-                            <th><h4>Reservaties op @item.Key.ToString("d")</h4></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        foreach (var data in item.Value)
-                        {
-                            <tr>
-                                <td></td>
-                                <td><h5>@data.Type</h5></td>
-                                <td><h5>@data.Email</h5></td>
-                                <td><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">@data.Status</h5></td>
-                                <td><h5>@data.Aantal</h5></td>
-                                <td><h5>@data.GeblokkeerdTot</h5></td>
-                            </tr>
+                             @foreach (var data in item.Value)
+                             {
+                                 <div class="row">
+                                     <div class="col-md-2 col-sm-2"><h4>Reservatie op @item.Key.ToString("d")</h4></div>
+                                     <div class="col-md-1 col-sm-1 hidden-xs"><h5>@data.Type</h5>
+                                     </div>
+                                     <div class="col-md-3 col-sm-3 hidden-xs"><h5>@data.Email</h5>
+                                     </div>
+                                     <div class="col-md-2 col-sm-2 hidden-xs"><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">@data.Status</h5>
+                                     </div>
+                                     <div class="col-md-1 col-sm-1 hidden-xs"><h5>@data.Aantal</h5>
+                                     </div>
+                                     <div class="col-md-2 col-sm-2 hidden-xs"><h5>@(data.GeblokkeerdTot.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdTot)</h5>
+                                     </div>
 
-                        }
-                    }
-                </table>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Type : @data.Type</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>E-mail : @data.Email</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">Status : @data.Status</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Aantal : @data.Aantal</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Geblokkeerd tot : @(data.GeblokkeerdTot.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdTot)</h5>
+                                     </div>
+
+                                 </div>
+                                 
+                             }
+                             
+                         </div>
+                     </div>
+                    @*</table>*@
+                 }
             }
         </div>
     </div>
