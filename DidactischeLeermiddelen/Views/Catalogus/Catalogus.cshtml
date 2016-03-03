@@ -54,7 +54,7 @@ else
                             }
                         </div>
                         <div class="col-md-2 col-sm-3 hidden-xs">
-                            <h4 class="price">@Html.DisplayFor(modelItem => item.Prijs)</h4>
+                            <h4 class="price">€ @Html.DisplayFor(modelItem => item.Prijs)</h4>
                             <h5>@Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
 
                             @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new {id = item.MateriaalId}))

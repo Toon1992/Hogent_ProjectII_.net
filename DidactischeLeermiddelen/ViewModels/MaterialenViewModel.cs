@@ -26,7 +26,6 @@ namespace DidactischeLeermiddelen.ViewModels
         public int AantalInCatalogus { get; set; }
         [Display(Name = "Artikelnummer")]
         public int ArtikelNr { get; set; }
-        [DataType(DataType.Currency)]
         public decimal Prijs { get; set; }
         public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
