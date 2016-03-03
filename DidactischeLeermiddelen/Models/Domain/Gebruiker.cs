@@ -82,8 +82,9 @@ namespace DidactischeLeermiddelen.Models.Domain
         protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
         {
             DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime eind = start.AddDays(4);
-            eindDatum = eind.ToShortDateString();
+            startDatum = start.ToShortDateString();
+            //eind date niet in orde
+            eindDatum = start.ToShortDateString();
             // ook nog datum erbij pakken tot wanneer uitgeleend
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
