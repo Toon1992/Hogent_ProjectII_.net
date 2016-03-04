@@ -43,6 +43,13 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState = new Beschikbaar(this);
         }
 
+        public bool OverschrijftMetReservatie(DateTime startdatum, DateTime eindDatum)
+        {
+            return ((startdatum <= StartDatum && eindDatum >= StartDatum) ||
+                    (startdatum >= StartDatum && eindDatum <= EindDatum) ||
+                    (startdatum <= StartDatum && eindDatum >= EindDatum) ||
+                    (startdatum >= StartDatum && eindDatum >= EindDatum && startdatum <= EindDatum));
+        }
         public void Reserveer()
         {
             ReservatieState.Reserveer();

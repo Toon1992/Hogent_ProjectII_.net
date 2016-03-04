@@ -58,24 +58,17 @@ namespace DidactischeLeermiddelen.Models.Domain
         //    return AantalInCatalogus;
         //}
 
-        public int GeefAantal(ReservatieState status, DateTime startDatum)
-        {
-            DateTime eindDatum = startDatum.AddDays(4);
-
+        public int GeefAantalPerStatus(ReservatieState status, DateTime startDatum, DateTime eindDatum)
+        {         
             if (status is Geblokkeerd)
             {
-                return Reservaties.Where(r =>
-                      ((r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
-                       (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
-                       (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
-                       (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum)) &&
-                      r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
+                return Reservaties.Where(r => r.OverschrijftMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
             }
-            else if (status is Onbeschikbaar)
+            if (status is Onbeschikbaar)
             {
                 return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal);
             }
-            else if(status is Gereserveerd)
+            if(status is Gereserveerd)
             {
                 return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
             }
@@ -84,39 +77,24 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public int GeefAantalBeschikbaar(DateTime startDatum)
+        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, bool lector)
         {
-            DateTime eindDatum = startDatum.AddDays(4);
-            int aantal= AantalInCatalogus 
-                              - Reservaties.Where(r =>
-                                ((r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
-                                (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
-                                (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
-                                (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum)) &&
-                                r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal)
-                              - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal)
-                              - Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
+            int aantal = AantalInCatalogus - Reservaties.Where(r =>r.OverschrijftMetReservatie(startDatum, eindDatum) &&
+                             (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)).Sum(r => r.Aantal);
+            if (!lector)
+            {
+                aantal -= (Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal)
+                   + Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal));
+            }
             return aantal <= 0 ? 0 : aantal;
         }
 
-        public int GeefAantalBeschikbaarLector(DateTime startDatum, DateTime eindDatum)
+        public int GeefAantalBeschikbaarVoorBlokkering(DateTime startDatum, DateTime eindDatum)
         {
+
             int aantal = AantalInCatalogus -
-                   Reservaties.Where(r =>
-                                ((r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
-                                (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
-                                (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
-                                (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum)) &&
-                                (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)).Sum(r => r.Aantal);
-            //int aantal = AantalInCatalogus -
-            //             Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald))
-            //                 .Sum(r => r.Aantal);
-            //            /* Reservaties.Where(r =>
-            //                 ((r.StartDatum <= startDatum && r.EindDatum <= eindDatum && r.EindDatum >= startDatum) ||
-            //                  (r.StartDatum >= startDatum && r.EindDatum <= eindDatum) ||
-            //                  (r.StartDatum <= startDatum && r.EindDatum >= eindDatum) ||
-            //                  (r.StartDatum >= startDatum && r.EindDatum >= eindDatum && r.StartDatum <= eindDatum)) &&
-            //                 (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)  ).Sum(r => r.Aantal);*/
+                         Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald))
+                             .Sum(r => r.Aantal);         
             return aantal <= 0 ? 0 : aantal;
         }
     }

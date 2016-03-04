@@ -23,7 +23,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 ICollection<Reservatie> reservaties;
                 if (potentiele.Key.Reservaties != null)
                     reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
-                int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarLector(start, einde);
+                int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarVoorBlokkering(start, einde);
 
                 if (aantalBeschikbaar >= potentiele.Value)
                 {

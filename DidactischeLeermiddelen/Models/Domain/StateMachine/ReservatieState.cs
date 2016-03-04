@@ -5,7 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using DidactischeLeermiddelen.Models.Domain;
 
-namespace DidactischeLeermiddelen
+namespace DidactischeLeermiddelen.Models.Domain
 {
     public abstract class ReservatieState
     {
