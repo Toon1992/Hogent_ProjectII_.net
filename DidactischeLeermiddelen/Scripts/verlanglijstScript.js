@@ -177,8 +177,10 @@ var viewModel = {
                 $("#verlanglijst-pagina").html(data);
                 $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
                     google.charts.load('current', { packages: ['corechart', 'bar'] });
-                    google.charts.setOnLoadCallback(drawMaterial);
-                    drawMaterial(dataMateriaal);
+                    google.charts.setOnLoadCallback(function() {
+                        drawMaterial(dataMateriaal);
+                    });
+                    
                 });
                 viewModel.init();
             });
