@@ -5,7 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using DidactischeLeermiddelen.Models.Domain;
 
-namespace DidactischeLeermiddelen.Models.Domain
+namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     public class TeLaat : ReservatieState
     {
@@ -14,24 +14,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             
         }
         public TeLaat() { }
-        public void Onbeschikbaar()
-        {
-            Reservatie.ToState(new Onbeschikbaar(Reservatie));
-        }
 
         public override void Reserveer()
         {
             Reservatie.ToState(new Gereserveerd(Reservatie));
-        }
-
-        public override void Annuleer()
-        {
-            Reservatie.ToState(new Beschikbaar(Reservatie));
-        }
-
-        public override void Deblokkeer()
-        {
-            Reservatie.ToState(new Beschikbaar(Reservatie));
         }
 
         public override void Blokkeer()

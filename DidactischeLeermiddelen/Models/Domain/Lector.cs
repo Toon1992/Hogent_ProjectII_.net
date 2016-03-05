@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -36,7 +37,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
                     IList<Reservatie> res = potentiele.Key.Reservaties.Where(r => r.StartDatum <= start).ToList();
 
-                    while (aantal > 0)
+                    while (aantal > 0 && res.Count > 0)
                     {
                         Reservatie last = res.Last();
                         

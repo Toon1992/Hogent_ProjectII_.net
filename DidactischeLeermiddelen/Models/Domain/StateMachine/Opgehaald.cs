@@ -20,16 +20,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
             throw new NotImplementedException();
         }
 
-        public override void Annuleer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Deblokkeer()
-        {
-            Reservatie.ToState(new Beschikbaar(Reservatie));
-        }
-
         public override void Blokkeer()
         {
             throw new NotImplementedException();

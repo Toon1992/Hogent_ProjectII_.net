@@ -5,7 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using DidactischeLeermiddelen.Models.Domain;
 
-namespace DidactischeLeermiddelen.Models.Domain
+namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     public class Geblokkeerd : ReservatieState
     {
@@ -14,17 +14,8 @@ namespace DidactischeLeermiddelen.Models.Domain
             
         }
         public Geblokkeerd() { }
-        public override void Deblokkeer()
-        {
-            Reservatie.ToState(new Beschikbaar(Reservatie));
-        }
 
         public override void Reserveer()
-        {
-            throw new ArgumentException("Materiaal is geblokkeerd");
-        }
-
-        public override void Annuleer()
         {
             throw new ArgumentException("Materiaal is geblokkeerd");
         }

@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -33,6 +34,7 @@ namespace DidactischeLeermiddelen.Controllers
         // GET: Verlanglijst
         public ActionResult Index(Gebruiker gebruiker)
         {
+            DateTime startDatum = new DateTime();
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
 
@@ -40,33 +42,21 @@ namespace DidactischeLeermiddelen.Controllers
             VerlanglijstMaterialenViewModel vm = vvmf.CreateViewModel(null, null, null, DateTime.Now, gebruiker) as VerlanglijstMaterialenViewModel;
             if ((int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17))
             {
-                DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);
-                DateTime eindDatum = new DateTime();
-                if (gebruiker is Lector)
-                {
-                    eindDatum = startDatum.AddDays(4);
-                }
-                string startD = startDatum.ToString("d", dtfi);
-                string eindD = eindDatum.ToString("d", dtfi);
-                return Controle(gebruiker, null, null, false, startD, eindD);
-                //vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53).ToString("d", dtfi);
+                startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);               
             }
             else
             {
-                DateTime startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53);
-                DateTime eindDatum = startDatum.AddDays(4);
-                if (gebruiker is Lector)
-                {
-                    eindDatum = startDatum.AddDays(4);
-                }
-                string startD = startDatum.ToString("d", dtfi);
-                string eindD = eindDatum.ToString("d", dtfi);
-                return Controle(gebruiker, null, null, false, startD, eindD);
-                //vm.GeselecteerdeWeek = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53).ToString("d", dtfi);
+                startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 1) % 53);
             }
-            vm.Gebruiker = gebruiker;
-
-            return View(vm);
+            DateTime eindDatum = new DateTime();
+            if (gebruiker is Lector)
+            {
+                startDatum = DateTime.Now;
+                eindDatum = startDatum.AddDays(1);
+            }
+            string startD = startDatum.ToString("d", dtfi);
+            string eindD = eindDatum.ToString("d", dtfi);
+            return Controle(gebruiker, null, null, false, startD, eindD);
         }
 
         [HttpPost]
@@ -245,7 +235,7 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 for (int i = 0; i < materiaal.Length; i++)
                 {
-                    aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, false);
+                    aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, gebruiker is Lector);
 
                     if (aantalBeschikbaar == 0)
                     {
@@ -288,7 +278,7 @@ namespace DidactischeLeermiddelen.Controllers
                                 Aantal = reservatie.Aantal,
                                 Email = reservatie.Gebruiker.Email,
                                 Type = "Lector",
-                                Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                                Status = reservatie.ReservatieState.GetType().Name.ToLower(),
                                 GeblokkeerdTot = reservatie.EindDatum.ToString("d")
                             });
                             break;
@@ -306,7 +296,7 @@ namespace DidactischeLeermiddelen.Controllers
                                 Aantal = reservatie.Aantal,
                                 Email = reservatie.Gebruiker.Email,
                                 Type = "Lector",
-                                Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                                Status = reservatie.ReservatieState.GetType().Name.ToLower(),
                                 GeblokkeerdTot = reservatie.EindDatum.ToString("d")
                             });
                         }
@@ -324,7 +314,7 @@ namespace DidactischeLeermiddelen.Controllers
                     }
                     else
                     {
-                        reservaties[reservatie.StartDatum].Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Email = reservatie.Gebruiker.Email, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
+                        reservaties[reservatie.StartDatum].Add(new ReservatieDetailViewModel { Aantal = reservatie.Aantal, Email = reservatie.Gebruiker.Email, Type = reservatie.Gebruiker is Student ? "Student" : "Lector", Status = reservatie.ReservatieState.GetType().Name.ToLower(), GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : "" });
                     }
                 }
             }
@@ -339,7 +329,7 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     Aantal = reservatie.Aantal,
                     Email = reservatie.Gebruiker.Email,
-                    Status = reservatie.ReservatieState.GetType().BaseType.Name.ToLower(),
+                    Status = reservatie.ReservatieState.GetType().Name.ToLower(),
                     Type = reservatie.Gebruiker is Student ? "Student" : "Lector",
                     GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
                 }

@@ -65,10 +65,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 return Reservaties.Where(r => r.OverschrijftMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
             }
-            if (status is Onbeschikbaar)
-            {
-                return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal);
-            }
             if(status is Gereserveerd)
             {
                 return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
@@ -84,8 +80,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                              (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)).Sum(r => r.Aantal);
             if (!lector)
             {
-                aantal -= (Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Onbeschikbaar).Sum(r => r.Aantal)
-                   + Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal));
+                aantal -= Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
             }
             return aantal <= 0 ? 0 : aantal;
         }
