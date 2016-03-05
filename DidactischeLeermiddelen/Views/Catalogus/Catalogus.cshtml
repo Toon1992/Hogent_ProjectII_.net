@@ -13,7 +13,9 @@ else
             <div class="materiaal-content">
                 <div class="img-side">
                     <div class="col-md-2 col-sm-2 col-xs-11 img-tag">
-                        <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+                        <a href="@item.Foto" data-lightbox="@item.MateriaalId" data-title="@item.Naam">
+                            <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId">
+                        </a>
                     </div>
                 </div>
                 <div class="info-side">
@@ -59,7 +61,7 @@ else
 
                             @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new {id = item.MateriaalId}))
                             {
-                                <button type="submit" class="btn btn-default btn-verlanglijst">
+                                <button type="submit" disabled="@item.InVerlanglijst" class="btn btn-default btn-verlanglijst">
                                     <span class="glyphicon glyphicon-shopping-cart"></span> Verlanglijst
                                 </button>
                             }
@@ -73,7 +75,7 @@ else
             <div class="hidden-lg hidden-md hidden-sm col-xs-11 text-center">
                 @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = item.MateriaalId }))
                 {
-                    <button type="submit" class="btn btn-default btn-verlanglijst">
+                    <button type="submit" disabled="@item.InVerlanglijst" class="btn btn-default btn-verlanglijst">
                         <span class="glyphicon glyphicon-shopping-cart"></span> Verlanglijst
                     </button>
                 }

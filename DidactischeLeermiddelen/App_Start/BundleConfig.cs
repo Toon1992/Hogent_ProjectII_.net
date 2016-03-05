@@ -29,6 +29,7 @@ namespace DidactischeLeermiddelen
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/bootstrap-datepicker.min.js",
                       "~/Scripts/locales/bootstrap-datepicker.nl.min.js",
+                      "~/Scripts/lightbox.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -36,6 +37,7 @@ namespace DidactischeLeermiddelen
                       "~/Content/daterangepicker.css",
                       "~/Content/bootstrap-datepicker3.min.css",
                       "~/Content/didactischeLeermiddelen.css",
+                      "~/Content/lightbox.min.css",
                       "~/Content/site.css"));
         }
     }
