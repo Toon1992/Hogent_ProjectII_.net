@@ -51,7 +51,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-        public Boolean BevatMateriaal(Materiaal materiaal)
+        public bool BevatMateriaal(Materiaal materiaal)
         {
             if(Materialen.Count == 0)
                 return false;

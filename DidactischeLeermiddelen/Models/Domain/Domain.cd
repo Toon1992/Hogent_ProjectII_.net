@@ -13,7 +13,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAACAQAIAAAAAAAAAAhgCAAIAAIAAAgCAAaACAARA=</HashCode>
+      <HashCode>AAAAACAQAIAAAAAAAAAAhAAAgYAAIABAACAAaACAARA=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -42,7 +42,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
     <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIEAAAAAAAQAAIAAAIAACAAAgAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIFAACAAAAQAAYAQAIAACAAAgAAAgAgAEAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -64,21 +64,21 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Lector" Collapsed="true">
     <Position X="9.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Lector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Student" Collapsed="true">
     <Position X="11.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAwAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Student.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Gebruiker">
     <Position X="10.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAACEAAAAAAAAAhIARAAAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>EAAAAAAAACEAAAAAAAAAhIARAAAAAABAAAAAAAAAQCA=</HashCode>
       <FileName>Models\Domain\Gebruiker.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -95,63 +95,49 @@
       <FileName>Models\Domain\Firma.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DidactischeLeermiddelen.ReservatieState">
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.ReservatieState">
     <Position X="14.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAGAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
-      <FileName>Models\Domain\ReservatieState.cs</FileName>
+      <HashCode>AAAAAAAGAACAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\StateMachine\ReservatieState.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Reservatie" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Beschikbaar" Collapsed="true">
-    <Position X="13.25" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Beschikbaar.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Catalogus" Collapsed="true">
-    <Position X="15.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Catalogus.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Geblokkeerd" Collapsed="true">
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Geblokkeerd" Collapsed="true">
     <Position X="15.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Geblokkeerd.cs</FileName>
+      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\StateMachine\Geblokkeerd.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Gereserveerd" Collapsed="true">
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Gereserveerd" Collapsed="true">
     <Position X="13.25" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
-      <FileName>Models\Domain\Gereserveerd.cs</FileName>
+      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\StateMachine\Gereserveerd.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.Onbeschikbaar" Collapsed="true">
-    <Position X="15.75" Y="6" Width="1.5" />
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.TeLaat" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Onbeschikbaar.cs</FileName>
+      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\StateMachine\TeLaat.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DidactischeLeermiddelen.Models.Domain.TeLaat" Collapsed="true">
-    <Position X="13.25" Y="6" Width="1.5" />
+  <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Opgehaald" Collapsed="true">
+    <Position X="15.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\TeLaat.cs</FileName>
+      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\StateMachine\Opgehaald.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="DidactischeLeermiddelen.Models.Domain.Status" Collapsed="true">
-    <Position X="16" Y="0.5" Width="1.5" />
+  <Enum Name="DidactischeLeermiddelen.ReservatieStateEnum">
+    <Position X="17" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAAAAAAAAACAggAAABAAAAACAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Status.cs</FileName>
+      <HashCode>AAgAAAAAACAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\ReservatieStateEnum.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

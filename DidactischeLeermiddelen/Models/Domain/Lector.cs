@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -23,7 +24,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 ICollection<Reservatie> reservaties;
                 if (potentiele.Key.Reservaties != null)
                     reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
-                int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarLector(start, einde);
+                int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarVoorBlokkering(start, einde);
 
                 if (aantalBeschikbaar >= potentiele.Value)
                 {
@@ -36,7 +37,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
                     IList<Reservatie> res = potentiele.Key.Reservaties.Where(r => r.StartDatum <= start).ToList();
 
-                    while (aantal > 0)
+                    while (aantal > 0 && res.Count > 0)
                     {
                         Reservatie last = res.Last();
                         

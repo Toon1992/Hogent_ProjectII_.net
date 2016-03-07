@@ -30,7 +30,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
-        //public Status Status { get; set; }
+        public bool InVerlanglijst { get; set; }
 
         public MateriaalViewModel(Materiaal materiaal)
         {
@@ -44,7 +44,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Firma = materiaal.Firma;
             Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
             Leergebieden = materiaal.Leergebieden as List<Leergebied>;
-            //Status = materiaal.Status;
+            InVerlanglijst = materiaal.InVerlanglijst;
         }
 
     }

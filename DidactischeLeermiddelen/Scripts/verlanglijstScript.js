@@ -65,7 +65,7 @@ var viewModel = {
             changeYear: true,
             startDate: '+1d',
             daysOfWeekDisabled: [0,6],
-            format: "dd-mm-yyyy",
+            format: "dd/mm/yyyy",
             language: "nl",
             todayHighlight: true,
             calenderWeeks: true,

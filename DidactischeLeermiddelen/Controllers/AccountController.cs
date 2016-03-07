@@ -20,7 +20,8 @@ using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
-using Newtonsoft.Json;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Newtonsoft.Json;
 
 namespace DidactischeLeermiddelen.Controllers
 {
@@ -30,17 +31,20 @@ namespace DidactischeLeermiddelen.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IGebruikerRepository repository;
+        private ILogin login;
 
-        public AccountController(IGebruikerRepository gebruikerRepository)
+        public AccountController(IGebruikerRepository gebruikerRepository, ILogin login)
         {
             repository = gebruikerRepository;
+            this.login = login;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IGebruikerRepository repository )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IGebruikerRepository repository, ILogin login)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             this.repository = repository;
+            this.login = login;
         }
 
         public ApplicationSignInManager SignInManager
@@ -87,106 +91,56 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return View(model);
             }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            //FormsAuthentication.SetAuthCookie(model.Email, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                //case SignInStatus.RequiresVerification:
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Ongeldige login.");
-                    return View(model);
-            }
-        }
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LoginOtherService(LoginViewModel model, string returnUrl)
-        {
-            var json = string.Empty;
-            string password = HashPasswordSha256(model.Password);
-            string url = "https://studservice.hogent.be/auth" + "/" + model.Email + "/" + password;
-            using (HttpClient hc = new HttpClient())
-            {
-                json = await hc.GetStringAsync(url); //wc.DownloadString(url);
-            }
-            dynamic array = JsonConvert.DeserializeObject(json);
-            if (array.Equals("[]"))
+            var invalid = await login.Login(model);
+            if (invalid)
             {
                 ModelState.AddModelError("", "Ongeldige login.");
                 return View("Login", model);
             }
-            var name = array.NAAM.ToString();
-            var vnaam = array.VOORNAAM.ToString();
-            var type = array.TYPE.ToString();
-            var faculteit = array.FACULTEIT.ToString();
-            Gebruiker gebruiker = repository.FindByName(model.Email);
-            if (gebruiker == null)
+
+            if (login is LoginHomeService)
             {
-                if (type.Equals("student"))
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                //FormsAuthentication.SetAuthCookie(model.Email, false);
+                switch (result)
                 {
-                    gebruiker = new Student()
-                    {
-                        Naam = vnaam+" "+name,
-                        Email = model.Email,
-                        Faculteit = faculteit
-                    };
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    //case SignInStatus.RequiresVerification:
+                    //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Ongeldige login.");
+                        return View(model);
                 }
-                else
-                {
-                    gebruiker = new Lector
-                    {
-                        Naam = vnaam+" "+name,
-                        Email = model.Email,
-                        Faculteit = faculteit
-                    };
-                }
-                gebruiker.Verlanglijst = new Verlanglijst();
-                gebruiker.Reservaties = new List<Reservatie>();
-                repository.AddGebruiker(gebruiker);
-                repository.SaveChanges();
             }
-            var authTicket = new FormsAuthenticationTicket(
+            if (login is LoginOtherService)
+            {
+                var authTicket = new FormsAuthenticationTicket(
                 2,
                 model.Email,
                 DateTime.Now,
                 DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
                 false,
                 "some token that will be used to access the web service and that you have fetched"
-            );
-            var authCookie = new HttpCookie(
-                FormsAuthentication.FormsCookieName,
-                FormsAuthentication.Encrypt(authTicket)
-            )
-            {
-                HttpOnly = true
-            };
-            Response.AppendCookie(authCookie);
-            FormsAuthentication.SetAuthCookie(model.Email, false);
-            Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);
-            return RedirectToAction("Index", "Home");
-        }
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public string HashPasswordSha256(string password)
-        {
-            System.Security.Cryptography.SHA256Managed crypt = new System.Security.Cryptography.SHA256Managed();
-            System.Text.StringBuilder hash = new System.Text.StringBuilder();
-            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password), 0, Encoding.UTF8.GetByteCount(password));
-            foreach (byte theByte in crypto)
-            {
-                hash.Append(theByte.ToString("x2"));
+                );
+                var authCookie = new HttpCookie(
+                    FormsAuthentication.FormsCookieName,
+                    FormsAuthentication.Encrypt(authTicket)
+                )
+                {
+                    HttpOnly = true
+                };
+                Response.AppendCookie(authCookie);
+                FormsAuthentication.SetAuthCookie(model.Email, false);
+                Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);
+                return RedirectToAction("Index", "Home");
             }
-            return hash.ToString();
+
+
+            return RedirectToAction("Index", "Home");
         }
         // POST: /Account/LogOff
         [HttpPost]

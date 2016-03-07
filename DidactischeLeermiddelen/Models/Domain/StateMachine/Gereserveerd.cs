@@ -5,7 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using DidactischeLeermiddelen.Models.Domain;
 
-namespace DidactischeLeermiddelen.Models.Domain
+namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     public class Gereserveerd : ReservatieState
     {
@@ -16,17 +16,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override void Reserveer()
         {
             throw new ArgumentException("Materiaal is al gereserveerd");
-        }
-
-        public override void Annuleer()
-        {
-            Reservatie.ToState(new Beschikbaar(Reservatie));
-
-        }
-
-        public override void Deblokkeer()
-        {
-            throw new ArgumentException("Materiaal is gereserveerd");
         }
 
         public override void Blokkeer()

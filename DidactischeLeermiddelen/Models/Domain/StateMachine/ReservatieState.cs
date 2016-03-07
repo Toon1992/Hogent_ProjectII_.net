@@ -5,7 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using DidactischeLeermiddelen.Models.Domain;
 
-namespace DidactischeLeermiddelen
+namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     public abstract class ReservatieState
     {
@@ -17,8 +17,6 @@ namespace DidactischeLeermiddelen
         }
         public ReservatieState() { }
         public abstract void Reserveer();
-        public abstract void Annuleer();
-        public abstract void Deblokkeer();
         public abstract void Blokkeer();
 
     }

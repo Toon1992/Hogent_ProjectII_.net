@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net.Mail;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
 
@@ -14,6 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public abstract class Gebruiker
     {
+        public int GebruikerId { get; set; }
         public string Email { get; set; }
         public string Naam { get; set; }
         public string Faculteit { get; set; }
@@ -63,11 +65,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             reservatie.Gebruiker = this;
             if (!isBlokkeer)
             {
-                reservatie.Reserveer();
+                reservatie.ToState(new Gereserveerd()); 
             }
             else
             {
-                reservatie.Blokkeer();
+                reservatie.ToState(new Geblokkeerd());
             }
 
             materiaal.AddReservatie(reservatie);

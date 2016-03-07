@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 
 namespace DidactischeLeermiddelen.ViewModels
 {
@@ -45,8 +46,8 @@ namespace DidactischeLeermiddelen.ViewModels
             Beschikbaar = true;
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
-            AantalGeblokkeerd = materiaal.GeefAantal(new Geblokkeerd(), startdatum);
-            AantalOnbeschikbaar = materiaal.GeefAantal(new Onbeschikbaar(), startdatum);
+            AantalGeblokkeerd = materiaal.GeefAantalPerStatus(new Geblokkeerd(), startdatum, startdatum.AddDays(4));
+            AantalOnbeschikbaar = 0;
         }
 
         public VerlanglijstViewModel() { }

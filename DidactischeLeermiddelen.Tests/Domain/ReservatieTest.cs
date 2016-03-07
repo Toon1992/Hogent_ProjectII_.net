@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DidactischeLeermiddelen.Tests.Domain
