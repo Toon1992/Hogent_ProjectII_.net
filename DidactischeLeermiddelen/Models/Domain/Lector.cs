@@ -21,21 +21,24 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                ICollection<Reservatie> reservaties;
+                ICollection<Reservatie> reservaties = new List<Reservatie>();
+                potentiele.Key.MaakReservatieLijstAan();
+
                 if (potentiele.Key.Reservaties != null)
-                    reservaties = potentiele.Key.Reservaties.Where(r =>!(r.ReservatieState is  Geblokkeerd)).OrderBy(r => r.StartDatum).ToList();
+                    reservaties = potentiele.Key.GeefNietGeblokkeerdeReservaties();
+
                 int aantalBeschikbaar = potentiele.Key.GeefAantalBeschikbaarVoorBlokkering(start, einde);
 
                 if (aantalBeschikbaar >= potentiele.Value)
                 {
-                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum);
                 }
                 else
                 {
                     int aantal = potentiele.Value - aantalBeschikbaar;
-                   
 
-                    IList<Reservatie> res = potentiele.Key.Reservaties.Where(r => r.StartDatum <= start).ToList();
+
+                    ICollection<Reservatie> res = potentiele.Key.GeeftReservatiesVanEenBepaaldeTijd(start);
 
                     while (aantal > 0 && res.Count > 0)
                     {
@@ -54,7 +57,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                         res.Remove(last);
                     }
 
-                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, true);
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum);
 
                 }
 
