@@ -92,5 +92,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState = reservatieState;
             ReservatieState.Reservatie = this;
         }
+
+        
     }
 }
