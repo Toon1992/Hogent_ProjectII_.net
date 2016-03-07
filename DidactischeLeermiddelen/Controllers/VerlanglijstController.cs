@@ -351,6 +351,7 @@ namespace DidactischeLeermiddelen.Controllers
                 };
                 reservatieList.Add(reservatieData);
             }
+
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string output = jss.Serialize(reservatieList);
 

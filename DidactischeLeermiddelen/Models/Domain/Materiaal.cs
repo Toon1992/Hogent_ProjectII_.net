@@ -52,11 +52,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
         public void AddReservatie(Reservatie reservatie)
-        {
-            if (Reservaties == null)
-            {
-                Reservaties = new List<Reservatie>();
-            }
+        {          
             Reservaties.Add(reservatie);
         }
 
