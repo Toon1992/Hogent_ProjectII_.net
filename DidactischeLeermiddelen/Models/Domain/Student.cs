@@ -18,14 +18,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 foreach (KeyValuePair<Materiaal, int> potentiele in PotentieleReservaties)
                 {
-                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum, false);
+                    potentiele.Key.MaakReservatieLijstAan();
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum);
                 }
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 Console.WriteLine("Iets fout gelopen hier");
             }
-            VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
+            //VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
         }
     }
 }

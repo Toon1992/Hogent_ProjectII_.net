@@ -75,7 +75,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         }
 
         [TestMethod]
-        public void LectorMaakBlokkeringWaarStudentAlHeeftGereserveerd()
+        public void LectorMaakBlokkeringWaarStudentAlHeeftGereserveerdMaarErIsNogGenoegOver()
         {
             Student student = context.Toon as Student;
             Lector lector = context.LectorGebruiker as Lector;
@@ -108,7 +108,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
             Assert.AreEqual(6, lector.Reservaties.First().Aantal);
             Assert.AreEqual(1, student.Reservaties.Count);
-            Assert.IsTrue(student.Reservaties.Last().ReservatieState is Geblokkeerd);
+            Assert.IsTrue(student.Reservaties.Last().ReservatieState is Overrulen);
             Assert.AreEqual(5, student.Reservaties.First().Aantal);
         }
     }

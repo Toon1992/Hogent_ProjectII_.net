@@ -336,37 +336,62 @@ namespace DidactischeLeermiddelen.Controllers
             };
         }
 
-        public JsonResult ReservatieDetailsGrafiek(int id, string datum = null)
+        public JsonResult ReservatieDetailsGrafiek(int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
-            DateTime date = new DateTime();
-            date = datum == null ? DateTime.Now : Convert.ToDateTime(datum);
-            Dictionary<string, int> map = new Dictionary<string, int>();
-            foreach (Reservatie r in reservaties)
+            List<Object> reservatieList = new List<object>();
+            DateTime datumDateTime= new DateTime();
+            DateTime datumMaandVooruit = new DateTime();
+            Dictionary<DateTime, bool> checkReservaties = new Dictionary<DateTime, bool>();
+            if (week == -1)
             {
-                if (r.StartDatum <= date.AddMonths(1))
-                {
-                    if (map.ContainsKey(r.StartDatum.ToLongDateString()))
-                    {
-                        map[r.StartDatum.ToLongDateString()] -= r.Aantal;
-                    }
-                    else
-                    {
-                        map.Add(r.StartDatum.ToLongDateString(), materiaal.AantalInCatalogus - r.Aantal);
-                    }
+                datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(DateTime.Now));
+                datumMaandVooruit = datumDateTime.AddDays(28);
+            }
+            else
+            {
 
+                datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+                datumMaandVooruit = datumDateTime.AddDays(28);
+            }
+
+            foreach (var r in reservaties)
+            {
+                if (r.StartDatum >= datumDateTime && r.StartDatum<= datumMaandVooruit)
+                {
+                    var reservatieData = new
+                    {
+                        Aantal = materiaal.AantalInCatalogus - r.Aantal,
+                        StartDatum = r.StartDatum
+                    };
+                    reservatieList.Add(reservatieData);
+                    checkReservaties.Add(r.StartDatum, true);
+                }
+                
+            }
+
+            while (datumDateTime <= datumMaandVooruit)
+            {
+                if (!checkReservaties.ContainsKey(datumDateTime))
+                {
+                    reservatieList.Add(new
+                    {
+                        Aantal = materiaal.AantalInCatalogus,
+                        StartDatum = datumDateTime
+                    });
                 }
 
+                datumDateTime = datumDateTime.AddDays(7);
+
             }
-            string json = JsonConvert.SerializeObject(map, new KeyValuePairConverter());
 
-            return Json(json);
-        }
 
-        public List<T> CreateEmptyGenericList<T>(T example)
-        {
-            return new List<T>();
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string output = jss.Serialize(reservatieList);
+
+
+            return Json(output, JsonRequestBehavior.AllowGet);
         }
 
 
