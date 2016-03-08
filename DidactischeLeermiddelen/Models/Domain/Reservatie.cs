@@ -89,7 +89,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void Overruul()
         {
-            ReservatieState.Overruul();
+            _reservatieState.Overruul();
         }
 
         public void ToState(ReservatieState reservatieState)
