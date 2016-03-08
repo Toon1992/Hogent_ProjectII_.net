@@ -24,5 +24,10 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
             Reservatie.ToState(new Geblokkeerd(Reservatie));
         }
+
+        public override void Overruul()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
