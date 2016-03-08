@@ -36,4 +36,3 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
         }
     }
     }
-}

@@ -24,6 +24,8 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
+            mockGebruikerRepository.Setup(t => t.FindByName("student@student.hogent.be")).Returns(context.Toon);
+
             m = context.Encyclopedie;
 
             controller = new VerlanglijstController(mockMateriaalRepository.Object, mockGebruikerRepository.Object);
