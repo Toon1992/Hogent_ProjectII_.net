@@ -44,12 +44,15 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
         public Materiaal() { }
 
-        public void AddReservatie(Reservatie reservatie)
+        public void MaakReservatieLijstAan()
         {
             if (Reservaties == null)
             {
                 Reservaties = new List<Reservatie>();
             }
+        }
+        public void AddReservatie(Reservatie reservatie)
+        {          
             Reservaties.Add(reservatie);
         }
 
@@ -87,11 +90,20 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public int GeefAantalBeschikbaarVoorBlokkering(DateTime startDatum, DateTime eindDatum)
         {
-
             int aantal = AantalInCatalogus -
                          Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald))
                              .Sum(r => r.Aantal);         
             return aantal <= 0 ? 0 : aantal;
         }
+
+        public ICollection<Reservatie> GeefNietGeblokkeerdeReservaties()
+        {
+           return Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)).OrderBy(r => r.StartDatum).ToList();
+        }
+
+        public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
+        {
+            return Reservaties.Where(r => r.StartDatum <= start).ToList();
+        } 
     }
 }

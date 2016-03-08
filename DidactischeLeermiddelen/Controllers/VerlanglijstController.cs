@@ -340,33 +340,23 @@ namespace DidactischeLeermiddelen.Controllers
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
-            DateTime date = new DateTime();
-            date = datum == null ? DateTime.Now : Convert.ToDateTime(datum);
-            Dictionary<string, int> map = new Dictionary<string, int>();
-            foreach (Reservatie r in reservaties)
+            List<Object> reservatieList = new List<object>();
+            foreach (var r in reservaties)
             {
-                if (r.StartDatum <= date.AddMonths(1))
+                var reservatieData = new
                 {
-                    if (map.ContainsKey(r.StartDatum.ToLongDateString()))
-                    {
-                        map[r.StartDatum.ToLongDateString()] -= r.Aantal;
-                    }
-                    else
-                    {
-                        map.Add(r.StartDatum.ToLongDateString(), materiaal.AantalInCatalogus - r.Aantal);
-                    }
-
-                }
-
+                    Aantal = r.Aantal,
+                    StartDatum = r.StartDatum,
+                    EindDatum = r.EindDatum
+                };
+                reservatieList.Add(reservatieData);
             }
-            string json = JsonConvert.SerializeObject(map, new KeyValuePairConverter());
 
-            return Json(json);
-        }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string output = jss.Serialize(reservatieList);
 
-        public List<T> CreateEmptyGenericList<T>(T example)
-        {
-            return new List<T>();
+
+            return Json(output);
         }
 
 

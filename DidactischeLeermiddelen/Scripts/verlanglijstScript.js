@@ -348,15 +348,22 @@ function drawMaterial(dataMateriaal) {
     
     var data = new google.visualization.DataTable();
     var rows = new Array();
-    data.addColumn('string', 'Datum');
+    data.addColumn('string', 'Startdatum');
+    data.addColumn('string', 'Einddatum');
     data.addColumn('number', 'Aantal beschikbaar');
-    var obj = JSON.parse(dataMateriaal);
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            var value = obj[key];
-            rows.push([key, value]);
-        }
-    }
+    $.each(data, function(i, item) {
+        var startDatum = item.StartDatum;
+        var eindDatum = item.EindDatum;
+        var aantal = item.Aantal;
+        rows.push([startDatum, eindDatum, aantal]);
+    });
+    //var obj = JSON.parse(dataMateriaal);
+    //for (var key in obj) {
+    //    if (obj.hasOwnProperty(key)) {
+    //        var value = obj[key];
+    //        rows.push([key, value]);
+    //    }
+    //}
     data.addRows(rows);
     var options = {
         chart: {

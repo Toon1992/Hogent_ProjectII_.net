@@ -356,6 +356,10 @@ img {
     border-bottom: 1px solid black;
 }
 
+.row {
+    padding: 3em 0;
+}
+
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;

@@ -212,7 +212,8 @@
     <Compile Include="Models\Domain\CustomAuthorize.cs" />
     <Compile Include="Models\Domain\CustomPrincipal.cs" />
     <Compile Include="Models\Domain\Firma.cs" />
-    <Compile Include="Models\Domain\MailService.cs" />
+    <Compile Include="Models\Domain\Mail\IMailService.cs" />
+    <Compile Include="Models\Domain\Mail\MailNaReservatie.cs" />
     <Compile Include="Models\Domain\StateMachine\Geblokkeerd.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
     <Compile Include="Models\DAL\DoelgroepRepository.cs" />

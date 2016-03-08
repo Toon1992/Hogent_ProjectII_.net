@@ -55,40 +55,31 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum,
-            bool isBlokkeer)
+        protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
         {
             ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
 
-            Reservatie reservatie = new Reservatie(this, materiaal, startdatum,
-                eindDatum, aantal);
-            reservatie.Gebruiker = this;
-            if (!isBlokkeer)
+            Reservatie reservatie = new Reservatie(this, materiaal, startdatum, eindDatum, aantal)
             {
-                reservatie.ToState(new Gereserveerd()); 
-            }
-            else
-            {
-                reservatie.ToState(new Geblokkeerd());
-            }
+                Gebruiker = this
+            };
 
+            reservatie.ToState(new Gereserveerd());
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
 
             nieuweReservaties.Add(reservatie);
-
-
-            // VerzendMailNaReservatie(nieuweReservaties, startdatum, eindDatum, this); //gebruiker, materiaal, week);
+            
         }
 
-        //protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
-        //{
-        //    DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        //    startDatum = start.ToShortDateString();
-        //    //eind date niet in orde
-        //    eindDatum = start.ToShortDateString();
-        //    // ook nog datum erbij pakken tot wanneer uitgeleend
-        //    MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
+        protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        {
+            DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            startDatum = start.ToShortDateString();
+            //eind date niet in orde
+            eindDatum = start.ToShortDateString();
+            // ook nog datum erbij pakken tot wanneer uitgeleend
+            MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
         //    m.Subject = "Bevestiging reservatie";
         //    m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
