@@ -64,7 +64,13 @@ namespace DidactischeLeermiddelen.Models.Domain
                 Gebruiker = this
             };
 
-            reservatie.ToState(new Gereserveerd());
+            if(this is Lector)
+                reservatie.Blokkeer();
+            else
+            {
+                reservatie.Reserveer();
+            }
+            //reservatie.ToState(new Gereserveerd());
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
 
