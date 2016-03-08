@@ -35,5 +35,5 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
             smtp.Send(m);
         }
     }
-    }
+    
 }
