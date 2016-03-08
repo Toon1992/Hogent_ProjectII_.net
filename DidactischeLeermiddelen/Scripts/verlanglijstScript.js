@@ -7,7 +7,29 @@
 //    dat.setDate(dat.getDate() + days);
 //    return dat;
 //}
-
+var Cookies = {
+    init: function () {
+        var allCookies = document.cookie.split('; ');
+        for (var i = 0; i < allCookies.length; i++) {
+            var cookiePair = allCookies[i].split('=');
+            this[cookiePair[0]] = cookiePair[1];
+        }
+    },
+    create: function (name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+        this[name] = value;
+    },
+    erase: function (name) {
+        this.create(name, '', -1);
+        this[name] = undefined;
+    }
+};
 var viewModel = {
     materiaalList: [],
     aantalList: [],
@@ -17,6 +39,7 @@ var viewModel = {
     session : window.sessionStorage,
     selectedWeek : null,
     init: function () {
+        Cookies.init();
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = IsWeekend();
         var vrijdagNaVijf = VrijdagNaVijf();
@@ -246,11 +269,15 @@ var viewModel = {
                 if (invalid) {
                     return false;
                 }
-                viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
-                viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
-                viewModel.session.setItem("week", selectedWeek);
-                viewModel.session.setItem("startDatum", viewModel.startDatum);
-                viewModel.session.setItem("eindDatum", viewModel.eindDatum);
+                Cookies.create("materialen", JSON.stringify(viewModel.materiaalList), 1);
+                Cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
+                Cookies.create("startDatum", viewModel.startDatum, 1);
+                Cookies.create("eindDatum", viewModel.eindDatum, 1);
+                //viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
+                //viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
+                //viewModel.session.setItem("week", selectedWeek);
+                //viewModel.session.setItem("startDatum", viewModel.startDatum);
+                //viewModel.session.setItem("eindDatum", viewModel.eindDatum);
                 $.ajax({
                     type: "POST",
                     traditional: true,
@@ -270,16 +297,15 @@ var viewModel = {
             $("#divLoading").addClass('toon');
             $("#divLoading").click(false);
             $(".navNotClick").click(false);
-            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
-            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
-            var selectedWeek = viewModel.session.getItem("week");
-            var startDatum = viewModel.session.getItem("startDatum");
-            var eindDatum = viewModel.session.getItem("eindDatum");
+            var materialen = JSON.parse(Cookies["materialen"]);//JSON.parse(viewModel.session.getItem("materialen"));
+            var aantallen = JSON.parse(Cookies["aantal"])//JSON.parse(viewModel.session.getItem("aantal"));
+            var startDatum = Cookies["startDatum"];//viewModel.session.getItem("startDatum");
+            var eindDatum = Cookies["eindDatum"];//viewModel.session.getItem("eindDatum");
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Reservatie/MaakReservatie",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, startDatum: startDatum, eindDatum: eindDatum },
+                data: { materiaal: materialen, aantal: aantallen, startDatum: startDatum, eindDatum: eindDatum },
                 success: function (data) {
 
                     $("#divLoading").hide();
@@ -288,16 +314,15 @@ var viewModel = {
             });
         });
         $("#btn-terug").click(function() {
-            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
-            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
-            var selectedWeek = viewModel.session.getItem("week");
-            var startDatum = viewModel.session.getItem("startDatum");
-            var eindDatum = viewModel.session.getItem("eindDatum");
+            var materialen = JSON.parse(Cookies["materialen"]);//JSON.parse(viewModel.session.getItem("materialen"));
+            var aantallen = JSON.parse(Cookies["aantal"])//JSON.parse(viewModel.session.getItem("aantal"));
+            var startDatum = Cookies["startDatum"];//viewModel.session.getItem("startDatum");
+            var eindDatum = Cookies["eindDatum"];//viewModel.session.getItem("eindDatum");
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Verlanglijst/Controle",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, knop: false, startDatum: startDatum, eindDatum:eindDatum },
+                data: { materiaal: materialen, aantal: aantallen, knop: false, startDatum: startDatum, eindDatum:eindDatum },
                 success: function(data) {
                     $("#verlanglijst-pagina").html(data);
                     viewModel.init();
