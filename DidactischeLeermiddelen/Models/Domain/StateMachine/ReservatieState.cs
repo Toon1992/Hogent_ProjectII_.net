@@ -18,6 +18,7 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         public ReservatieState() { }
         public abstract void Reserveer();
         public abstract void Blokkeer();
+        public abstract void Overruul();
 
     }
 }

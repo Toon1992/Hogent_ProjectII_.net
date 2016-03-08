@@ -24,5 +24,10 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
             throw new ArgumentException("Materiaal is al geblokkeerd");
         }
+
+        public override void Overruul()
+        {
+            throw new ArgumentException("Materiaal is al geblokkeerd");
+        }
     }
 }
