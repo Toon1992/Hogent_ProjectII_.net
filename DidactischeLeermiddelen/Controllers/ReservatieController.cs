@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DidactischeLeermiddelen.Models.DAL;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.Mail;
 using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -75,7 +76,8 @@ namespace DidactischeLeermiddelen.Controllers
                         if (student != null)
                             student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
                                              
-                       
+                        IMailService mail=new MailNaReservatie();
+                        mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,gebruiker);
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
                     else
