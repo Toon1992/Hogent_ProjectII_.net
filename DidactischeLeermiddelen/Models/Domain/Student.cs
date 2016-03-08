@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 Console.WriteLine("Iets fout gelopen hier");
             }
-            VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
+            //VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
         }
     }
 }
