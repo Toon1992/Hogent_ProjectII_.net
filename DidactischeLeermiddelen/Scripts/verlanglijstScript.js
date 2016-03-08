@@ -15,7 +15,7 @@ var viewModel = {
     startDatum: null,
     eindDatum: null,
     session : window.sessionStorage,
-    selectedWeek : null,
+    selectedWeek: null,
     init: function () {
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = IsWeekend();
@@ -175,8 +175,8 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.get("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId }, function(dataMateriaal) {
-                    google.charts.load('current', { packages: ['corechart', 'bar'] });
+                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week : -1 }, function(dataMateriaal) {
+                    
                     google.charts.setOnLoadCallback(function() {
                         drawMaterial(dataMateriaal);
                     });
@@ -202,6 +202,13 @@ var viewModel = {
             var materiaalId = parseInt($(".materiaal-naam")[0].id);
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
                 $("#verlanglijst-pagina").html(data);
+                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: selectedWeek }, function (dataMateriaal) {
+                    
+                    google.charts.setOnLoadCallback(function () {
+                        drawMaterial(dataMateriaal);
+                    });
+
+                });
                 viewModel.init();
             });
         });
@@ -348,15 +355,30 @@ function drawMaterial(dataMateriaal) {
     
     var data = new google.visualization.DataTable();
     var rows = new Array();
-    data.addColumn('string', 'Startdatum');
-    data.addColumn('string', 'Einddatum');
+    data.addColumn('date', 'Startdatum');
     data.addColumn('number', 'Aantal beschikbaar');
-    $.each(data, function(i, item) {
+    
+    var obj = JSON.parse(dataMateriaal);
+    $.each(obj, function(i, item) {
         var startDatum = item.StartDatum;
-        var eindDatum = item.EindDatum;
-        var aantal = item.Aantal;
-        rows.push([startDatum, eindDatum, aantal]);
-    });
+
+        var startDatumNaarDate = new Date(parseInt(startDatum.substr(6)));
+        console.log(typeof startDatumNaarDate);
+            var aantal = item.Aantal;
+            rows.push([startDatumNaarDate, aantal]);
+        });
+    //for (var dataTest in obj) {
+    //    var aantal = dataTest.aantal;
+    //    var startDatum = dataTest.startDatum;
+        
+    //    rows.push([aantal, startDatum]);
+    //}
+    //$.each(dataMateriaal, function(i, item) {
+    //    var startDatum = item.StartDatum;
+    //    console.log(typeof startDatum);
+    //    var aantal = item.Aantal;
+    //    rows.push([aantal, startDatum]);
+    //});
     //var obj = JSON.parse(dataMateriaal);
     //for (var key in obj) {
     //    if (obj.hasOwnProperty(key)) {
@@ -369,18 +391,30 @@ function drawMaterial(dataMateriaal) {
         chart: {
             title: 'Beschikbaarheid per week'
         },
-        //hAxis: {
-        //    title: 'Total Population',
+        hAxis: {
+            title: 'Aantal beschikbaar'
         //    minValue: 0,
-        //},
-        //vAxis: {
-        //    title: 'City'
-        
-        bars: 'horizontal'
+        },
+        vAxis: {
+            title: 'Startdatum',
+            bars: 'horizontal'
+        }
     };
     var material = new google.charts.Bar(document.getElementById('chart_div'));
     material.draw(data, options);
 }
-$(document).ready(function() {
+dateTimeReviver = function (key, value) {
+    var a;
+    if (typeof value === 'string') {
+        a = /\/Date\((\d*)\)\//.exec(value);
+        if (a) {
+            return new Date(+a[1]);
+        }
+    }
+    return value;
+}
+$(document).ready(function () {
+    google.charts.load('current', { packages: ['corechart', 'bar'], 'language' : 'nl'});
     viewModel.init();
+
 })
