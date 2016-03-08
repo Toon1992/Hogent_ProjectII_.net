@@ -16,6 +16,7 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
             eindDatum = start.ToShortDateString();
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
 
+
             m.Subject = "Bevestiging reservatie";
             m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
             m.IsBodyHtml = true;
