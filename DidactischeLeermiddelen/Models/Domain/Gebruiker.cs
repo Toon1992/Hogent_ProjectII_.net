@@ -68,7 +68,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 reservatie.Blokkeer();
             else
             {
-                reservatie.Reserveer();
+                reservatie.ToState(new Gereserveerd());
             }
             //reservatie.ToState(new Gereserveerd());
             materiaal.AddReservatie(reservatie);
