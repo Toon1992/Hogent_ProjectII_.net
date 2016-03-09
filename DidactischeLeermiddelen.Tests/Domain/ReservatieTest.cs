@@ -31,6 +31,20 @@ namespace DidactischeLeermiddelen.Tests.Domain
         }
 
         [TestMethod]
+        public void StudentenMaaktReservatieMetTweeMaterialen()
+        {
+            Student student = context.Toon as Student;
+            IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
+            materiaalMap.Add(context.Bol, 5);
+            materiaalMap.Add(context.Encyclopedie, 5);
+            student.maakReservaties(materiaalMap, "23/3/2016", "28/3/2016");
+            Assert.AreEqual(2, student.Reservaties.Count);
+            Assert.IsTrue(student.Reservaties[1].ReservatieState is Gereserveerd);
+            Assert.AreEqual(5, student.Reservaties[0].Aantal);
+            Assert.AreEqual(5, student.Reservaties[1].Aantal);
+        }
+
+        [TestMethod]
         public void StudentMaakReservatieMeerdereMaterialen()
         {
             Student student = context.Toon as Student;
@@ -110,7 +124,27 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(2, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Overrulen);
             Assert.IsTrue(student.Reservaties[student.Reservaties.Count-1].ReservatieState is Gereserveerd);
-            Assert.AreEqual(5, student.Reservaties.First().Aantal);
+            Assert.AreEqual(1, student.Reservaties.First().Aantal);
+            Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].Aantal);
+        }
+
+        [TestMethod]
+        public void LectorOverruultTweeStudenten()
+        {
+            Student student1 = context.Toon as Student;
+            Student student2 = context.Manu as Student;
+            Lector lector = context.LectorGebruiker as Lector;
+
+            IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
+            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+            materiaalMap.Add(context.GeoDriehoek, 1);
+            materiaalLectorMap.Add(context.GeoDriehoek, 2);
+            student1.maakReservaties(materiaalMap, "23/3/2016", "28/3/2016");
+            student2.maakReservaties(materiaalMap, "23/3/2016", "28/3/2016");
+            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", "28/3/2016");
+          
+            Assert.IsTrue(student1.Reservaties.First().ReservatieState is Overrulen);
+            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overrulen);
         }
     }
 }
