@@ -74,7 +74,7 @@ var viewModel = {
                 // dehighligt selected row
                 materiaalRij.css('background', 'transparent');
             }
- 
+            $("#btn-confirmeer").focus();
             //Wanneer een van de twee checkboxen aangeklikt wordt, krijgt de tweede dezelfde waarde als de eerste
             var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
             var selectedBox = $(this).find("input")[0].checked;
@@ -96,6 +96,7 @@ var viewModel = {
                     materiaalRij.css('background', 'transparent');
                 }
             }
+            $("#btn-confirmeer").focus();
         });
         $("#reservatie-date").datepicker({
             changeMonth: true,
@@ -129,16 +130,6 @@ var viewModel = {
             });
             var startDatum = $("input[name='date']")[0].value;
             viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, startDatum, viewModel.eindDatum, false);
-            //$.ajax({
-            //    type: "POST",
-            //    traditional: true,
-            //    url: "/Verlanglijst/Controle",
-            //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, knop : false, startDatum: startDatum },
-            //    success: function (data) {
-            //        $("#verlanglijst-pagina").html(data);
-            //        viewModel.init();
-            //    }
-            //});
         });
         $("#reservatie-end-date").daterangepicker({
             "showDropdowns": true,
@@ -177,15 +168,9 @@ var viewModel = {
             },
             "alwaysShowCalendars": true,
             "minDate": Date.parse("today").toLocaleDateString()
-        }, function(start, end,label ) {
-            console.log(start);
         }).on('apply.daterangepicker', function (ev, picker) {
-            console.log(picker.startDate.format("DD/MM/YYYY"));
-            console.log(picker.endDate.format("DD/MM/YYYY"));
-            var datums = $("#reservatie-end-date").val();
-            var delen = datums.split("-");
-            viewModel.startDatum = picker.startDate.format("DD/MM/YYYY");//delen[0];
-            viewModel.eindDatum = picker.endDate.format("DD/MM/YYYY");//delen[1];
+            viewModel.startDatum = picker.startDate.format("DD/MM/YYYY");
+            viewModel.eindDatum = picker.endDate.format("DD/MM/YYYY");
             $('input:checkbox:checked').map(function () {
                 var materiaalId = $(this).parent().find("input")[0].id;
                 var aantal = $("#" + materiaalId).find($(".input-medium")).val();
@@ -195,16 +180,6 @@ var viewModel = {
                 }
             });
             viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.eindDatum, false);
-            //$.ajax({
-            //    type: "POST",
-            //    traditional: true,
-            //    url: "/Verlanglijst/Controle",
-            //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: viewModel.startDatum, eindDatum : viewModel.eindDatum, knop: false },
-            //    success: function (data) {
-            //        $("#verlanglijst-pagina").html(data);
-            //        viewModel.init();
-            //    }
-            //});
         });
         $(".detail-materiaal").click(function () {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
@@ -320,16 +295,6 @@ var viewModel = {
             var startDatum = Cookies["startDatum"];
             var eindDatum = Cookies["eindDatum"];
             viewModel.invoerControle(materialen, aantallen, startDatum, eindDatum, false);
-            //$.ajax({
-            //    type: "POST",
-            //    traditional: true,
-            //    url: "/Verlanglijst/Controle",
-            //    data: { materiaal: materialen, aantal: aantallen, knop: false, startDatum: startDatum, eindDatum:eindDatum },
-            //    success: function(data) {
-            //        $("#verlanglijst-pagina").html(data);
-            //        viewModel.init();
-            //    }
-            //});
         });
     },
     invoerControle : function(materialen,aantallen, startDatum, eindDatum, knop) {

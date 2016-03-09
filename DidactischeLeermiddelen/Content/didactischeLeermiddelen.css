@@ -100,8 +100,6 @@
     padding-bottom: 1em;
 }
 
-    .detailFirma a {
-    }
 
     .detailFirma table {
         margin: 0 auto;
@@ -359,9 +357,7 @@ img {
     padding: 1em 0;
     border-bottom: 1px solid #dddbd5;
 }
-.detail-reservatie-content {
-    padding: 1em 0;
-}
+
 #chart_div {
     padding: 2.5em 0;
 }
@@ -444,7 +440,9 @@ img {
     .img-tag {
         padding-bottom: 1em;
     }
-
+    .detail-reservatie-content {
+    padding: 1em 0;
+}
     .radio, .checkbox {
         padding-left: 15%;
     }
