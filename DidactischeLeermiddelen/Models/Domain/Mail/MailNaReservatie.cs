@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Web;
 
 namespace DidactischeLeermiddelen.Models.Domain.Mail
@@ -19,9 +20,11 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
 
 
             m.Subject = "Bevestiging reservatie";
-            m.Body = base.Body;
+            var bodyAanpassen=new StringBuilder(Body);
+            bodyAanpassen.Replace("_NAAM", gebruiker.Naam);
+            m.Body = bodyAanpassen.ToString();
             m.IsBodyHtml = true;
-            m.Body.Replace("_NAAM", gebruiker.Naam);
+            
             //m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
             //m.Body += "<ul>";
             //foreach (var item in reservaties)
