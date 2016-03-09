@@ -21,7 +21,6 @@ using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Newtonsoft.Json;
 
 namespace DidactischeLeermiddelen.Controllers
 {

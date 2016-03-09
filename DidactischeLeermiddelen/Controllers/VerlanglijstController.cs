@@ -13,8 +13,6 @@ using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
