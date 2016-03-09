@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.ViewModels
             StartDatum = reservatie.StartDatum;
             EindDatum = StartDatum.AddDays(4);
             AantalStuksGereserveerd = reservatie.Aantal;
-            Status = reservatie.ReservatieState.GetType().Name;
+            Status = reservatie.StartDatum <= DateTime.Now.AddDays(7) ? reservatie.ReservatieState.GetType().Name : "Geen status";
             ReservatieId = reservatie.ReservatieId;
         }
     }
