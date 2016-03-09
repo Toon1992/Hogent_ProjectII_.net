@@ -355,11 +355,16 @@ img {
 .overzicht {
     border-bottom: 1px solid black;
 }
-
-.row {
-    padding: 3em 0;
+.detail-header {
+    padding: 1em 0;
+    border-bottom: 1px solid #dddbd5;
 }
-
+.detail-reservatie-content {
+    padding: 1em 0;
+}
+#chart_div {
+    padding: 2.5em 0;
+}
 @media(max-width: 900px) {
     #inhoudMobile {
         width: 100%;
