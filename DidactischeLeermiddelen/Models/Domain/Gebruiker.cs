@@ -100,6 +100,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         //    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
         //    smtp.EnableSsl = true;
         //    smtp.Send(m);
-        //}
+        }
     }
 }

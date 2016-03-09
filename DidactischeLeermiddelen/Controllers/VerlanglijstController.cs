@@ -366,8 +366,7 @@ namespace DidactischeLeermiddelen.Controllers
                     reservatieList.Add(reservatieData);
                     if (checkReservaties.ContainsKey(r.StartDatum))
                     {
-                        var obj = checkReservaties[r.StartDatum];
-                        
+           
                     }
                     checkReservaties.Add(r.StartDatum, true);
                 }

@@ -317,7 +317,7 @@ var viewModel = {
                 traditional: true,
                 url: "/Reservatie/MaakReservatie",
                 data: { materiaal: materialen, aantal: aantallen, startDatum: startDatum, eindDatum: eindDatum },
-                success: function () {
+                success: function (data) {
                     $("#divLoading").hide();
                     window.location.href = '/catalogus/';
                 }
