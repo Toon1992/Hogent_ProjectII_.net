@@ -1,5 +1,6 @@
 using DidactischeLeermiddelen.Models.DAL;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.InterfaceRepositories;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DidactischeLeermiddelen.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(DidactischeLeermiddelen.App_Start.NinjectWebCommon), "Stop")]
@@ -69,6 +70,7 @@ namespace DidactischeLeermiddelen.App_Start
             kernel.Bind<ILeergebiedRepository>().To<LeergebiedRepository>().InRequestScope();
             kernel.Bind<IGebruikerRepository>().To<GebruikerRepository>().InRequestScope();
             kernel.Bind<IReservatieRepository>().To<ReservatieRepository>().InRequestScope();
+            kernel.Bind<IMailServiceRepository>().To<MailServiceRepository>().InRequestScope();
             kernel.Bind<ILogin>().To<LoginOtherService>().InRequestScope();
             kernel.Bind<DidactischeLeermiddelenContext>().ToSelf().InRequestScope();
         }        
