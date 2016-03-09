@@ -64,7 +64,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                         if (aantal <= laatsReservatie.Aantal)
                         {
                             //dit betekent dat er genoeg stuks waren in een reservatie.
-                            laatsReservatie.ReservatieState.Overruul();
+                            laatsReservatie.Overruul();
 
                             //nu gaan we kijken of er nog over zijn in de reservatie
                             int verschil = aantal - laatsReservatie.Aantal;

@@ -57,8 +57,6 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
         {
-            ICollection<Reservatie> nieuweReservaties = new List<Reservatie>();
-
             Reservatie reservatie = new Reservatie(this, materiaal, startdatum, eindDatum, aantal)
             {
                 Gebruiker = this
@@ -68,13 +66,11 @@ namespace DidactischeLeermiddelen.Models.Domain
                 reservatie.Blokkeer();
             else
             {
-                reservatie.Reserveer();
+                reservatie.ToState(new Gereserveerd());
             }
             //reservatie.ToState(new Gereserveerd());
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
-
-            nieuweReservaties.Add(reservatie);
 
         }
 
@@ -89,24 +85,23 @@ namespace DidactischeLeermiddelen.Models.Domain
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);
                 // hier nog gebruiker email pakken, nu testen of het werkt
 
-            //    m.Subject = "Bevestiging reservatie";
-            //    m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
-            //    m.IsBodyHtml = true;
-            //    m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
-            //    m.Body += "<ul>";
-            //    foreach (var item in reservaties)
-            //    {
-            //        m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
-            //    }
-            //    m.Body += "</ul>";
-            //    m.Body += "<br/>";
-            //    m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
+        //    m.Subject = "Bevestiging reservatie";
+        //    m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
+        //    m.IsBodyHtml = true;
+        //    m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
+        //    m.Body += "<ul>";
+        //    foreach (var item in reservaties)
+        //    {
+        //        m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
+        //    }
+        //    m.Body += "</ul>";
+        //    m.Body += "<br/>";
+        //    m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
 
-            //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            //    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-            //    smtp.EnableSsl = true;
-            //    smtp.Send(m);
-            //}
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        //    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
+        //    smtp.EnableSsl = true;
+        //    smtp.Send(m);
         }
     }
 }
