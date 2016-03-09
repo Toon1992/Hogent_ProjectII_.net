@@ -280,11 +280,6 @@ var viewModel = {
                 Cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
                 Cookies.create("startDatum", viewModel.startDatum, 1);
                 Cookies.create("eindDatum", viewModel.eindDatum, 1);
-                //viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
-                //viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
-                //viewModel.session.setItem("week", selectedWeek);
-                //viewModel.session.setItem("startDatum", viewModel.startDatum);
-                //viewModel.session.setItem("eindDatum", viewModel.eindDatum);
                 $.ajax({
                     type: "POST",
                     traditional: true,
@@ -304,10 +299,14 @@ var viewModel = {
             $("#divLoading").addClass('toon');
             $("#divLoading").click(false);
             $(".navNotClick").click(false);
-            var materialen = JSON.parse(Cookies["materialen"]);//JSON.parse(viewModel.session.getItem("materialen"));
-            var aantallen = JSON.parse(Cookies["aantal"])//JSON.parse(viewModel.session.getItem("aantal"));
-            var startDatum = Cookies["startDatum"];//viewModel.session.getItem("startDatum");
-            var eindDatum = Cookies["eindDatum"];//viewModel.session.getItem("eindDatum");
+            var materialen = JSON.parse(Cookies["materialen"]);
+            var aantallen = JSON.parse(Cookies["aantal"]);
+            var startDatum = Cookies["startDatum"];
+            var eindDatum = Cookies["eindDatum"];
+            if (materialen === "undefined" || aantallen === "undefined" || startDatum === "undefined" || eindDatum === "undefined") {
+                //Someone fucked up the coockies, return to home and give a message
+                
+            }
             $.ajax({
                 type: "POST",
                 traditional: true,
