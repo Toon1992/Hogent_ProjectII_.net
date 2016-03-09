@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockDoelgroepRepository = new Mock<IDoelgroepRepository>();
             mockLeergebiedRepository = new Mock<ILeergebiedRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
-            mockMateriaalRepository.Setup(m => m.FindAll()).Returns(context.Materialen);
+            mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
             m = context.Encyclopedie;
 
             controller = new CatalogusController(mockMateriaalRepository.Object, mockDoelgroepRepository.Object, mockLeergebiedRepository.Object, mockGebruikerRepository.Object);

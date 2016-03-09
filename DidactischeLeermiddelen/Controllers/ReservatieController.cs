@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DidactischeLeermiddelen.Models.DAL;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.InterfaceRepositories;
 using DidactischeLeermiddelen.Models.Domain.Mail;
 using DidactischeLeermiddelen.ViewModels;
 
@@ -22,12 +23,14 @@ namespace DidactischeLeermiddelen.Controllers
         private IMateriaalRepository materiaalRepository;
         private IGebruikerRepository gebruikerRepository;
         private IReservatieRepository reservatieRepository;
+        private IMailServiceRepository mailServiceRepository;
 
-        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository, IReservatieRepository reservatieRepository)
+        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository, IReservatieRepository reservatieRepository,IMailServiceRepository mailServiceRepository)
         {
             this.materiaalRepository = materiaalRepository;
             this.gebruikerRepository = gebruikerRepository;
             this.reservatieRepository = reservatieRepository;
+            this.mailServiceRepository = mailServiceRepository;
         }
 
         public ActionResult Index(Gebruiker gebruiker)
@@ -75,8 +78,8 @@ namespace DidactischeLeermiddelen.Controllers
                         Student student = gebruiker as Student;
                         if (student != null)
                             student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
-                                             
-                        IMailService mail=new MailNaReservatie();
+
+                        MailService mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
                         mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,gebruiker);
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
