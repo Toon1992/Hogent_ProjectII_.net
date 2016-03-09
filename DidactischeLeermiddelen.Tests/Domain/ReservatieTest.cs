@@ -107,8 +107,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
             Assert.AreEqual(6, lector.Reservaties.First().Aantal);
-            Assert.AreEqual(1, student.Reservaties.Count);
-            Assert.IsTrue(student.Reservaties.Last().ReservatieState is Overrulen);
+            Assert.AreEqual(2, student.Reservaties.Count);
+            Assert.IsTrue(student.Reservaties.First().ReservatieState is Overrulen);
+            Assert.IsTrue(student.Reservaties[student.Reservaties.Count-1].ReservatieState is Gereserveerd);
             Assert.AreEqual(5, student.Reservaties.First().Aantal);
         }
     }

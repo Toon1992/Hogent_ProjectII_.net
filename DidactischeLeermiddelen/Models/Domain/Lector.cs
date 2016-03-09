@@ -69,6 +69,9 @@ namespace DidactischeLeermiddelen.Models.Domain
                             //nu gaan we kijken of er nog over zijn in de reservatie
                             int verschil = aantal - laatsReservatie.Aantal;
 
+                            //Verschil moet altijd 
+                            verschil = Math.Abs(verschil);
+
                             //Blijft er nog over dan wordt er een nieuwe reservatie gemaakt voor student
                             if (verschil > 0)
                             {
