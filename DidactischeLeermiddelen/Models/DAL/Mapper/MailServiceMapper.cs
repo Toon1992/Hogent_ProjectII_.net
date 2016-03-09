@@ -11,6 +11,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
     {
         public MailServiceMapper()
         {
+            HasKey(m => m.Subject);
             Map<MailNaReservatie>(m => m.Requires("onderwerp").HasValue("mailNaReservatie"));
 
         }

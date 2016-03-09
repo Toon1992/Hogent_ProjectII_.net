@@ -7,7 +7,29 @@
 //    dat.setDate(dat.getDate() + days);
 //    return dat;
 //}
-
+var Cookies = {
+    init: function () {
+        var allCookies = document.cookie.split('; ');
+        for (var i = 0; i < allCookies.length; i++) {
+            var cookiePair = allCookies[i].split('=');
+            this[cookiePair[0]] = cookiePair[1];
+        }
+    },
+    create: function (name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+        this[name] = value;
+    },
+    erase: function (name) {
+        this.create(name, '', -1);
+        this[name] = undefined;
+    }
+};
 var viewModel = {
     materiaalList: [],
     aantalList: [],
@@ -15,8 +37,8 @@ var viewModel = {
     startDatum: null,
     eindDatum: null,
     session : window.sessionStorage,
-    selectedWeek: null,
     init: function () {
+        Cookies.init();
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = IsWeekend();
         var vrijdagNaVijf = VrijdagNaVijf();
@@ -42,7 +64,6 @@ var viewModel = {
         }
 
         $("#verlanglijst-pagina .checkbox").change(function () {
-            
             //Selected row
             var materiaalId = $(this).find("input")[0].id;
             var materiaalRij = $("#" + materiaalId);
@@ -59,6 +80,22 @@ var viewModel = {
             var selectedBox = $(this).find("input")[0].checked;
             box[0].checked = selectedBox;
             box[1].checked = selectedBox;
+        });
+        $(".input-medium").change(function() {
+            var materiaalId = this.id;
+            materiaalId = materiaalId.slice(-1);
+            var materiaalRij = $("#" + materiaalId);
+            //Kijken of het item reeds geselecteerd was, zoniet selecteren en highligten
+            var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
+            if (!box.is(":checked")) {
+                box[0].checked = true;
+                box[1].checked = true;
+                if ($("#verlanglijst-pagina .checkbox").find("." + materiaalId).is(":checked")) { 
+                    materiaalRij.css("background-color", "#dff0d8");
+                } else {
+                    materiaalRij.css('background', 'transparent');
+                }
+            }
         });
         $("#reservatie-date").datepicker({
             changeMonth: true,
@@ -80,7 +117,6 @@ var viewModel = {
         }).on('changeDate', function (ev) {
             $(this).blur();
             $(this).datepicker('hide');
-            viewModel.selectedWeek = ev.date;
             viewModel.materiaalList = [];
             viewModel.aantalList = [];
             $('input:checkbox:checked').map(function () {
@@ -91,18 +127,18 @@ var viewModel = {
                     viewModel.aantalList.push(parseInt(aantal));
                 }
             });
-            var selectedWeek = viewModel.getWeek(Date.parse($("input[name='date']")[0].value));
             var startDatum = $("input[name='date']")[0].value;
-            $.ajax({
-                type: "POST",
-                traditional: true,
-                url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, knop : false, startDatum: startDatum },
-                success: function (data) {
-                    $("#verlanglijst-pagina").html(data);
-                    viewModel.init();
-                }
-            });
+            viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, startDatum, viewModel.eindDatum, false);
+            //$.ajax({
+            //    type: "POST",
+            //    traditional: true,
+            //    url: "/Verlanglijst/Controle",
+            //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, knop : false, startDatum: startDatum },
+            //    success: function (data) {
+            //        $("#verlanglijst-pagina").html(data);
+            //        viewModel.init();
+            //    }
+            //});
         });
         $("#reservatie-end-date").daterangepicker({
             "showDropdowns": true,
@@ -140,14 +176,8 @@ var viewModel = {
                 "firstDay": 1
             },
             "alwaysShowCalendars": true,
-            //"startDate": Date.parse("tomorrow").toLocaleDateString(),
-            //"endDate": Date.parse("tomorrow").toLocaleDateString(),
             "minDate": Date.parse("today").toLocaleDateString()
-        }, function(start, end, label) {
-            
-        }).on('apply.daterangepicker', function (ev, picker) {
-            var startDatum = picker.startDate.format('DD-MM-YYYY');
-            var eindDatum = picker.endDate.format('DD-MM-YYYY');
+        }).on('apply.daterangepicker', function () {
             var datums = $("#reservatie-end-date").val();
             var delen = datums.split("-");
             viewModel.startDatum = delen[0];
@@ -160,27 +190,26 @@ var viewModel = {
                     viewModel.aantalList.push(parseInt(aantal));
                 }
             });
-            $.ajax({
-                type: "POST",
-                traditional: true,
-                url: "/Verlanglijst/Controle",
-                data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: viewModel.startDatum, eindDatum : viewModel.eindDatum, knop: false },
-                success: function (data) {
-                    $("#verlanglijst-pagina").html(data);
-                    viewModel.init();
-                }
-            });
+            viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.eindDatum, false);
+            //$.ajax({
+            //    type: "POST",
+            //    traditional: true,
+            //    url: "/Verlanglijst/Controle",
+            //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum: viewModel.startDatum, eindDatum : viewModel.eindDatum, knop: false },
+            //    success: function (data) {
+            //        $("#verlanglijst-pagina").html(data);
+            //        viewModel.init();
+            //    }
+            //});
         });
         $(".detail-materiaal").click(function () {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
                 $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week : -1 }, function(dataMateriaal) {
-                    
                     google.charts.setOnLoadCallback(function() {
                         drawMaterial(dataMateriaal);
                     });
-                    
                 });
                 viewModel.init();
             });
@@ -194,7 +223,7 @@ var viewModel = {
             language: "nl",
             todayHighlight: true,
             calenderWeeks: true
-        }).on('changeDate', function (ev) {
+        }).on('changeDate', function () {
             $(this).blur();
             $(this).datepicker('hide');
             var date = Date.parse($("input[name='date']")[0].value);
@@ -203,11 +232,9 @@ var viewModel = {
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
                 $("#verlanglijst-pagina").html(data);
                 $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: selectedWeek }, function (dataMateriaal) {
-                    
                     google.charts.setOnLoadCallback(function () {
                         drawMaterial(dataMateriaal);
                     });
-
                 });
                 viewModel.init();
             });
@@ -253,21 +280,21 @@ var viewModel = {
                 if (invalid) {
                     return false;
                 }
-                viewModel.session.setItem("materialen", JSON.stringify(viewModel.materiaalList));
-                viewModel.session.setItem("aantal", JSON.stringify(viewModel.aantalList));
-                viewModel.session.setItem("week", selectedWeek);
-                viewModel.session.setItem("startDatum", viewModel.startDatum);
-                viewModel.session.setItem("eindDatum", viewModel.eindDatum);
-                $.ajax({
-                    type: "POST",
-                    traditional: true,
-                    url: "/Verlanglijst/Controle",
-                    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, knop : true},
-                    success: function (data) {
-                        $("#verlanglijst-pagina").html(data);
-                        viewModel.init();
-                    },
-                });
+                Cookies.create("materialen", JSON.stringify(viewModel.materiaalList), 1);
+                Cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
+                Cookies.create("startDatum", viewModel.startDatum, 1);
+                Cookies.create("eindDatum", viewModel.eindDatum, 1);
+                viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.eindDatum, true);
+                //$.ajax({
+                //    type: "POST",
+                //    traditional: true,
+                //    url: "/Verlanglijst/Controle",
+                //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, knop : true},
+                //    success: function (data) {
+                //        $("#verlanglijst-pagina").html(data);
+                //        viewModel.init();
+                //    },
+                //});
             } else {
                 $(".foutmelding").text("Selecteer een week!");
             }
@@ -277,39 +304,53 @@ var viewModel = {
             $("#divLoading").addClass('toon');
             $("#divLoading").click(false);
             $(".navNotClick").click(false);
-            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
-            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
-            var selectedWeek = viewModel.session.getItem("week");
-            var startDatum = viewModel.session.getItem("startDatum");
-            var eindDatum = viewModel.session.getItem("eindDatum");
+            var materialen = JSON.parse(Cookies["materialen"]);
+            var aantallen = JSON.parse(Cookies["aantal"]);
+            var startDatum = Cookies["startDatum"];
+            var eindDatum = Cookies["eindDatum"];
+            if (materialen === "undefined" || aantallen === "undefined" || startDatum === "undefined" || eindDatum === "undefined") {
+                //Someone fucked up the coockies, return to home and give a message
+                window.location.href = '/verlanglijst/';
+            }
             $.ajax({
                 type: "POST",
                 traditional: true,
                 url: "/Reservatie/MaakReservatie",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, startDatum: startDatum, eindDatum: eindDatum },
+                data: { materiaal: materialen, aantal: aantallen, startDatum: startDatum, eindDatum: eindDatum },
                 success: function (data) {
-
                     $("#divLoading").hide();
                     window.location.href = '/catalogus/';
                 }
             });
         });
         $("#btn-terug").click(function() {
-            var materialen = JSON.parse(viewModel.session.getItem("materialen"));
-            var aantallen = JSON.parse(viewModel.session.getItem("aantal"));
-            var selectedWeek = viewModel.session.getItem("week");
-            var startDatum = viewModel.session.getItem("startDatum");
-            var eindDatum = viewModel.session.getItem("eindDatum");
-            $.ajax({
-                type: "POST",
-                traditional: true,
-                url: "/Verlanglijst/Controle",
-                data: { materiaal: materialen, aantal: aantallen, week: selectedWeek, knop: false, startDatum: startDatum, eindDatum:eindDatum },
-                success: function(data) {
-                    $("#verlanglijst-pagina").html(data);
-                    viewModel.init();
-                }
-            });
+            var materialen = JSON.parse(Cookies["materialen"]);
+            var aantallen = JSON.parse(Cookies["aantal"]);
+            var startDatum = Cookies["startDatum"];
+            var eindDatum = Cookies["eindDatum"];
+            viewModel.invoerControle(materialen, aantallen, startDatum, eindDatum, false);
+            //$.ajax({
+            //    type: "POST",
+            //    traditional: true,
+            //    url: "/Verlanglijst/Controle",
+            //    data: { materiaal: materialen, aantal: aantallen, knop: false, startDatum: startDatum, eindDatum:eindDatum },
+            //    success: function(data) {
+            //        $("#verlanglijst-pagina").html(data);
+            //        viewModel.init();
+            //    }
+            //});
+        });
+    },
+    invoerControle : function(materialen,aantallen, startDatum, eindDatum, knop) {
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            url: "/Verlanglijst/Controle",
+            data: { materiaal: materialen, aantal: aantallen, knop: knop, startDatum: startDatum, eindDatum: eindDatum },
+            success: function (data) {
+                $("#verlanglijst-pagina").html(data);
+                viewModel.init();
+            }
         });
     },
     getWeek: function (date) {

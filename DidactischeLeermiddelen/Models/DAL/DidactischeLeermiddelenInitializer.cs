@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
@@ -51,9 +51,12 @@ namespace DidactischeLeermiddelen.Models.DAL
 
                 MailService mail = new MailNaReservatie()
                 {
-                    Body = string.Format("<p>Dag </br> _NAAM</p>%n<p> Hieronder vind je terug wat je zonet reserveerde: </p>%n" +
-                                         "<ul> "
-                                         ),
+                    Body = string.Format("<p>Dag _NAAM</p>" +
+                                         "Je reservatie loopt van _STARTDATUM tot _EINDDATUM" +
+                                         "<p> Hieronder vind je terug wat je zonet reserveerde: </p>" +
+                                         "<ul>" +
+                                         "<li>_ITEM _AANTAL</li>" +
+                                         "</ul> "),
                     Subject = "Bevestiging reservatie"
 
                 };

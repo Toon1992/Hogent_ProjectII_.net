@@ -15,13 +15,22 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
         {
             DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             startDatum = start.ToShortDateString();
-            eindDatum = start.ToShortDateString();
+            eindDatum = start.AddDays(4).ToShortDateString();
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);
 
 
-            m.Subject = "Bevestiging reservatie";
-            var bodyAanpassen=new StringBuilder(Body);
+            m.Subject = Subject;
+            
+            
+            string bodyvoorlus = Body;
+            foreach (var item in reservaties)
+            {
+                bodyvoorlus += bodyvoorlus.Replace("_ITEM", item.Key.Naam).Replace("_AANTAL",string.Format("x{0}",item.Value));
+            }
+            var bodyAanpassen = new StringBuilder(bodyvoorlus);
             bodyAanpassen.Replace("_NAAM", gebruiker.Naam);
+            bodyAanpassen.Replace("_STARTDATUM", startDatum);
+            bodyAanpassen.Replace("_EINDDATUM", eindDatum);
             m.Body = bodyAanpassen.ToString();
             m.IsBodyHtml = true;
             
