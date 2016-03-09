@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
@@ -47,8 +48,16 @@ namespace DidactischeLeermiddelen.Models.DAL
                 //bordGeodriekhoek.AddReservatie(reservatie2);
 
                 context.Materialen.AddRange(materialen);
-              
 
+                MailService mail = new MailNaReservatie()
+                {
+                    Body = string.Format("<p>Dag </br> _NAAM</p>%n<p> Hieronder vind je terug wat je zonet reserveerde: </p>%n" +
+                                         "<ul> "
+                                         ),
+                    Subject = "Bevestiging reservatie"
+
+                };
+                context.MailTemplates.Add(mail);
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)

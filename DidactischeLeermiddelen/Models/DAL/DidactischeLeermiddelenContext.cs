@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.Mail;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DidactischeLeermiddelen.Models.DAL
@@ -19,6 +20,7 @@ namespace DidactischeLeermiddelen.Models.DAL
         public DbSet<Leergebied> Leergebieden { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Reservatie> Reservaties { get; set; } 
+        public DbSet<MailService> MailTemplates { get; set; }
         
         public DidactischeLeermiddelenContext() : base("DidactischeLeermiddelen")
         {

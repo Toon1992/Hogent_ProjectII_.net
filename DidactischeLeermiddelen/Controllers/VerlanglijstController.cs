@@ -13,8 +13,6 @@ using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -366,6 +364,10 @@ namespace DidactischeLeermiddelen.Controllers
                         StartDatum = r.StartDatum
                     };
                     reservatieList.Add(reservatieData);
+                    if (checkReservaties.ContainsKey(r.StartDatum))
+                    {
+           
+                    }
                     checkReservaties.Add(r.StartDatum, true);
                 }
                 
