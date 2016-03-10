@@ -6,6 +6,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using WebGrease.Css.Extensions;
 
@@ -104,6 +105,52 @@ namespace DidactischeLeermiddelen.Models.Domain
         public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
         {
             return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen))).ToList();
-        } 
+        }
+
+        public List<ReservatieDataDTO> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
+        {
+            Dictionary<int, bool> checkReservaties = new Dictionary<int, bool>();
+            List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
+            foreach (var r in Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
+            {
+                if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
+                {
+                    ReservatieDataDTO reservatieData = new ReservatieDataDTO
+                    {
+                        Aantal = AantalInCatalogus - r.Aantal,
+                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(r.StartDatum))
+                    };
+
+                    if (checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(r.StartDatum)))
+                    {
+                        var reservatie =
+                            reservatieList.FirstOrDefault(
+                                p =>
+                                    p.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
+                                        HulpMethode.GetIso8601WeekOfYear(r.StartDatum))));
+                        var aantal = reservatie.Aantal - r.Aantal;
+                        reservatie.Aantal = aantal < 0 ? 0 : aantal;
+                    }
+                    else
+                    {
+                        checkReservaties.Add(HulpMethode.GetIso8601WeekOfYear(r.StartDatum), true);
+                        reservatieList.Add(reservatieData);
+                    }
+                }
+            }
+            while (startDatumFilter <= eindDatumFilter)
+            {
+                if (!checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(startDatumFilter)))
+                {
+                    reservatieList.Add(new ReservatieDataDTO
+                    {
+                        Aantal = AantalInCatalogus,
+                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(startDatumFilter))
+                    });
+                }
+                startDatumFilter = startDatumFilter.AddDays(7);
+            }
+            return reservatieList;
+        }
     }
 }
