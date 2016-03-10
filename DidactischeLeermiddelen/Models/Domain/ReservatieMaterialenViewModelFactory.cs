@@ -14,7 +14,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             IViewModel rmv = new ReservatieMaterialenViewModel()
             {
-                Materialen = gebruiker.Reservaties.Select(b => new ReservatieViewModel(b)),
+                Materialen = gebruiker.Reservaties.OrderBy(r => r.StartDatum).Select(b => new ReservatieViewModel(b)),
             };
             return rmv;
         }
