@@ -75,11 +75,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             Reservaties.Add(reservatie);
 
         }
-
-        public bool ControleMateriaalGeselecteerdeDatum(List<Materiaal> materialen)
-        {
-            return false;
-        }
         public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             for (int i = 0; i < aantal.Length; i++)
@@ -101,7 +96,8 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 materiaalAantal = GetMateriaalAantalMap(materiaalIds, aantallen);
             }
-            VerlanglijstMaterialenViewModel vm = CreateVerlangMaterialenViewModel(materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren);
+            VerlanglijstMaterialenViewModelFactory facotry = new VerlanglijstMaterialenViewModelFactory();
+            VerlanglijstMaterialenViewModel vm =facotry.CreateVerlangMaterialenViewModel(materialen,Verlanglijst.Materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren, this);
             return vm;
         }
 
@@ -123,40 +119,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 totaalGeselecteerd += materiaalAantal[e.Key];
             }
             return totaalGeselecteerd;
-        }
-        public VerlanglijstMaterialenViewModel CreateVerlangMaterialenViewModel(List<Materiaal> materialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren)
-        {
-            int aantalBeschikbaar, aantalGeselecteerd = 0;
-            return new VerlanglijstMaterialenViewModel
-            {
-                VerlanglijstViewModels = (naarReserveren ? materialen : Verlanglijst.Materialen).Select(m => new VerlanglijstViewModel
-                {
-                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, this is Lector),
-                    AantalGeblokkeerd = m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
-                    Beschikbaar = aantalBeschikbaar == 0,
-                    Firma = m.Firma,
-                    Prijs = m.Prijs,
-                    Foto = m.Foto,
-                    AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? 0 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
-                    Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
-                    Leergebieden = m.Leergebieden as List<Leergebied>,
-                    Doelgroepen = m.Doelgroepen as List<Doelgroep>,
-                    ArtikelNr = m.ArtikelNr,
-                    AantalInCatalogus = m.AantalInCatalogus,
-                    MateriaalId = m.MateriaalId,
-                    Beschikbaarheid = aantalBeschikbaar == 0 ?
-                                     string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum).ToString("d"), Convert.ToDateTime(eindDatum).ToString("d")) :
-                                     aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
-                    Naam = m.Naam,
-                    Omschrijving = m.Omschrijving,
-                }),
-                GeselecteerdeWeek = datum,
-                StartDatum = startDatum.ToString("d"),
-                EindDatum = eindDatum.ToString("d"),
-                TotaalGeselecteerd = GetAantalGeselecteerdeMaterialen(materiaalAantal),
-                Gebruiker = this
-            };
-
         }
         public abstract DateTime GetStartDatum(string startDatum, string eindDatum);
         public abstract DateTime GetEindDatum(string startDatum, string eindDatum);
