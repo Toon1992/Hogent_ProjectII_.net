@@ -177,11 +177,15 @@ var viewModel = {
             },
             "alwaysShowCalendars": true,
             "minDate": Date.parse("today").toLocaleDateString()
-        }).on('apply.daterangepicker', function () {
+        }, function(start, end,label ) {
+            console.log(start);
+        }).on('apply.daterangepicker', function (ev, picker) {
+            console.log(picker.startDate.format("DD/MM/YYYY"));
+            console.log(picker.endDate.format("DD/MM/YYYY"));
             var datums = $("#reservatie-end-date").val();
             var delen = datums.split("-");
-            viewModel.startDatum = delen[0];
-            viewModel.eindDatum = delen[1];
+            viewModel.startDatum = picker.startDate.format("DD/MM/YYYY");//delen[0];
+            viewModel.eindDatum = picker.endDate.format("DD/MM/YYYY");//delen[1];
             $('input:checkbox:checked').map(function () {
                 var materiaalId = $(this).parent().find("input")[0].id;
                 var aantal = $("#" + materiaalId).find($(".input-medium")).val();
@@ -243,12 +247,9 @@ var viewModel = {
             var invalid;
             var selectedWeek;
             if (typeof  $("input[name='date']")[0] !== "undefined") {
-                var date = Date.parse($("input[name='date']")[0].value);
-                selectedWeek = viewModel.getWeek(date);
-                viewModel.selectedWeek = selectedWeek;
                 viewModel.startDatum = $("input[name='date']")[0].value;
             } else {
-                var datums = $("#reservatie-end-date").val();
+                var datums = $("input[name='daterange']")[0].value;
                 var delen = datums.split("-");
                 viewModel.startDatum = delen[0];
                 viewModel.eindDatum = delen[1];
@@ -256,7 +257,7 @@ var viewModel = {
             }
             
            
-            if (viewModel.selectedWeek !== null) {
+            if (viewModel.selectedWeek !== "-undefined") {
                 if ($('input:checkbox:checked').length === 0) {
                     $(".foutmelding").text("Selecteer minstens 1 materiaal!");
                     return false;
@@ -285,16 +286,6 @@ var viewModel = {
                 Cookies.create("startDatum", viewModel.startDatum, 1);
                 Cookies.create("eindDatum", viewModel.eindDatum, 1);
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.eindDatum, true);
-                //$.ajax({
-                //    type: "POST",
-                //    traditional: true,
-                //    url: "/Verlanglijst/Controle",
-                //    data: { materiaal: viewModel.materiaalList, aantal: viewModel.aantalList, startDatum:viewModel.startDatum, eindDatum: viewModel.eindDatum, knop : true},
-                //    success: function (data) {
-                //        $("#verlanglijst-pagina").html(data);
-                //        viewModel.init();
-                //    },
-                //});
             } else {
                 $(".foutmelding").text("Selecteer een week!");
             }

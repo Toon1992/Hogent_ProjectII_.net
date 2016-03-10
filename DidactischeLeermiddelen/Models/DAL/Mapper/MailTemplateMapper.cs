@@ -7,13 +7,13 @@ using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Models.DAL.Mapper
 {
-    public class MailServiceMapper:EntityTypeConfiguration<MailService>
+    public class MailTemplateMapper:EntityTypeConfiguration<MailTemplate>
     {
-        public MailServiceMapper()
+        public MailTemplateMapper()
         {
             HasKey(m => m.Subject);
             Map<MailNaReservatie>(m => m.Requires("onderwerp").HasValue("mailNaReservatie"));
-
+            Map<MailNaBlokkeringLector>(m => m.Requires("onderwerp").HasValue("mailNaBlokkeringLector"));
         }
     }
 }

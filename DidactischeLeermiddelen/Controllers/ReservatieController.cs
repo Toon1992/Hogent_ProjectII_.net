@@ -79,7 +79,7 @@ namespace DidactischeLeermiddelen.Controllers
                         if (student != null)
                             student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
 
-                        MailService mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
+                        MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
                         mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,gebruiker);
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }

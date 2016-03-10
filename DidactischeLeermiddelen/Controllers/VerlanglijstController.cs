@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
@@ -157,7 +158,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Firma = m.Firma,
                         Prijs = m.Prijs,
                         Foto = m.Foto,
-                        AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? aantalGeselecteerd == aantalBeschikbaar ? 0 : 1 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
+                        AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? 0 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
                         Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                         Leergebieden = m.Leergebieden as List<Leergebied>,
                         Doelgroepen = m.Doelgroepen as List<Doelgroep>,
@@ -186,7 +187,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Firma = m.Firma,
                         Prijs = m.Prijs,
                         Foto = m.Foto,
-                        AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? aantalGeselecteerd == aantalBeschikbaar ? 0 : 1 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
+                        AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? 0 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
                         Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
                         Leergebieden = m.Leergebieden as List<Leergebied>,
                         Doelgroepen = m.Doelgroepen as List<Doelgroep>,
@@ -338,10 +339,10 @@ namespace DidactischeLeermiddelen.Controllers
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
             var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
-            List<Object> reservatieList = new List<object>();
+            List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
             DateTime datumDateTime= new DateTime();
             DateTime datumMaandVooruit = new DateTime();
-            Dictionary<DateTime, bool> checkReservaties = new Dictionary<DateTime, bool>();
+            Dictionary<int, bool> checkReservaties = new Dictionary<int, bool>();
             if (week == -1)
             {
                 datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(DateTime.Now));
@@ -349,45 +350,48 @@ namespace DidactischeLeermiddelen.Controllers
             }
             else
             {
-
                 datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
                 datumMaandVooruit = datumDateTime.AddDays(28);
             }
-
             foreach (var r in reservaties)
             {
                 if (r.StartDatum >= datumDateTime && r.StartDatum<= datumMaandVooruit)
                 {
-                    var reservatieData = new
+                    ReservatieDataDTO reservatieData = new ReservatieDataDTO
                     {
                         Aantal = materiaal.AantalInCatalogus - r.Aantal,
-                        StartDatum = r.StartDatum
+                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(r.StartDatum))
                     };
-                    reservatieList.Add(reservatieData);
-                    if (checkReservaties.ContainsKey(r.StartDatum))
+                    
+                    if (checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(r.StartDatum)))
                     {
-           
+                        var reservatie =
+                            reservatieList.FirstOrDefault(
+                                p =>
+                                    p.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
+                                        HulpMethode.GetIso8601WeekOfYear(r.StartDatum))));
+                        var aantal = reservatie.Aantal - r.Aantal;
+                        reservatie.Aantal = aantal < 0 ? 0 : aantal;
                     }
-                    checkReservaties.Add(r.StartDatum, true);
-                }
-                
+                    else
+                    {
+                        checkReservaties.Add(HulpMethode.GetIso8601WeekOfYear(r.StartDatum), true);
+                        reservatieList.Add(reservatieData);
+                    }                    
+                }                
             }
-
             while (datumDateTime <= datumMaandVooruit)
             {
-                if (!checkReservaties.ContainsKey(datumDateTime))
+                if (!checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(datumDateTime)))
                 {
-                    reservatieList.Add(new
+                    reservatieList.Add(new ReservatieDataDTO
                     {
                         Aantal = materiaal.AantalInCatalogus,
-                        StartDatum = datumDateTime
+                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(datumDateTime))
                     });
                 }
-
                 datumDateTime = datumDateTime.AddDays(7);
-
             }
-
 
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string output = jss.Serialize(reservatieList);

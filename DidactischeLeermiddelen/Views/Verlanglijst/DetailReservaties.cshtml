@@ -6,10 +6,10 @@
     <div class="detail-reservatie-header">
         <div class="container">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-9 col-sm-7">
                     <h2 class="materiaal-naam" id="@Model.Material.MateriaalId">@Model.Material.Naam</h2>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-5">
                     <div class="form-group">
                         <div class="input-append date datecontrol" id="reservatie-detail-date">
                             <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
@@ -45,9 +45,9 @@
             }
             else
             {
-                <div class="row materiaal">
+                <div class="row detail-header">
                     <div class="info-side">
-                        <div class="col-md-2 col-sm-2 hidden-xs text-center"><h4>Type</h4></div>
+                        <div class="col-md-2 col-sm-2 hidden-xs text-center title"><h4>Type</h4></div>
                         <div class="col-md-4 col-sm-4 hidden-xs text-center"><h4>Naam</h4></div>
                         <div class="col-md-2 col-sm-2 hidden-xs text-center"><h4>Status</h4></div>
                         <div class="col-md-1 col-sm-1 hidden-xs text-center"><h4>Aantal</h4></div>
@@ -65,7 +65,7 @@
                              @foreach (var data in item.Value)
                              {
                                 
-                                 <div class="row">
+                                 <div class="row detail-reservatie-content">
                                      <div class="col-md-2 col-sm-2 hidden-xs text-center"><h5>@data.Type</h5>
                                      </div>
                                      <div class="col-md-4 col-sm-4 hidden-xs text-center"><h5>@data.Email</h5>

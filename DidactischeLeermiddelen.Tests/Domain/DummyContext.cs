@@ -16,6 +16,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         private IList<Leergebied> leergebieden;
 
         public Gebruiker Toon { get; set; }
+        public Gebruiker Manu { get; set; }
         public Gebruiker LectorGebruiker { get; set; }
         public Materiaal Bol { get; set; }
         public IQueryable<Materiaal> Materialen { get { return materialen.AsQueryable(); } }
@@ -23,6 +24,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public Materiaal Encyclopedie { get; set; }
 
         public Materiaal Kaart { get; set; }
+        public Materiaal GeoDriehoek { get; set; }
         public Reservatie Reservatie { get; set; }
         public Student Student { get; set; }
 
@@ -35,6 +37,16 @@ namespace DidactischeLeermiddelen.Tests.Domain
             leergebieden = new List<Leergebied>();
 
             Toon = new Student()
+            {
+                Email = "student@student.hogent.be",
+                //GebruikersId = "1000000",
+                Naam = "Toon",
+                Verlanglijst = new Verlanglijst(),
+                Reservaties = new List<Reservatie>()
+
+            };
+
+            Manu = new Student()
             {
                 Email = "student@student.hogent.be",
                 //GebruikersId = "1000000",
@@ -61,13 +73,19 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Kaart = new Materiaal("Kaart", 4587, 5)
             {
                 IsReserveerBaar = true
-            }; ;
+            }; 
             Encyclopedie = new Materiaal("Encyclopedie", 111, 80)
             {
                 IsReserveerBaar = true,
                 MateriaalId = 2
 
-            }; ;
+            };
+            GeoDriehoek = new Materiaal("GeoDriehoek", 111, 2)
+            {
+                IsReserveerBaar = true,
+                MateriaalId = 2
+
+            }; 
             Reservatie = new Reservatie();
             Student = new Student();
             materialen.Add(Bol);

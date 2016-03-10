@@ -8,7 +8,7 @@ using System.Web;
 
 namespace DidactischeLeermiddelen.Models.Domain.Mail
 {
-    public class MailNaReservatie : MailService
+    public class MailNaReservatie : MailTemplate
     {
 
         public override void VerzendMail(IDictionary<Materiaal, int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)
@@ -20,33 +20,21 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
 
 
             m.Subject = Subject;
-            
-            
-            string bodyvoorlus = Body;
+
+            StringBuilder lijst = new StringBuilder(Body);
+            string items = "";
             foreach (var item in reservaties)
             {
-                bodyvoorlus += bodyvoorlus.Replace("_ITEM", item.Key.Naam).Replace("_AANTAL",string.Format("x{0}",item.Value));
+                items += string.Format("<li>" +item.Key.Naam + " x" + item.Value + "</li>" +"\n");
+                
             }
-            var bodyAanpassen = new StringBuilder(bodyvoorlus);
-            bodyAanpassen.Replace("_NAAM", gebruiker.Naam);
-            bodyAanpassen.Replace("_STARTDATUM", startDatum);
-            bodyAanpassen.Replace("_EINDDATUM", eindDatum);
-            m.Body = bodyAanpassen.ToString();
+            lijst.Replace("_NAAM", gebruiker.Naam);
+            lijst.Replace("_STARTDATUM", startDatum);
+            lijst.Replace("_EINDDATUM", eindDatum);
+            lijst.Replace("_ITEMS", items);
+            m.Body = lijst.ToString();
             m.IsBodyHtml = true;
-            
-            //m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
-            //m.Body += "<ul>";
-            //foreach (var item in reservaties)
-            //{
-            //    m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
-            //}
-            //m.Body += "</ul>";
-            //m.Body += "<br/>";
-            //m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
-
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-            smtp.EnableSsl = true;
+            SmtpClient smtp = new SmtpClient();
             smtp.Send(m);
         }
     }

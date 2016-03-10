@@ -17,7 +17,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         private Mock<IMateriaalRepository> mockMateriaalRepository;
         private Mock<IGebruikerRepository> mockGebruikerRepository;
         private Mock<IReservatieRepository> mockReservatieRepository;
-        private Mock<IMailServiceRepository> mockMailServiceRepository;
+        private Mock<IMailServiceRepository> mailServiceRepository;
         private ReservatieController controller;
         private Gebruiker gebruiker;
         private Materiaal m;
@@ -30,10 +30,11 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
             mockReservatieRepository = new Mock<IReservatieRepository>();
+            mailServiceRepository = new Mock<IMailServiceRepository>();
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
             m = context.Encyclopedie;
 
-            controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mockMailServiceRepository.Object);
+            controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mailServiceRepository.Object);
 
         }
 
