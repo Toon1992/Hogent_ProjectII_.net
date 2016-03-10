@@ -39,10 +39,8 @@ namespace DidactischeLeermiddelen.Models.Domain
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
                 //Aantal Lokale variabele aanmaken die we nodig hebben
-                
                 Materiaal mat = potentiele.Key;
                 int reserveerAantal = potentiele.Value;
-                mat.MaakReservatieLijstAan();
 
                 //opvragen van het aantal reservaties die niet geblokkeerd, opgehaald of overruult zijn
                 int aantalBeschikbaar = mat.GeefAantalBeschikbaarVoorBlokkering();
@@ -58,6 +56,19 @@ namespace DidactischeLeermiddelen.Models.Domain
                 }
                 else
                 {
+                    //Overrulen
+                    BerekenenOverrulen(mat,reserveerAantal,aantalBeschikbaar,start);
+
+                    //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
+                    VoegReservatieToe(mat, reserveerAantal, startDatum, eindDatum);
+                }
+            }
+
+
+        }
+
+        private void BerekenenOverrulen(Materiaal mat, int reserveerAantal, int aantalBeschikbaar, DateTime start )
+        {
                     //Hier berekenen we hoeveel stuks we nog moeten Overrulen
                     int aantal = reserveerAantal - aantalBeschikbaar;
 
@@ -79,14 +90,10 @@ namespace DidactischeLeermiddelen.Models.Domain
                         //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
                         if (aantal <= laatsReservatie.Aantal)
                         {
-                            //dit betekent dat er genoeg stuks waren in een reservatie.
-                            laatsReservatie.Overruul();
+                    OverrulenVanReservatie(laatsReservatie);
 
                             //nu gaan we kijken of er nog over zijn in de reservatie
-                            int verschil = aantal - laatsReservatie.Aantal;
-
-                            //Verschil moet altijd 
-                            verschil = Math.Abs(verschil);
+                    int verschil = laatsReservatie.Aantal - aantal;
 
                             ////Originele aantal wordt vermindert van de laatste reservatie
                             laatsReservatie.Aantal -= verschil;                          
@@ -94,16 +101,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                             //Blijft er nog over dan wordt er een nieuwe reservatie gemaakt voor student
                             if (verschil > 0)
                             {
-                                Student student = laatsReservatie.Gebruiker as Student;
-                                IDictionary<Materiaal, int> nieuw = new Dictionary<Materiaal, int>();
-                                nieuw.Add(laatsReservatie.Materiaal, verschil);
-
-                                //Dit zou nooit moeten kunnen voorvallen
-                                //Toch voor de zekerheid opvangen
-                                if(student == null)
-                                    throw new ArgumentNullException("Gebruiken is null");
-
-                                student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString(), laatsReservatie.EindDatum.ToShortDateString());
+                       MaakNieuweReservatieVoorStudent(laatsReservatie,verschil);
                             }
 
                             //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
@@ -111,8 +109,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                         }
                         else
                         {
-                            //Nu worden volledige reservaties overrult
-                            laatsReservatie.ReservatieState.Overruul();
+                    OverrulenVanReservatie(laatsReservatie);
 
                             //Nu moeten we nog berekenen wat er nog overblijft
                             aantal -= laatsReservatie.Aantal;
@@ -128,36 +125,35 @@ namespace DidactischeLeermiddelen.Models.Domain
                             flag = true;
                         }
                     }
+        }
               
-                    //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
-                    VoegReservatieToe(mat, reserveerAantal, startDatum, eindDatum);
-                }
+        private void OverrulenVanReservatie(Reservatie laatsReservatie)
+        {
+            //Nu worden volledige reservaties overrult
+            laatsReservatie.ReservatieState.Overruul();
             }
 
-            //VerzendMailNaarLectorNaBlokkering(reservaties, startDatum, eindDatum);
+        private void MaakNieuweReservatieVoorStudent(Reservatie laatsReservatie, int verschil)
+        {
+            Student student = laatsReservatie.Gebruiker as Student;
+
+            //Dit zou nooit moeten kunnen voorvallen
+            //Toch voor de zekerheid opvangen
+            if (student == null)
+                throw new ArgumentNullException("Gebruiken is null");
+
+            IDictionary<Materiaal, int> nieuw = new Dictionary<Materiaal, int>();
+            nieuw.Add(laatsReservatie.Materiaal, verschil);
+
+            student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString(), laatsReservatie.EindDatum.ToShortDateString());
         }
 
-        //private void VerzendMailNaarLectorNaBlokkering(IDictionary<Materiaal, int> reservatiesOmTeBlokkeren, string startDatum, string eindDatum)
-        //{
-        //    MailMessage m = new MailMessage("projecten2groep6@gmail.com", this.Email);// hier nog gebruiker email pakken, nu testen of het werkt
-
-        //    m.Subject = "Blokkering van reservatie";
-        //    m.Body = string.Format("Dag {0} <br/>", this.Naam);
-        //    m.IsBodyHtml = true;
-        //    m.Body += "<p>U heeft zonet het volgende geblokkeerd: </p>";
-        //    m.Body += "<ul>";
-        //    foreach (var item in reservatiesOmTeBlokkeren)
-        //    {
-        //        m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
-        //    }
-        //    m.Body += "</ul>";
-        //    m.Body += "<br/>";
-        //    m.Body += $"<p>De periode van blokkering is van {startDatum} tot {eindDatum}</p>";
-
-        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-        //    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-        //    smtp.EnableSsl = true;
-        //    smtp.Send(m);
-        //}
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
+        {
+            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, eindDatum, aantal);
+            reservatie.Blokkeer();
+            materiaal.AddReservatie(reservatie);
+            Reservaties.Add(reservatie);
+        }
     }
 }

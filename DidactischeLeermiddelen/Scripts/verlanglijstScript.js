@@ -36,7 +36,8 @@ var viewModel = {
     daysOfWeek: [],
     startDatum: null,
     eindDatum: null,
-    session : window.sessionStorage,
+    session: window.sessionStorage,
+    dataGrafiek : null,
     init: function () {
         Cookies.init();
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
@@ -185,7 +186,8 @@ var viewModel = {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week : -1 }, function(dataMateriaal) {
+                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: -1 }, function (dataMateriaal) {
+                    dataGrafiek = dataMateriaal;
                     google.charts.setOnLoadCallback(function() {
                         drawMaterial(dataMateriaal);
                     });
@@ -410,8 +412,13 @@ dateTimeReviver = function (key, value) {
     }
     return value;
 }
+
+$(window).resize(function () {
+    drawMaterial(dataGrafiek);
+});
+
 $(document).ready(function () {
     google.charts.load('current', { packages: ['corechart', 'bar'], 'language' : 'nl'});
     viewModel.init();
-
 })
+

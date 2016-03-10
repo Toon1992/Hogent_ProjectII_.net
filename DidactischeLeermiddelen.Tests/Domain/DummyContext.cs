@@ -77,7 +77,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Encyclopedie = new Materiaal("Encyclopedie", 111, 80)
             {
                 IsReserveerBaar = true,
-                MateriaalId = 2
+                MateriaalId = 1
 
             };
             GeoDriehoek = new Materiaal("GeoDriehoek", 111, 2)

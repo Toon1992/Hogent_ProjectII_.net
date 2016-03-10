@@ -204,7 +204,7 @@
     <Compile Include="IService1.cs" />
     <Compile Include="Models\DAL\MailServiceRepository.cs" />
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
-    <Compile Include="Models\DAL\Mapper\MailServiceMapper.cs" />
+    <Compile Include="Models\DAL\Mapper\MailTemplateMapper.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
@@ -216,7 +216,8 @@
     <Compile Include="Models\Domain\CustomAuthorize.cs" />
     <Compile Include="Models\Domain\CustomPrincipal.cs" />
     <Compile Include="Models\Domain\Firma.cs" />
-    <Compile Include="Models\Domain\Mail\MailService.cs" />
+    <Compile Include="Models\Domain\Mail\MailNaBlokkeringLector.cs" />
+    <Compile Include="Models\Domain\Mail\MailTemplate.cs" />
     <Compile Include="Models\Domain\Mail\MailNaReservatie.cs" />
     <Compile Include="Models\Domain\StateMachine\Geblokkeerd.cs" />
     <Compile Include="Models\Domain\Gebruiker.cs" />
@@ -246,15 +247,15 @@
     <Compile Include="Models\DAL\Mapper\MateriaalMapper.cs" />
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\InterfaceRepositories\IMateriaalRepository.cs" />
-    <Compile Include="Models\Domain\MaterialenViewModelFactory.cs" />
-    <Compile Include="Models\Domain\ReservatieMaterialenViewModelFactory.cs" />
+    <Compile Include="ViewModels\MaterialenViewModelFactory.cs" />
+    <Compile Include="ViewModels\ReservatieMaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Opgehaald.cs" />
     <Compile Include="Models\Domain\StateMachine\Overrulen.cs" />
     <Compile Include="Models\Domain\StateMachine\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\StateMachine\TeLaat.cs" />
-    <Compile Include="Models\Domain\VerlanglijstMaterialenViewModelFactory.cs" />
-    <Compile Include="Models\Domain\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\VerlanglijstMaterialenViewModelFactory.cs" />
+    <Compile Include="ViewModels\ViewModelFactory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Domain\Reservatie.cs" />
     <Compile Include="Models\Domain\Verlanglijst.cs" />
@@ -440,7 +441,6 @@
     <Content Include="Views\Reservatie\LegeReservatieLijst.cshtml" />
     <Content Include="Views\Catalogus\DetailFirma.cshtml" />
     <Content Include="Views\Verlanglijst\DetailReservaties.cshtml" />
-    <Content Include="Views\ChartSample\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

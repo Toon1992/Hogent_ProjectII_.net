@@ -123,68 +123,19 @@ namespace DidactischeLeermiddelen.Controllers
         public JsonResult ReservatieDetailsGrafiek(int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            var reservaties = materiaal.Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum);
-            List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
-            DateTime datumDateTime= new DateTime();
-            DateTime datumMaandVooruit = new DateTime();
-            Dictionary<int, bool> checkReservaties = new Dictionary<int, bool>();
-            if (week == -1)
-            {
-                datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(DateTime.Now));
-                datumMaandVooruit = datumDateTime.AddDays(28);
-            }
-            else
-            {
-                datumDateTime = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
-                datumMaandVooruit = datumDateTime.AddDays(28);
-            }
-            foreach (var r in reservaties)
-            {
-                if (r.StartDatum >= datumDateTime && r.StartDatum<= datumMaandVooruit)
-                {
-                    ReservatieDataDTO reservatieData = new ReservatieDataDTO
-                    {
-                        Aantal = materiaal.AantalInCatalogus - r.Aantal,
-                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(r.StartDatum))
-                    };
-                    
-                    if (checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(r.StartDatum)))
-                    {
-                        var reservatie =
-                            reservatieList.FirstOrDefault(
-                                p =>
-                                    p.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
-                                        HulpMethode.GetIso8601WeekOfYear(r.StartDatum))));
-                        var aantal = reservatie.Aantal - r.Aantal;
-                        reservatie.Aantal = aantal < 0 ? 0 : aantal;
-                    }
-                    else
-                    {
-                        checkReservaties.Add(HulpMethode.GetIso8601WeekOfYear(r.StartDatum), true);
-                        reservatieList.Add(reservatieData);
-                    }                    
-                }                
-            }
-            while (datumDateTime <= datumMaandVooruit)
-            {
-                if (!checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(datumDateTime)))
-                {
-                    reservatieList.Add(new ReservatieDataDTO
-                    {
-                        Aantal = materiaal.AantalInCatalogus,
-                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(datumDateTime))
-                    });
-                }
-                datumDateTime = datumDateTime.AddDays(7);
-            }
+            DateTime startDatumFilter;
+            DateTime datumMaandVooruitFilter;
+
+            startDatumFilter = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week == -1 ? HulpMethode.GetIso8601WeekOfYear(DateTime.Now) : week);
+            datumMaandVooruitFilter = startDatumFilter.AddDays(28);
+
+            List<ReservatieDataDTO> reservatieList = materiaal.MaakLijstReservatieDataInRange(startDatumFilter,
+                datumMaandVooruitFilter);
 
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string output = jss.Serialize(reservatieList);
 
-
             return Json(output, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }

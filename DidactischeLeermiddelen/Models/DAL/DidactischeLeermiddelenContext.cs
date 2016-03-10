@@ -20,7 +20,7 @@ namespace DidactischeLeermiddelen.Models.DAL
         public DbSet<Leergebied> Leergebieden { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Reservatie> Reservaties { get; set; } 
-        public DbSet<MailService> MailTemplates { get; set; }
+        public DbSet<MailTemplate> MailTemplates { get; set; }
         
         public DidactischeLeermiddelenContext() : base("DidactischeLeermiddelen")
         {

@@ -8,7 +8,7 @@ namespace DidactischeLeermiddelen.Models.Domain.InterfaceRepositories
 {
     public interface IMailServiceRepository
     {
-        MailService GeefMailTemplate(string onderwerp);
+        MailTemplate GeefMailTemplate(string onderwerp);
         void SaveChanges();
     }
 }

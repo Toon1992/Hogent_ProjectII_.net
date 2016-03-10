@@ -11,14 +11,14 @@ namespace DidactischeLeermiddelen.Models.DAL
     public class MailServiceRepository:IMailServiceRepository
     {
         private DidactischeLeermiddelenContext context;
-        private DbSet<MailService> mailTemplates; 
+        private DbSet<MailTemplate> mailTemplates; 
         public MailServiceRepository(DidactischeLeermiddelenContext context)
         {
             this.context = context;
             mailTemplates = context.MailTemplates;
 
         }
-        public MailService GeefMailTemplate(string onderwerp)
+        public MailTemplate GeefMailTemplate(string onderwerp)
         {
             return mailTemplates.FirstOrDefault(m => m.Subject.Equals(onderwerp));
         }

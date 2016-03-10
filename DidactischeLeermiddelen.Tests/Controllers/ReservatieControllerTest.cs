@@ -35,7 +35,6 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             m = context.Encyclopedie;
 
             controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mailServiceRepository.Object);
-
         }
 
         [TestMethod]
@@ -45,7 +44,6 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             ViewResult result = controller.Index(gebruiker) as ViewResult;
             ReservatieMaterialenViewModel vm = result.Model as ReservatieMaterialenViewModel;
             Assert.AreEqual(1 , vm.Materialen.Count());
-
         }
 
         [TestMethod]
@@ -55,12 +53,5 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("LegeReservatielijst", result.ViewName);
         }
-
-
-
-
-
-
-
     }
 }

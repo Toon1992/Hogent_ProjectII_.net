@@ -57,7 +57,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
+        protected virtual void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
         {
             Reservatie reservatie = new Reservatie(this, materiaal, startdatum, eindDatum, aantal)
             {
@@ -93,15 +93,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             return true;
         }
 
-        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen,int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum, bool naarReserveren)
-        {   
+        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum, bool naarReserveren)
+        {
             string datum = DateToString(startDatum, eindDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             if (materiaalIds != null)
             {
                 materiaalAantal = GetMateriaalAantalMap(materiaalIds, aantallen);
             }
-            VerlanglijstMaterialenViewModel vm = CreateVeralngMaterialenViewModel(materialen, datum, startDatum, eindDatum,materiaalAantal, naarReserveren);
+            VerlanglijstMaterialenViewModel vm = CreateVerlangMaterialenViewModel(materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren);
             return vm;
         }
 
@@ -110,7 +110,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             for (int i = 0; i < materiaalIds.Length; i++)
             {
-                materiaalAantal.Add(materiaalIds[i], aantallen[i]);      
+                materiaalAantal.Add(materiaalIds[i], aantallen[i]);
             }
             return materiaalAantal;
         }
@@ -124,12 +124,12 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return totaalGeselecteerd;
         }
-        public VerlanglijstMaterialenViewModel CreateVeralngMaterialenViewModel(List<Materiaal> materialen, string datum,DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren)
+        public VerlanglijstMaterialenViewModel CreateVerlangMaterialenViewModel(List<Materiaal> materialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren)
         {
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             return new VerlanglijstMaterialenViewModel
             {
-                VerlanglijstViewModels = (naarReserveren? materialen : Verlanglijst.Materialen).Select(m => new VerlanglijstViewModel
+                VerlanglijstViewModels = (naarReserveren ? materialen : Verlanglijst.Materialen).Select(m => new VerlanglijstViewModel
                 {
                     AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, this is Lector),
                     AantalGeblokkeerd = m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
@@ -145,8 +145,8 @@ namespace DidactischeLeermiddelen.Models.Domain
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ?
-                                    string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum).ToString("d"), Convert.ToDateTime(eindDatum).ToString("d")) :
-                                    aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
+                                     string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum).ToString("d"), Convert.ToDateTime(eindDatum).ToString("d")) :
+                                     aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),
@@ -161,32 +161,20 @@ namespace DidactischeLeermiddelen.Models.Domain
         public abstract DateTime GetStartDatum(string startDatum, string eindDatum);
         public abstract DateTime GetEindDatum(string startDatum, string eindDatum);
         public abstract string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format);
-        protected void VerzendMailNaReservatie(IDictionary<Materiaal,int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)//Gebruiker gebruiker, IList<Materiaal> materialen,int week)
+        protected Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, string eindDatum,
+            int aantal)
         {
-            DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            startDatum = start.ToShortDateString();
-            //eind date niet in orde
-            eindDatum = start.ToShortDateString();
-            // ook nog datum erbij pakken tot wanneer uitgeleend
-            MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);// hier nog gebruiker email pakken, nu testen of het werkt
+            Reservatie reservatie = new Reservatie(gebruiker, mat, startdatum, eindDatum, aantal)
+            {
+                Gebruiker = this
+            };
 
-        ////    m.Subject = "Bevestiging reservatie";
-        ////    m.Body = string.Format("Dag {0} <br/>", gebruiker.Naam);
-        ////    m.IsBodyHtml = true;
-        ////    m.Body += "<p>Hieronder vind je terug wat je zonet reserveerde: </p>";
-        ////    m.Body += "<ul>";
-        ////    foreach (var item in reservaties)
-        ////    {
-        ////        m.Body += $"<li>{item.Value} x {item.Key.Naam}</li>";
-        ////    }
-        ////    m.Body += "</ul>";
-        ////    m.Body += "<br/>";
-        ////    m.Body += $"<p>Je periode van reservatie is van {startDatum} tot {eindDatum}</p>";
+            if (reservatie == null)
+            {
+                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
+            }
 
-        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-        //    smtp.Credentials = new System.Net.NetworkCredential("projecten2groep6@gmail.com", "testenEmail");
-        //    smtp.EnableSsl = true;
-        //    smtp.Send(m);
+            return reservatie;
         }
     }
 }
