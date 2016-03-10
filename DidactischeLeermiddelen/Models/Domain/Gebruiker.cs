@@ -161,6 +161,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public abstract DateTime GetStartDatum(string startDatum, string eindDatum);
         public abstract DateTime GetEindDatum(string startDatum, string eindDatum);
         public abstract string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format);
+
         protected Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, string eindDatum,
             int aantal)
         {
