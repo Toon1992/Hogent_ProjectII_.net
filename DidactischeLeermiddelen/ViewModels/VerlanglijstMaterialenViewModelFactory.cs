@@ -26,7 +26,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 VerlanglijstViewModels = (naarReserveren ? materialen : verlanglijstMaterialen).Select(m => new VerlanglijstViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, this is Lector),
+                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, gebruiker is Student),
                     AantalGeblokkeerd = m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
                     Beschikbaar = aantalBeschikbaar == 0,
                     Firma = m.Firma,

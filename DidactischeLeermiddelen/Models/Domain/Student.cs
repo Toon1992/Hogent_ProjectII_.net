@@ -35,19 +35,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
-        protected Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, string eindDatum,
-             int aantal)
-        {
-            Reservatie reservatie = new Reservatie(gebruiker, mat, startdatum, eindDatum, aantal)
-            {
-                Gebruiker = this
-            };
-            if (reservatie == null)
-            {
-                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
-            }
-            return reservatie;
-        }
+             
         public override DateTime GetStartDatum(string startDatum, string eindDatum)
         {
             var dateFromString = Convert.ToDateTime(startDatum);
