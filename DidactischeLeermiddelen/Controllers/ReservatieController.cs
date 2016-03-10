@@ -77,7 +77,7 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         Student student = gebruiker as Student;
                         if (student != null)
-                            student.maakReservaties(potentieleReservaties, startDatum, eindDatum);
+                            student.MaakReservaties(potentieleReservaties, startDatum, eindDatum);
 
                         MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
                         mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,gebruiker);

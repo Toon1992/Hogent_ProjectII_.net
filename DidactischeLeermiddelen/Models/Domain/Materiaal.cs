@@ -42,26 +42,14 @@ namespace DidactischeLeermiddelen.Models.Domain
             Naam = naam;
             ArtikelNr = artikeNr;
             AantalInCatalogus = aantal;
+            Reservaties = new List<Reservatie>();
         }
-        public Materiaal() { }
+        public Materiaal() { Reservaties = new List<Reservatie>(); }
 
-        public void MaakReservatieLijstAan()
-        {
-            if (Reservaties == null)
-            {
-                Reservaties = new List<Reservatie>();
-            }
-        }
         public void AddReservatie(Reservatie reservatie)
         {          
             Reservaties.Add(reservatie);
         }
-
-        //public int CheckNieuwAantal()
-        //{
-        //    //AantalInCatalogus = Reservaties.Count(r => r.Status.Equals(Status.Beschikbaar));
-        //    return AantalInCatalogus;
-        //}
 
         public int GeefAantalPerStatus(ReservatieState status, DateTime startDatum, DateTime eindDatum)
         {         
@@ -111,6 +99,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             Dictionary<int, bool> checkReservaties = new Dictionary<int, bool>();
             List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
+
             foreach (var r in Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
                 if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
@@ -138,6 +127,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     }
                 }
             }
+
             while (startDatumFilter <= eindDatumFilter)
             {
                 if (!checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(startDatumFilter)))

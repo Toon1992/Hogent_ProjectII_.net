@@ -12,6 +12,9 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
             DateTime startDatum = new DateTime(), Gebruiker gebruiker = null)
         {
+            if(gebruiker == null)
+                throw new ArgumentNullException();
+
             IViewModel rmv = new ReservatieMaterialenViewModel()
             {
                 Materialen = gebruiker.Reservaties.OrderBy(r => r.StartDatum).Select(b => new ReservatieViewModel(b)),
