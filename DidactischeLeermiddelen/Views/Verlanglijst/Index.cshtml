@@ -2,12 +2,12 @@
 @model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 
 @{
-    ViewBag.Title = Model.Materialen.Count()==1? "1 artikel in verlanglijst" : Model.Materialen.Count()+ " artikelen in verlanglijst";
+    ViewBag.Title = Model.VerlanglijstViewModels.Count()==1? "1 artikel in verlanglijst" : Model.VerlanglijstViewModels.Count()+ " artikelen in verlanglijst";
 }
 
 <section id="verlanglijst-pagina">
     <h2>Uw verlanglijst</h2>
-    @foreach (var item in Model.Materialen)
+    @foreach (var item in Model.VerlanglijstViewModels)
     {
         <div class="row materiaal" id="@item.MateriaalId">
             <div class="img-side">

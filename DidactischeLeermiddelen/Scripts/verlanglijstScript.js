@@ -302,7 +302,7 @@ var viewModel = {
             type: "POST",
             traditional: true,
             url: "/Verlanglijst/Controle",
-            data: { materiaal: materialen, aantal: aantallen, knop: knop, startDatum: startDatum, eindDatum: eindDatum },
+            data: { materiaal: materialen, aantal: aantallen, naarReserveren: knop, startDatum: startDatum, eindDatum: eindDatum },
             success: function (data) {
                 $("#verlanglijst-pagina").html(data);
                 viewModel.init();

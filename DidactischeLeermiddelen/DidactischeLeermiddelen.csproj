@@ -208,7 +208,7 @@
     <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
-    <Compile Include="Models\Domain\DtoObjects\ReservatieDataDTO.cs" />
+    <Compile Include="ViewModels\DtoObjects\ReservatieDataDTO.cs" />
     <Compile Include="Models\Domain\ILogin.cs" />
     <Compile Include="Models\Domain\InterfaceRepositories\IMailServiceRepository.cs" />
     <Compile Include="Models\Domain\LoginHomeService.cs" />

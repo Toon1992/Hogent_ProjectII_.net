@@ -55,7 +55,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class VerlanglijstMaterialenViewModel : IViewModel
     {
-        public IEnumerable<VerlanglijstViewModel> Materialen { get; set; }
+        public IEnumerable<VerlanglijstViewModel> VerlanglijstViewModels { get; set; }
         [DisplayFormat(DataFormatString = "{dd-mm-yyyy}")]
         public string GeselecteerdeWeek { get; set; }
 

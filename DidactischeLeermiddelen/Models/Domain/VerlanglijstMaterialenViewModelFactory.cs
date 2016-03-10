@@ -14,7 +14,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             IViewModel vmm = new VerlanglijstMaterialenViewModel()
             {
-                Materialen = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
+                VerlanglijstViewModels = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
             };
             return vmm;
         }

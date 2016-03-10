@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
+using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -36,13 +37,17 @@ namespace DidactischeLeermiddelen.Models.Domain
        // public bool Onbeschikbaar { get; set; }
         #endregion
 
-        public Materiaal(string naam, int artikeNr, int aantal)
+        public Materiaal(string naam, int artikeNr, int aantal):this()
         {
             Naam = naam;
             ArtikelNr = artikeNr;
             AantalInCatalogus = aantal;
         }
-        public Materiaal() { }
+
+        public Materiaal()
+        {
+            Reservaties = new List<Reservatie>();
+        }
 
         public void MaakReservatieLijstAan()
         {
@@ -77,11 +82,11 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, bool lector)
+        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, bool student)
         {
             int aantal = AantalInCatalogus - Reservaties.Where(r =>r.OverschrijftMetReservatie(startDatum, eindDatum) &&
-                             (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen)).Sum(r => r.Aantal);
-            if (!lector)
+                             !(r.ReservatieState is Overrulen)).Sum(r => r.Aantal);
+            if (student)
             {
                 aantal -= Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
             }
@@ -104,6 +109,70 @@ namespace DidactischeLeermiddelen.Models.Domain
         public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
         {
             return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen))).ToList();
-        } 
+        }
+        public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieDetails()
+        {
+            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservatieMap = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
+            foreach (Reservatie reservatie in Reservaties)
+            {
+                if (reservatie.Gebruiker is Lector)
+                {
+                    bool overschrijft = false;
+                    //Kijken of de blokkering van de lector een reservatie van de student overschrijft.
+                    //Zoja, dan wordt deze in dezelfde week als die van de student geplaatst.
+                    foreach (var e in reservatieMap)
+                    {
+                        DateTime startStudent = Convert.ToDateTime(e.Key);
+                        DateTime eindStudent = startStudent.AddDays(4);
+                        overschrijft = reservatie.OverschrijftMetReservatie(startStudent, eindStudent);
+                        if (overschrijft)
+                        {
+                            reservatieMap[e.Key].Add(CreateReservatieDetailVm(reservatie));
+                            break;
+                        }
+                    }
+                    if (!overschrijft)
+                    {
+                        int wk = HulpMethode.GetIso8601WeekOfYear(reservatie.StartDatum);
+                        DateTime date = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, wk);
+                        if (reservatieMap.ContainsKey(date))
+                        {
+                            reservatieMap[date].Add(CreateReservatieDetailVm(reservatie));
+                        }
+                        else
+                        {
+                            reservatieMap.Add(date, CreateListReservatieDetailVm(reservatie));
+                        }
+                    }
+                }
+                else if (reservatie.Gebruiker is Student)
+                {
+                    if (!reservatieMap.ContainsKey(reservatie.StartDatum))
+                    {
+                        reservatieMap.Add(reservatie.StartDatum, CreateListReservatieDetailVm(reservatie));
+                    }
+                    else
+                    {
+                        reservatieMap[reservatie.StartDatum].Add(CreateReservatieDetailVm(reservatie));
+                    }
+                }
+            }
+            return reservatieMap;
+        }
+        public List<ReservatieDetailViewModel> CreateListReservatieDetailVm(Reservatie reservatie)
+        {
+            return new List<ReservatieDetailViewModel> { CreateReservatieDetailVm(reservatie) };
+        }
+        public ReservatieDetailViewModel CreateReservatieDetailVm(Reservatie reservatie)
+        {
+            return new ReservatieDetailViewModel
+            {
+                Aantal = reservatie.Aantal,
+                Email = reservatie.Gebruiker.Email,
+                Status = reservatie.ReservatieState.GetType().Name.ToLower(),
+                Type = reservatie.Gebruiker is Lector ? "Lector" : "Student",
+                GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
+            };
+        }
     }
 }

@@ -13,7 +13,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAACAQAIAAAAAAAAAAhAAAgYAAIABAACAAaACAARA=</HashCode>
+      <HashCode>AAAAACAQAIAAAAAAAAAAhAAAgYAAKABAAKAAaACAARE=</HashCode>
       <FileName>Models\Domain\Materiaal.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -42,7 +42,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
     <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIFAACAAAAQAAYAQAIAACAAAgAAAgAgAEAAAAA=</HashCode>
+      <HashCode>AAAAAAIEAACAQAAQAAYAQAIAACAAAgAAAgAgAEAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -64,14 +64,14 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Lector" Collapsed="true">
     <Position X="9.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>Models\Domain\Lector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Student" Collapsed="true">
     <Position X="11.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAwAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAABAAAAAgAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Student.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -98,7 +98,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.ReservatieState">
     <Position X="14.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAGAACAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAGAACAQAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StateMachine\ReservatieState.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -108,35 +108,35 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Geblokkeerd" Collapsed="true">
     <Position X="15.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StateMachine\Geblokkeerd.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Gereserveerd" Collapsed="true">
-    <Position X="13.25" Y="4" Width="1.5" />
+    <Position X="13.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StateMachine\Gereserveerd.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.TeLaat" Collapsed="true">
-    <Position X="13.25" Y="5" Width="1.5" />
+    <Position X="13.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StateMachine\TeLaat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.StateMachine.Opgehaald" Collapsed="true">
-    <Position X="15.5" Y="5" Width="1.5" />
+    <Position X="15.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StateMachine\Opgehaald.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="DidactischeLeermiddelen.ReservatieStateEnum">
     <Position X="17" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAACAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <HashCode>AAgAAAAAACEAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\ReservatieStateEnum.cs</FileName>
     </TypeIdentifier>
   </Enum>

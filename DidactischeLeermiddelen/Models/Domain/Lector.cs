@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Web;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
@@ -12,6 +14,20 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
+        public override DateTime GetStartDatum(string startDatum, string eindDatum)
+        {
+            return Convert.ToDateTime(startDatum);
+        }
+
+        public override DateTime GetEindDatum(string startDatum, string eindDatum)
+        {
+            return Convert.ToDateTime(eindDatum);
+        }
+
+        public override string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format)
+        {
+            return startDatum.ToString("d", format) + " - " + eindDatum.ToString("d", format);
+        }
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
         {
@@ -87,7 +103,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                                 if(student == null)
                                     throw new ArgumentNullException("Gebruiken is null");
 
-                                student.maakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString(), laatsReservatie.EindDatum.ToShortDateString());
+                                student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString(), laatsReservatie.EindDatum.ToShortDateString());
                             }
 
                             //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen

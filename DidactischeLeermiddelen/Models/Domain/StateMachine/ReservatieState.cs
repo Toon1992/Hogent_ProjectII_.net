@@ -9,7 +9,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     public abstract class ReservatieState
     {
-        public int ReservatieStateId { get; set; }
         public virtual Reservatie Reservatie { get; set;}
         protected ReservatieState(Reservatie reservatie)
         {

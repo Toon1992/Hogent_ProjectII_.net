@@ -134,7 +134,7 @@ namespace DidactischeLeermiddelen.Controllers
                 };
                 Response.AppendCookie(authCookie);
                 FormsAuthentication.SetAuthCookie(model.Email, false);
-                Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);
+                Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);              
                 return RedirectToAction("Index", "Home");
             }
 

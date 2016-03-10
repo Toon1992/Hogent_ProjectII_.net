@@ -1,7 +1,7 @@
 ﻿@using DidactischeLeermiddelen.Models.Domain
 @model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 <h2>Uw verlanglijst</h2>
-@foreach (var item in Model.Materialen)
+@foreach (var item in Model.VerlanglijstViewModels)
 {
     <div class="row materiaal @(item.Geselecteerd ? "geselecteerd" : "") @(item.AantalBeschikbaar==0?"onbeschikbaar":"")" id="@item.MateriaalId">
         <div class="img-side">

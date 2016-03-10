@@ -20,7 +20,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
-        public int AantalDagenGeblokkeerd { get; set; }
         public ReservatieStateEnum ReservatieStateEnum { get; set; }
         public ReservatieState ReservatieState
         {
@@ -77,10 +76,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public bool OverschrijftMetReservatie(DateTime startdatum, DateTime eindDatum)
         {
-            return ((startdatum <= StartDatum && eindDatum >= StartDatum) ||
-                    (startdatum >= StartDatum && eindDatum <= EindDatum) ||
-                    (startdatum <= StartDatum && eindDatum >= EindDatum) ||
-                    (startdatum >= StartDatum && eindDatum >= EindDatum && startdatum <= EindDatum));
+            return startdatum <= EindDatum && eindDatum >= StartDatum;
         }
         public void Reserveer()
         {
@@ -102,7 +98,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState = reservatieState;
             ReservatieState.Reservatie = this;
         }
-
         
     }
 }
