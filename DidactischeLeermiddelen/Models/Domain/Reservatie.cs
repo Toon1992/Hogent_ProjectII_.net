@@ -52,21 +52,20 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-       
-
         public Reservatie() { }
-        public Reservatie(Gebruiker gebruker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
+
+        public Reservatie(Gebruiker gebruiker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
 
-            if (gebruker is Student)
+            if (gebruiker is Student)
             {
                 var week = HulpMethode.GetIso8601WeekOfYear(Convert.ToDateTime(startDatum));
                 StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
                 EindDatum = StartDatum.AddDays(4);
             }
-            if (gebruker is Lector)
+            if (gebruiker is Lector)
             {
                 StartDatum = Convert.ToDateTime(startDatum);
                 EindDatum = Convert.ToDateTime(eindDatum);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -11,14 +12,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public void maakReservaties(IDictionary<Materiaal, int> PotentieleReservaties, string startDatum,
+        public void MaakReservaties(IDictionary<Materiaal, int> potentieleReservaties, string startDatum,
             string eindDatum)
         {
             try
             {
-                foreach (KeyValuePair<Materiaal, int> potentiele in PotentieleReservaties)
-                {
-                    potentiele.Key.MaakReservatieLijstAan();
+                foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
+                {                   
                     VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum);
                 }
             }
@@ -26,7 +26,13 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 Console.WriteLine("Iets fout gelopen hier");
             }
-            //VerzendMailNaReservatie(PotentieleReservaties,startDatum,eindDatum,this);
+        }
+
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
+        {
+            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, eindDatum, aantal);                
+            materiaal.AddReservatie(reservatie);
+            Reservaties.Add(reservatie);
         }
     }
 }
