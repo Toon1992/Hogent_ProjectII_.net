@@ -6,9 +6,9 @@ using System.Web;
 namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 {
     
-    public class Overrulen : ReservatieState
+    public class Overruled : ReservatieState
     {
-        public Overrulen(Reservatie reservatie):base(reservatie)
+        public Overruled(Reservatie reservatie):base(reservatie)
         {
             
         }

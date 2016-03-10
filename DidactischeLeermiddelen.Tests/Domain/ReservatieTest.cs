@@ -122,7 +122,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
             Assert.AreEqual(6, lector.Reservaties.First().Aantal);
             Assert.AreEqual(2, student.Reservaties.Count);
-            Assert.IsTrue(student.Reservaties.First().ReservatieState is Overrulen);
+            Assert.IsTrue(student.Reservaties.First().ReservatieState is Overruled);
             Assert.IsTrue(student.Reservaties[student.Reservaties.Count-1].ReservatieState is Gereserveerd);
             Assert.AreEqual(1, student.Reservaties.First().Aantal);
             Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].Aantal);
@@ -143,8 +143,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
             student2.MaakReservaties(materiaalMap, "23/3/2016", "28/3/2016");
             lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", "28/3/2016");
           
-            Assert.IsTrue(student1.Reservaties.First().ReservatieState is Overrulen);
-            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overrulen);
+            Assert.IsTrue(student1.Reservaties.First().ReservatieState is Overruled);
+            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overruled);
         }
     }
 }

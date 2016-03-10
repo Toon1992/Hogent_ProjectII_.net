@@ -71,7 +71,7 @@ namespace DidactischeLeermiddelen.App_Start
             kernel.Bind<IGebruikerRepository>().To<GebruikerRepository>().InRequestScope();
             kernel.Bind<IReservatieRepository>().To<ReservatieRepository>().InRequestScope();
             kernel.Bind<IMailServiceRepository>().To<MailServiceRepository>().InRequestScope();
-            kernel.Bind<ILogin>().To<LoginOtherService>().InRequestScope();
+            kernel.Bind<ILogin>().To<LoginHomeService>().InRequestScope();
             kernel.Bind<DidactischeLeermiddelenContext>().ToSelf().InRequestScope();
         }        
     }

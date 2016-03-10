@@ -70,7 +70,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, bool student)
         {
             int aantal = AantalInCatalogus - Reservaties.Where(r =>r.OverschrijftMetReservatie(startDatum, eindDatum) &&
-                             !(r.ReservatieState is Overrulen)).Sum(r => r.Aantal);
+                             (!(r.ReservatieState is Overruled) &&  r.ReservatieState is Geblokkeerd)).Sum(r => r.Aantal);
             if (student)
             {
                 aantal -= Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
@@ -81,19 +81,19 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
             int aantal = AantalInCatalogus -
-                         Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen))
+                         Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))
                              .Sum(r => r.Aantal);         
             return aantal <= 0 ? 0 : aantal;
         }
 
         public ICollection<Reservatie> GeefNietGeblokkeerdeReservaties()
         {
-           return Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen)).OrderBy(r => r.StartDatum).ToList();
+           return Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum).ToList();
         }
 
         public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
         {
-            return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overrulen))).ToList();
+            return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))).ToList();
         } 
         public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieDetails()
         {
