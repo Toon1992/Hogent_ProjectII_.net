@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     case ReservatieStateEnum.Gereserveerd: return new Gereserveerd(this);
                     case ReservatieStateEnum.Opgehaald: return new Opgehaald(this);
                     case ReservatieStateEnum.TeLaat: return new TeLaat(this);               
-                    case ReservatieStateEnum.Overrulen: return new Overrulen(this);
+                    case ReservatieStateEnum.Overruled: return new Overruled(this);
                 }
                 return null;
             }
@@ -44,7 +44,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     case "Gereserveerd": ReservatieStateEnum = ReservatieStateEnum.Gereserveerd; break;
                     case "TeLaat": ReservatieStateEnum = ReservatieStateEnum.TeLaat; break;
                     case "Opgehaald": ReservatieStateEnum = ReservatieStateEnum.Opgehaald; break;
-                    case "Overrulen": ReservatieStateEnum = ReservatieStateEnum.Overrulen;
+                    case "Overruled": ReservatieStateEnum = ReservatieStateEnum.Overruled;
                         break;
 
                 }

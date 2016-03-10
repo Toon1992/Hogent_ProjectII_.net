@@ -14,7 +14,6 @@ using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
 {
@@ -37,9 +36,6 @@ namespace DidactischeLeermiddelen.Controllers
             DateTime eindDatum = new DateTime();
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
-
-            VerlanglijstMaterialenViewModelFactory vvmf = new VerlanglijstMaterialenViewModelFactory();
-            VerlanglijstMaterialenViewModel vm = vvmf.CreateViewModel(null, null, null, DateTime.Now, gebruiker) as VerlanglijstMaterialenViewModel;
             if ((int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17))
             {
                 startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);               
@@ -123,11 +119,9 @@ namespace DidactischeLeermiddelen.Controllers
         public JsonResult ReservatieDetailsGrafiek(int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            DateTime startDatumFilter;
-            DateTime datumMaandVooruitFilter;
 
-            startDatumFilter = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week == -1 ? HulpMethode.GetIso8601WeekOfYear(DateTime.Now) : week);
-            datumMaandVooruitFilter = startDatumFilter.AddDays(28);
+            var startDatumFilter = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week == -1 ? HulpMethode.GetIso8601WeekOfYear(DateTime.Now) : week);
+            var datumMaandVooruitFilter = startDatumFilter.AddDays(28);
 
             List<ReservatieDataDTO> reservatieList = materiaal.MaakLijstReservatieDataInRange(startDatumFilter,
                 datumMaandVooruitFilter);

@@ -10,7 +10,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class VerlanglijstMaterialenViewModelFactory : ViewModelFactory
     {
-        public override  IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
+        public override IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
             DateTime startDatum = new DateTime(), Gebruiker gebruiker = null)
         {
             IViewModel vmm = new VerlanglijstMaterialenViewModel()
@@ -33,15 +33,15 @@ namespace DidactischeLeermiddelen.Models.Domain
                     Prijs = m.Prijs,
                     Foto = m.Foto,
                     AantalGeselecteerd = aantalGeselecteerd = materiaalAantal.ContainsKey(m.MateriaalId) ? aantalBeschikbaar == 0 ? 0 : materiaalAantal[m.MateriaalId] : (aantalGeselecteerd == 0 ? 0 : aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd),
-                    Geselecteerd = aantalBeschikbaar > 0 ? materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)) : false,
+                    Geselecteerd = aantalBeschikbaar > 0 && materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)),
                     Leergebieden = m.Leergebieden as List<Leergebied>,
                     Doelgroepen = m.Doelgroepen as List<Doelgroep>,
                     ArtikelNr = m.ArtikelNr,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ?
-                                     string.Format("Niet meer beschikbaar van {0} tot {1}", Convert.ToDateTime(startDatum).ToString("d"), Convert.ToDateTime(eindDatum).ToString("d")) :
-                                     aantalBeschikbaar < aantalGeselecteerd ? string.Format("Slechts {0} stuks beschikbaar", aantalBeschikbaar) : "",
+                        $"Niet meer beschikbaar van {Convert.ToDateTime(startDatum).ToString("d")} tot {Convert.ToDateTime(eindDatum).ToString("d")}"
+                        :aantalBeschikbaar < aantalGeselecteerd ? $"Slechts {aantalBeschikbaar} stuks beschikbaar": "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),

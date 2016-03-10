@@ -12,6 +12,6 @@ namespace DidactischeLeermiddelen
         Geblokkeerd,
         TeLaat,
         Opgehaald,
-        Overrulen
+        Overruled
     }
 }

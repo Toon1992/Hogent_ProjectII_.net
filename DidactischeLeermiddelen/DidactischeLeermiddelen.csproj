@@ -250,7 +250,7 @@
     <Compile Include="ViewModels\MaterialenViewModelFactory.cs" />
     <Compile Include="ViewModels\ReservatieMaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Opgehaald.cs" />
-    <Compile Include="Models\Domain\StateMachine\Overrulen.cs" />
+    <Compile Include="Models\Domain\StateMachine\Overruled.cs" />
     <Compile Include="Models\Domain\StateMachine\ReservatieState.cs" />
     <Compile Include="Models\Domain\Student.cs" />
     <Compile Include="Models\Domain\StateMachine\TeLaat.cs" />

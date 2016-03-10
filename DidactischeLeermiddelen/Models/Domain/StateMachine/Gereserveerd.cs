@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 
         public override void Overruul()
         {
-            Reservatie.ToState(new Overrulen(Reservatie));
+            Reservatie.ToState(new Overruled(Reservatie));
         }
     }
 }
