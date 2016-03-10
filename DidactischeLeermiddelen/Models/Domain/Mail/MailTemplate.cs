@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DidactischeLeermiddelen.Models.Domain.Mail
 {
-    public abstract class MailService
+    public abstract class MailTemplate
     {
         public string Subject { get; set; }
         public string Body { get; set; }
