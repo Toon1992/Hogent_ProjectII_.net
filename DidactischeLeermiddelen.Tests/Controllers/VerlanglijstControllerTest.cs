@@ -24,6 +24,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
+            mockMateriaalRepository.Setup(t => t.FindById(1)).Returns(context.Encyclopedie);
             mockGebruikerRepository.Setup(t => t.FindByName("student@student.hogent.be")).Returns(context.Toon);
 
             m = context.Encyclopedie;
@@ -35,9 +36,12 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         [TestMethod]
         public void ReservatieDetailsGrafiekGeeftJsonTerug()
         {
-            var result = controller.ReservatieDetailsGrafiek(1, 1) as JsonResult;
-
-            Assert.IsNotNull(result.Data);
+            var result = controller.ReservatieDetailsGrafiek(2, 1) as JsonResult;
+            var data = result.Data;
+            var type = data.GetType();
+            var countPropertyInfo = type.GetProperty("Count");
+            var expectedCount = countPropertyInfo.GetValue(data, null);
+            Assert.AreEqual(4, expectedCount);
         }
     }
 }
