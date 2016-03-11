@@ -161,51 +161,52 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
         public List<ReservatieDataDTO> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
         {
-            Dictionary<int, bool> checkReservaties = new Dictionary<int, bool>();
             List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
 
-            foreach (var r in Reservaties.OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
+            //De reservaties overlopen en reservatieDataDTO objecten met juiste waarden maken.
+            foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
             {
                 if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
                 {
-                    ReservatieDataDTO reservatieData = new ReservatieDataDTO
-                    {
-                        Aantal = AantalInCatalogus - r.Aantal,
-                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(r.StartDatum))
-                    };
-
-                    if (checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(r.StartDatum)))
-                    {
-                        var reservatie =
-                            reservatieList.FirstOrDefault(
-                                p =>
-                                    p.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
-                                        HulpMethode.GetIso8601WeekOfYear(r.StartDatum))));
-                        var aantal = reservatie.Aantal - r.Aantal;
-                        reservatie.Aantal = aantal < 0 ? 0 : aantal;
-                    }
-                    else
-                    {
-                        checkReservaties.Add(HulpMethode.GetIso8601WeekOfYear(r.StartDatum), true);
-                        reservatieList.Add(reservatieData);
-                    }
+                    reservatieList = UpdateReservatieDataDtoLijst(reservatieList, r.StartDatum, r.Aantal);
                 }
             }
-
+            //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
             while (startDatumFilter <= eindDatumFilter)
             {
-                if (!checkReservaties.ContainsKey(HulpMethode.GetIso8601WeekOfYear(startDatumFilter)))
-                {
-                    reservatieList.Add(new ReservatieDataDTO
-                    {
-                        Aantal = AantalInCatalogus,
-                        StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, HulpMethode.GetIso8601WeekOfYear(startDatumFilter))
-                    });
-                }
+                reservatieList = UpdateReservatieDataDtoLijst(reservatieList, startDatumFilter, 0);
                 startDatumFilter = startDatumFilter.AddDays(7);
             }
             return reservatieList;
         }
 
+        public List<ReservatieDataDTO> UpdateReservatieDataDtoLijst(List<ReservatieDataDTO> reservatieList, DateTime startDatum, int aantal)
+        {
+            ReservatieDataDTO data = GeefDataDtoOpDatum(reservatieList, startDatum);
+            if (data == null)
+            {
+                reservatieList.Add(new ReservatieDataDTO
+                {
+                    Aantal = AantalInCatalogus - aantal,
+                    StartDatum = GeefEersteDagVanWeek(startDatum)
+                });
+            }
+            else
+            {
+                data.Aantal -= aantal;
+            }
+            return reservatieList;
+        }
+        public ReservatieDataDTO GeefDataDtoOpDatum(List<ReservatieDataDTO> lijst, DateTime datum)
+        {
+            var maandag = GeefEersteDagVanWeek(datum);
+            return lijst.FirstOrDefault(e => e.StartDatum.Equals(maandag));
+        }
+
+        public DateTime GeefEersteDagVanWeek(DateTime datum)
+        {
+            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
+                        HulpMethode.GetIso8601WeekOfYear(datum));
+        }
     }
 }

@@ -14,20 +14,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
-        public override DateTime GetStartDatum(string startDatum, string eindDatum)
-        {
-            return Convert.ToDateTime(startDatum);
-        }
-
-        public override DateTime GetEindDatum(string startDatum, string eindDatum)
-        {
-            return Convert.ToDateTime(eindDatum);
-        }
-
-        public override string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format)
-        {
-            return startDatum.ToString("d", format) + " - " + eindDatum.ToString("d", format);
-        }
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
         {

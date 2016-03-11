@@ -90,7 +90,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum, bool naarReserveren)
         {
-            string datum = DateToString(startDatum, eindDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+            string datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             if (materiaalIds != null)
             {
@@ -120,9 +120,22 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return totaalGeselecteerd;
         }
-        public abstract DateTime GetStartDatum(string startDatum, string eindDatum);
-        public abstract DateTime GetEindDatum(string startDatum, string eindDatum);
-        public abstract string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format);
+        public DateTime GetStartDatum(string startDatum)
+        {
+            var dateFromString = Convert.ToDateTime(startDatum);
+            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
+            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+        }
+
+        public DateTime GetEindDatum(string startDatum)
+        {
+            return GetStartDatum(startDatum).AddDays(4);
+        }
+
+        public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
+        {
+            return startDatum.ToString("d", format);
+        }
         protected Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, string eindDatum,
             int aantal)
         {
