@@ -17,7 +17,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         [TestMethod]
         public void VerwijderReservatieVerwijdertToegevoegde()
         {
-            Reservatie r = new Reservatie();
+            Reservatie r = new ReservatieStudent();
             context.Toon.Reservaties.Add(r);
             context.Toon.VerwijderReservatie(r);
             Assert.AreEqual(0, context.Toon.Reservaties.Count);
@@ -28,7 +28,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void VerwijderReservatieGeeftFoutWanneerGeenReservaties()
         {
             
-            context.Toon.VerwijderReservatie(new Reservatie());
+            context.Toon.VerwijderReservatie(new ReservatieStudent());
         }
 
         [TestMethod]

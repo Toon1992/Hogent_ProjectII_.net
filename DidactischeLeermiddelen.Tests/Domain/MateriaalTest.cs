@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         [TestMethod]
         public void AddReservatieVoegtReservatieToe()
         {          
-            context.Bol.AddReservatie(new Reservatie());
+            context.Bol.AddReservatie(new ReservatieStudent());
             Assert.AreEqual(context.Bol.Reservaties.Count, 1);
         }
 

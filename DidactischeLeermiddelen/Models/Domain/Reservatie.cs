@@ -10,10 +10,9 @@ using DidactischeLeermiddelen.Models.Domain.StateMachine;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public class Reservatie
+    public abstract class Reservatie
     {
         private ReservatieState _reservatieState;
-
         public long ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
         public virtual Gebruiker Gebruiker { get; set; }
@@ -30,21 +29,22 @@ namespace DidactischeLeermiddelen.Models.Domain
                     case ReservatieStateEnum.Geblokkeerd: return new Geblokkeerd(this);
                     case ReservatieStateEnum.Gereserveerd: return new Gereserveerd(this);
                     case ReservatieStateEnum.Opgehaald: return new Opgehaald(this);
-                    case ReservatieStateEnum.TeLaat: return new TeLaat(this);               
+                    case ReservatieStateEnum.TeLaat: return new TeLaat(this);
                     case ReservatieStateEnum.Overruled: return new Overruled(this);
                 }
                 return null;
             }
             set
             {
-               _reservatieState = value;
+                _reservatieState = value;
                 switch (_reservatieState.GetType().Name)
                 {
                     case "Geblokkeerd": ReservatieStateEnum = ReservatieStateEnum.Geblokkeerd; break;
                     case "Gereserveerd": ReservatieStateEnum = ReservatieStateEnum.Gereserveerd; break;
                     case "TeLaat": ReservatieStateEnum = ReservatieStateEnum.TeLaat; break;
                     case "Opgehaald": ReservatieStateEnum = ReservatieStateEnum.Opgehaald; break;
-                    case "Overruled": ReservatieStateEnum = ReservatieStateEnum.Overruled;
+                    case "Overruled":
+                        ReservatieStateEnum = ReservatieStateEnum.Overruled;
                         break;
 
                 }
@@ -64,22 +64,21 @@ namespace DidactischeLeermiddelen.Models.Domain
                 StartDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
                 EindDatum = StartDatum.AddDays(4);
             }
+
             if (gebruiker is Lector)
             {
                 StartDatum = Convert.ToDateTime(startDatum);
                 EindDatum = Convert.ToDateTime(eindDatum);
             }
+
             Materiaal = materiaal;
             Aantal = aantal;
+            Gebruiker = gebruiker;
         }
 
-        public bool OverschrijftMetReservatie(DateTime startdatum, DateTime eindDatum)
+        public bool KanOverschrijvenMetReservatie(DateTime startdatum, DateTime eindDatum)
         {
             return startdatum <= EindDatum && eindDatum >= StartDatum;
-        }
-        public void Reserveer()
-        {
-            ReservatieState.Reserveer();
         }
 
         public void Blokkeer()
@@ -97,6 +96,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState = reservatieState;
             ReservatieState.Reservatie = this;
         }
-        
+
     }
 }

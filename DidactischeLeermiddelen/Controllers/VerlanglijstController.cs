@@ -51,7 +51,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             string startD = startDatum.ToString("d", dtfi);
             string eindD = eindDatum.ToString("d", dtfi);
-            return Controle(gebruiker, null, null, false, startD, eindD);
+            return Controle(gebruiker, null, null, false, startD, null);
         }
 
         [HttpPost]
@@ -76,14 +76,14 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, bool naarReserveren, string startDatum, string eindDatum)
+        public ActionResult Controle(Gebruiker gebruiker, int[] materiaal, int[] aantal, bool naarReserveren, string startDatum, string[] dagen)
         {
             //Variabelen
             bool allesBeschikbaar = false;
             List<Materiaal> materialen = new List<Materiaal>();
 
-            DateTime startDate = gebruiker.GetStartDatum(startDatum, eindDatum);
-            DateTime eindDate = gebruiker.GetEindDatum(startDatum, eindDatum);
+            DateTime startDate = gebruiker.GetStartDatum(startDatum);
+            DateTime eindDate = gebruiker.GetEindDatum(startDatum);
 
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.

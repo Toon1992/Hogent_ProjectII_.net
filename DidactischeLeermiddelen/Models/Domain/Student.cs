@@ -35,22 +35,19 @@ namespace DidactischeLeermiddelen.Models.Domain
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
-             
-        public override DateTime GetStartDatum(string startDatum, string eindDatum)
-        {
-            var dateFromString = Convert.ToDateTime(startDatum);
-            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
-            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
-        }
 
-        public override DateTime GetEindDatum(string startDatum, string eindDatum)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
+           string eindDatum,
+           int aantal)
         {
-            return GetStartDatum(startDatum, eindDatum).AddDays(4);
-        }
+            Reservatie reservatie = new ReservatieStudent(gebruiker, mat, startdatum, eindDatum, aantal);
+           
+            if (reservatie == null)
+            {
+                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
+            }
 
-        public override string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format)
-        {
-            return startDatum.ToString("d", format);
+            return reservatie;
         }
     }
 }

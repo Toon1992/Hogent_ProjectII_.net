@@ -86,7 +86,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 MateriaalId = 2
 
             }; 
-            Reservatie = new Reservatie();
+
+            //Reservatie = new Reservatie();
             Student = new Student();
             materialen.Add(Bol);
             materialen.Add(Kaart);

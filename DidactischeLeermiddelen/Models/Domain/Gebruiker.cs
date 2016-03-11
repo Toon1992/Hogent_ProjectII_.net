@@ -57,24 +57,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected virtual void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
-        {
-            Reservatie reservatie = new Reservatie(this, materiaal, startdatum, eindDatum, aantal)
-            {
-                Gebruiker = this
-            };
-
-            if (this is Lector)
-                reservatie.Blokkeer();
-            else
-            {
-                reservatie.ToState(new Gereserveerd());
-            }
-            //reservatie.ToState(new Gereserveerd());
-            materiaal.AddReservatie(reservatie);
-            Reservaties.Add(reservatie);
-
-        }
+        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum);
+       
         public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             for (int i = 0; i < aantal.Length; i++)
@@ -90,7 +74,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum, bool naarReserveren)
         {
-            string datum = DateToString(startDatum, eindDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+            string datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             if (materiaalIds != null)
             {
@@ -120,24 +104,26 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return totaalGeselecteerd;
         }
-        public abstract DateTime GetStartDatum(string startDatum, string eindDatum);
-        public abstract DateTime GetEindDatum(string startDatum, string eindDatum);
-        public abstract string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format);
-
-        protected Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, string eindDatum,
-            int aantal)
+        public DateTime GetStartDatum(string startDatum)
         {
-            Reservatie reservatie = new Reservatie(gebruiker, mat, startdatum, eindDatum, aantal)
-            {
-                Gebruiker = this
-            };
-
-            if (reservatie == null)
-            {
-                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
-            }
-
-            return reservatie;
+            var dateFromString = Convert.ToDateTime(startDatum);
+            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
+            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
         }
+
+        public DateTime GetEindDatum(string startDatum)
+        {
+            return GetStartDatum(startDatum).AddDays(4);
+        }
+
+        public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
+        {
+            return startDatum.ToString("d", format);
+        }
+
+        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
+            string eindDatum,
+            int aantal);
+
     }
 }

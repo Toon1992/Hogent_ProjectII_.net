@@ -14,20 +14,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
-        public override DateTime GetStartDatum(string startDatum, string eindDatum)
-        {
-            return Convert.ToDateTime(startDatum);
-        }
-
-        public override DateTime GetEindDatum(string startDatum, string eindDatum)
-        {
-            return Convert.ToDateTime(eindDatum);
-        }
-
-        public override string DateToString(DateTime startDatum, DateTime eindDatum, DateTimeFormatInfo format)
-        {
-            return startDatum.ToString("d", format) + " - " + eindDatum.ToString("d", format);
-        }
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
         {
@@ -109,6 +95,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 }
                 else
                 {
+                    //overrulen van de reservatie
                     OverrulenVanReservatie(laatsReservatie);
 
                     //Nu moeten we nog berekenen wat er nog overblijft
@@ -154,6 +141,20 @@ namespace DidactischeLeermiddelen.Models.Domain
             reservatie.Blokkeer();
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
+        }
+
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
+           string eindDatum,
+           int aantal)
+        {
+            Reservatie reservatie = new BlokkeringLector(gebruiker, mat, startdatum, eindDatum, aantal);
+           
+            if (reservatie == null)
+            {
+                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
+            }
+
+            return reservatie;
         }
     }
 }
