@@ -354,15 +354,15 @@ function drawMaterial(dataMateriaal) {
     
     var data = new google.visualization.DataTable();
     var rows = new Array();
-    data.addColumn('date', 'Startdatum');
+    data.addColumn('string', 'Startdatum');
     data.addColumn('number', 'Aantal beschikbaar');
     
     var obj = JSON.parse(dataMateriaal);
     $.each(obj, function(i, item) {
         var startDatum = item.StartDatum;
 
-        var startDatumNaarDate = new Date(parseInt(startDatum.substr(6)));
-        console.log(typeof startDatumNaarDate);
+        var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+        
             var aantal = item.Aantal;
             rows.push([startDatumNaarDate, aantal]);
         });
