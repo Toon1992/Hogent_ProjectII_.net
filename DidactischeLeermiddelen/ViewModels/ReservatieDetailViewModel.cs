@@ -6,14 +6,14 @@ using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
 {
-    public class ReservatiesDetailViewModel
+    public class ReservatiesDetailViewModel:IViewModel
     {
         public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieMap { get; set; }
         public Materiaal Material { get; set; }
         public string GeselecteerdeWeek { get; set; }
     }
 
-    public class ReservatieDetailViewModel
+    public class ReservatieDetailViewModel:IViewModel
     {
         public int Aantal { get; set; }
         public string Email { get; set; }

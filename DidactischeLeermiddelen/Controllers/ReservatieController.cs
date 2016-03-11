@@ -48,7 +48,7 @@ namespace DidactischeLeermiddelen.Controllers
             ViewBag.AantalReservaties = reservatielijst.Count();
 
             ReservatieMaterialenViewModelFactory rvmf = new ReservatieMaterialenViewModelFactory();
-            ReservatieMaterialenViewModel vm = rvmf.CreateViewModel(null, null, null, DateTime.Now, gebruiker) as ReservatieMaterialenViewModel;
+            ReservatieMaterialenViewModel vm = rvmf.CreateReservatieMaterialenViewModel(gebruiker) as ReservatieMaterialenViewModel;
 
             return View(vm);
         }

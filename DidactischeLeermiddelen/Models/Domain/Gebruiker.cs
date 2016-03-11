@@ -81,8 +81,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 materiaalAantal = GetMateriaalAantalMap(materiaalIds, aantallen);
             }
             VerlanglijstMaterialenViewModelFactory facotry = new VerlanglijstMaterialenViewModelFactory();
-            VerlanglijstMaterialenViewModel vm =facotry.CreateVerlangMaterialenViewModel(materialen,Verlanglijst.Materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren, this);
-            return vm;
+            return facotry.CreateVerlangMaterialenViewModel(materialen,Verlanglijst.Materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren, this);
         }
 
         public Dictionary<int, int> GetMateriaalAantalMap(int[] materiaalIds, int[] aantallen)

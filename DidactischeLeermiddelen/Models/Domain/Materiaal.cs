@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int ArtikelNr { get; set; }
         public int MateriaalId { get; set; }
 
-        public Decimal Prijs { get; set; }
+        public decimal Prijs { get; set; }
 
         public virtual Firma Firma { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
@@ -152,14 +152,8 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
         public ReservatieDetailViewModel CreateReservatieDetailVm(Reservatie reservatie)
         {
-            return new ReservatieDetailViewModel
-            {
-                Aantal = reservatie.Aantal,
-                Email = reservatie.Gebruiker.Email,
-                Status = reservatie.ReservatieState.GetType().Name.ToLower(),
-                Type = reservatie.Gebruiker is Lector ? "Lector" : "Student",
-                GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
-            };
+            ViewModelFactory factory = new ReservatieDetailViewModelFactory();
+            return factory.CreateReservatieDetailViewModel(reservatie) as ReservatieDetailViewModel;
         }
         public List<ReservatieDataDTO> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
         {

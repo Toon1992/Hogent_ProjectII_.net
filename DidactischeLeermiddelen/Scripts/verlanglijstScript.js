@@ -333,10 +333,10 @@ var viewModel = {
     }
 }
 function IsWeekend() {
-    return Date.today().getDay() >= 6 || Date.today().getDay() === 0;
+    return Date.today().is().saturday() || Date.today().is().sunday();
 }
 function VrijdagNaVijf() {
-    return Date.today().getDay() === 5 && Date.today().getHours() >= 17;
+    return Date.today().is().friday() && new Date().getHours() >= 17;
 }
 
 function drawMaterial(dataMateriaal) {

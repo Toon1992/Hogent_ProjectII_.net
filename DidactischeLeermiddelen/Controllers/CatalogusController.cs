@@ -21,6 +21,7 @@ namespace DidactischeLeermiddelen.Controllers
         private IDoelgroepRepository doelgroepRepository;
         private ILeergebiedRepository leergebiedRepository;
         private IGebruikerRepository gebruikerRepository;
+        private ViewModelFactory factory;
         public CatalogusController(IMateriaalRepository materiaalRepository, IDoelgroepRepository doelgroepRepository, ILeergebiedRepository leergebiedRepository, IGebruikerRepository gebruikerRepository)
         {
             this.materiaalRepository = materiaalRepository;
@@ -81,8 +82,8 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
             });
-            MaterialenViewModelFactory mvmf = new MaterialenViewModelFactory();
-            MaterialenViewModel vm = mvmf.CreateViewModel(GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
+            factory = new MaterialenViewModelFactory();
+            MaterialenViewModel vm = factory.CreateMaterialenViewModel(GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 
             if (Request.IsAjaxRequest())
             {
@@ -116,14 +117,15 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult DetailView(int id)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            return PartialView("Detail", new MateriaalViewModel(materiaal));
+            factory = new MaterialenViewModelFactory();
+            return PartialView("Detail", factory.CreateMateriaalViewModel(materiaal) as MateriaalViewModel);
         }
 
         public ActionResult DetailViewFirma(int id)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            //TempData.Remove("Info");
-            return PartialView("DetailFirma", new FirmaViewModel(materiaal.Firma));
+            factory = new MaterialenViewModelFactory();
+            return PartialView("DetailFirma", factory.CreateFirmaViewModel(materiaal) as FirmaViewModel);
         }
 
         private SelectList GetDoelgroepenSelectedList(int doelgroepId = 0)

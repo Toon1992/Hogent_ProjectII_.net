@@ -9,10 +9,18 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class MaterialenViewModelFactory : ViewModelFactory
     {
-        public override IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
-            DateTime startDatum = new DateTime(), Gebruiker gebruiker = null)
+        public override IViewModel CreateFirmaViewModel(Materiaal materiaal)
         {
-            IViewModel vm = new MaterialenViewModel()
+            return new FirmaViewModel(materiaal.Firma);
+        }
+        public override IViewModel CreateMateriaalViewModel(Materiaal materiaal)
+        {
+            return new MateriaalViewModel(materiaal);
+        }
+
+        public override IViewModel CreateMaterialenViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst)
+        {
+            IViewModel vm = new MaterialenViewModel
             {
                 Materialen = lijst.Select(b => new MateriaalViewModel(b)),
                 DoelgroepSelectList = new DoelgroepViewModel(doelgroepen),

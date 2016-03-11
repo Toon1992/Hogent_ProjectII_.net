@@ -10,10 +10,9 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class VerlanglijstMaterialenViewModelFactory : ViewModelFactory
     {
-        public override IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
-            DateTime startDatum = new DateTime(), Gebruiker gebruiker = null)
+        public override IViewModel CreateVerlanglijstMaterialenViewModel(Gebruiker gebruiker, DateTime startDatum)
         {
-            IViewModel vmm = new VerlanglijstMaterialenViewModel()
+            IViewModel vmm = new VerlanglijstMaterialenViewModel
             {
                 VerlanglijstViewModels = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
             };

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
+using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -16,6 +17,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public long ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
         public virtual Gebruiker Gebruiker { get; set; }
+        public virtual IList<Dag> Dagen { get; set; } 
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }

@@ -209,6 +209,7 @@
     <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
     <Compile Include="Models\Domain\AuthHeader.cs" />
     <Compile Include="Models\Domain\BlokkeringLector.cs" />
+    <Compile Include="Models\Domain\Dag.cs" />
     <Compile Include="Models\Domain\ReservatieStudent.cs" />
     <Compile Include="ViewModels\DtoObjects\ReservatieDataDTO.cs" />
     <Compile Include="Models\Domain\ILogin.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\DAL\MateriaalRepository.cs" />
     <Compile Include="Models\Domain\InterfaceRepositories\IMateriaalRepository.cs" />
     <Compile Include="ViewModels\MaterialenViewModelFactory.cs" />
+    <Compile Include="ViewModels\ReservatieDetailViewModelFactory.cs" />
     <Compile Include="ViewModels\ReservatieMaterialenViewModelFactory.cs" />
     <Compile Include="Models\Domain\StateMachine\Opgehaald.cs" />
     <Compile Include="Models\Domain\StateMachine\Overruled.cs" />

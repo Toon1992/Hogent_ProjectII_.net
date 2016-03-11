@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
 
-namespace DidactischeLeermiddelen.Models.Domain
+namespace DidactischeLeermiddelen.ViewModels
 {
     public class ReservatieMaterialenViewModelFactory : ViewModelFactory
     {
-        public override IViewModel CreateViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst = null,
-            DateTime startDatum = new DateTime(), Gebruiker gebruiker = null)
+        public override IViewModel CreateReservatieMaterialenViewModel(Gebruiker gebruiker)
         {
-            if(gebruiker == null)
+            if (gebruiker == null)
                 throw new ArgumentNullException();
 
             IViewModel rmv = new ReservatieMaterialenViewModel()
