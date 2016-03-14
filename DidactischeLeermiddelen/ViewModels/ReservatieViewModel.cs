@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
-using System.Linq;
-using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels

@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mail;
-using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using Microsoft.Ajax.Utilities;
-using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
