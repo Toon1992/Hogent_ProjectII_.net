@@ -14,10 +14,11 @@ using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class VerlanglijstController : Controller
     {
         private IMateriaalRepository materiaalRepository;
@@ -80,8 +81,9 @@ namespace DidactischeLeermiddelen.Controllers
         {
             //Variabelen
             bool allesBeschikbaar = false;
+            IEnumerable<DateTime> dagLijst = null;
             List<Materiaal> materialen = new List<Materiaal>();
-
+            
             DateTime startDate = gebruiker.GetStartDatum(startDatum);
             DateTime eindDate = gebruiker.GetEindDatum(startDatum);
 
@@ -90,9 +92,10 @@ namespace DidactischeLeermiddelen.Controllers
             if (materiaal != null)
             {
                 materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-                allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate);               
+                dagLijst = dagen?.Select(Convert.ToDateTime);
+                allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate, dagLijst);               
             }
-            VerlanglijstMaterialenViewModel vm = gebruiker.CreateVerlanglijstMaterialenVm(materialen, materiaal, aantal, startDate, eindDate, allesBeschikbaar && naarReserveren);
+            VerlanglijstMaterialenViewModel vm = gebruiker.CreateVerlanglijstMaterialenVm(materialen, materiaal, aantal, startDate, eindDate,dagLijst, allesBeschikbaar && naarReserveren);
             if (Request.IsAjaxRequest())
             {
                 if (naarReserveren && allesBeschikbaar)
@@ -103,9 +106,15 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View("Index", vm);
         }
-        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum)
+        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IEnumerable<DateTime> dagen)
         { 
             List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            if (dagen != null)
+            {
+                //Wanneer de lector verschillende data selecteerd kijken of het materiaal elke dag beschikbaar is
+                //Zoniet, return false
+                return dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
+            }
             return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, startDatum, eindDatum);
         }
 

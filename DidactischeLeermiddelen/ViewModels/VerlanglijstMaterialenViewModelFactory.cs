@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             };
             return vmm;
         }
-        public VerlanglijstMaterialenViewModel CreateVerlangMaterialenViewModel(List<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
+        public VerlanglijstMaterialenViewModel CreateVerlangMaterialenViewModel(List<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum , Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
         {
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             return new VerlanglijstMaterialenViewModel

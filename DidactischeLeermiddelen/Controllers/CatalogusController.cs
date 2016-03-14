@@ -14,7 +14,7 @@ using Ninject.Web.Mvc.Filter;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;
