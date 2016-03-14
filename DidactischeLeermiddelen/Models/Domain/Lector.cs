@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -9,11 +10,11 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string eindDatum)
+        public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum)
         {
             //Het converten van string naar DateTime
             DateTime start = Convert.ToDateTime(startDatum);
-            DateTime einde = Convert.ToDateTime(eindDatum);
+            DateTime einde = Convert.ToDateTime(HulpMethode.GetEindDatum(startDatum));
 
             //Overlopen van map met potentiele reserveringen/blokkeringen/overrulingen
             foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
@@ -32,7 +33,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 if (aantalBeschikbaar >= reserveerAantal)
                 {
                     //Aanmaken van reservaties
-                    VoegReservatieToe(mat, reserveerAantal, startDatum, eindDatum);
+                    VoegReservatieToe(mat, reserveerAantal, startDatum);
                 }
                 else
                 {
@@ -40,7 +41,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start);
 
                     //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
-                    VoegReservatieToe(mat, reserveerAantal, startDatum, eindDatum);
+                    VoegReservatieToe(mat, reserveerAantal, startDatum);
                 }
             }
 
@@ -126,22 +127,20 @@ namespace DidactischeLeermiddelen.Models.Domain
             IDictionary<Materiaal, int> nieuw = new Dictionary<Materiaal, int>();
             nieuw.Add(laatsReservatie.Materiaal, verschil);
 
-            student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString(), laatsReservatie.EindDatum.ToShortDateString());
+            student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString());
         }
 
-        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum)
         {
-            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, eindDatum, aantal);
+            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal);
             reservatie.Blokkeer();
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
 
-        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
-           string eindDatum,
-           int aantal)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal)
         {
-            Reservatie reservatie = new BlokkeringLector(gebruiker, mat, startdatum, eindDatum, aantal);
+            Reservatie reservatie = new BlokkeringLector(gebruiker,mat,startdatum,aantal);
            
             if (reservatie == null)
             {

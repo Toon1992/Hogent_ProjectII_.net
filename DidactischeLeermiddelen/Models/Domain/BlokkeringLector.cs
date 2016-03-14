@@ -4,7 +4,7 @@
     {
         public BlokkeringLector() { }
 
-        public BlokkeringLector(Gebruiker gebruiker, Materiaal materiaal, string startDatum, string eindDatum, int aantal):base(gebruiker,materiaal,startDatum,eindDatum,aantal)
+        public BlokkeringLector(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal):base(gebruiker,materiaal,startDatum,aantal)
         { }
     }
 }

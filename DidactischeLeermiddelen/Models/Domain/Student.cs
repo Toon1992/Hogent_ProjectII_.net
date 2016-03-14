@@ -8,14 +8,13 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public void MaakReservaties(IDictionary<Materiaal, int> potentieleReservaties, string startDatum,
-            string eindDatum)
+        public void MaakReservaties(IDictionary<Materiaal, int> potentieleReservaties, string startDatum)
         {
             try
             {
                 foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
                 {
-                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum, eindDatum);
+                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum);
                 }
             }
             catch (ArgumentException)
@@ -24,18 +23,16 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum)
         {
-            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, eindDatum, aantal);
+            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal);
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
 
-        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
-           string eindDatum,
-           int aantal)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal)
         {
-            Reservatie reservatie = new ReservatieStudent(gebruiker, mat, startdatum, eindDatum, aantal);
+            Reservatie reservatie = new ReservatieStudent(gebruiker, mat, startdatum, aantal);
            
             if (reservatie == null)
             {

@@ -69,8 +69,8 @@ namespace DidactischeLeermiddelen.ViewModels
         public static DateTime GetStartDatum(string startDatum)
         {
             var dateFromString = Convert.ToDateTime(startDatum);
-            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
-            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+            var week = GetIso8601WeekOfYear(dateFromString);
+            return FirstDateOfWeekISO8601(DateTime.Now.Year, week);
         }
 
         public static DateTime GetEindDatum(string startDatum)

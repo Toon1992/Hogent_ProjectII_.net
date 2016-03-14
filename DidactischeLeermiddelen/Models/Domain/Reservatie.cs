@@ -49,7 +49,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public Reservatie() { }
 
-        public Reservatie(Gebruiker gebruiker, Materiaal materiaal, string startDatum, string eindDatum, int aantal)
+        public Reservatie(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal)
         {
             if (materiaal == null)
                 throw new ArgumentNullException("U heeft nog geen items geselecteerd voor deze reservatie");
@@ -64,7 +64,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             if (gebruiker is Lector)
             {
                 StartDatum = Convert.ToDateTime(startDatum);
-                EindDatum = Convert.ToDateTime(eindDatum);
+                EindDatum = Convert.ToDateTime(HulpMethode.GetEindDatum(startDatum));
             }
 
             Materiaal = materiaal;

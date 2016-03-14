@@ -48,7 +48,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum);
+        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum);
        
         public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
@@ -115,9 +115,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
         }
 
-        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
-            string eindDatum,
-            int aantal);
+        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal);
 
     }
 }

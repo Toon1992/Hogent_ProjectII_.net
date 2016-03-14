@@ -18,7 +18,7 @@ namespace DidactischeLeermiddelen.Controllers
         private IReservatieRepository reservatieRepository;
         private IMailServiceRepository mailServiceRepository;
 
-        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository, IReservatieRepository reservatieRepository,IMailServiceRepository mailServiceRepository)
+        public ReservatieController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository, IReservatieRepository reservatieRepository, IMailServiceRepository mailServiceRepository)
         {
             this.materiaalRepository = materiaalRepository;
             this.gebruikerRepository = gebruikerRepository;
@@ -32,12 +32,8 @@ namespace DidactischeLeermiddelen.Controllers
                 return View("LegeReservatielijst");
 
             ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
-            IList<Materiaal> materiaallijst = new List<Materiaal>();
 
-            foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
-            {
-                materiaallijst.Add(materiaal);
-            }
+            //IList<Materiaal> materiaallijst = VulMateriaalLijstIn(reservatielijst); 
 
             ViewBag.Gebruikersnaam = gebruiker.Naam;
             ViewBag.AantalReservaties = reservatielijst.Count();
@@ -54,40 +50,32 @@ namespace DidactischeLeermiddelen.Controllers
         }
 
         [HttpPost]
-        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, string startDatum, string eindDatum)
+        public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, string startDatum, string[] dagen)
         {
-            IList<Materiaal> materialen = GeefMaterialen(materiaal);
+            IList<Materiaal> materialen = GeefMaterialenVanId(materiaal);
+
+            string eersteDag = HulpMethode.GetStartDatum(startDatum).ToShortDateString();
 
             if (materialen.Count > 0)
             {
-                IDictionary<Materiaal, int> potentieleReservaties = new Dictionary<Materiaal, int>();
-
-                for (int index = 0; index < materialen.Count; index++)
-                {
-                    potentieleReservaties.Add(materialen[index], aantal[index]);
-                }
+                IDictionary<Materiaal, int> potentieleReservaties = InvullenVanMapMetPotentieleReservaties(aantal, materialen);
 
                 try
                 {
-                    var student1 = gebruiker as Student;
-
-                    if (student1 != null)
+                    if (gebruiker is Student)
                     {
-                        Student student = student1;
-                      
-                        student.MaakReservaties(potentieleReservaties, startDatum, eindDatum);
+                        Student student = gebruiker as Student;
 
-                        MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
-                        mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,student1);
+                        student.MaakReservaties(potentieleReservaties, eersteDag);
+                        VerstuurMail(potentieleReservaties, eersteDag, student);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
                     else
-                    {                     
+                    {
                         Lector lector = gebruiker as Lector;
-
-                        if (lector != null)
-                            lector.MaakBlokkeringen(potentieleReservaties, startDatum, eindDatum);
+                      
+                        lector.MaakBlokkeringen(potentieleReservaties, eersteDag);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
@@ -111,7 +99,7 @@ namespace DidactischeLeermiddelen.Controllers
                 reservatieRepository.Remove(r);
                 reservatieRepository.SaveChanges();
                 gebruikerRepository.SaveChanges();
-                
+
                 TempData["Info"] = "Reservatie is succesvol verwijderd";
             }
             catch (ArgumentException ex)
@@ -122,9 +110,39 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-        private IList<Materiaal> GeefMaterialen(int[] materiaal)
+        private IList<Materiaal> GeefMaterialenVanId(int[] materiaal)
         {
             return materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-        } 
+        }
+
+        private IDictionary<Materiaal, int> InvullenVanMapMetPotentieleReservaties(int[] aantal, IList<Materiaal> materialen)
+        {
+            IDictionary<Materiaal, int> potentieleReservaties = new Dictionary<Materiaal, int>();
+
+            for (int index = 0; index < materialen.Count; index++)
+            {
+                potentieleReservaties.Add(materialen[index], aantal[index]);
+            }
+
+            return potentieleReservaties;
+        }
+
+        private void VerstuurMail(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, Gebruiker gebruiker)
+        {
+            MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
+            mail.VerzendMail(potentieleReservaties, startDatum, HulpMethode.GetEindDatum(startDatum).ToShortDateString(), gebruiker);
+        }       
+
+        //private IList<Materiaal> VulMateriaalLijstIn(ICollection<Reservatie> reservatielijst)
+        //{
+        //    IList<Materiaal> materiaallijst = new List<Materiaal>();
+
+        //    foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
+        //    {
+        //        materiaallijst.Add(materiaal);
+        //    }
+
+        //    return materiaallijst;
+        //}
     }
 }
