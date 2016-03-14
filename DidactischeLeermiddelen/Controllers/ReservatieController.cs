@@ -56,7 +56,7 @@ namespace DidactischeLeermiddelen.Controllers
         [HttpPost]
         public void MaakReservatie(Gebruiker gebruiker, int[] materiaal, int[] aantal, string startDatum, string eindDatum)
         {
-            IList<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            IList<Materiaal> materialen = GeefMaterialen(materiaal);
 
             if (materialen.Count > 0)
             {
@@ -69,14 +69,17 @@ namespace DidactischeLeermiddelen.Controllers
 
                 try
                 {
-                    if (gebruiker is Student)
+                    var student1 = gebruiker as Student;
+
+                    if (student1 != null)
                     {
-                        Student student = gebruiker as Student;
-                        if (student != null)
-                            student.MaakReservaties(potentieleReservaties, startDatum, eindDatum);
+                        Student student = student1;
+                      
+                        student.MaakReservaties(potentieleReservaties, startDatum, eindDatum);
 
                         MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
-                        mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,gebruiker);
+                        mail.VerzendMail(potentieleReservaties,startDatum,eindDatum,student1);
+
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
                     else
@@ -119,6 +122,9 @@ namespace DidactischeLeermiddelen.Controllers
             return RedirectToAction("Index");
         }
 
-
+        private IList<Materiaal> GeefMaterialen(int[] materiaal)
+        {
+            return materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+        } 
     }
 }

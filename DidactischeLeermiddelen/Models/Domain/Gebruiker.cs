@@ -103,17 +103,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return totaalGeselecteerd;
         }
-        public DateTime GetStartDatum(string startDatum)
-        {
-            var dateFromString = Convert.ToDateTime(startDatum);
-            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
-            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
-        }
-
-        public DateTime GetEindDatum(string startDatum)
-        {
-            return GetStartDatum(startDatum).AddDays(4);
-        }
+       
 
         public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
         {
