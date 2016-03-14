@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DidactischeLeermiddelen.Models.Domain.Mail;
+﻿using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Models.Domain.InterfaceRepositories
 {

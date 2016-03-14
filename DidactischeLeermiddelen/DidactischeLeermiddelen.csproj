@@ -206,8 +206,6 @@
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
     <Compile Include="Models\DAL\Mapper\MailTemplateMapper.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
-    <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
-    <Compile Include="Models\Domain\AuthHeader.cs" />
     <Compile Include="Models\Domain\BlokkeringLector.cs" />
     <Compile Include="Models\Domain\Dag.cs" />
     <Compile Include="Models\Domain\ReservatieStudent.cs" />
@@ -216,8 +214,6 @@
     <Compile Include="Models\Domain\InterfaceRepositories\IMailServiceRepository.cs" />
     <Compile Include="Models\Domain\LoginHomeService.cs" />
     <Compile Include="Models\Domain\LoginOtherService.cs" />
-    <Compile Include="Models\Domain\CustomAuthorize.cs" />
-    <Compile Include="Models\Domain\CustomPrincipal.cs" />
     <Compile Include="Models\Domain\Firma.cs" />
     <Compile Include="Models\Domain\Mail\MailNaBlokkeringLector.cs" />
     <Compile Include="Models\Domain\Mail\MailTemplate.cs" />

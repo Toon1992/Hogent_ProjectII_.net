@@ -1,30 +1,16 @@
-﻿    using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
-    using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -52,9 +38,9 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -117,28 +103,15 @@ namespace DidactischeLeermiddelen.Controllers
             }
             if (login is LoginOtherService)
             {
-                var authTicket = new FormsAuthenticationTicket(
-                2,
-                model.Email,
-                DateTime.Now,
-                DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
-                false,
-                "some token that will be used to access the web service and that you have fetched"
-                );
-                var authCookie = new HttpCookie(
-                    FormsAuthentication.FormsCookieName,
-                    FormsAuthentication.Encrypt(authTicket)
-                )
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
                 {
-                    HttpOnly = true
-                };
-                Response.AppendCookie(authCookie);
-                FormsAuthentication.SetAuthCookie(model.Email, false);
-                Thread.CurrentPrincipal = HttpContext.User = new CustomPrincipal(model.Email);              
+                    user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    await UserManager.CreateAsync(user, model.Password);
+                }
+                await SignInManager.SignInAsync(user, false, false);
                 return RedirectToAction("Index", "Home");
             }
-
-
             return RedirectToAction("Index", "Home");
         }
         // POST: /Account/LogOff
@@ -147,7 +120,6 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
         protected override void Dispose(bool disposing)

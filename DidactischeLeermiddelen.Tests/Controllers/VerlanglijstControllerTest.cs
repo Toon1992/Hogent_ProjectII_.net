@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using DidactischeLeermiddelen.Controllers;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Tests.Domain;

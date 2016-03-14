@@ -131,7 +131,7 @@ var viewModel = {
                 }
             });
             var startDatum = $("input[name='date']")[0].value;
-            viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, startDatum, viewModel.eindDatum, false);
+            viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, startDatum,viewModel.dagen,false);
         });
         $("#reservatie-end-date").datepicker({
             changeMonth: true,
@@ -156,31 +156,28 @@ var viewModel = {
                     viewModel.aantalList.push(parseInt(aantal));
                 }
             });
-            var geldig = true;
             var startDatum = $("input[name='multidate']")[0].value;
             var dateStrings = startDatum.split(",");
-            var dates = $.map(dateStrings, function (elem) {
-                var elements = elem.split("/");
-                var dag = elements[0];
-                var maand = elements[1];
-                var jaar = elements[2];
-                return Date.parse(maand + dag + jaar);
-            });
-            var week = dates[0].getWeek();
-            $.each(dates, function (i, elem) {
-                var w = elem.getWeek();
-                if (elem.getWeek() !== week) {
-                    $(".foutmelding").text("Selecteer data in dezelfde week!");
-                    geldig = false;
-                } else {
-                    $(".foutmelding").text("");
-                }
-            });
-            if (geldig) {
+            //var dates = $.map(dateStrings, function (elem) {
+            //    var elements = elem.split("/");
+            //    var dag = elements[0];
+            //    var maand = elements[1];
+            //    var jaar = elements[2];
+            //    return Date.parse(maand + dag + jaar);
+            //});
+            //var week = dates[0].getWeek();
+            //$.each(dates, function (i, elem) {
+            //    var w = elem.getWeek();
+            //    if (elem.getWeek() !== week) {
+            //        $(".foutmelding").text("Selecteer data in dezelfde week!");
+            //        geldig = false;
+            //    } else {
+            //        $(".foutmelding").text("");
+            //    }
+            //});
                 viewModel.dagen = dateStrings;
                 viewModel.startDatum = dateStrings[0];
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, false);
-            }
            
         });
         $(".detail-materiaal").click(function () {
@@ -224,7 +221,10 @@ var viewModel = {
         $("#btn-confirmeer").click(function () {
             var invalid;
             var selectedWeek;
-            if (typeof  $("input[name='date']")[0] !== "undefined") {
+            if (typeof $("input[name='date']")[0] === "undefined" && viewModel.startDatum === null) {
+                viewModel.startDatum = $("input[name='multidate']")[0].value;
+            }
+            else if (typeof $("input[name='multidate']")[0] === "undefined") {
                 viewModel.startDatum = $("input[name='date']")[0].value;
             }
                 if ($('input:checkbox:checked').length === 0) {
@@ -254,6 +254,8 @@ var viewModel = {
                 Cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
                 Cookies.create("startDatum", viewModel.startDatum, 1);
                 Cookies.create("dagen", JSON.stringify(viewModel.dagen), 1);
+                if (viewModel.dagen.length === 0)
+                    viewModel.dagen = [];
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, true);
         });
         $("#btn-reserveer").click(function () {
@@ -284,11 +286,15 @@ var viewModel = {
             var materialen = JSON.parse(Cookies["materialen"]);
             var aantallen = JSON.parse(Cookies["aantal"]);
             var startDatum = Cookies["startDatum"];
-            var dagen = Cookies["dagen"];
+            var dagen = JSON.parse(Cookies["dagen"]);
+            if (dagen.length === 0) {
+                dagen = [];
+            } 
             viewModel.invoerControle(materialen, aantallen, startDatum, dagen, false);
+            
         });
     },
-    invoerControle : function(materialen,aantallen, startDatum, dagen, knop) {
+    invoerControle : function(materialen,aantallen, startDatum, dagen,knop) {
         $.ajax({
             type: "POST",
             traditional: true,
@@ -355,25 +361,7 @@ function drawMaterial(dataMateriaal) {
             var aantal = item.Aantal;
             rows.push([startDatumNaarDate, aantal]);
         });
-    //for (var dataTest in obj) {
-    //    var aantal = dataTest.aantal;
-    //    var startDatum = dataTest.startDatum;
-        
-    //    rows.push([aantal, startDatum]);
-    //}
-    //$.each(dataMateriaal, function(i, item) {
-    //    var startDatum = item.StartDatum;
-    //    console.log(typeof startDatum);
-    //    var aantal = item.Aantal;
-    //    rows.push([aantal, startDatum]);
-    //});
-    //var obj = JSON.parse(dataMateriaal);
-    //for (var key in obj) {
-    //    if (obj.hasOwnProperty(key)) {
-    //        var value = obj[key];
-    //        rows.push([key, value]);
-    //    }
-    //}
+    
     data.addRows(rows);
     var options = {
         chart: {

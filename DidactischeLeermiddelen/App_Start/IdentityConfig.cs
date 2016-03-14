@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Reflection;
-using System.Web.Mvc;
-using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DidactischeLeermiddelen.Models;
-using DidactischeLeermiddelen.Models.DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -54,11 +49,11 @@ namespace DidactischeLeermiddelen
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 3,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

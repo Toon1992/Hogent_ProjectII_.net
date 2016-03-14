@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.ComponentModel;
-using System.Linq;
-using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
 

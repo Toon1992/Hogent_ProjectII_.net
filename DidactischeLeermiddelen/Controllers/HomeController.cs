@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private IMateriaalRepository materiaalRepository;

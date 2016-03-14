@@ -1,20 +1,14 @@
 ﻿using DidactischeLeermiddelen.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using System.EnterpriseServices;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using DidactischeLeermiddelen.ViewModels;
-using Ninject.Activation;
-using Ninject.Web.Mvc.Filter;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using DidactischeLeermiddelen.Models.Domain.StateMachine;
-using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {

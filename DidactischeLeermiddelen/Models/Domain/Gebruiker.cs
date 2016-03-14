@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mail;
-using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using Microsoft.Ajax.Utilities;
-using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -72,9 +63,18 @@ namespace DidactischeLeermiddelen.Models.Domain
             return true;
         }
 
-        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum, bool naarReserveren)
+        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum,IEnumerable<DateTime> dagen, bool naarReserveren)
         {
-            string datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+            string datum;
+            if (dagen != null)
+            {
+                datum = DatesToString(dagen, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+            }
+            else
+            {
+                datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+            }
+            
             Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
             if (materiaalIds != null)
             {
@@ -118,6 +118,11 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
         {
             return startDatum.ToString("d", format);
+        }
+
+        public string DatesToString(IEnumerable<DateTime> dagen, DateTimeFormatInfo format)
+        {
+            return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
         }
 
         protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
