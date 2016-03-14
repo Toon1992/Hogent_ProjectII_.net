@@ -50,7 +50,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum);
        
-        public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
+        public bool ControleGeselecteerdMateriaal(IList<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             for (int i = 0; i < aantal.Length; i++)
             {
@@ -63,7 +63,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return true;
         }
 
-        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(List<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum,IEnumerable<DateTime> dagen, bool naarReserveren)
+        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(IList<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum,IEnumerable<DateTime> dagen, bool naarReserveren)
         {
             string datum;
             if (dagen != null)

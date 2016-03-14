@@ -74,7 +74,7 @@ namespace DidactischeLeermiddelen.Controllers
             //Variabelen
             bool allesBeschikbaar = false;
             IEnumerable<DateTime> dagLijst = null;
-            List<Materiaal> materialen = new List<Materiaal>();
+            IList<Materiaal> materialen = new List<Materiaal>();
             
             DateTime startDate = HulpMethode.GetStartDatum(startDatum);
             DateTime eindDate = HulpMethode.GetEindDatum(startDatum);
@@ -84,7 +84,7 @@ namespace DidactischeLeermiddelen.Controllers
             dagLijst = dagen?.Select(Convert.ToDateTime);
             if (materiaal != null)
             {
-                materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+                materialen = GeefMaterialenVanId(materiaal);
                 
                 allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate, dagLijst);               
             }
@@ -100,8 +100,8 @@ namespace DidactischeLeermiddelen.Controllers
             return View("Index", vm);
         }
         private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IEnumerable<DateTime> dagen)
-        { 
-            List<Materiaal> materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+        {
+            IList<Materiaal> materialen = GeefMaterialenVanId(materiaal);
             if (dagen != null)
             {
                 //Wanneer de lector verschillende data selecteerd kijken of het materiaal elke dag beschikbaar is
@@ -135,6 +135,10 @@ namespace DidactischeLeermiddelen.Controllers
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
+        private IList<Materiaal> GeefMaterialenVanId(int[] materiaalIds)
+        {
+            return materiaalIds.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+        }
 
     }
 }
