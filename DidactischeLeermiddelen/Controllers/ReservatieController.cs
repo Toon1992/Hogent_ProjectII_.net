@@ -40,10 +40,12 @@ namespace DidactischeLeermiddelen.Controllers
 
             ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;
             IList<Materiaal> materiaallijst = new List<Materiaal>();
+
             foreach (Materiaal materiaal in reservatielijst.Select(r => r.Materiaal))
             {
                 materiaallijst.Add(materiaal);
             }
+
             ViewBag.Gebruikersnaam = gebruiker.Naam;
             ViewBag.AantalReservaties = reservatielijst.Count();
 
@@ -66,6 +68,7 @@ namespace DidactischeLeermiddelen.Controllers
             if (materialen.Count > 0)
             {
                 IDictionary<Materiaal, int> potentieleReservaties = new Dictionary<Materiaal, int>();
+
                 for (int index = 0; index < materialen.Count; index++)
                 {
                     potentieleReservaties.Add(materialen[index], aantal[index]);
@@ -84,8 +87,7 @@ namespace DidactischeLeermiddelen.Controllers
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
                     else
-                    {
-                      
+                    {                     
                         Lector lector = gebruiker as Lector;
 
                         if (lector != null)
