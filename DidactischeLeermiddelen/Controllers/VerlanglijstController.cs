@@ -81,10 +81,11 @@ namespace DidactischeLeermiddelen.Controllers
 
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
+            dagLijst = dagen?.Select(Convert.ToDateTime);
             if (materiaal != null)
             {
                 materialen = materiaal.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
-                dagLijst = dagen?.Select(Convert.ToDateTime);
+                
                 allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate, dagLijst);               
             }
             VerlanglijstMaterialenViewModel vm = gebruiker.CreateVerlanglijstMaterialenVm(materialen, materiaal, aantal, startDate, eindDate,dagLijst, allesBeschikbaar && naarReserveren);
@@ -113,8 +114,9 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult ReservatieDetails(Gebruiker gebruiker, int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-            var map = materiaal.ReservatieDetails();
-            return PartialView("DetailReservaties", new ReservatiesDetailViewModel { ReservatieMap = map, Material = materiaal, GeselecteerdeWeek = week != -1 ? HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week).ToString("d", dtfi) : "" });
+            var map = materiaal.ReservatieDetails(week);
+            ReservatieDetailViewModelFactory factory = new ReservatieDetailViewModelFactory();
+            return PartialView("DetailReservaties", factory.CreateReservatiesViewModel(map, materiaal, week, dtfi) as ReservatiesDetailViewModel);
         }
 
         public JsonResult ReservatieDetailsGrafiek(int id, int week)

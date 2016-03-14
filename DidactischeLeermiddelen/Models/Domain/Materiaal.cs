@@ -94,11 +94,18 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))).ToList();
         } 
-        public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieDetails()
+        public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieDetails(int week)
         {
             Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservatieMap = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
-            foreach (Reservatie reservatie in Reservaties)
+            var reservaties = Reservaties;
+            if (week > -1)
             {
+                var geselecteerdeDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+                reservaties = reservaties.Where(r => r.StartDatum.Equals(geselecteerdeDatum)).ToList();
+            }
+            foreach (Reservatie reservatie in reservaties)
+            {
+                if(week < 0 || reservatie.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))) { }
                 if (reservatie.Gebruiker is Lector)
                 {
                     bool overschrijft = false;

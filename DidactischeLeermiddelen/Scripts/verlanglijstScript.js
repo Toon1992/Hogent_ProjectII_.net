@@ -87,13 +87,23 @@ var viewModel = {
             var materiaalId = this.id;
             materiaalId = materiaalId.slice(-1);
             var materiaalRij = $("#" + materiaalId);
+            var value = parseInt($(".input-medium").val());
             //Kijken of het item reeds geselecteerd was, zoniet selecteren en highligten
             var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
-            if (!box.is(":checked")) {
+            if (!box.is(":checked") && value > 0) {
                 box[0].checked = true;
                 box[1].checked = true;
                 if ($("#verlanglijst-pagina .checkbox").find("." + materiaalId).is(":checked")) { 
                     materiaalRij.css("background-color", "#dff0d8");
+                } else {
+                    materiaalRij.css('background', 'transparent');
+                }
+            }
+            if (box.is(":checked") && value === 0) {
+                box[0].checked = false;
+                box[1].checked = false;
+                if ($("#verlanglijst-pagina .checkbox").find("." + materiaalId).is(":checked")) {
+                    materiaalRij.css("background-color", "transparent");
                 } else {
                     materiaalRij.css('background', 'transparent');
                 }
@@ -158,23 +168,6 @@ var viewModel = {
             });
             var startDatum = $("input[name='multidate']")[0].value;
             var dateStrings = startDatum.split(",");
-            //var dates = $.map(dateStrings, function (elem) {
-            //    var elements = elem.split("/");
-            //    var dag = elements[0];
-            //    var maand = elements[1];
-            //    var jaar = elements[2];
-            //    return Date.parse(maand + dag + jaar);
-            //});
-            //var week = dates[0].getWeek();
-            //$.each(dates, function (i, elem) {
-            //    var w = elem.getWeek();
-            //    if (elem.getWeek() !== week) {
-            //        $(".foutmelding").text("Selecteer data in dezelfde week!");
-            //        geldig = false;
-            //    } else {
-            //        $(".foutmelding").text("");
-            //    }
-            //});
                 viewModel.dagen = dateStrings;
                 viewModel.startDatum = dateStrings[0];
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, false);
@@ -220,7 +213,6 @@ var viewModel = {
         });
         $("#btn-confirmeer").click(function () {
             var invalid;
-            var selectedWeek;
             if (typeof $("input[name='date']")[0] === "undefined" && viewModel.startDatum === null) {
                 viewModel.startDatum = $("input[name='multidate']")[0].value;
             }

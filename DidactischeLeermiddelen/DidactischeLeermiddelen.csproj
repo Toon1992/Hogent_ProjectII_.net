@@ -290,10 +290,14 @@
     <Content Include="Content\Images\basketbal.jpg" />
     <Content Include="Content\Images\bok.jpg" />
     <Content Include="Content\Images\catalogus.png" />
+    <Content Include="Content\Images\close.png" />
     <Content Include="Content\Images\erlenmeyer.jpg" />
     <Content Include="Content\Images\geodriehoek.jpg" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\microscoopCeti.jpg" />
+    <Content Include="Content\Images\next.png" />
     <Content Include="Content\Images\pincet.jpg" />
+    <Content Include="Content\Images\prev.png" />
     <Content Include="Content\Images\reddingspop.jpg" />
     <Content Include="Content\Images\rekentoestel.jpg" />
     <Content Include="Content\Images\reservaties.png" />

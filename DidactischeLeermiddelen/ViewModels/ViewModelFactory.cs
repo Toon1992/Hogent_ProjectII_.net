@@ -17,19 +17,31 @@ namespace DidactischeLeermiddelen.ViewModels
         {
             throw new NotImplementedException();
         }
-        public virtual IViewModel CreateMaterialenViewModel(SelectList doelgroepen, SelectList leergebieden, IEnumerable<Materiaal> lijst)
+
+        public virtual IViewModel CreateMaterialenViewModel(SelectList doelgroepen, SelectList leergebieden,
+            IEnumerable<Materiaal> lijst)
         {
             throw new NotImplementedException();
         }
+
         public virtual IViewModel CreateVerlanglijstMaterialenViewModel(Gebruiker gebruiker, DateTime startDatum)
         {
             throw new NotImplementedException();
         }
+
         public virtual IViewModel CreateReservatieMaterialenViewModel(Gebruiker gebruiker)
         {
             throw new NotImplementedException();
         }
+
         public virtual IViewModel CreateReservatieDetailViewModel(Reservatie reservatie)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual IViewModel CreateReservatiesViewModel(
+            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> map, Materiaal materiaal, int week,
+            DateTimeFormatInfo dtfi)
         {
             throw new NotImplementedException();
         }
