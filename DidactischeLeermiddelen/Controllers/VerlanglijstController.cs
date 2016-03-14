@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
-using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
-using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Controllers
 {

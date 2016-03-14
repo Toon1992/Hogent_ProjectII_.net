@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Configuration;
-using DidactischeLeermiddelen.Models.Domain;
+﻿using DidactischeLeermiddelen.Models.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DidactischeLeermiddelen.Tests.Domain

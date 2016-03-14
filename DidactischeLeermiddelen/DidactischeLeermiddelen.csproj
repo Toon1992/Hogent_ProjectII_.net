@@ -206,7 +206,6 @@
     <Compile Include="Models\DAL\Mapper\FirmaMapper.cs" />
     <Compile Include="Models\DAL\Mapper\MailTemplateMapper.cs" />
     <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
-    <Compile Include="Models\DAL\Mapper\ReservatieStateMapper.cs" />
     <Compile Include="Models\Domain\BlokkeringLector.cs" />
     <Compile Include="Models\Domain\Dag.cs" />
     <Compile Include="Models\Domain\ReservatieStudent.cs" />

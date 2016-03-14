@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using DidactischeLeermiddelen.Models.DAL;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.InterfaceRepositories;
 using DidactischeLeermiddelen.Models.Domain.Mail;

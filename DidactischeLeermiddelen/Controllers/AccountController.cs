@@ -1,26 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DidactischeLeermiddelen.Controllers
 {
