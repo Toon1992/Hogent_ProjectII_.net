@@ -65,5 +65,17 @@ namespace DidactischeLeermiddelen.ViewModels
             }
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
+
+        public static DateTime GetStartDatum(string startDatum)
+        {
+            var dateFromString = Convert.ToDateTime(startDatum);
+            var week = GetIso8601WeekOfYear(dateFromString);
+            return FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+        }
+
+        public static DateTime GetEindDatum(string startDatum)
+        {
+            return GetStartDatum(startDatum).AddDays(4);
+        }
     }
 }

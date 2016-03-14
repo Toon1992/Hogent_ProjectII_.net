@@ -48,7 +48,8 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum);
+        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum);
+       
         public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             for (int i = 0; i < aantal.Length; i++)
@@ -102,17 +103,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return totaalGeselecteerd;
         }
-        public DateTime GetStartDatum(string startDatum)
-        {
-            var dateFromString = Convert.ToDateTime(startDatum);
-            var week = HulpMethode.GetIso8601WeekOfYear(dateFromString);
-            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
-        }
 
-        public DateTime GetEindDatum(string startDatum)
-        {
-            return GetStartDatum(startDatum).AddDays(4);
-        }
 
         public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
         {
@@ -124,9 +115,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
         }
 
-        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,
-            string eindDatum,
-            int aantal);
+        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal);
 
     }
 }

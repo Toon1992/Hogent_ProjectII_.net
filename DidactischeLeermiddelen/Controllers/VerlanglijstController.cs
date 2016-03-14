@@ -76,8 +76,8 @@ namespace DidactischeLeermiddelen.Controllers
             IEnumerable<DateTime> dagLijst = null;
             List<Materiaal> materialen = new List<Materiaal>();
             
-            DateTime startDate = gebruiker.GetStartDatum(startDatum);
-            DateTime eindDate = gebruiker.GetEindDatum(startDatum);
+            DateTime startDate = HulpMethode.GetStartDatum(startDatum);
+            DateTime eindDate = HulpMethode.GetEindDatum(startDatum);
 
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
@@ -132,5 +132,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             return Json(output, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }

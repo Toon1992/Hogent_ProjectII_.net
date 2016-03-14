@@ -33,6 +33,7 @@ namespace DidactischeLeermiddelen.Controllers
         {
             List<Materiaal> materialen = new List<Materiaal>();
             List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
+
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null && (trefwoord == null || trefwoord.IsEmpty()))
             {
@@ -55,10 +56,12 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         materialen.AddRange(materiaalRepository.FindByLeergebied(i));
                     });
+
                     doelgroepenLijst.ForEach(i =>
                     {
                         materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
                     });
+
                     //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
                     if (materiaalDoelgroep.Any())
                     {
@@ -70,12 +73,15 @@ namespace DidactischeLeermiddelen.Controllers
                             : materiaalDoelgroep;
                     }
                 }
-            }   
+            } 
+              
             materialen = gebruiker is Lector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
+
             materialen.ForEach(m =>
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
             });
+
             factory = new MaterialenViewModelFactory();
             MaterialenViewModel vm = factory.CreateMaterialenViewModel(GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 

@@ -4,7 +4,7 @@
     {
         public ReservatieStudent() { }
 
-        public ReservatieStudent(Gebruiker gebruiker, Materiaal materiaal, string startDatum, string eindDatum, int aantal):base(gebruiker,materiaal,startDatum,eindDatum,aantal)
+        public ReservatieStudent(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal):base(gebruiker,materiaal,startDatum,aantal)
         { }
     }
 }
