@@ -113,7 +113,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Nu worden volledige reservaties overrult
             laatsReservatie.ReservatieState.Overruul();
         }
-
         private void MaakNieuweReservatieVoorStudent(Reservatie laatsReservatie, int verschil)
         {
             Student student = laatsReservatie.Gebruiker as Student;

@@ -61,17 +61,22 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, bool student)
+        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, Gebruiker gebruiker)
         {
-            int aantal = AantalInCatalogus - Reservaties.Where(r =>r.KanOverschrijvenMetReservatie(startDatum, eindDatum) &&
-                             (!(r.ReservatieState is Overruled) &&  r.ReservatieState is Geblokkeerd)).Sum(r => r.Aantal);
-            if (student)
+            int aantal = 0;
+            if (gebruiker is Lector)
             {
-                aantal -= Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
+                aantal = AantalInCatalogus - Reservaties.Where(r => r.Dagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
+            }
+            else if (gebruiker is Student)
+            {
+                aantal = AantalInCatalogus -
+                         Reservaties.Where(r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) &&
+                                                (r.ReservatieState is Geblokkeerd || r.ReservatieState is Gereserveerd))
+                             .Sum(r => r.Aantal);
             }
             return aantal <= 0 ? 0 : aantal;
         }
-
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
             int aantal = AantalInCatalogus -

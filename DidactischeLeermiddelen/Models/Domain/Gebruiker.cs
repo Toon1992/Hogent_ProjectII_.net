@@ -49,12 +49,11 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
         protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum);
-       
         public bool ControleGeselecteerdMateriaal(List<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
             for (int i = 0; i < aantal.Length; i++)
             {
-                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, this is Student);
+                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, this);
                 if (aantalBeschikbaar == 0 || aantalBeschikbaar < aantal[i])
                 {
                     return false;

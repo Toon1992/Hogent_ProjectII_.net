@@ -23,7 +23,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 Console.WriteLine("Iets fout gelopen hier");
             }
         }
-
         protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string eindDatum)
         {
             Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, eindDatum, aantal);
