@@ -355,25 +355,7 @@ function drawMaterial(dataMateriaal) {
             var aantal = item.Aantal;
             rows.push([startDatumNaarDate, aantal]);
         });
-    //for (var dataTest in obj) {
-    //    var aantal = dataTest.aantal;
-    //    var startDatum = dataTest.startDatum;
-        
-    //    rows.push([aantal, startDatum]);
-    //}
-    //$.each(dataMateriaal, function(i, item) {
-    //    var startDatum = item.StartDatum;
-    //    console.log(typeof startDatum);
-    //    var aantal = item.Aantal;
-    //    rows.push([aantal, startDatum]);
-    //});
-    //var obj = JSON.parse(dataMateriaal);
-    //for (var key in obj) {
-    //    if (obj.hasOwnProperty(key)) {
-    //        var value = obj[key];
-    //        rows.push([key, value]);
-    //    }
-    //}
+    
     data.addRows(rows);
     var options = {
         chart: {
