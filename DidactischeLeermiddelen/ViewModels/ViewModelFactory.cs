@@ -41,7 +41,7 @@ namespace DidactischeLeermiddelen.ViewModels
         }
 
         public virtual IViewModel CreateReservatiesViewModel(
-            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> map, Materiaal materiaal, int week,
+            Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> map, Materiaal materiaal, int week,
             DateTimeFormatInfo dtfi)
         {
             throw new NotImplementedException();

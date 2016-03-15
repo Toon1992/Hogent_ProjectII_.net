@@ -31,9 +31,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
-            List<Materiaal> materialen = new List<Materiaal>();
-            List<Materiaal> materiaalDoelgroep = new List<Materiaal>();
-
+            IList<Materiaal> materialen = new List<Materiaal>();
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null && (trefwoord == null || trefwoord.IsEmpty()))
             {
@@ -50,33 +48,13 @@ namespace DidactischeLeermiddelen.Controllers
                 }
                 else
                 {
-                    //Per leergebied en doelgroep worden alle materialen van de desbetreffende doelgroepen en
-                    // leergebieden in de lijst gestoken en doorgegeven naar het vm
-                    leergebiedenLijst.ForEach(i =>
-                    {
-                        materialen.AddRange(materiaalRepository.FindByLeergebied(i));
-                    });
-
-                    doelgroepenLijst.ForEach(i =>
-                    {
-                        materiaalDoelgroep.AddRange(materiaalRepository.FindByDoelgroep(i));
-                    });
-
-                    //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
-                    if (materiaalDoelgroep.Any())
-                    {
-                        //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
-                        //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
-                        //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
-                        materialen = materialen.Any()
-                            ? materiaalDoelgroep.Intersect(materialen).ToList()
-                            : materiaalDoelgroep;
-                    }
+                    materialen = GeefGefilterdeMaterialen(doelgroepenLijst, leergebiedenLijst, materialen);
                 }
-            } 
-              
-            materialen = gebruiker is Lector ? materialen : materialen.Where(m => m.IsReserveerBaar).ToList();
-
+            }
+            if (gebruiker is Student)
+            {
+                materialen = materialen.Where(m => m.IsReserveerBaar).ToList();
+            }  
             materialen.ForEach(m =>
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
@@ -87,13 +65,36 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                //TempData.Remove("Info");
-
                 return PartialView("Catalogus", vm);
             }
             return View("Index", vm);
         }
 
+        private IList<Materiaal> GeefGefilterdeMaterialen(int[] doelgroepenLijst, int[] leergebiedenLijst, IList<Materiaal> materialen)
+        {
+            IList<Materiaal> materiaalDoelgroep = new List<Materiaal>();
+            leergebiedenLijst.ForEach(i =>
+            {
+                materiaalRepository.FindByLeergebied(i).ForEach(m => materialen.Add(m));
+            });
+
+            doelgroepenLijst.ForEach(i =>
+            {
+                materiaalRepository.FindByDoelgroep(i).ForEach(m => materiaalDoelgroep.Add(m));
+            });
+
+            //Als de lijst van doelgroepen niet leeg is wordt het gemeenschappelijke eruit gehaald.
+            if (materiaalDoelgroep.Any())
+            {
+                //Indien er een filter op leergebied geplaatst werd (materialen is niet leeg) gaan we 
+                //De gemeenschappelijke elementen van materialen en materialenDoelgroep nemen.
+                //Indien de lijst leeg is nemen we enkel de materialenDoelgroep.
+                materialen = materialen.Any()
+                    ? materiaalDoelgroep.Intersect(materialen).ToList()
+                    : materiaalDoelgroep;
+            }
+            return materialen;
+        }
         [HttpPost]
         public ActionResult VoegAanVerlanglijstToe(int id, Gebruiker gebruiker)
         {
