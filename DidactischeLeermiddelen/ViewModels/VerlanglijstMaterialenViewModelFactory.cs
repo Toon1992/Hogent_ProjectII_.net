@@ -8,15 +8,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class VerlanglijstMaterialenViewModelFactory : ViewModelFactory
     {
-        public override IViewModel CreateVerlanglijstMaterialenViewModel(Gebruiker gebruiker, DateTime startDatum)
-        {
-            IViewModel vmm = new VerlanglijstMaterialenViewModel
-            {
-                VerlanglijstViewModels = gebruiker.Verlanglijst.Materialen.Select(b => new VerlanglijstViewModel(b, startDatum))
-            };
-            return vmm;
-        }
-        public VerlanglijstMaterialenViewModel CreateVerlangMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum , Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
+        public override IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
         {
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             return new VerlanglijstMaterialenViewModel
@@ -38,7 +30,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     MateriaalId = m.MateriaalId,
                     Beschikbaarheid = aantalBeschikbaar == 0 ?
                         $"Niet meer beschikbaar van {Convert.ToDateTime(startDatum).ToString("d")} tot {Convert.ToDateTime(eindDatum).ToString("d")}"
-                        :aantalBeschikbaar < aantalGeselecteerd ? $"Slechts {aantalBeschikbaar} stuks beschikbaar": "",
+                        : aantalBeschikbaar < aantalGeselecteerd ? $"Slechts {aantalBeschikbaar} stuks beschikbaar" : "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),
@@ -48,7 +40,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 TotaalGeselecteerd = gebruiker.GetAantalGeselecteerdeMaterialen(materiaalAantal),
                 Gebruiker = gebruiker
             };
-
         }
     }
 }

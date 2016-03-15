@@ -62,8 +62,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return true;
         }
-
-        public VerlanglijstMaterialenViewModel CreateVerlanglijstMaterialenVm(IList<Materiaal> materialen, int[] materiaalIds, int[] aantallen, DateTime startDatum, DateTime eindDatum,IEnumerable<DateTime> dagen, bool naarReserveren)
+        public string GetDateToString(DateTime startDatum, IEnumerable<DateTime> dagen, DateTimeFormatInfo dtfi)
         {
             string datum;
             if (dagen != null)
@@ -74,14 +73,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             }
-            
-            Dictionary<int, int> materiaalAantal = new Dictionary<int, int>();
-            if (materiaalIds != null)
-            {
-                materiaalAantal = GetMateriaalAantalMap(materiaalIds, aantallen);
-            }
-            VerlanglijstMaterialenViewModelFactory facotry = new VerlanglijstMaterialenViewModelFactory();
-            return facotry.CreateVerlangMaterialenViewModel(materialen,Verlanglijst.Materialen, datum, startDatum, eindDatum, materiaalAantal, naarReserveren, this);
+            return datum;
         }
 
         public Dictionary<int, int> GetMateriaalAantalMap(int[] materiaalIds, int[] aantallen)
