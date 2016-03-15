@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     //Aantal Lokale variabele aanmaken die we nodig hebben
                     Materiaal mat = potentiele.Key;
-                    int reserveerAantal = potentiele.Value;
+                    int reserveerAantal = potentiele.Value;                
 
                     //opvragen van het aantal reservaties die niet geblokkeerd, opgehaald of overruult zijn
                     int aantalBeschikbaar = mat.GeefAantalBeschikbaarVoorBlokkering();
@@ -77,43 +77,39 @@ namespace DidactischeLeermiddelen.Models.Domain
                     break;
 
                 //De laatste Reservatie opvragen die er bij gekomen is
-                Reservatie laatsReservatie = reservatiePool.Last();
-
-                if (laatsReservatie.ReservatieState is Geblokkeerd)
-                {
-                    
-                }
-                //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
-               else if (aantal <= laatsReservatie.Aantal)
-                {
-                    OverrulenVanReservatie(laatsReservatie);
-
-                    //nu gaan we kijken of er nog over zijn in de reservatie
-                    int verschil = laatsReservatie.Aantal - aantal;
-
-                    ////Originele aantal wordt vermindert van de laatste reservatie
-                    laatsReservatie.Aantal -= verschil;
-
-                    //Blijft er nog over dan wordt er een nieuwe reservatie gemaakt voor student
-                    if (verschil > 0)
+                Reservatie laatsteReservatie = reservatiePool.Last();
+                            
+                    //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
+                    if (aantal <= laatsteReservatie.Aantal)
                     {
-                        MaakNieuweReservatieVoorStudent(laatsReservatie, verschil);
+                        OverrulenVanReservatie(laatsteReservatie);
+
+                        //nu gaan we kijken of er nog over zijn in de reservatie
+                        int verschil = laatsteReservatie.Aantal - aantal;
+
+                        ////Originele aantal wordt vermindert van de laatste reservatie
+                        laatsteReservatie.Aantal -= verschil;
+
+                        //Blijft er nog over dan wordt er een nieuwe reservatie gemaakt voor student
+                        if (verschil > 0)
+                        {
+                            MaakNieuweReservatieVoorStudent(laatsteReservatie, verschil);
+                        }
+
+                        //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
+                        aantal = 0;
                     }
+                    else
+                    {
+                        //overrulen van de reservatie
+                        OverrulenVanReservatie(laatsteReservatie);
 
-                    //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
-                    aantal = 0;
-                }
-                else
-                {
-                    //overrulen van de reservatie
-                    OverrulenVanReservatie(laatsReservatie);
+                        //Nu moeten we nog berekenen wat er nog overblijft
+                        aantal -= laatsteReservatie.Aantal;
 
-                    //Nu moeten we nog berekenen wat er nog overblijft
-                    aantal -= laatsReservatie.Aantal;
-
-                    //De laatstereservatie moet nu uit de lijst met potentiele reservatie verwijdert worden
-                    reservatiePool.Remove(laatsReservatie);
-                }
+                        //De laatstereservatie moet nu uit de lijst met potentiele reservatie verwijdert worden
+                        reservatiePool.Remove(laatsteReservatie);
+                    }               
 
                 //Nu moet er nog een veiligheid in gebouwd worden zodat we nog uit de while lus geraken
                 //als aantal minder dan 0 is moet er niet meer overruult worden
@@ -189,9 +185,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             return dagenGeblokkeerd;
         }
 
-        private void DagenBlokkerenVanLectorVanAndereLector(Reservatie laatsteReservatie, string[] nieuweBlokkeerDagen)
-        {
-            string[] reservatieDagen = laatsteReservatie.GeblokkeerdeDagen.Select(d => d.Datum.ToShortDateString()).ToArray();
-        }
+    
     }
 }
