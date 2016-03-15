@@ -68,7 +68,7 @@
                                  <div class="row detail-reservatie-content">
                                      <div class="col-md-2 col-sm-2 hidden-xs text-center"><h5>@data.Type</h5>
                                      </div>
-                                     <div class="col-md-4 col-sm-4 hidden-xs text-center"><h5><a href="mailto:@data.Email?subject=Reservatieconflict">@data.Email</a></h5>
+                                     <div class="col-md-4 col-sm-4 hidden-xs text-center"><h5><a href="mailto:@data.Email?subject=Reservatieconflict" target="_blank">@data.Email</a></h5>
                                      </div>
                                      <div class="col-md-2 col-sm-2 hidden-xs text-center"><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">@data.Status</h5>
                                      </div>
