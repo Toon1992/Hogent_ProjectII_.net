@@ -66,7 +66,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             int aantal = 0;
             if (gebruiker is Lector)
             {
-                aantal = AantalInCatalogus - Reservaties.Where(r => r.Dagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
+                aantal = AantalInCatalogus - Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
             }
             else if (gebruiker is Student)
             {

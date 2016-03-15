@@ -75,7 +75,7 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         Lector lector = gebruiker as Lector;
 
-                        lector.MaakBlokkeringen(potentieleReservaties, eersteDag);
+                        lector.MaakBlokkeringen(potentieleReservaties, eersteDag,dagen);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }

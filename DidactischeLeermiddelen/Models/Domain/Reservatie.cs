@@ -11,7 +11,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public long ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
         public virtual Gebruiker Gebruiker { get; set; }
-        public virtual IList<Dag> Dagen { get; set; } 
+        public virtual IList<Dag> GeblokkeerdeDagen { get; set; } 
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
@@ -47,7 +47,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-        public Reservatie() { }
+        public Reservatie()
+        {
+            GeblokkeerdeDagen = new List<Dag>();
+        }
 
         public Reservatie(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal)
         {
@@ -70,6 +73,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Materiaal = materiaal;
             Aantal = aantal;
             Gebruiker = gebruiker;
+            GeblokkeerdeDagen = new List<Dag>();
         }
 
         public bool KanOverschrijvenMetReservatie(DateTime startdatum, DateTime eindDatum)
