@@ -14,7 +14,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string Faculteit { get; set; }
         public virtual Verlanglijst Verlanglijst { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
-
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
         {
             if (materiaal == null)
