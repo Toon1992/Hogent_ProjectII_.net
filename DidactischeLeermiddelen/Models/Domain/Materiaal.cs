@@ -4,6 +4,7 @@ using System.Linq;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -32,7 +33,7 @@ namespace DidactischeLeermiddelen.Models.Domain
        // public bool Onbeschikbaar { get; set; }
         #endregion
 
-        public Materiaal(string naam, int artikeNr, int aantal):this()
+        public Materiaal(string naam, int artikeNr, int aantal) : this()
         {
             Naam = naam;
             ArtikelNr = artikeNr;
@@ -52,7 +53,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 return Reservaties.Where(r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
             }
-            if(status is Gereserveerd)
+            if (status is Gereserveerd)
             {
                 return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
             }
@@ -66,7 +67,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             int aantal = 0;
             if (gebruiker is Lector)
             {
-                aantal = AantalInCatalogus - Reservaties.Where(r => r.Dagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
+                aantal = AantalInCatalogus - Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
             }
             else if (gebruiker is Student)
             {
@@ -77,10 +78,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return aantal <= 0 ? 0 : aantal;
         }
+
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
             int aantal = AantalInCatalogus -
-                         Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))
+                         Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald))
                              .Sum(r => r.Aantal);         
             return aantal <= 0 ? 0 : aantal;
         }
@@ -92,20 +94,22 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
         {
-            return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))).ToList();
+            return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))).ToList();
         } 
-        public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieDetails(int week)
+        public Dictionary<DateTime, ICollection<Reservatie>> ReservatieDetails(int week)
         {
-            Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> reservatieMap = new Dictionary<DateTime, ICollection<ReservatieDetailViewModel>>();
+            Dictionary<DateTime, ICollection<Reservatie>> reservatieMap = new Dictionary<DateTime, ICollection<Reservatie>>();
             var reservaties = Reservaties;
+
             if (week > -1)
             {
                 var geselecteerdeDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
                 reservaties = reservaties.Where(r => r.StartDatum.Equals(geselecteerdeDatum)).ToList();
             }
+
             foreach (Reservatie reservatie in reservaties)
             {
-                if(week < 0 || reservatie.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))) { }
+                if (week < 0 || reservatie.StartDatum.Equals(HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week))) { }
                 if (reservatie.Gebruiker is Lector)
                 {
                     bool overschrijft = false;
@@ -118,7 +122,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                         overschrijft = reservatie.KanOverschrijvenMetReservatie(startStudent, eindStudent);
                         if (overschrijft)
                         {
-                            reservatieMap[e.Key].Add(CreateReservatieDetailVm(reservatie));
+                            reservatieMap[e.Key].Add(reservatie);
                             break;
                         }
                     }
@@ -130,11 +134,11 @@ namespace DidactischeLeermiddelen.Models.Domain
 
                         if (reservatieMap.ContainsKey(date))
                         {
-                            reservatieMap[date].Add(CreateReservatieDetailVm(reservatie));
+                            reservatieMap[date].Add(reservatie);
                         }
                         else
                         {
-                            reservatieMap.Add(date, CreateListReservatieDetailVm(reservatie));
+                            reservatieMap.Add(date,new List<Reservatie> {reservatie});
                         }
                     }
                 }
@@ -142,24 +146,15 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     if (!reservatieMap.ContainsKey(reservatie.StartDatum))
                     {
-                        reservatieMap.Add(reservatie.StartDatum, CreateListReservatieDetailVm(reservatie));
+                        reservatieMap.Add(reservatie.StartDatum, new List<Reservatie> { reservatie});
                     }
                     else
                     {
-                        reservatieMap[reservatie.StartDatum].Add(CreateReservatieDetailVm(reservatie));
+                        reservatieMap[reservatie.StartDatum].Add(reservatie);
                     }
                 }
             }
             return reservatieMap;
-        }
-        public List<ReservatieDetailViewModel> CreateListReservatieDetailVm(Reservatie reservatie)
-        {
-            return new List<ReservatieDetailViewModel> { CreateReservatieDetailVm(reservatie) };
-        }
-        public ReservatieDetailViewModel CreateReservatieDetailVm(Reservatie reservatie)
-        {
-            ViewModelFactory factory = new ReservatieDetailViewModelFactory();
-            return factory.CreateReservatieDetailViewModel(reservatie) as ReservatieDetailViewModel;
         }
         public Dictionary<DateTime, int> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
         {
@@ -173,7 +168,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                     reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.Aantal);
                 }
             }
-
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
             while (startDatumFilter <= eindDatumFilter)
             {
@@ -183,7 +177,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             return reservatieMap;
         }
-        public Dictionary<DateTime, int> UpdateReservatieMap(Dictionary<DateTime, int> reservatieMap,DateTime startDatum, int aantal)
+        public Dictionary<DateTime, int> UpdateReservatieMap(Dictionary<DateTime, int> reservatieMap, DateTime startDatum, int aantal)
         {
             if (reservatieMap.ContainsKey(startDatum))
             {
@@ -191,20 +185,9 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             else
             {
-                reservatieMap.Add(startDatum, aantal);
+                reservatieMap.Add(startDatum, AantalInCatalogus);
             }
             return reservatieMap;
         } 
-        public ReservatieDataDTO GeefDataDtoOpDatum(List<ReservatieDataDTO> lijst, DateTime datum)
-        {
-            var maandag = GeefEersteDagVanWeek(datum);
-            return lijst.FirstOrDefault(e => e.StartDatum.Equals(maandag));
-        }
-
-        public DateTime GeefEersteDagVanWeek(DateTime datum)
-        {
-            return HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year,
-                        HulpMethode.GetIso8601WeekOfYear(datum));
-        }
     }
 }

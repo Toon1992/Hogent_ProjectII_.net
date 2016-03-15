@@ -20,7 +20,7 @@ namespace DidactischeLeermiddelen.ViewModels
             return vm;
         }
 
-        public override IViewModel CreateReservatiesViewModel(Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> map, Materiaal materiaal, int week, DateTimeFormatInfo dtfi)
+        public override IViewModel CreateReservatiesViewModel(Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> map, Materiaal materiaal, int week, DateTimeFormatInfo dtfi)
         {
             ReservatiesDetailViewModel vm =  new ReservatiesDetailViewModel
             {

@@ -32,15 +32,15 @@ namespace DidactischeLeermiddelen.Tests.Controllers
 
         }
 
-        [TestMethod]
-        public void ReservatieDetailsGrafiekGeeftJsonTerug()
-        {
-            var result = controller.ReservatieDetailsGrafiek(2, 1) as JsonResult;
-            var data = result.Data;
-            var type = data.GetType();
-            var countPropertyInfo = type.GetProperty("Count");
-            var expectedCount = countPropertyInfo.GetValue(data, null);
-            Assert.AreEqual(4, expectedCount);
-        }
+        //[TestMethod]
+        //public void ReservatieDetailsGrafiekGeeftJsonTerug()
+        //{
+        //    var result = controller.ReservatieDetailsGrafiek(2, 1) as JsonResult;
+        //    var data = result.Data;
+        //    var type = data.GetType();
+        //    var countPropertyInfo = type.GetProperty("Count");
+        //    var expectedCount = countPropertyInfo.GetValue(data, null);
+        //    Assert.AreEqual(4, expectedCount);
+        //}
     }
 }

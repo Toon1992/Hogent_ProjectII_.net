@@ -23,14 +23,14 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum)
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum,string[] dagen =null)
         {
             Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal);
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
 
-        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal, string[] dagen = null)
         {
             Reservatie reservatie = new ReservatieStudent(gebruiker, mat, startdatum, aantal);
            

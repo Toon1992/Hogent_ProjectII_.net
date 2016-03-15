@@ -58,7 +58,6 @@ namespace DidactischeLeermiddelen.Controllers
                     gebruiker.VerwijderMateriaalUitVerlanglijst(materiaal);
                     gebruikerRepository.SaveChanges();
                     TempData["Info"] = $"Item {materiaal.Naam} werd verwijderd uit uw verlanglijst";
-
                 }
                 catch (ArgumentException ex)
                 {
@@ -82,7 +81,7 @@ namespace DidactischeLeermiddelen.Controllers
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
             IEnumerable<DateTime> dagLijst = dagen?.Select(Convert.ToDateTime);
-            var dateString = dagLijst != null? gebruiker.DatesToString(dagLijst, dtfi): gebruiker.DateToString(startDate,dtfi);
+            var dateString = dagLijst != null? HulpMethode.DatesToString(dagLijst, dtfi): HulpMethode.DateToString(startDate,dtfi);
             if (materiaal != null)
             {
                 materialen = GeefMaterialenVanId(materiaal);
@@ -118,9 +117,16 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult ReservatieDetails(Gebruiker gebruiker, int id, int week)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
+            factory = new ReservatieDetailViewModelFactory();
             var map = materiaal.ReservatieDetails(week);
-            ReservatieDetailViewModelFactory factory = new ReservatieDetailViewModelFactory();
-            return PartialView("DetailReservaties", factory.CreateReservatiesViewModel(map, materiaal, week, dtfi) as ReservatiesDetailViewModel);
+            //Map converteren
+            Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> vmMap = 
+                map.ToDictionary
+                (
+                    d => d.Key,
+                    d => d.Value.Select(v => factory.CreateReservatieDetailViewModel(v) as ReservatieDetailViewModel)
+                );
+            return PartialView("DetailReservaties", factory.CreateReservatiesViewModel(vmMap, materiaal, week, dtfi) as ReservatiesDetailViewModel);
         }
 
         public JsonResult ReservatieDetailsGrafiek(int id, int week)

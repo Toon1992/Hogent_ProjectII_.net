@@ -6,7 +6,7 @@ namespace DidactischeLeermiddelen.ViewModels
 {
     public class ReservatiesDetailViewModel:IViewModel
     {
-        public Dictionary<DateTime, ICollection<ReservatieDetailViewModel>> ReservatieMap { get; set; }
+        public Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> ReservatieMap { get; set; }
         public Materiaal Material { get; set; }
         public string GeselecteerdeWeek { get; set; }
     }

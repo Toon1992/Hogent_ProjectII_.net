@@ -14,7 +14,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string Faculteit { get; set; }
         public virtual Verlanglijst Verlanglijst { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
-
         public void VoegMateriaalAanVerlanglijstToe(Materiaal materiaal)
         {
             if (materiaal == null)
@@ -48,7 +47,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum);
+        protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum,string[] dagen =null);
        
         public bool ControleGeselecteerdMateriaal(IList<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
         {
@@ -67,11 +66,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             string datum;
             if (dagen != null)
             {
-                datum = DatesToString(dagen, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                datum = HulpMethode.DatesToString(dagen, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             }
             else
             {
-                datum = DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                datum = HulpMethode.DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
             }
             return datum;
         }
@@ -97,17 +96,9 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
 
-        public string DateToString(DateTime startDatum, DateTimeFormatInfo format)
-        {
-            return startDatum.ToString("d", format);
-        }
+       
 
-        public string DatesToString(IEnumerable<DateTime> dagen, DateTimeFormatInfo format)
-        {
-            return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
-        }
-
-        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal);
+        protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal,string[] dagen =null);
 
     }
 }

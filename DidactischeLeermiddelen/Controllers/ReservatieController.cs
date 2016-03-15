@@ -76,7 +76,7 @@ namespace DidactischeLeermiddelen.Controllers
                     {
                         Lector lector = gebruiker as Lector;
 
-                        lector.MaakBlokkeringen(potentieleReservaties, eersteDag);
+                        lector.MaakBlokkeringen(potentieleReservaties, eersteDag,dagen);
 
                         List<Reservatie> materialenOverruled=new List<Reservatie>();
                         //materialenOverruled =
