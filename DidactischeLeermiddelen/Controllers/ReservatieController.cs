@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.InterfaceRepositories;
 using DidactischeLeermiddelen.Models.Domain.Mail;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Controllers
@@ -67,7 +68,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Student student = gebruiker as Student;
 
                         student.MaakReservaties(potentieleReservaties, eersteDag);
-                        VerstuurMail(potentieleReservaties, eersteDag, student);
+                        VerstuurMailStudent(potentieleReservaties, eersteDag, student);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
@@ -77,6 +78,12 @@ namespace DidactischeLeermiddelen.Controllers
 
                         lector.MaakBlokkeringen(potentieleReservaties, eersteDag);
 
+                        List<Reservatie> materialenOverruled=new List<Reservatie>();
+                        //materialenOverruled =
+                        //    potentieleReservaties.Keys.Where(
+                        //        m => m.Reservaties.Where(p => p.ReservatieStateEnum == ReservatieStateEnum.Overruled)).ToList();
+                        VerstuurMailBlokkeringLector(potentieleReservaties, dagen, lector);
+                        //VerstuurMailBlokkeringStudent(null,eersteDag,null);
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
 
@@ -127,11 +134,26 @@ namespace DidactischeLeermiddelen.Controllers
             return potentieleReservaties;
         }
 
-        private void VerstuurMail(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, Gebruiker gebruiker)
+        private void VerstuurMailStudent(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, Gebruiker gebruiker)
         {
             MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
-            mail.VerzendMail(potentieleReservaties, startDatum, HulpMethode.GetEindDatum(startDatum).ToShortDateString(), gebruiker);
-        }       
+            mail.VerzendMail(potentieleReservaties, startDatum, HulpMethode.GetEindDatum(startDatum).ToShortDateString(),null, gebruiker);
+        }
+
+        private void VerstuurMailBlokkeringLector(IDictionary<Materiaal, int> blokkeringen, string[] dagen,
+            Gebruiker gebruiker)
+        {
+            MailTemplate mail = mailServiceRepository.GeefMailTemplate("Blokkering");
+            mail.VerzendMail(blokkeringen,"","",dagen,gebruiker);
+
+        }
+
+        private void VerstuurMailBlokkeringStudent(IDictionary<Materiaal, int> blokkeringen, string startDatum,
+            Gebruiker gebruiker)
+        {
+            MailTemplate mail = mailServiceRepository.GeefMailTemplate("Reservatie gewijzigd");
+            mail.VerzendMail(blokkeringen,startDatum,"",null,gebruiker);
+        }     
 
         //private IList<Materiaal> VulMateriaalLijstIn(ICollection<Reservatie> reservatielijst)
         //{

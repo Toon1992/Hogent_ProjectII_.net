@@ -49,7 +49,7 @@ namespace DidactischeLeermiddelen.Models.DAL
 
                 context.Materialen.AddRange(materialen);
 
-                MailTemplate mail = new MailNaReservatie()
+                MailTemplate mailReservatie = new MailNaReservatie()
                 {
                     Body = string.Format("<p>Dag _NAAM</p>" +
                                          "Je reservatie loopt van _STARTDATUM tot _EINDDATUM" +
@@ -60,7 +60,31 @@ namespace DidactischeLeermiddelen.Models.DAL
                     Subject = "Bevestiging reservatie"
 
                 };
-                context.MailTemplates.Add(mail);
+
+
+                MailTemplate mailBlokkeringLector=new MailNaBlokkeringLector()
+                {
+                    Body = string.Format("<p>Dag _NAAM</p>"+
+                    "U heeft volgende materialen gereserveerd op _DATUMS :"+
+                    "<ul>" +
+                    "_ITEMS"+
+                    "</ul>"),
+                    Subject = "Blokkering"
+                };
+
+                MailTemplate mailBlokkeringStudent=new MailNaBlokkeringStudent()
+                {
+                    Body = string.Format("<p>Dag _NAAM</p>" +
+                    "Uw reservatie van volgende materialen is geblokkeerd in de week van _STARTDATUM:"+
+                    "<ul>" +
+                    "_ITEMS" +
+                    "</ul>"),
+
+                    Subject = "Reservatie gewijzigd"
+                };
+                List<MailTemplate> mails=new List<MailTemplate>() { mailReservatie, mailBlokkeringLector,mailBlokkeringStudent };
+                
+                context.MailTemplates.AddRange(mails);
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)

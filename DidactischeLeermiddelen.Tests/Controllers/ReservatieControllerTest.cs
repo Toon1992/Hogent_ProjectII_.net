@@ -20,11 +20,12 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         private ReservatieController controller;
         private Gebruiker gebruiker;
         private Materiaal m;
+        private DummyContext context;
 
         [TestInitialize]
         public void OpzettenContext()
         {
-            DummyContext context = new DummyContext();
+            context = new DummyContext();
             gebruiker = context.Toon;
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
@@ -52,5 +53,6 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("LegeReservatielijst", result.ViewName);
         }
+        
     }
 }
