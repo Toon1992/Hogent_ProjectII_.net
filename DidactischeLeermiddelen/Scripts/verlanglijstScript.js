@@ -222,7 +222,13 @@ var viewModel = {
         $("#btn-confirmeer").click(function () {
             var invalid;
             if (typeof $("input[name='date']")[0] === "undefined" && viewModel.startDatum === null) {
-                viewModel.startDatum = $("input[name='multidate']")[0].value;
+                var data = $("input[name='multidate']")[0].value;
+                if (data === "") {
+                    $(".foutmelding").text("Selecteer een datum");
+                    return false;
+                } else {
+                    viewModel.startDatum = data;
+                }
             }
             else if (typeof $("input[name='multidate']")[0] === "undefined") {
                 viewModel.startDatum = $("input[name='date']")[0].value;
