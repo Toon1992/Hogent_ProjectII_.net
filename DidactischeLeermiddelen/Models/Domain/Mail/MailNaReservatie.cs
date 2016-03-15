@@ -9,9 +9,9 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
     public class MailNaReservatie : MailTemplate
     {
 
-        public override void VerzendMail(IDictionary<Materiaal, int> reservaties, string startDatum, string eindDatum, Gebruiker gebruiker)
+        public override void VerzendMail(IDictionary<Materiaal, int> reservaties, string startDatum, string eindDatum, string[] dagen, Gebruiker gebruiker)
         {
-            DateTime start = DateTime.ParseExact(startDatum, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime start = Convert.ToDateTime(startDatum);
             startDatum = start.ToShortDateString();
             eindDatum = start.AddDays(4).ToShortDateString();
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);

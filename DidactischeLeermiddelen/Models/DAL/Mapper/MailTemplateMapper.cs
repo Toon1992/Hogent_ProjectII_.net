@@ -9,7 +9,8 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         {
             HasKey(m => m.Subject);
             Map<MailNaReservatie>(m => m.Requires("onderwerp").HasValue("mailNaReservatie"));
-            Map<MailNaBlokkeringLector>(m => m.Requires("onderwerp").HasValue("mailNaBlokkeringLector"));
+            Map<MailNaBlokkeringLector>(m => m.Requires("onderwerp").HasValue("Blokkering"));
+            Map<MailNaBlokkeringStudent>(m => m.Requires("onderwerp").HasValue("BlokkeringStudent"));
         }
     }
 }
