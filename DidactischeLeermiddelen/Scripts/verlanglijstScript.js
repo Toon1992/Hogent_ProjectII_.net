@@ -41,6 +41,12 @@ var viewModel = {
     dataGrafiek : null,
     init: function () {
         Cookies.init();
+        $(document).keypress(function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                $("#btn-confirmeer").click();
+            }
+        });
         //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = IsWeekend();
         var vrijdagNaVijf = VrijdagNaVijf();
