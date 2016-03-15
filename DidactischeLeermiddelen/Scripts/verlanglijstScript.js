@@ -93,26 +93,25 @@ var viewModel = {
             var materiaalId = this.id;
             materiaalId = materiaalId.slice(-1);
             var materiaalRij = $("#" + materiaalId);
-            var value = parseInt($(".input-medium").val());
+            var element = $.map($(".input-medium"), function (e) {
+                var idd = e.id;
+                if (idd.indexOf(materiaalId) > 0) {
+                     return e;
+                }
+            });
+            var value = parseInt(element[0].value);
             //Kijken of het item reeds geselecteerd was, zoniet selecteren en highligten
             var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
             if (!box.is(":checked") && value > 0) {
                 box[0].checked = true;
                 box[1].checked = true;
-                if ($("#verlanglijst-pagina .checkbox").find("." + materiaalId).is(":checked")) { 
-                    materiaalRij.css("background-color", "#dff0d8");
-                } else {
-                    materiaalRij.css('background', 'transparent');
-                }
+                materiaalRij.css("background-color", "#dff0d8");
+                
             }
             if (box.is(":checked") && value === 0) {
                 box[0].checked = false;
                 box[1].checked = false;
-                if ($("#verlanglijst-pagina .checkbox").find("." + materiaalId).is(":checked")) {
-                    materiaalRij.css("background-color", "transparent");
-                } else {
-                    materiaalRij.css('background', 'transparent');
-                }
+                materiaalRij.css('background', 'transparent');
             }
             $("#btn-confirmeer").focus();
         });
