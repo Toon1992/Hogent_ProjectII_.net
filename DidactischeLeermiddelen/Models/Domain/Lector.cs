@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
@@ -48,7 +49,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     else
                     {
                         //Overrulen
-                        BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start);
+                        BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start, geblokkeerdeDagen);
 
                         //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
                         VoegReservatieToe(mat, reserveerAantal, startDate, geblokkeerdeDagen);
@@ -58,7 +59,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        private void BerekenenOverrulen(Materiaal mat, int reserveerAantal, int aantalBeschikbaar, DateTime start)
+        private void BerekenenOverrulen(Materiaal mat, int reserveerAantal, int aantalBeschikbaar, DateTime start, string[] geblokkeerdeDagen)
         {
             //Hier berekenen we hoeveel stuks we nog moeten Overrulen
             int aantal = reserveerAantal - aantalBeschikbaar;
@@ -78,8 +79,12 @@ namespace DidactischeLeermiddelen.Models.Domain
                 //De laatste Reservatie opvragen die er bij gekomen is
                 Reservatie laatsReservatie = reservatiePool.Last();
 
+                if (laatsReservatie.ReservatieState is Geblokkeerd)
+                {
+                    
+                }
                 //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
-                if (aantal <= laatsReservatie.Aantal)
+               else if (aantal <= laatsReservatie.Aantal)
                 {
                     OverrulenVanReservatie(laatsReservatie);
 
@@ -182,6 +187,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
 
             return dagenGeblokkeerd;
+        }
+
+        private void DagenBlokkerenVanLectorVanAndereLector(Reservatie laatsteReservatie, string[] nieuweBlokkeerDagen)
+        {
+            string[] reservatieDagen = laatsteReservatie.GeblokkeerdeDagen.Select(d => d.Datum.ToShortDateString()).ToArray();
         }
     }
 }
