@@ -137,7 +137,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         private IList<Materiaal> GeefMaterialenVanId(int[] materiaalIds)
         {
-            return materiaalIds.Select(id => materiaalRepository.FindAll().FirstOrDefault(m => m.MateriaalId == id)).ToList();
+            return materiaalIds.Select(id => materiaalRepository.FindById(id)).ToList();
         }
 
     }
