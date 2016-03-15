@@ -22,8 +22,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             foreach (var pair in dagenGeblokkeerd)
             {
-                string startDate = HulpMethode.DateToString(pair.Key,
-                    CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                string startDate = HulpMethode.DateToString(pair.Key);
                 string[] geblokkeerdeDagen = pair.Value.ToArray();
 
                 //Overlopen van map met potentiele reserveringen/blokkeringen/overrulingen
@@ -185,6 +184,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             return dagenGeblokkeerd;
         }
 
-    
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal)
+        {
+            if (dagen != null)
+            {
+                var geblokeerdeDagen = materiaal.GeefGeblokeerdeDagen(dagen, this);
+                return $"Niet meer beschikbaar op {HulpMethode.DatesToString(geblokeerdeDagen)}";
+            }
+            return "";
+        }
+
     }
 }

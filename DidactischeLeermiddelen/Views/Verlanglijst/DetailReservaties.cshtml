@@ -51,7 +51,7 @@
                         <div class="col-md-4 col-sm-4 hidden-xs text-center"><h4>Naam</h4></div>
                         <div class="col-md-2 col-sm-2 hidden-xs text-center"><h4>Status</h4></div>
                         <div class="col-md-1 col-sm-1 hidden-xs text-center"><h4>Aantal</h4></div>
-                        <div class="col-md-3 col-sm-3 hidden-xs text-center"><h4>Geblokkeerd tot</h4></div>
+                        <div class="col-md-3 col-sm-3 hidden-xs text-center"><h4>Geblokkeerd op</h4></div>
                     </div>
                 </div>
                 foreach (var item in Model.ReservatieMap.OrderBy(r => r.Key))
@@ -74,7 +74,7 @@
                                      </div>
                                      <div class="col-md-1 col-sm-1 hidden-xs text-center"><h5>@data.Aantal</h5>
                                      </div>
-                                     <div class="col-md-3 col-sm-3 hidden-xs text-center"><h5>@(data.GeblokkeerdTot.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdTot)</h5>
+                                     <div class="col-md-3 col-sm-3 hidden-xs text-center"><h5>@(data.GeblokkeerdOp.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdOp)</h5>
                                      </div>
 
                                      <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Type : @data.Type</h5>
@@ -85,7 +85,7 @@
                                      </div>
                                      <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Aantal : @data.Aantal</h5>
                                      </div>
-                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Geblokkeerd tot : @(data.GeblokkeerdTot.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdTot)</h5>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Geblokkeerd tot : @(data.GeblokkeerdOp.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdOp)</h5>
                                      </div>
 
                                  </div>

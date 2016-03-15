@@ -49,11 +49,11 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         protected abstract void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum,string[] dagen =null);
        
-        public bool ControleGeselecteerdMateriaal(IList<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum)
+        public bool ControleGeselecteerdMateriaal(IList<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
         {
             for (int i = 0; i < aantal.Length; i++)
             {
-                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, this);
+                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, dagen.ToList(), this);
                 if (aantalBeschikbaar == 0 || aantalBeschikbaar < aantal[i])
                 {
                     return false;
@@ -66,11 +66,11 @@ namespace DidactischeLeermiddelen.Models.Domain
             string datum;
             if (dagen != null)
             {
-                datum = HulpMethode.DatesToString(dagen, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                datum = HulpMethode.DatesToString(dagen);
             }
             else
             {
-                datum = HulpMethode.DateToString(startDatum, CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                datum = HulpMethode.DateToString(startDatum);
             }
             return datum;
         }
@@ -95,7 +95,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return totaalGeselecteerd;
         }
 
-
+        public abstract string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal);
        
 
         protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal,string[] dagen =null);

@@ -25,7 +25,7 @@ namespace DidactischeLeermiddelen.ViewModels
             throw new NotImplementedException();
         }
 
-        public virtual IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
+        public virtual IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, IList<DateTime> dagen, Gebruiker gebruiker)
         {
             throw new NotImplementedException();
         }
@@ -50,6 +50,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class HulpMethode
     {
+        private static DateTimeFormatInfo format = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
         public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
@@ -91,12 +92,12 @@ namespace DidactischeLeermiddelen.ViewModels
             return GetStartDatum(startDatum).AddDays(4);
         }
 
-        public static string DateToString(DateTime startDatum, DateTimeFormatInfo format)
+        public static string DateToString(DateTime startDatum)
         {
             return startDatum.ToString("d", format);
         }
 
-        public static string DatesToString(IEnumerable<DateTime> dagen, DateTimeFormatInfo format)
+        public static string DatesToString(IEnumerable<DateTime> dagen)
         {
             return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
         }
