@@ -24,7 +24,7 @@ namespace DidactischeLeermiddelen.ViewModels
             throw new NotImplementedException();
         }
 
-        public virtual IViewModel CreateVerlanglijstMaterialenViewModel(Gebruiker gebruiker, DateTime startDatum)
+        public virtual IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
         {
             throw new NotImplementedException();
         }

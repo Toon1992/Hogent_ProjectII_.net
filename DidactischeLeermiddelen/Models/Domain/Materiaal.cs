@@ -161,48 +161,40 @@ namespace DidactischeLeermiddelen.Models.Domain
             ViewModelFactory factory = new ReservatieDetailViewModelFactory();
             return factory.CreateReservatieDetailViewModel(reservatie) as ReservatieDetailViewModel;
         }
-        public List<ReservatieDataDTO> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
+        public Dictionary<DateTime, int> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
         {
-            List<ReservatieDataDTO> reservatieList = new List<ReservatieDataDTO>();
+            Dictionary<DateTime, int> reservatieMap = new Dictionary<DateTime, int>();
 
             //De reservaties overlopen en reservatieDataDTO objecten met juiste waarden maken.
-            foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderByDescending(r => r.Gebruiker.GetType().Name).ThenBy(r => r.StartDatum))
+            foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum))
             {
                 if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
                 {
-                    reservatieList = UpdateReservatieDataDtoLijst(reservatieList, r.StartDatum, r.Aantal);
+                    reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.Aantal);
                 }
             }
 
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
             while (startDatumFilter <= eindDatumFilter)
             {
-                reservatieList = UpdateReservatieDataDtoLijst(reservatieList, startDatumFilter, 0);
+                reservatieMap = UpdateReservatieMap(reservatieMap, startDatumFilter, 0);
                 startDatumFilter = startDatumFilter.AddDays(7);
             }
 
-            return reservatieList;
+            return reservatieMap;
         }
-
-        public List<ReservatieDataDTO> UpdateReservatieDataDtoLijst(List<ReservatieDataDTO> reservatieList, DateTime startDatum, int aantal)
+        public Dictionary<DateTime, int> UpdateReservatieMap(Dictionary<DateTime, int> reservatieMap,DateTime startDatum, int aantal)
         {
-            ReservatieDataDTO data = GeefDataDtoOpDatum(reservatieList, startDatum);
-
-            if (data == null)
+            if (reservatieMap.ContainsKey(startDatum))
             {
-                reservatieList.Add(new ReservatieDataDTO
-                {
-                    Aantal = AantalInCatalogus - aantal,
-                    StartDatum = GeefEersteDagVanWeek(startDatum)
-                });
+                reservatieMap[startDatum] -= aantal;
             }
             else
             {
-                data.Aantal -= aantal;
+                reservatieMap.Add(startDatum, aantal);
             }
-
-            return reservatieList;
-        }
+            return reservatieMap;
+        } 
         public ReservatieDataDTO GeefDataDtoOpDatum(List<ReservatieDataDTO> lijst, DateTime datum)
         {
             var maandag = GeefEersteDagVanWeek(datum);
