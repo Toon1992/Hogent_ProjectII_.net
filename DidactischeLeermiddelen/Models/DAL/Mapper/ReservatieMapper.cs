@@ -9,7 +9,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         {
             HasKey(m => m.ReservatieId);
             Ignore(m => m.ReservatieState);
-            HasMany(r => r.Dagen).WithOptional().Map(m => m.MapKey("ReservatieId"));
+            HasMany(r => r.GeblokkeerdeDagen).WithOptional().Map(m => m.MapKey("ReservatieId"));
             //HasRequired(m => m.ReservatieState).WithOptional().WillCascadeOnDelete(false);
         }
     }

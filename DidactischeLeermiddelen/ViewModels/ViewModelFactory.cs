@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 
@@ -88,6 +89,16 @@ namespace DidactischeLeermiddelen.ViewModels
         public static DateTime GetEindDatum(string startDatum)
         {
             return GetStartDatum(startDatum).AddDays(4);
+        }
+
+        public static string DateToString(DateTime startDatum, DateTimeFormatInfo format)
+        {
+            return startDatum.ToString("d", format);
+        }
+
+        public static string DatesToString(IEnumerable<DateTime> dagen, DateTimeFormatInfo format)
+        {
+            return string.Join(",", dagen.Select(d => d.ToString("d", format)).ToArray());
         }
     }
 }

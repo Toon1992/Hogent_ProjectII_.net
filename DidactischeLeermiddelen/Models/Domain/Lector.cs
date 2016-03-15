@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DidactischeLeermiddelen.ViewModels;
 
@@ -10,41 +11,50 @@ namespace DidactischeLeermiddelen.Models.Domain
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
 
-        public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum)
+        public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string[] dagen)
         {
             //Het converten van string naar DateTime
-            DateTime start = Convert.ToDateTime(startDatum);
-            DateTime einde = Convert.ToDateTime(HulpMethode.GetEindDatum(startDatum));
+            DateTime start = HulpMethode.GetStartDatum(startDatum);
+            DateTime einde = HulpMethode.GetEindDatum(startDatum);
 
-            //Overlopen van map met potentiele reserveringen/blokkeringen/overrulingen
-            foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
+            IDictionary<DateTime, IList<string>> dagenGeblokkeerd = verdeelDagenOverWeken(dagen);
+
+            foreach (var pair in dagenGeblokkeerd)
             {
-                //Aantal Lokale variabele aanmaken die we nodig hebben
-                Materiaal mat = potentiele.Key;
-                int reserveerAantal = potentiele.Value;
+                string startDate = HulpMethode.DateToString(pair.Key,
+                    CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                string[] geblokkeerdeDagen = pair.Value.ToArray();
 
-                //opvragen van het aantal reservaties die niet geblokkeerd, opgehaald of overruult zijn
-                int aantalBeschikbaar = mat.GeefAantalBeschikbaarVoorBlokkering();
-
-                //Eerst gaan we kijken of er nog genoeg beschikbaar zijn om gwn te reserveren
-                //we vergelijken de aantal beschikbare stuks voor het materiaal met het aantal dat we nodig hebben voor onze reservatie
-                //Zo ja maken we gwn reservaties (lectoren blokkeren altijd!!)
-                //Zo niet gaan we over tot het overrulen van reservaties
-                if (aantalBeschikbaar >= reserveerAantal)
+                //Overlopen van map met potentiele reserveringen/blokkeringen/overrulingen
+                foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
                 {
-                    //Aanmaken van reservaties
-                    VoegReservatieToe(mat, reserveerAantal, startDatum);
-                }
-                else
-                {
-                    //Overrulen
-                    BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start);
+                    //Aantal Lokale variabele aanmaken die we nodig hebben
+                    Materiaal mat = potentiele.Key;
+                    int reserveerAantal = potentiele.Value;
 
-                    //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
-                    VoegReservatieToe(mat, reserveerAantal, startDatum);
+                    //opvragen van het aantal reservaties die niet geblokkeerd, opgehaald of overruult zijn
+                    int aantalBeschikbaar = mat.GeefAantalBeschikbaarVoorBlokkering();
+
+                    //Eerst gaan we kijken of er nog genoeg beschikbaar zijn om gwn te reserveren
+                    //we vergelijken de aantal beschikbare stuks voor het materiaal met het aantal dat we nodig hebben voor onze reservatie
+                    //Zo ja maken we gwn reservaties (lectoren blokkeren altijd!!)
+                    //Zo niet gaan we over tot het overrulen van reservaties
+                    if (aantalBeschikbaar >= reserveerAantal)
+                    {
+                        //Aanmaken van reservaties
+                        VoegReservatieToe(mat, reserveerAantal,startDate , geblokkeerdeDagen);
+
+                    }
+                    else
+                    {
+                        //Overrulen
+                        BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start);
+
+                        //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
+                        VoegReservatieToe(mat, reserveerAantal, startDate, geblokkeerdeDagen);
+                    }
                 }
             }
-
 
         }
 
@@ -129,24 +139,49 @@ namespace DidactischeLeermiddelen.Models.Domain
             student.MaakReservaties(nieuw, laatsReservatie.StartDatum.ToShortDateString());
         }
 
-        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum)
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string[] dagen = null)
         {
-            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal);
+            Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal, dagen);
             reservatie.Blokkeer();
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
 
-        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, int aantal, string[] dagen = null)
         {
-            Reservatie reservatie = new BlokkeringLector(gebruiker,mat,startdatum,aantal);
-           
+            Reservatie reservatie = new BlokkeringLector(gebruiker, mat, startdatum, aantal, dagen);
+
             if (reservatie == null)
             {
                 throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
             }
 
             return reservatie;
+        }
+
+        private IDictionary<DateTime, IList<string>> verdeelDagenOverWeken(string[] dagen)
+        {
+            IDictionary<DateTime, IList<string>> dagenGeblokkeerd = new Dictionary<DateTime, IList<string>>();
+
+            foreach (var dag in dagen)
+            {
+                DateTime startDatum = HulpMethode.GetStartDatum(dag);
+
+                if (!dagenGeblokkeerd.ContainsKey(startDatum))
+                {
+                    IList<string> dagenInWeek = new List<string>();
+                    dagenInWeek.Add(dag);
+                    dagenGeblokkeerd.Add(startDatum, dagenInWeek);
+                }
+                else
+                {
+                    IList<string> dagenInWeek = dagenGeblokkeerd[startDatum];
+                    dagenInWeek.Add(dag);
+                    dagenGeblokkeerd[startDatum] = dagenInWeek;
+                }
+            }
+
+            return dagenGeblokkeerd;
         }
     }
 }

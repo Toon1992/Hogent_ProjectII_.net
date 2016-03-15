@@ -36,14 +36,14 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mailServiceRepository.Object);
         }
 
-        [TestMethod]
-        public void IndexGeeftViewmodelTerugWanneerMateriaalInVerlanglijst()
-        {
-            gebruiker.Verlanglijst.VoegMateriaalToe(m);
-            ViewResult result = controller.Index(gebruiker) as ViewResult;
-            ReservatieMaterialenViewModel vm = result.Model as ReservatieMaterialenViewModel;
-            Assert.AreEqual(1 , vm.Materialen.Count());
-        }
+        //[TestMethod]
+        //public void IndexGeeftViewmodelTerugWanneerMateriaalInVerlanglijst()
+        //{
+        //    gebruiker.Verlanglijst.VoegMateriaalToe(m);
+        //    ViewResult result = controller.Index(gebruiker) as ViewResult;
+        //    ReservatieMaterialenViewModel vm = result.Model as ReservatieMaterialenViewModel;
+        //    Assert.AreEqual(1 , vm.Materialen.Count());
+        //}
 
         [TestMethod]
         public void IndexGeeftLegeReservatieLijstViewTerugWanneerGeenMaterialenInVerlanglijst()

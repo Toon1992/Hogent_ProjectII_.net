@@ -81,7 +81,7 @@ namespace DidactischeLeermiddelen.Controllers
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
             IEnumerable<DateTime> dagLijst = dagen?.Select(Convert.ToDateTime);
-            var dateString = dagLijst != null? gebruiker.DatesToString(dagLijst, dtfi): gebruiker.DateToString(startDate,dtfi);
+            var dateString = dagLijst != null? HulpMethode.DatesToString(dagLijst, dtfi): HulpMethode.DateToString(startDate,dtfi);
             if (materiaal != null)
             {
                 materialen = GeefMaterialenVanId(materiaal);
