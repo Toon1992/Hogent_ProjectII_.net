@@ -31,7 +31,7 @@
     </div>
     <div class="footergroup text-center">
         <div class="col-xs-12">
-            <h4 class="price">@Html.DisplayFor(modelItem => Model.Prijs)</h4>
+            <h4 class="price">€ @Html.DisplayFor(modelItem => Model.Prijs)</h4>
             <h5>@Html.DisplayFor(modelItem => Model.AantalInCatalogus) beschikbaar</h5>
 
             @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = Model.MateriaalId }))

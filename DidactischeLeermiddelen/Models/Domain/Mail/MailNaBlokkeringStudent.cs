@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Web;
 
 namespace DidactischeLeermiddelen.Models.Domain.Mail
 {
-    public class MailNaBlokkeringLector:MailTemplate
+    public class MailNaBlokkeringStudent : MailTemplate
     {
         public override void VerzendMail(IDictionary<Materiaal, int> reservaties, string startDatum, string eindDatum, string[] dagen, Gebruiker gebruiker)
         {
@@ -16,36 +18,20 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
 
             StringBuilder lijst = new StringBuilder(Body);
             string items = "";
-            string dagenMail = "";
-
             foreach (var item in reservaties)
             {
                 items += string.Format("<li>" + item.Key.Naam + " x" + item.Value + "</li>" + "\n");
 
             }
-            if (dagen == null)
-            {
-                dagenMail = startDatum;
-
-            }
-            else
-            {
-                foreach (var dag in dagen)
-            {
-                dagenMail += dag + ", ";
-            }
-                
-            }
             
 
             lijst.Replace("_NAAM", gebruiker.Naam);
             lijst.Replace("_ITEMS", items);
-            lijst.Replace("_DATUMS", dagenMail);
+            lijst.Replace("_STARTDATUM", startDatum);
             m.Body = lijst.ToString();
             m.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Send(m);
         }
-        
     }
 }

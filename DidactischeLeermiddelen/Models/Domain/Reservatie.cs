@@ -5,7 +5,7 @@ using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
-    public abstract class Reservatie
+    public abstract class Reservatie :IComparable<Reservatie>
     {
         private ReservatieState _reservatieState;
         public long ReservatieId { get; set; }
@@ -97,5 +97,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             ReservatieState.Reservatie = this;
         }
 
+
+        public int CompareTo(Reservatie other)
+        {
+            if (this.Gebruiker is Lector && this.Gebruiker is Lector)
+                return -1;
+            if (this.Gebruiker is Student && other.Gebruiker is Student)
+                return 0;
+
+            return 1;
+        }
     }
 }

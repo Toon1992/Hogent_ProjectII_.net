@@ -22,12 +22,12 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public void StudentMaakReservatie()
         {
             Student student = context.Toon as Student;
-            IDictionary<Materiaal,int> materiaalMap = new Dictionary<Materiaal, int>();
-            materiaalMap.Add(context.Bol,5);
-            student.MaakReservaties(materiaalMap,"23/3/2016");
-            Assert.AreEqual(1,student.Reservaties.Count);
+            IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
+            materiaalMap.Add(context.Bol, 5);
+            student.MaakReservaties(materiaalMap, "23/3/2016");
+            Assert.AreEqual(1, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Gereserveerd);
-            Assert.AreEqual(5,student.Reservaties.First().Aantal);
+            Assert.AreEqual(5, student.Reservaties.First().Aantal);
         }
 
         [TestMethod]
@@ -82,12 +82,12 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Lector lector = context.LectorGebruiker as Lector;
             IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
             materiaalMap.Add(context.Bol, 5);
-            string[] dagenGeblokkeerd = new[] {"23/3/2016"};
-            lector.MaakBlokkeringen(materiaalMap, "23/3/2016",dagenGeblokkeerd);
+            string[] dagenGeblokkeerd = new[] { "23/3/2016" };
+            lector.MaakBlokkeringen(materiaalMap, "23/3/2016", dagenGeblokkeerd);
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
             Assert.AreEqual(5, lector.Reservaties.First().Aantal);
-            Assert.AreEqual("23/03/2016",lector.Reservaties.First().GeblokkeerdeDagen[0].Datum.ToShortDateString());
+            Assert.AreEqual("23/03/2016", lector.Reservaties.First().GeblokkeerdeDagen[0].Datum.ToShortDateString());
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Lector lector = context.LectorGebruiker as Lector;
             IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
             materiaalMap.Add(context.Bol, 5);
-            string[] dagenGeblokkeerd = new[] { "23/3/2016","25/3/2016" };
+            string[] dagenGeblokkeerd = new[] { "23/3/2016", "25/3/2016" };
             lector.MaakBlokkeringen(materiaalMap, "23/3/2016", dagenGeblokkeerd);
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
@@ -146,14 +146,14 @@ namespace DidactischeLeermiddelen.Tests.Domain
             materiaalLectorMap.Add(context.Bol, 6);
             string[] dagenGeblokkeerd = new[] { "23/3/2016" };
             student.MaakReservaties(materiaalMap, "23/3/2016");
-            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016",dagenGeblokkeerd);
+            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd);
 
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
             Assert.AreEqual(6, lector.Reservaties.First().Aantal);
             Assert.AreEqual(2, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Overruled);
-            Assert.IsTrue(student.Reservaties[student.Reservaties.Count-1].ReservatieState is Gereserveerd);
+            Assert.IsTrue(student.Reservaties[student.Reservaties.Count - 1].ReservatieState is Gereserveerd);
             Assert.AreEqual(1, student.Reservaties.First().Aantal);
             Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].Aantal);
         }
@@ -172,10 +172,56 @@ namespace DidactischeLeermiddelen.Tests.Domain
             student1.MaakReservaties(materiaalMap, "23/3/2016");
             student2.MaakReservaties(materiaalMap, "23/3/2016");
             string[] dagenGeblokkeerd = new[] { "23/3/2016" };
-            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016",dagenGeblokkeerd);
-          
+            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd);
+
             Assert.IsTrue(student1.Reservaties.First().ReservatieState is Overruled);
             Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overruled);
+        }
+
+        [TestMethod]
+        public void LectorOverruultTweeStudentenEnBlokkeertMeeLector()
+        {
+            Student student1 = context.Toon as Student;
+            Student student2 = context.Manu as Student;
+            Lector lector1 = context.LectorGebruiker as Lector;
+            Lector lector2 = context.LectorGebruiker2 as Lector;
+
+            IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
+            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+            materiaalMap.Add(context.Bol, 4);
+            materiaalLectorMap.Add(context.Bol, 3);
+            student1.MaakReservaties(materiaalMap, "23/3/2016");
+
+            string[] dagenGeblokkeerd1 = new[] { "24/3/2016" };
+            lector1.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd1);
+            student2.MaakReservaties(materiaalMap, "23/3/2016");
+            string[] dagenGeblokkeerd2 = new[] { "23/3/2016" };
+            lector2.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd2);
+
+            Assert.IsTrue(student1.Reservaties.First().ReservatieState is Gereserveerd);
+            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overruled);
+        }
+
+
+        [TestMethod]
+        public void LectorBlokkeertZelfdeWeekAlsAndereLectorMaarAndereDagen()
+        {          
+            Lector lector1 = context.LectorGebruiker as Lector;
+            Lector lector2 = context.LectorGebruiker2 as Lector;
+
+           
+            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+           
+            materiaalLectorMap.Add(context.Bol, 10);
+            
+            string[] dagenGeblokkeerd1 = new[] { "24/3/2016" };
+            lector1.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd1);
+            
+            string[] dagenGeblokkeerd2 = new[] { "23/3/2016" };
+            lector2.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd2);
+
+            Assert.AreEqual(1, lector1.Reservaties.Count);
+            Assert.AreEqual(1, lector2.Reservaties.Count);
         }
     }
 }
