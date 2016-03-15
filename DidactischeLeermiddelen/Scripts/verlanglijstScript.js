@@ -172,10 +172,13 @@ var viewModel = {
                 }
             });
             var startDatum = $("input[name='multidate']")[0].value;
-            var dateStrings = startDatum.split(",");
+            if (startDatum !== "") {
+                var dateStrings = startDatum.split(",");
                 viewModel.dagen = dateStrings;
                 viewModel.startDatum = dateStrings[0];
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, false);
+            }
+            
            
         });
         $(".detail-materiaal").click(function () {

@@ -144,7 +144,7 @@ namespace DidactischeLeermiddelen.Controllers
             Gebruiker gebruiker)
         {
             MailTemplate mail = mailServiceRepository.GeefMailTemplate("Blokkering");
-            mail.VerzendMail(blokkeringen,"","",dagen,gebruiker);
+            //mail.VerzendMail(blokkeringen,"","",dagen,gebruiker);
 
         }
 
