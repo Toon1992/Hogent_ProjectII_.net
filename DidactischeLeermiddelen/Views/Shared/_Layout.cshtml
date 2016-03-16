@@ -25,9 +25,7 @@
                 <ul class="nav navbar-nav">
                     <li class="navbar-item navNotClick">@Html.ActionLink("Catalogus", "Index", "Catalogus")</li>
                     <li class="navbar-item navNotClick">@Html.ActionLink("Verlanglijst", "Index", "Verlanglijst")</li>
-                    <li class="navbar-item navNotClick">
-                        @(User.IsInRole("Lector") ? Html.ActionLink("Reservaties", "Index", "Reservatie") : Html.ActionLink("Blokkeringen", "Index", "Reservatie"))
-                    </li>
+                    <li class="navbar-item navNotClick">@Html.ActionLink("Reservaties", "Index", "Reservatie")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

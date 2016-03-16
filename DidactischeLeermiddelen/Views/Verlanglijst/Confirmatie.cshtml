@@ -1,6 +1,6 @@
 ﻿@using DidactischeLeermiddelen.Models.Domain
 @model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
-<h2>Confirmatie @(User.IsInRole("Lector") ? "reservatie" : "blokkering")</h2>
+<h2>Confirmatie reservatie</h2>
 <section id="reservatie-confirmatie">
     <div class="overzicht">
         <div class="row">
@@ -58,7 +58,7 @@
             <div class="btn btn-green" id="btn-terug">Terug</div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="btn btn-green pull-right" id="btn-reserveer">@(User.IsInRole("Lector") ? "Reserveer" : "Blokkeer")</div>
+            <div class="btn btn-green pull-right" id="btn-reserveer">Reserveer</div>
         </div>
     </div>
 

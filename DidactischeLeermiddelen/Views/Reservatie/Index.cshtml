@@ -1,12 +1,13 @@
-﻿@model DidactischeLeermiddelen.ViewModels.ReservatieMaterialenViewModel
+﻿@using DidactischeLeermiddelen.Models.Domain
+@model DidactischeLeermiddelen.ViewModels.ReservatieMaterialenViewModel
 
 @{
-    ViewBag.Title = User.IsInRole("Lector") ? "Mijn reservaties" : "Mijn blokkeringen";
+    ViewBag.Title = "Mijn reservaties";
 }
 
-<h2>@(User.IsInRole("Lector") ? "Mijn reservaties" : "Mijn blokkeringen")</h2>
+<h2>Mijn reservaties</h2>
 <h4>@ViewBag.Gebruikersnaam</h4>
-<h5>Aantal @(User.IsInRole("Lector") ? "reservaties" : "blokkeringen") : @ViewBag.AantalReservaties</h5>
+<h5>Aantal reservaties: @ViewBag.AantalReservaties</h5>
 
 @foreach (var item in Model.Materialen)
 {
