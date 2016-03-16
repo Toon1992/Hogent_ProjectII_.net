@@ -1,13 +1,4 @@
-﻿//Date.prototype.getWeek = function () {
-//    var onejan = new Date(this.getFullYear(),0,1);
-//    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-//}
-//Date.prototype.addDays = function (days) {
-//    var dat = new Date(this.valueOf());
-//    dat.setDate(dat.getDate() + days);
-//    return dat;
-//}
-var Cookies = {
+﻿var Cookies = {
     init: function () {
         var allCookies = document.cookie.split('; ');
         for (var i = 0; i < allCookies.length; i++) {
@@ -48,7 +39,6 @@ var viewModel = {
                 $("#btn-confirmeer").click();
             }
         });
-        //Nagaan of het op dit moment weekend is. Zoja, dan worden de dagen van de volgende week geblokkeerd.
         var weekend = IsWeekend();
         var vrijdagNaVijf = VrijdagNaVijf();
         var dagen;
@@ -278,7 +268,7 @@ var viewModel = {
             var startDatum = Cookies["startDatum"];
             var dagen = JSON.parse(Cookies["dagen"]);
             if (materialen === "undefined" || aantallen === "undefined" || startDatum === "undefined" || dagen === "undefined") {
-                //Someone fucked up the coockies, return to home and give a message
+                //Someone fucked up the coockies, return to home
                 window.location.href = '/verlanglijst/';
             }
             $.ajax({
@@ -400,9 +390,9 @@ dateTimeReviver = function (key, value) {
     return value;
 }
 
-$(window).resize(function () {
-    drawMaterial(dataGrafiek);
-});
+//$(window).resize(function () {
+//    drawMaterial(dataGrafiek);
+//});
 
 $(document).ready(function () {
     google.charts.load('current', { packages: ['corechart', 'bar'], 'language' : 'nl'});

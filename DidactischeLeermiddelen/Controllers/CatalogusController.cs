@@ -8,7 +8,6 @@ using DidactischeLeermiddelen.ViewModels;
 using WebGrease.Css.Extensions;
 namespace DidactischeLeermiddelen.Controllers
 {
-    [Authorize]
     public class CatalogusController : Controller
     {
         private IMateriaalRepository materiaalRepository;

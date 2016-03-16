@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.Mail;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
@@ -13,6 +17,7 @@ namespace DidactischeLeermiddelen.Models.DAL
         {
             try
             {
+
                 //Leergebieden
                 Leergebied aardrijkskunde = new Leergebied { Naam = "Aardrijkskunde" };
                 Leergebied fysica = new Leergebied { Naam = "Fysica" };
@@ -21,7 +26,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Leergebied LO = new Leergebied { Naam = "L.O." };
                 Leergebied Duits = new Leergebied { Naam = "Duits" };
 
-                //Doelgroepen
+                //Doelgroep en
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
                 Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
