@@ -34,13 +34,13 @@
     </div>
 
     <div class="col-md-4 text-center hidden-sm hidden-xs">
-        <h2>Bekijk Reservaties</h2>
+        <h2>Bekijk @(User.IsInRole("Lector") ? "reservaties" : "blokkeringen")</h2>
         <img src="~/Content/Images/reservaties.png" class="home-img" alt="reservaties"/>
         <p><a class="btn btn-default btn-green" href="/Reservatie">Reservaties &raquo;</a>
         </p>
     </div>
     <div class="hidden-lg hidden-md col-sm-4 col-xs-12 mobile-home-item">
-        <h2>Bekijk Reservaties</h2>
+        <h2>Bekijk @(User.IsInRole("Lector") ? "reservaties" : "blokkeringen")</h2>
         <img src="~/Content/Images/reservaties.png" class="home-img" alt="reservaties" />
         <p>
             <a class="btn btn-default btn-green" href="/Reservatie">Reservaties &raquo;</a>

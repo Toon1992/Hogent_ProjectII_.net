@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DidactischeLeermiddelen.ViewModels;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -40,6 +41,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
 
             return reservatie;
+        }
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal)
+        {
+            return $"Niet meer beschikbaar van {HulpMethode.DateToString(startDatum)} tot {HulpMethode.DateToString(eindDaum)}";
         }
     }
 }

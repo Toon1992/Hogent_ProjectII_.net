@@ -23,8 +23,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             foreach (var pair in dagenGeblokkeerd)
             {
-                string startDate = HulpMethode.DateToString(pair.Key,
-                    CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat);
+                string startDate = HulpMethode.DateToString(pair.Key);
                 string[] geblokkeerdeDagen = pair.Value.ToArray();
 
                 //Overlopen van map met potentiele reserveringen/blokkeringen/overrulingen
@@ -32,7 +31,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     //Aantal Lokale variabele aanmaken die we nodig hebben
                     Materiaal mat = potentiele.Key;
-                    int reserveerAantal = potentiele.Value;
+                    int reserveerAantal = potentiele.Value;                
 
                     //opvragen van het aantal reservaties die niet geblokkeerd, opgehaald of overruult zijn
                     int aantalBeschikbaar = mat.GeefAantalBeschikbaarVoorBlokkering();
@@ -69,7 +68,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             //We vragen alle reservaties op van het materiaal tijdens de week dat we een reservatie willen doen
             reservatiePool = mat.GeeftReservatiesVanEenBepaaldeTijd(start) as List<Reservatie>;
-           
+
             reservatiePool.Sort((r1, r2) => r1.CompareTo(r2));
 
             //We gaan een while lus willen starten omdat het kan zijn dat er verschillende gebruikers hun reservatie kwijtgeraken
@@ -83,15 +82,15 @@ namespace DidactischeLeermiddelen.Models.Domain
 
                 //De laatste Reservatie opvragen die er bij gekomen is
                 Reservatie laatsteReservatie = reservatiePool.Last();
+                            
+                    //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
+                    if (aantal <= laatsteReservatie.Aantal)
+                    {
+                        //nu gaan we kijken of er nog over zijn in de reservatie
+                        int verschil = laatsteReservatie.Aantal - aantal;
 
-                //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
-                if (aantal <= laatsteReservatie.Aantal)
-                {
-                    //nu gaan we kijken of er nog over zijn in de reservatie
-                    int verschil = laatsteReservatie.Aantal - aantal;
-
-                    ////Originele aantal wordt vermindert van de laatste reservatie
-                    laatsteReservatie.Aantal -= verschil;
+                        ////Originele aantal wordt vermindert van de laatste reservatie
+                        laatsteReservatie.Aantal -= verschil;
 
                     if (!(laatsteReservatie is BlokkeringLector))
                     {
@@ -104,11 +103,11 @@ namespace DidactischeLeermiddelen.Models.Domain
                         OverruledeReservaties.Add(laatsteReservatie);
                     }
 
-                    //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
-                    aantal = 0;
-                }
-                else
-                {
+                        //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
+                        aantal = 0;
+                    }
+                    else
+                    {
                     if (!(laatsteReservatie is BlokkeringLector))
                     {
                         //overrulen van de reservatie
@@ -116,12 +115,12 @@ namespace DidactischeLeermiddelen.Models.Domain
                         OverruledeReservaties.Add(laatsteReservatie);
                     }
 
-                    //Nu moeten we nog berekenen wat er nog overblijft
-                    aantal -= laatsteReservatie.Aantal;
+                        //Nu moeten we nog berekenen wat er nog overblijft
+                        aantal -= laatsteReservatie.Aantal;
 
-                    //De laatstereservatie moet nu uit de lijst met potentiele reservatie verwijdert worden
-                    reservatiePool.Remove(laatsteReservatie);
-                }
+                        //De laatstereservatie moet nu uit de lijst met potentiele reservatie verwijdert worden
+                        reservatiePool.Remove(laatsteReservatie);
+                    }               
 
                 //Nu moet er nog een veiligheid in gebouwd worden zodat we nog uit de while lus geraken
                 //als aantal minder dan 0 is moet er niet meer overruult worden
@@ -197,6 +196,15 @@ namespace DidactischeLeermiddelen.Models.Domain
             return dagenGeblokkeerd;
         }
 
-
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal)
+        {
+            if (dagen != null)
+            {
+                var geblokeerdeDagen = materiaal.GeefGeblokeerdeDagen(dagen, this);
+                return $"Niet meer beschikbaar op {HulpMethode.DatesToString(geblokeerdeDagen)}";
+            }
+            return "";
+        }
+    
     }
 }

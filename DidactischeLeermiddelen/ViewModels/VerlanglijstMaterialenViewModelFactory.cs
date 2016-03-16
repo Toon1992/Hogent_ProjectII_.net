@@ -8,14 +8,14 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class VerlanglijstMaterialenViewModelFactory : ViewModelFactory
     {
-        public override IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, Gebruiker gebruiker)
+        public override IViewModel CreateVerlanglijstMaterialenViewModel(IList<Materiaal> materialen, List<Materiaal> verlanglijstMaterialen, string datum, DateTime startDatum, DateTime eindDatum, Dictionary<int, int> materiaalAantal, bool naarReserveren, IList<DateTime> dagen ,Gebruiker gebruiker)
         {
             int aantalBeschikbaar, aantalGeselecteerd = 0;
             return new VerlanglijstMaterialenViewModel
             {
                 VerlanglijstViewModels = (naarReserveren ? materialen : verlanglijstMaterialen).Select(m => new VerlanglijstViewModel
                 {
-                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, gebruiker),
+                    AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, gebruiker),
                     AantalGeblokkeerd = m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
                     Beschikbaar = aantalBeschikbaar == 0,
                     Firma = m.Firma,
@@ -28,9 +28,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     ArtikelNr = m.ArtikelNr,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
-                    Beschikbaarheid = aantalBeschikbaar == 0 ?
-                        $"Niet meer beschikbaar van {Convert.ToDateTime(startDatum).ToString("d")} tot {Convert.ToDateTime(eindDatum).ToString("d")}"
-                        : aantalBeschikbaar < aantalGeselecteerd ? $"Slechts {aantalBeschikbaar} stuks beschikbaar" : "",
+                    Beschikbaarheid = aantalBeschikbaar == 0 ? gebruiker.GeefBeschikbaarheid(startDatum, eindDatum, dagen, m): "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),

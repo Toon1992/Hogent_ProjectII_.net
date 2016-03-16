@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
@@ -15,7 +16,7 @@ namespace DidactischeLeermiddelen.ViewModels
                 Email = reservatie.Gebruiker.Email,
                 Status = reservatie.ReservatieState.GetType().Name.ToLower(),
                 Type = reservatie.Gebruiker is Lector ? "Lector" : "Student",
-                GeblokkeerdTot = reservatie.Gebruiker is Lector ? reservatie.EindDatum.ToString("d") : ""
+                GeblokkeerdOp = reservatie.Gebruiker is Lector ? HulpMethode.DatesToString(reservatie.GeblokkeerdeDagen.Select(d => d.Datum)) : ""
             };
             return vm;
         }

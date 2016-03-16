@@ -83,7 +83,7 @@
         }
 
         <div class="col-md-offset-5 col-md-4 col-sm-offset-3 col-sm-4 col-xs-12 text-center">
-            <div class="btn btn-success" name="btn-reserveer" id="btn-confirmeer" autofocus>Verder naar reserveren &raquo;</div>
+            <div class="btn btn-success" name="btn-reserveer" id="btn-confirmeer" autofocus>Verder naar @(User.IsInRole("Lector") ? "reserveren" : "blokkeren") &raquo;</div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
                 <h4 class="foutmelding"></h4>

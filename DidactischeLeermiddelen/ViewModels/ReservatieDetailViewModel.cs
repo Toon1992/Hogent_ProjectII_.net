@@ -17,7 +17,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public string Email { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
-        public string GeblokkeerdTot { get; set; }
+        public string GeblokkeerdOp { get; set; }
         public DateTime StartDatum { get; set; }
     }
 }

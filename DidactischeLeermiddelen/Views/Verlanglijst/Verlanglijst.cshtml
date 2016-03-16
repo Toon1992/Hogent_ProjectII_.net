@@ -40,7 +40,7 @@
                         <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" id="aantal_@item.MateriaalId"/>
 
                     </div>
-                    <button type="submit" class="btn btn-delete">
+                    <button type="submit" class="btn btn-delete" tabindex="-1">
                         <span class="glyphicon glyphicon-remove"></span> Verwijderen
                     </button>
                 }
@@ -72,7 +72,7 @@
         </div>
     }
     <div class="col-md-offset-5 col-md-4 col-sm-offset-5 col-sm-4 col-xs-12 text-center">
-        <div class="btn btn-success" id="btn-confirmeer" autofocus>Verder naar reserveren &raquo;</div>
+        <div class="btn btn-success" id="btn-confirmeer" autofocus>Verder naar @(User.IsInRole("Lector") ? "reserveren" : "blokkeren") &raquo;</div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <h4 class="foutmelding"></h4>

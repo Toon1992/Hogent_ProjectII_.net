@@ -80,8 +80,8 @@ namespace DidactischeLeermiddelen.Controllers
 
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
-            IEnumerable<DateTime> dagLijst = dagen?.Select(Convert.ToDateTime);
-            var dateString = dagLijst != null? HulpMethode.DatesToString(dagLijst, dtfi): HulpMethode.DateToString(startDate,dtfi);
+            IList<DateTime> dagLijst = dagen?.Select(Convert.ToDateTime).ToList();
+            var dateString = dagLijst != null? HulpMethode.DatesToString(dagLijst): HulpMethode.DateToString(startDate);
             if (materiaal != null)
             {
                 materialen = GeefMaterialenVanId(materiaal);
@@ -90,7 +90,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             
             var vm = factory.CreateVerlanglijstMaterialenViewModel(materialen, gebruiker.Verlanglijst.Materialen, dateString,
-                startDate, eindDate, materiaalMap, allesBeschikbaar && naarReserveren,gebruiker) as VerlanglijstMaterialenViewModel;
+                startDate, eindDate, materiaalMap, allesBeschikbaar && naarReserveren, dagLijst, gebruiker) as VerlanglijstMaterialenViewModel;
             
             if (Request.IsAjaxRequest())
             {
@@ -102,16 +102,17 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View("Index", vm);
         }
-        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IEnumerable<DateTime> dagen)
+        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
         {
             IList<Materiaal> materialen = GeefMaterialenVanId(materiaal);
             if (dagen != null)
             {
                 //Wanneer de lector verschillende data selecteerd kijken of het materiaal elke dag beschikbaar is
                 //Zoniet, return false
-                return dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
+                return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal,DateTime.Now,DateTime.Now, dagen);
+                    //dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
             }
-            return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, startDatum, eindDatum);
+            return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, startDatum, eindDatum, dagen);
         }
 
         public ActionResult ReservatieDetails(Gebruiker gebruiker, int id, int week)

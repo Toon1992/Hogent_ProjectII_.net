@@ -51,7 +51,11 @@ namespace DidactischeLeermiddelen.Models.Domain
         {         
             if (status is Geblokkeerd)
             {
-                return Reservaties.Where(r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd).Sum(r => r.Aantal);
+                int aantal =
+                    Reservaties.Where(
+                        r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd)
+                        .Sum(r => r.Aantal);
+                return aantal > AantalInCatalogus ? AantalInCatalogus : aantal;
             }
             if (status is Gereserveerd)
             {
@@ -62,12 +66,15 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum, Gebruiker gebruiker)
+        public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum,IList<DateTime> dagen , Gebruiker gebruiker)
         {
-            int aantal = 0;
+            int aantal = AantalInCatalogus;
             if (gebruiker is Lector)
             {
-                aantal = AantalInCatalogus - Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(startDatum)).Sum(r => r.Aantal);
+                if (dagen != null)
+                {
+                    aantal = AantalInCatalogus - Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Intersect(dagen).Any()).Sum(r => r.Aantal);
+                }         
             }
             else if (gebruiker is Student)
             {
@@ -78,6 +85,20 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return aantal <= 0 ? 0 : aantal;
         }
+
+        public IList<DateTime> GeefGeblokeerdeDagen(IList<DateTime> dagen, Gebruiker gebruiker)
+        {
+            IList<DateTime> geblokkeerdeDagen = new List<DateTime>();
+            dagen.ForEach(d =>
+            {
+                int aantal = GeefAantalBeschikbaar(DateTime.Now, DateTime.Now, new List<DateTime> {d}, gebruiker);
+                if (aantal == 0)
+                {
+                    geblokkeerdeDagen.Add(d);
+                }
+            });
+            return geblokkeerdeDagen;
+        } 
 
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
@@ -171,7 +192,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
             while (startDatumFilter <= eindDatumFilter)
             {
-                reservatieMap = UpdateReservatieMap(reservatieMap, startDatumFilter, 0);
+                reservatieMap = UpdateReservatieMap(reservatieMap, startDatumFilter, AantalInCatalogus);
                 startDatumFilter = startDatumFilter.AddDays(7);
             }
 
@@ -181,11 +202,16 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             if (reservatieMap.ContainsKey(startDatum))
             {
+                //Indien negatief op null zetten.
                 reservatieMap[startDatum] -= aantal;
+                if (reservatieMap[startDatum] < 0)
+                {
+                    reservatieMap[startDatum] = 0;
+                }
             }
             else
             {
-                reservatieMap.Add(startDatum, AantalInCatalogus);
+                reservatieMap.Add(startDatum, aantal);
             }
             return reservatieMap;
         } 
