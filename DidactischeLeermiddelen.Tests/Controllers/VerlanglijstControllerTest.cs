@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Controllers;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Tests.Domain;
@@ -10,15 +11,17 @@ namespace DidactischeLeermiddelen.Tests.Controllers
     [TestClass]
     public class VerlanglijstControllerTest
     {
-        private VerlanglijstController controller;
+        private VerlanglijstController verlanglijstController;
+        private ReservatieController reservatieController;
         private Mock<IMateriaalRepository> mockMateriaalRepository;
         private Mock<IGebruikerRepository> mockGebruikerRepository;
         private Gebruiker gebruiker;
         private Materiaal m;
+        private DummyContext context;
         [TestInitialize]
         public void OpzettenContext()
         {
-            DummyContext context = new DummyContext();
+            context = new DummyContext();
             gebruiker = context.Toon;
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
@@ -26,10 +29,18 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockMateriaalRepository.Setup(t => t.FindById(1)).Returns(context.Encyclopedie);
             mockGebruikerRepository.Setup(t => t.FindByName("student@student.hogent.be")).Returns(context.Toon);
 
-            m = context.Encyclopedie;
+            m = context.Bol;
 
-            controller = new VerlanglijstController(mockMateriaalRepository.Object, mockGebruikerRepository.Object);
-
+            verlanglijstController = new VerlanglijstController(mockMateriaalRepository.Object, mockGebruikerRepository.Object);
+        }
+        [TestMethod]
+        public void ControleInvoer8Beschikbaar5GeselecteerdReturnTrue()
+        {
+            Assert.AreEqual(10, m.AantalInCatalogus);
+            m.AddReservatie(context.ReservatieWeek1Aantal2);
+            int[] materiaalIds = {m.MateriaalId};
+            int[] aantal = {5};
+            verlanglijstController.Controle(gebruiker, materiaalIds, aantal, false, context.StartDatum, null);
         }
 
         //[TestMethod]
