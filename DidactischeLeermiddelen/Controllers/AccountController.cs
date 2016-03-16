@@ -7,6 +7,8 @@ using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
 
 namespace DidactischeLeermiddelen.Controllers
 {
@@ -24,7 +26,7 @@ namespace DidactischeLeermiddelen.Controllers
             this.login = login;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IGebruikerRepository repository, ILogin login)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,IGebruikerRepository repository, ILogin login)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -53,6 +55,24 @@ namespace DidactischeLeermiddelen.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+        public class ApplicationRoleManager : RoleManager<IdentityRole>
+        {
+            public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore)
+                : base(roleStore)
+            {
+            }
+
+            public static ApplicationRoleManager Create(
+                IdentityFactoryOptions<ApplicationRoleManager> options,
+                IOwinContext context)
+            {
+                var manager = new ApplicationRoleManager(
+                    new RoleStore<IdentityRole>(
+                        context.Get<ApplicationDbContext>()));
+
+                return manager;
             }
         }
 
@@ -109,15 +129,15 @@ namespace DidactischeLeermiddelen.Controllers
                 if (user == null)
                 {
                     user = new ApplicationUser { UserName = email, Email = email };
-                    await UserManager.CreateAsync(user, model.Password);
-                    if (lo.Type.ToLower() == "lector")
-                    {
-                        UserManager.AddToRole(user.Id, "Lector");
-                    }
-                    else
+                    if (lo.Type.ToLower().Equals("student"))
                     {
                         UserManager.AddToRole(user.Id, "Student");
                     }
+                    if (lo.Type.ToLower().Equals("lector"))
+                    {
+                        UserManager.AddToRole(user.Id, "Lector");
+                    }
+                    await UserManager.CreateAsync(user, model.Password);
                 }
                 await SignInManager.SignInAsync(user, false, false);
                 return RedirectToAction("Index", "Home");

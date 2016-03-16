@@ -15,7 +15,9 @@
     <div class="materiaal-content">
         <div class="img-side">
             <div class="col-md-2 col-sm-2 col-xs-12 img-tag">
-                <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+                <a href="@item.Foto" data-lightbox="@item.MateriaalId" data-title="@item.Naam">
+                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId">
+                </a>
             </div>
         </div>
         <div class="info-side">

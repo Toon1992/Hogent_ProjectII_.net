@@ -2,7 +2,9 @@
 @model DidactischeLeermiddelen.ViewModels.MateriaalViewModel
 <div class="img-side">
     <div class="col-sm-12 col-xs-12">
-        <img src="@Model.Foto" alt="@Model.Foto" itemprop="@Model.MateriaalId" />
+        <a href="@Model.Foto" data-lightbox="@Model.MateriaalId" data-title="@Model.Naam">
+            <img src="@Model.Foto" alt="@Model.Foto" itemprop="@Model.MateriaalId">
+        </a>
     </div>
 </div>
 <div class="info-side">
