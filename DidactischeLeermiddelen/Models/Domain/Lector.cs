@@ -49,7 +49,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     else
                     {
                         //Overrulen
-                        BerekenenOverrulen(mat, reserveerAantal, aantalBeschikbaar, start, geblokkeerdeDagen);
+                        BerekenenOverrulenEnBlokkeren(mat, reserveerAantal, aantalBeschikbaar, start, geblokkeerdeDagen);
 
                         //Aanmaken van reservaties (overrulen betekend dat lector altijd zal kunnen reserveren)
                         VoegReservatieToe(mat, reserveerAantal, startDate, geblokkeerdeDagen);
@@ -59,7 +59,7 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         }
 
-        private void BerekenenOverrulen(Materiaal mat, int reserveerAantal, int aantalBeschikbaar, DateTime start, string[] geblokkeerdeDagen)
+        private void BerekenenOverrulenEnBlokkeren(Materiaal mat, int reserveerAantal, int aantalBeschikbaar, DateTime start, string[] geblokkeerdeDagen)
         {
             //Hier berekenen we hoeveel stuks we nog moeten Overrulen
             int aantal = reserveerAantal - aantalBeschikbaar;
