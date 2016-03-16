@@ -75,7 +75,7 @@ namespace DidactischeLeermiddelen.Models.DAL
                 MailTemplate mailBlokkeringStudent=new MailNaBlokkeringStudent()
                 {
                     Body = string.Format("<p>Dag _NAAM</p>" +
-                    "Uw reservatie van volgende materialen is geblokkeerd in de week van _STARTDATUM:"+
+                    "Uw reservatie van volgend materiaal in de week van _STARTDATUM is geblokkeerd:"+
                     "<ul>" +
                     "_ITEMS" +
                     "</ul>"),

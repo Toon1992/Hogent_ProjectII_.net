@@ -7,7 +7,7 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
 {
     public class MailNaBlokkeringLector:MailTemplate
     {
-        public override void VerzendMail(IDictionary<Materiaal, int> reservaties, string startDatum, string eindDatum, string[] dagen, Gebruiker gebruiker)
+        public override void VerzendMail(IDictionary<Materiaal, int> reservaties,Materiaal materiaal, string startDatum, string eindDatum, string[] dagen, Gebruiker gebruiker)
         {
             MailMessage m = new MailMessage("projecten2groep6@gmail.com", gebruiker.Email);
 
