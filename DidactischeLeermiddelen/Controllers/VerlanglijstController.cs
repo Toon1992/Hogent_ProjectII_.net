@@ -77,6 +77,10 @@ namespace DidactischeLeermiddelen.Controllers
             factory = new VerlanglijstMaterialenViewModelFactory();
 
             DateTime startDate = HulpMethode.GetStartDatum(startDatum);
+            if (startDate < DateTime.Now)
+            {
+                startDate = DateTime.Today;
+            }
             DateTime eindDate = HulpMethode.GetEindDatum(startDatum);
 
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn

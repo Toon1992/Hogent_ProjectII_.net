@@ -13,13 +13,11 @@ namespace DidactischeLeermiddelen.Models.DAL
 {
     public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
     {
-        private ApplicationRoleManager roleManager;
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
             try
             {
-                roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-                InitializeIdentityAndRoles();
+
                 //Leergebieden
                 Leergebied aardrijkskunde = new Leergebied { Naam = "Aardrijkskunde" };
                 Leergebied fysica = new Leergebied { Naam = "Fysica" };
@@ -108,23 +106,6 @@ namespace DidactischeLeermiddelen.Models.DAL
                     }
                 }
                 throw new Exception(s);
-            }
-        }
-        private void InitializeIdentityAndRoles()
-        {
-            CreateRole("Student");
-            CreateRole("Lector");
-        }
-
-        private void CreateRole(string roleName)
-        {
-            IdentityRole role = roleManager.FindByName(roleName);
-            if (role == null)
-            {
-                role = new IdentityRole(roleName);
-                IdentityResult result = roleManager.Create(role);
-                if (!result.Succeeded)
-                    throw new ApplicationException(result.Errors.ToString());
             }
         }
     }
