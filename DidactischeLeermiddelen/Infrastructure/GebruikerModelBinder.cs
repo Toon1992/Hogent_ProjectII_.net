@@ -1,29 +1,38 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
-using Microsoft.AspNet.Identity;
 
 namespace DidactischeLeermiddelen.Infrastructure
 {
     public class GebruikerModelBinder : IModelBinder
     {
         private const string VerlanglijstSessionKey = "gebruiker";
-        private Gebruiker ingelogdeGebruiker = new Gebruiker();
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 IGebruikerRepository repos = (IGebruikerRepository)DependencyResolver.Current.GetService(typeof(IGebruikerRepository));
                 Gebruiker gebruiker = repos.FindByName(controllerContext.HttpContext.User.Identity.Name);
+
                 if (gebruiker == null)
                 {
-                    gebruiker = new Gebruiker
+                    if (controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent"))
                     {
-                        Naam = controllerContext.HttpContext.User.Identity.Name,
-                        Email = controllerContext.HttpContext.User.Identity.Name,
-                        IsLector = controllerContext.HttpContext.User.Identity.Name.Contains("@student.hogent") ? false : true,
-                    };
+                        gebruiker = new Student()
+                        {
+                            Naam = "Student",
+                            Email = controllerContext.HttpContext.User.Identity.Name
+                        };
+                    }
+                    else
+                    {
+                        gebruiker = new Lector
+                        {
+                            Naam = "Lector",
+                            Email = controllerContext.HttpContext.User.Identity.Name,
+                        };
+                    }
                     gebruiker.Verlanglijst = new Verlanglijst();
                     gebruiker.Reservaties = new List<Reservatie>();
                     repos.AddGebruiker(gebruiker);

@@ -1,0 +1,87 @@
+﻿@using DidactischeLeermiddelen.Models.Domain
+@model DidactischeLeermiddelen.ViewModels.ReservatieMaterialenViewModel
+
+@{
+    ViewBag.Title = "Mijn reservaties";
+}
+
+<h2>Mijn reservaties</h2>
+<h4>@ViewBag.Gebruikersnaam</h4>
+<h5>Aantal reservaties: @ViewBag.AantalReservaties</h5>
+
+@foreach (var item in Model.Materialen)
+{
+    <div class="row materiaal">
+    <div class="materiaal-content">
+        <div class="img-side">
+            <div class="col-md-2 col-sm-2 col-xs-12 img-tag">
+                <a href="@item.Foto" data-lightbox="@item.MateriaalId" data-title="@item.Naam">
+                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId">
+                </a>
+            </div>
+        </div>
+        <div class="info-side">
+ 
+                <div class="hidden-lg hidden-md hidden-sm col-xs-12 text-center">
+                    <h4 class="">@Html.DisplayFor(modelItem => item.Naam)</h4>
+                </div>
+      
+                <div class="col-md-2 col-sm-10 hidden-xs">
+                    <h4 class="">@Html.DisplayFor(modelItem => item.Naam)</h4>
+                </div>
+            <div class="col-md-2 col-sm-2 col-xs-6">
+                <div class="startdatum">
+                    <h4>Startdatum</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.StartDatum)</h5>
+                </div>
+
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6">
+                <div class="einddatum">
+                    <h4>Einddatum</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.EindDatum)</h5>
+                </div>
+
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-6">
+                <div class="aantal">
+                    <h4>Aantal</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.AantalStuksGereserveerd)</h5>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6">
+                <div class="aantal">
+                    <h4>Status</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.Status)</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 col-sm-2 hidden-xs">
+                    @using (Html.BeginForm("VerwijderReservatie", "Reservatie", new { id = item.ReservatieId })) // hier nog reservatieId nemen
+                    {
+
+                        <button type="submit" class="btn btn-delete" id="reservatie-delete">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    }
+
+
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                    @using (Html.BeginForm("VerwijderReservatie", "Reservatie", new { id = item.MateriaalId })) // hier nog reservatieId nemen
+                    {
+
+                        <button type="submit" class="btn btn-delete">
+                            <span class="glyphicon glyphicon-remove"></span> Verwijderen
+                        </button>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+}

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DidactischeLeermiddelen.Models;
+using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
 
 namespace DidactischeLeermiddelen.Controllers
 {
@@ -18,15 +17,21 @@ namespace DidactischeLeermiddelen.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IGebruikerRepository repository;
+        private ILogin login;
 
-        public AccountController()
+        public AccountController(IGebruikerRepository gebruikerRepository, ILogin login)
         {
+            repository = gebruikerRepository;
+            this.login = login;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,IGebruikerRepository repository, ILogin login)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this.repository = repository;
+            this.login = login;
         }
 
         public ApplicationSignInManager SignInManager
@@ -35,9 +40,9 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -73,23 +78,53 @@ namespace DidactischeLeermiddelen.Controllers
             {
                 return View(model);
             }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var invalid = await login.Login(model);
+            if (invalid)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                //case SignInStatus.RequiresVerification:
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Ongeldige login.");
-                    return View(model);
+                ModelState.AddModelError("", "Ongeldige login.");
+                return View("Login", model);
             }
+
+            if (login is LoginHomeService)
+            {
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                //FormsAuthentication.SetAuthCookie(model.Email, false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    //case SignInStatus.RequiresVerification:
+                    //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Ongeldige login.");
+                        return View(model);
+                }
+            }
+            if (login is LoginOtherService)
+            {
+                LoginOtherService lo = login as LoginOtherService;
+                var email = lo.Email;
+                var user = await UserManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    user = new ApplicationUser { UserName = email, Email = email };
+                    if (lo.Type.ToLower().Equals("student"))
+                    {
+                        UserManager.AddToRole(user.Id, "Student");
+                    }
+                    if (lo.Type.ToLower().Equals("lector"))
+                    {
+                        UserManager.AddToRole(user.Id, "Lector");
+                    }
+                    await UserManager.CreateAsync(user, model.Password);
+                }
+                await SignInManager.SignInAsync(user, false, false);
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
         }
         // POST: /Account/LogOff
         [HttpPost]
@@ -99,7 +134,6 @@ namespace DidactischeLeermiddelen.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Web;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.Mail;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
             try
             {
+
                 //Leergebieden
                 Leergebied aardrijkskunde = new Leergebied { Naam = "Aardrijkskunde" };
                 Leergebied fysica = new Leergebied { Naam = "Fysica" };
@@ -20,25 +26,70 @@ namespace DidactischeLeermiddelen.Models.DAL
                 Leergebied LO = new Leergebied { Naam = "L.O." };
                 Leergebied Duits = new Leergebied { Naam = "Duits" };
 
-                //Doelgroepen
+                //Doelgroep en
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
+                Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
 
 
+
+                Firma f=new Firma("Ceti","ceti@gmail.com","ceti.be",contactpersoon:"Silke");
+                Firma b = new Firma("Wissner", "wissner@gmail.com","wissner.com",adres:"Voskenslaan", contactpersoon: "Silke");
+                Firma c = new Firma("Texas Instruments", "instruments@gmail.com","texasinstruments.com"); //veranderen van firma werkt niet, blijft bij eerst initialisatie
+              
                 //Materialen
-                Materiaal wereldbol = new Materiaal { AantalInCatalogus = 4, ArtikelNr = 42324, MateriaalId = 1, Firma = "Nova Rico", Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true};
-                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 53252, MateriaalId = 2, Firma = "Texas Instruments", Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs } ,IsReserveerBaar = true };
-                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 6721, MateriaalId = 3, Firma = "Ceti", Naam = "Microscoop Ceti", Foto = "/Content/Images/microscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true };
-                Materiaal pincet = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 6643, MateriaalId = 4, Firma = "Zwilling", Naam = "Pincet", Foto = "/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true };
-                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 1223, MateriaalId = 5, Firma = "Wissner", Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M, Status = Status.Catalogus, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true };
-                Materiaal ReddingsPop = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 68934, MateriaalId = 6, Firma = "Witte merk", Naam = "Reddingspop", Foto = "/Content/Images/reddingspop.jpg", Omschrijving = "Met behulp van deze pop wordt je een geweldig duiker", Prijs = 245.00M, Status = Status.Gereserveerd, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
-                Materiaal Basketbal = new Materiaal { AantalInCatalogus = 30, ArtikelNr = 29188, MateriaalId = 7, Firma = "Spalding", Naam = "Spalding basketbal", Foto = "/Content/Images/basketbal.jpg", Omschrijving = "Officiële NBA basketbal, hiermee scoort iedereen 3-punters", Prijs = 169.00M, Status = Status.Reserveerbaar, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
-                Materiaal Bok = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 2441, MateriaalId = 8, Firma = "Moeder natuur", Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M, Status = Status.TeLaat, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false };
-                Materiaal Duitser = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 9812, MateriaalId = 9, Firma = "Prisma", Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Status = Status.Geblokkeerd, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false };
-                Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek,ReddingsPop, Basketbal, Bok,Duitser };
-
+                Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4,ArtikelNr = 1111, MateriaalId = 1, Firma = b,Naam = "Wereldbol", Foto = "/Content/Images/wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90M, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true};
+                Materiaal rekentoestel = new Materiaal { AantalInCatalogus = 20, ArtikelNr = 2222, MateriaalId = 2, Firma = c, Naam = "TI 84+", Foto = "/Content/Images/rekentoestel.jpg", Omschrijving = "Grafisch rekentoestel", Prijs = 106.95M, Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true };
+                Materiaal microscoopCeti = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 3333, MateriaalId = 3, Firma = f, Naam = "Microscoop Ceti", Foto = "/Content/Images/microscoopCeti.jpg", Omschrijving = "Microscoop Ceti", Prijs = 534.00M, Leergebieden = new List<Leergebied> { chemie }, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, IsReserveerBaar = true};
+                Materiaal pincet = new Materiaal { AantalInCatalogus = 2, ArtikelNr = 4444, MateriaalId = 4, Firma = b, Naam = "Pincet", Foto = "/Content/Images/pincet.jpg", Omschrijving = "Pincet Zwilling", Prijs = 6.95M,Leergebieden = new List<Leergebied> { fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true};
+                Materiaal bordGeodriekhoek = new Materiaal { AantalInCatalogus = 15, ArtikelNr = 5555, MateriaalId = 5, Firma = c, Naam = "Bordgeodriehoek", Foto = "/Content/Images/geodriehoek.jpg", Omschrijving = "Geodriehoek om op het bord te gebruiken", Prijs = 16.00M,  Leergebieden = new List<Leergebied> { wiskunde, fysica, chemie }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true };
+                Materiaal ReddingsPop = new Materiaal { AantalInCatalogus = 5, ArtikelNr = 6666, MateriaalId = 6, Firma = f, Naam = "Reddingspop", Foto = "/Content/Images/reddingspop.jpg", Omschrijving = "Met behulp van deze pop wordt je een geweldig duiker", Prijs = 245.00M, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false};
+                Materiaal Basketbal = new Materiaal { AantalInCatalogus = 30, ArtikelNr = 7777, MateriaalId = 7, Firma = b, Naam = "Spalding basketbal", Foto = "/Content/Images/basketbal.jpg", Omschrijving = "Officiële NBA basketbal, hiermee scoort iedereen 3-punters", Prijs = 169.00M,  Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = false};
+                Materiaal Bok = new Materiaal { AantalInCatalogus = 1, ArtikelNr = 8888, MateriaalId = 8, Firma = c, Naam = "Bok", Foto = "/Content/Images/bok.jpg", Omschrijving = "Niet de alledaagse bok van in de turnles", Prijs = 0.00M,  Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs, kleuterOnderwijs }, Leergebieden = new List<Leergebied> { LO }, IsReserveerBaar = true};
+                Materiaal Duitser = new Materiaal { AantalInCatalogus = 21, ArtikelNr = 9999, MateriaalId = 9, Firma = f, Naam = "Woordenboek Duits-Nederlands", Foto = "/Content/Images/woordenboek.jpg", Omschrijving = "Pocketwoordenboek Nederlands Duits", Prijs = 13.00M, Doelgroepen = new List<Doelgroep> { secundairOnderwijs }, Leergebieden = new List<Leergebied> { Duits }, IsReserveerBaar = false};
+                Materiaal[] materialen = new Materiaal[] { wereldbol, rekentoestel, microscoopCeti, pincet, bordGeodriekhoek, ReddingsPop, Basketbal, Bok, Duitser };
+                          
+                //rekentoestel.AddReservatie(reservatie);
+                //bordGeodriekhoek.AddReservatie(reservatie2);
 
                 context.Materialen.AddRange(materialen);
+
+                MailTemplate mailReservatie = new MailNaReservatie()
+                {
+                    Body = string.Format("<p>Dag _NAAM</p>" +
+                                         "Je reservatie loopt van _STARTDATUM tot _EINDDATUM" +
+                                         "<p> Hieronder vind je terug wat je zonet reserveerde: </p>" +
+                                         "<ul>" +
+                                         "_ITEMS" +
+                                         "</ul> "),
+                    Subject = "Bevestiging reservatie"
+
+                };
+
+
+                MailTemplate mailBlokkeringLector=new MailNaBlokkeringLector()
+                {
+                    Body = string.Format("<p>Dag _NAAM</p>"+
+                    "U heeft volgende materialen gereserveerd op _DATUMS :"+
+                    "<ul>" +
+                    "_ITEMS"+
+                    "</ul>"),
+                    Subject = "Blokkering"
+                };
+
+                MailTemplate mailBlokkeringStudent=new MailNaBlokkeringStudent()
+                {
+                    Body = string.Format("<p>Dag _NAAM</p>" +
+                    "Uw reservatie van volgend materiaal in de week van _STARTDATUM is geblokkeerd:"+
+                    "<ul>" +
+                    "_ITEMS" +
+                    "</ul>"),
+
+                    Subject = "Reservatie gewijzigd"
+                };
+                List<MailTemplate> mails=new List<MailTemplate>() { mailReservatie, mailBlokkeringLector,mailBlokkeringStudent };
+                
+                context.MailTemplates.AddRange(mails);
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)

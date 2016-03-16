@@ -24,7 +24,7 @@
             }
         });
     },
-    init : function() {
+    init: function () {
         $("#doelgroepLijst").change(function () {
             ViewModel.filter();
         });
@@ -74,15 +74,23 @@
                 }
             });
         });
-        $(".manufacturer").click(function() {
-            console.log($(this).text());
+        $(".manufacturer").click(function () {
+            var id = $(this).parent().parent().parent().parent().find("img").attr("itemprop");
+            //$(".tempdatas").html("");
+            $.get("/Catalogus/DetailViewFirma", { id: id }, function (data) {
+                $("#catalogus-pagina").html(data);
+            });
         });
-        $(".materiaal-content").click(function () {
+        $(".materiaal-content").click(function (e) {
             if ($(window).width() < 768) {
-                var materiaalId = $(this).find("img").attr("itemprop");
-                $.get("/Catalogus/DetailView", { id: materiaalId }, function (data) {
-                    $("#catalogus-pagina").html(data);
-                });
+                var manufacturer = $(e.target).attr('class').indexOf("manufacturer");
+                if (manufacturer < 0) {
+                    var materiaalId = $(this).find("img").attr("itemprop");
+                    $.get("/Catalogus/DetailView", { id: materiaalId }, function (data) {
+                        $("#catalogus-pagina").html(data);
+                    });
+                }
+                
             }
 
         });

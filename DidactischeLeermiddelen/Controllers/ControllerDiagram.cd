@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="DidactischeLeermiddelen.Controllers.AccountController">
+    <Position X="3" Y="0.5" Width="9" />
+    <NestedTypes>
+      <Class Name="DidactischeLeermiddelen.Controllers.AccountController.ChallengeResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\AccountController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABACAACACAAAAAAFgAAAAAAAAIAIAAAAQAAQgEAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Controllers.CatalogusController">
+    <Position X="12.5" Y="0.75" Width="11.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAAAggAAAAQAQAAQAAAACAAACAAEAAAAEAAA=</HashCode>
+      <FileName>Controllers\CatalogusController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Controllers.HomeController">
+    <Position X="13.5" Y="5.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAQAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Controllers.ReservatieController">
+    <Position X="0.5" Y="6" Width="11.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAADAAAAAABAAAAgAAQAAAACAABAAAEAAAAAgAA=</HashCode>
+      <FileName>Controllers\ReservatieController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DidactischeLeermiddelen.Controllers.VerlanglijstController">
+    <Position X="3" Y="11" Width="9.75" />
+    <TypeIdentifier>
+      <HashCode>CAACBAABAAAAAAAAAAAAAAQAAAAAAABAAAEAAAAgAAI=</HashCode>
+      <FileName>Controllers\VerlanglijstController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

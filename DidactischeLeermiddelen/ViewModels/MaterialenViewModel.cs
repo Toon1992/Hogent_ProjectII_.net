@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
@@ -12,8 +7,8 @@ namespace DidactischeLeermiddelen.ViewModels
     public class MaterialenViewModel : IViewModel
     {
         public IEnumerable<MateriaalViewModel> Materialen { get; set; }
-        public List<Doelgroep> Doelgroepen { get; set; }
-        public List<Leergebied> Leergebieden { get; set; }
+        public DoelgroepViewModel DoelgroepSelectList { get; set; }
+        public LeergebiedViewModel LeergebiedSelectList { get; set; }
     }
 
     public class MateriaalViewModel : IViewModel
@@ -26,13 +21,11 @@ namespace DidactischeLeermiddelen.ViewModels
         public int AantalInCatalogus { get; set; }
         [Display(Name = "Artikelnummer")]
         public int ArtikelNr { get; set; }
-        [DataType(DataType.Currency)]
         public decimal Prijs { get; set; }
-        public string Firma { get; set; }
-
+        public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
-        public Status Status { get; set; }
+        public bool InVerlanglijst { get; set; }
 
         public MateriaalViewModel(Materiaal materiaal)
         {
@@ -44,9 +37,9 @@ namespace DidactischeLeermiddelen.ViewModels
             ArtikelNr = materiaal.ArtikelNr;
             Prijs = materiaal.Prijs;
             Firma = materiaal.Firma;
-            Doelgroepen = materiaal.Doelgroepen;
-            Leergebieden = materiaal.Leergebieden;
-            Status = materiaal.Status;
+            Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
+            Leergebieden = materiaal.Leergebieden as List<Leergebied>;
+            InVerlanglijst = materiaal.InVerlanglijst;
         }
 
     }

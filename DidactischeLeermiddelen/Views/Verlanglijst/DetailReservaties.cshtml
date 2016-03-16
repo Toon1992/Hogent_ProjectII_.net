@@ -1,0 +1,113 @@
+﻿@using WebGrease.Css.Extensions
+@model DidactischeLeermiddelen.ViewModels.ReservatiesDetailViewModel
+@{
+    ViewBag.Title = "Details " + @Model.Material.Naam;
+}
+    <div class="detail-reservatie-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-7">
+                    <h2 class="materiaal-naam" id="@Model.Material.MateriaalId">@Model.Material.Naam</h2>
+                </div>
+                <div class="col-md-3 col-sm-5">
+                    <div class="form-group">
+                        <div class="input-append date datecontrol" id="reservatie-detail-date">
+                            <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                            <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<div class="detail-reservatie">
+    <div class="container">
+        <div class="row">
+
+
+            @if (Model.ReservatieMap.Count == 0)
+            {
+                <div class="col-md-12">
+                    @if (@Model.GeselecteerdeWeek == "")
+                    {
+                        <h4>Er zijn nog geen reservaties of blokkeringen voor @Model.Material.Naam</h4>
+
+                    }
+                    else
+                    {
+                        <h4>Geen reservaties of blokkeringen op @Model.GeselecteerdeWeek</h4>
+
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="row detail-header">
+                    <div class="info-side">
+                        <div class="col-md-2 col-sm-2 hidden-xs text-center title"><h4>Type</h4></div>
+                        <div class="col-md-4 col-sm-4 hidden-xs text-center"><h4>Naam</h4></div>
+                        <div class="col-md-2 col-sm-2 hidden-xs text-center"><h4>Status</h4></div>
+                        <div class="col-md-1 col-sm-1 hidden-xs text-center"><h4>Aantal</h4></div>
+                        <div class="col-md-3 col-sm-3 hidden-xs text-center"><h4>Geblokkeerd op</h4></div>
+                    </div>
+                </div>
+                foreach (var item in Model.ReservatieMap.OrderBy(r => r.Key))
+                 {
+                       
+                     <div class="row materiaal">
+                         <div class="info-side">
+                             
+                             
+                             <div class="col-md-12 col-sm-12 text-center"><h4>Reservatie op @item.Key.ToString("d")</h4></div>
+                             @foreach (var data in item.Value)
+                             {
+                                
+                                 <div class="row detail-reservatie-content">
+                                     <div class="col-md-2 col-sm-2 hidden-xs text-center"><h5>@data.Type</h5>
+                                     </div>
+                                     <div class="col-md-4 col-sm-4 hidden-xs text-center"><h5><a href="mailto:@data.Email?subject=Reservatieconflict" target="_blank">@data.Email</a></h5>
+                                     </div>
+                                     <div class="col-md-2 col-sm-2 hidden-xs text-center"><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">@data.Status</h5>
+                                     </div>
+                                     <div class="col-md-1 col-sm-1 hidden-xs text-center"><h5>@data.Aantal</h5>
+                                     </div>
+                                     <div class="col-md-3 col-sm-3 hidden-xs text-center"><h5>@(@data.GeblokkeerdOp)</h5>
+                                     </div>
+
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Type : @data.Type</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>E-mail : @data.Email</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5 class="@(data.Status.Equals("teLaat") || data.Status.Equals("geblokkeerd") ? "attentie" : "")">Status : @data.Status</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Aantal : @data.Aantal</h5>
+                                     </div>
+                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12"><h5>Geblokkeerd tot : @(data.GeblokkeerdOp.IsEmpty() ? "Niet geblokkeerd" : @data.GeblokkeerdOp)</h5>
+                                     </div>
+
+                                 </div>
+                                 
+                             }
+                             
+                         </div>
+                     </div>
+                    @*</table>*@
+                 }
+            }
+        </div>
+    </div>
+</div>
+
+<div id="chart_div"></div>
+
+<div>
+    @using (Html.BeginForm("Index", "Verlanglijst"))
+    {
+        <button type="submit" class="btn btn-default btn-verlanglijst ">
+            &laquo; Verlanglijst
+        </button>
+    }
+</div>

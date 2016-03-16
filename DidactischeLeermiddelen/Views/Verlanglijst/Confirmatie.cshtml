@@ -1,0 +1,69 @@
+﻿@using DidactischeLeermiddelen.Models.Domain
+@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
+<h2>Confirmatie reservatie</h2>
+<section id="reservatie-confirmatie">
+    <div class="overzicht">
+        <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-6">
+                <h3 class="pull-right">Naam materiaal</h3>
+            </div>
+            <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-6">
+                <h3>Aantal stuks</h3>
+            </div>
+        </div>
+        @foreach (var item in Model.VerlanglijstViewModels)
+        {
+            <div class="row" id="@item.MateriaalId">
+                <div class="col-md-5 col-sm-5 col-xs-6">
+                    <h4 class="pull-right">
+                        @item.Naam
+                    </h4>
+                </div>
+                <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-6">
+                    <h4>
+                        @item.AantalGeselecteerd
+                    </h4>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row totaal">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <h4 class="pull-right">Totaal aantal :</h4>
+        </div>
+        <div class="col-md-1 col-sm-1 col-xs-2">
+            <h4 class="pull-right">@Model.TotaalGeselecteerd</h4>
+        </div>
+        @if (Model.Gebruiker is Student)
+        {
+            <div class="col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 hidden-xs">
+                <h4>Reservatie voor @Model.GeselecteerdeWeek</h4>
+            </div>
+            <div class="col-xs-12 hidden-lg hidden-md hidden-sm">
+                <h4>Reservatie voor @Model.GeselecteerdeWeek</h4>
+            </div>
+        }
+        @if (Model.Gebruiker is Lector)
+        {
+            <div class="col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 hidden-xs">
+                <h4>Blokkering voor @Model.GeselecteerdeWeek.Replace(",",", ")</h4>
+            </div>
+            <div class="col-xs-12 hidden-lg hidden-md hidden-sm">
+                <h4>Blokkering voor @Model.GeselecteerdeWeek.Replace(",", ", ")</h4>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="btn btn-green" id="btn-terug">Terug</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="btn btn-green pull-right" id="btn-reserveer">Reserveer</div>
+        </div>
+    </div>
+
+    <div id="divLoading">
+
+        <img src="~/Content/Images/ajax-loader(1).gif" class="toongif" />
+    </div>
+</section>

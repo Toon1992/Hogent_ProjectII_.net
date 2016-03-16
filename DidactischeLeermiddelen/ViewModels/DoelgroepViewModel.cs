@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace DidactischeLeermiddelen.ViewModels
 {
@@ -10,9 +6,6 @@ namespace DidactischeLeermiddelen.ViewModels
     {
         // This property contains the available options
         public SelectList DoelgroepenLijst { get; set; }
-
-        // This property contains the selected options
-        //public IEnumerable<string> SelectedSources { get; set; }
 
         public DoelgroepViewModel(SelectList doelgroepen)
         {
@@ -24,11 +17,11 @@ namespace DidactischeLeermiddelen.ViewModels
 
     public class LeergebiedViewModel : IViewModel
     {
-        public SelectList LeergebiedenSelectList { get; set; }
+        public SelectList LeergebiedenLijst { get; set; }
 
         public LeergebiedViewModel(SelectList leergebieden)
         {
-            LeergebiedenSelectList = leergebieden;
+            LeergebiedenLijst = leergebieden;
         }
     }
 }

@@ -20,11 +20,11 @@
         <div class="container">
             <div class="col-sm-6 col-xs-6">
                 @Html.Label("DoelgroepId", "Doelgroep")
-                @Html.DropDownList("DoelgroepId", ViewBag.Doelgroepen as SelectList, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
+                @Html.DropDownList("DoelgroepId", Model.DoelgroepSelectList.DoelgroepenLijst, "--alle doelgroepen--", new { @class = "form-control", @id = "doelgroepLijst" })
             </div>
             <div class="col-sm-6 col-xs-6">
                 @Html.Label("LeergebiedId", "Leergebied")
-                @Html.DropDownList("LeergebiedId", ViewBag.Leergebieden as SelectList, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
+                @Html.DropDownList("LeergebiedId", Model.LeergebiedSelectList.LeergebiedenLijst, "--alle leergebieden--", new { @class = "form-control", @id = "leergebiedLijst" })
             </div>
         </div>
     </div>
@@ -41,19 +41,19 @@
             </div>
             <div class="leergebied">
                 @Html.Label("Leergebied")
-                @foreach (var leergebied in Model.Leergebieden)
+                @foreach (var leergebied in Model.LeergebiedSelectList.LeergebiedenLijst)
             {
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new { id = "leergebied" + leergebied.LeergebiedId }) @leergebied.Naam<br />
+                        @Html.CheckBox("group1", new { id = "leergebied" + leergebied.Value }) @leergebied.Text<br />
                     </div>
                 }
             </div>
             <div class="doelgroep">
                 @Html.Label("Doelgroep")
-                @foreach (var doelgroep in Model.Doelgroepen)
+                @foreach (var doelgroep in Model.DoelgroepSelectList.DoelgroepenLijst)
             {
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.DoelgroepId }) @doelgroep.Naam<br />
+                        @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.Value }) @doelgroep.Text<br />
                     </div>
                 }
             </div>

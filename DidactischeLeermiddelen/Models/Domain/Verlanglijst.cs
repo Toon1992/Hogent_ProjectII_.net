@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.ComponentModel;
-using System.Linq;
-using DidactischeLeermiddelen.Models.Domain;
-using Microsoft.Ajax.Utilities;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -51,7 +44,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
         }
 
-        public Boolean BevatMateriaal(Materiaal materiaal)
+        public bool BevatMateriaal(Materiaal materiaal)
         {
             if(Materialen.Count == 0)
                 return false;

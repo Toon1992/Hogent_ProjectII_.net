@@ -1,0 +1,52 @@
+﻿@model DidactischeLeermiddelen.ViewModels.FirmaViewModel
+
+
+<div class="paginaFirma">
+    <div class="detailFirma col-sm-12">
+
+        <div>
+            <h2>Details van firma @Html.DisplayFor(m => m.Naam)</h2></div>
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">
+                <h3>Naam</h3></div>
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">
+                <h3>Email</h3></div>
+            <div class="col-md-3 col-sm-3 col-xs-3 hidden-xs">
+                <h3>Contactpersoon</h3></div>
+            <div class="col-md-3 col-sm-3 col-xs-3 hidden-xs">
+                <h3>Website</h3></div>
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">
+                <h3>Adres</h3></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">@Html.DisplayFor(modelItem => Model.Naam)</div>
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">@Html.DisplayFor(modelItem => Model.Email)</div>
+            <div class="col-md-3 col-sm-3 col-xs-3 hidden-xs">@Html.DisplayFor(modelItem => Model.Contactpersoon)</div>
+            <div class="col-md-3 col-sm-3 col-xs-3 hidden-xs"><a href="https://@Model.Website" target="blank">@Html.DisplayFor(m => m.Website)</a></div>
+            <div class="col-md-2 col-sm-2 col-xs-2 hidden-xs">@Html.DisplayFor(modelItem => Model.Adres)</div>
+        </div>
+
+        <div class="row">
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <h4>Naam : @Html.DisplayFor(modelItem => Model.Naam)</h4></div>
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <h4>E-mail : @Html.DisplayFor(modelItem => Model.Email)</h4></div>
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <h4>Contactpersoon : @Html.DisplayFor(modelItem => Model.Contactpersoon)</h4></div>
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <h4>Website : <a href="https://@Model.Website" target="blank">@Html.DisplayFor(m => m.Website)</a></h4></div>
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <h4>Adres : @Html.DisplayFor(modelItem => Model.Adres)</h4></div>
+        </div>
+
+    </div>
+    <div>
+        @using (Html.BeginForm("Index", "Catalogus"))
+        {
+            <button type="submit" class="btn btn-default btn-verlanglijst ">
+                &laquo; Catalogus
+            </button>
+        }
+    </div>
+
+</div>

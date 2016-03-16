@@ -1,73 +1,101 @@
-﻿@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
+﻿@using DidactischeLeermiddelen.Models.Domain
+@using Microsoft.AspNet.Identity
+@model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 
 @{
-    ViewBag.Title = Model.Materialen.Count()==1? "1 artikel in verlanglijst" : Model.Materialen.Count()+ " artikelen in verlanglijst";
+    ViewBag.Title = Model.VerlanglijstViewModels.Count()==1? "1 artikel in verlanglijst" : Model.VerlanglijstViewModels.Count()+ " artikelen in verlanglijst";
 }
 
 <section id="verlanglijst-pagina">
     <h2>Uw verlanglijst</h2>
-
-    @foreach (var item in Model.Materialen)
+    @foreach (var item in Model.VerlanglijstViewModels)
     {
         <div class="row materiaal" id="@item.MateriaalId">
             <div class="img-side">
                 <div class="col-md-1 col-sm-1 hidden-xs">
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new { id = item.MateriaalId })
+                        @Html.CheckBoxFor(m => item.Geselecteerd, new {@class = item.MateriaalId, id = item.MateriaalId})
                     </div>
+
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12">
-                    <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId"/>
+                    <a href="@item.Foto" data-lightbox="@item.MateriaalId" data-title="@item.Naam">
+                        <img src="@item.Foto" alt="@item.Foto" itemprop="@item.MateriaalId">
+                    </a>
                 </div>
             </div>
             <div class="info-side">
                 <div class="checkbox hidden-lg hidden-md hidden-sm">
-                        @Html.CheckBox("group1", new { id = item.MateriaalId })
-                    </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
+                    @Html.CheckBoxFor(m => item.Geselecteerd, new {@class = item.MateriaalId, id = item.MateriaalId})
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
                     <h3 class="title">@Html.DisplayFor(modelItem => item.Naam)</h3>
-                    <h5 class="manufacturer">@Html.DisplayFor(modelItem => item.Firma)</h5>
+                    <h5 class="aantal">In catalogus : @Html.DisplayFor(modelItem => item.AantalInCatalogus)</h5>
+                    <h5 class="aantal">Geblokkeerd : @Html.DisplayFor(modelItem => item.AantalGeblokkeerd)</h5>
+                    <h5 class="aantal">Onbeschikbaar: @Html.DisplayFor(modelItem => item.AantalOnbeschikbaar)</h5>
+                    <h3 class="beschikbaarheid">@item.Beschikbaarheid</h3>
                 </div>
-                <div class="col-md-2 hidden-sm hidden-xs">
-                    <div class="leergebied">
-                        @foreach (var leergebied in item.Leergebieden)
-                        {
-                            <h4>@Html.DisplayFor(d => leergebied.Naam)</h4>
-                        }
-                    </div>
-
+                <div class="col-md-2 col-sm-2">
+                    <h4 class="detail-materiaal"><a>Details</a></h4>
                 </div>
 
-                <div class="col-md-3 col-sm-3 col-xs-12">
-                    <h5>@Html.DisplayFor(modelItem => item.AantalInCatalogus) beschikbaar</h5>
+
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <h5>Nog @Html.DisplayFor(modelItem => item.AantalBeschikbaar) reserveerbaar</h5>
                     @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new {id = item.MateriaalId}))
                     {
                         <div class="form-group">
                             <label class="sr-only" for="aantal">Aantal</label>
-                            <input type="number" name="aantal" value="1" min="1" max=@item.AantalInCatalogus class="input-medium"/>
-
+                            <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" id="aantal_@item.MateriaalId"/>
                         </div>
-                        <button type="submit" class="btn btn-delete">
+                        <button type="submit" class="btn btn-delete" tabindex="-1">
                             <span class="glyphicon glyphicon-remove"></span> Verwijderen
                         </button>
                     }
                 </div>
             </div>
         </div>
-
-
-
+        
     }
-    <div class="col-md-offset-8 col-md-4">
-        <div>
-            <h4 id="reservatie-info">
-                Selecteer materiaal om te reserveren
-            </h4>
-            <div class="btn btn-success">Verder naar reserveren &raquo;</div>
+   
+    <div class="row">
+        @if (Model.Gebruiker is Student)
+        {
+            <div class="col-md-3 col-sm-5 col-xs-12">
+                <div class="form-group text-center">
+                    <div class="input-append date datecontrol" id="reservatie-date">
+                        <input type='text' name="date" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly/>
+                        <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Gebruiker is Lector)
+        {
+            <div class="col-md-3 col-sm-5 col-xs-12">
+                <div class="form-group text-center">
+                    <div class="input-append date datecontrol" id="reservatie-end-date">
+                        <input type='text' name="multidate" value="@Model.GeselecteerdeWeek" placeholder="Selecteer week" readonly />
+                        <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col-md-offset-5 col-md-4 col-sm-offset-3 col-sm-4 col-xs-12 text-center">
+            <div class="btn btn-success" name="btn-reserveer" id="btn-confirmeer" autofocus>Verder naar reserveren &raquo;</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+                <h4 class="foutmelding"></h4>
         </div>
     </div>
+    
+    
+    
 </section>
-@section scripts
+    
+    @section scripts
 {
-    <script src="~/Scripts/verlanglijstScript.js"></script>
-}
+        <script src="~/Scripts/verlanglijstScript.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   }

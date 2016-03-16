@@ -2,13 +2,15 @@
 @model DidactischeLeermiddelen.ViewModels.MateriaalViewModel
 <div class="img-side">
     <div class="col-sm-12 col-xs-12">
-        <img src="@Model.Foto" alt="@Model.Foto" itemprop="@Model.MateriaalId" />
+        <a href="@Model.Foto" data-lightbox="@Model.MateriaalId" data-title="@Model.Naam">
+            <img src="@Model.Foto" alt="@Model.Foto" itemprop="@Model.MateriaalId">
+        </a>
     </div>
 </div>
 <div class="info-side">
     <div class="col-sm-12 col-xs-12">
         <h3 class="title">@Html.DisplayFor(modelItem => Model.Naam)</h3>
-        <h5 class="manufacturer">@Html.DisplayFor(modelItem => Model.Firma)</h5>
+        <h5 class="manufacturer">@Html.DisplayFor(modelItem => Model.Firma.Naam)</h5>
         <h4 class="description">@Html.DisplayFor(modelItem => Model.Omschrijving)</h4>
         <h5 class="info">Artikel: @Html.DisplayFor(modelItem => Model.ArtikelNr)</h5>
 
@@ -31,7 +33,7 @@
     </div>
     <div class="footergroup text-center">
         <div class="col-xs-12">
-            <h4 class="price">@Html.DisplayFor(modelItem => Model.Prijs)</h4>
+            <h4 class="price">€ @Html.DisplayFor(modelItem => Model.Prijs)</h4>
             <h5>@Html.DisplayFor(modelItem => Model.AantalInCatalogus) beschikbaar</h5>
 
             @using (Html.BeginForm("VoegAanVerlanglijstToe", "Catalogus", new { id = Model.MateriaalId }))
