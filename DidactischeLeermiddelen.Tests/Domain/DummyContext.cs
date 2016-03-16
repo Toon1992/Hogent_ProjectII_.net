@@ -117,17 +117,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             }; 
             StartDatum = "14/03/2016";
-            Dagen1 = new []{"15/03/2016", "16/03/2016"};
-            Dagen2 = new[] { "16/03/2016", "17/03/2016" };
-            Dagen3 = new[] { "15/03/2016", "18/03/2016" };
-            Dagen4 = new[] { "21/03/2016", "22/03/2016" };
             ReservatieWeek1Aantal2Student = new ReservatieStudent(Toon, Bol, StartDatum, 2);
             ReservatieWeek1Aantal8Student = new ReservatieStudent(Toon, Bol, StartDatum, 8);
             ReservatieWeek1Aantal5Student = new ReservatieStudent(Toon, Bol, StartDatum, 5);
-            ReservatieWeek1Aantal2Lector = new BlokkeringLector(LectorGebruiker, Bol, StartDatum, 2,Dagen1);
-            ReservatieWeek1Aantal8Lector = new BlokkeringLector(LectorGebruiker, Bol, StartDatum, 8, Dagen2);
-            ReservatieWeek1Aantal5Lector = new BlokkeringLector(LectorGebruiker, Bol, StartDatum, 5, Dagen3);
-            ReservatieWeek1Aantal10Lector = new BlokkeringLector(LectorGebruiker, Bol, StartDatum, 10, Dagen4);
             //Reservatie = new Reservatie();
             Student = new Student();
             materialen.Add(Bol);

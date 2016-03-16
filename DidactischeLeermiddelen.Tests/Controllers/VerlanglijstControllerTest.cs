@@ -37,10 +37,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockMateriaalRepository = new Mock<IMateriaalRepository>();
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
-            mockMateriaalRepository.Setup(t => t.FindById(1)).Returns(context.Encyclopedie);
-            mockMateriaalRepository.Setup(t => t.FindById(2)).Returns(context.GeoDriehoek);
-            mockMateriaalRepository.Setup(t => t.FindById(3)).Returns(context.Bol);
-            mockMateriaalRepository.Setup(t => t.FindById(4)).Returns(context.Kaart);
+            mockMateriaalRepository.Setup(t => t.FindById(1)).Returns(context.Bol);
             mockGebruikerRepository.Setup(t => t.FindByName("student@student.hogent.be")).Returns(context.Toon);
             m = context.Bol;
             materiaalIds = new []{ m.MateriaalId };
