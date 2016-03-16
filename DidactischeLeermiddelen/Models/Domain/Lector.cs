@@ -194,7 +194,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             if (dagen != null)
             {
-                var blok = materiaal.GeefGeblokeerdeDagen(dagen, this);
                 var geblokeerdeDagen =
                     materiaal.Reservaties
                         .Where(r => startDatum <= r.EindDatum && eindDaum >= r.StartDatum)

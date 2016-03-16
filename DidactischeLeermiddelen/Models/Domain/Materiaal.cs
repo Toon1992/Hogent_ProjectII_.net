@@ -109,20 +109,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             return aantal;
         }
 
-        public IList<DateTime> GeefGeblokeerdeDagen(IList<DateTime> dagen, Gebruiker gebruiker)
-        {
-            IList<DateTime> geblokkeerdeDagen = new List<DateTime>();
-            dagen.ForEach(d =>
-            {
-                int aantal = GeefAantalBeschikbaar(DateTime.Now, DateTime.Now, new List<DateTime> {d}, gebruiker);
-                if (aantal == 0)
-                {
-                    geblokkeerdeDagen.Add(d);
-                }
-            });
-            return geblokkeerdeDagen;
-        } 
-
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
             int aantal = AantalInCatalogus -

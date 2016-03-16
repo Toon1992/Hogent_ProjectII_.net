@@ -42,8 +42,9 @@ var viewModel = {
     init: function () {
         Cookies.init();
         $(document).keypress(function (event) {
-            event.preventDefault();
+            
             if (event.keyCode === 13) {
+                event.preventDefault();
                 $("#btn-confirmeer").click();
             }
         });

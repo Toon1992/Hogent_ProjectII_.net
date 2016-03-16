@@ -1,4 +1,5 @@
 ﻿@using DidactischeLeermiddelen.Models.Domain
+@using Microsoft.AspNet.Identity
 @model DidactischeLeermiddelen.ViewModels.VerlanglijstMaterialenViewModel
 
 @{
@@ -46,7 +47,6 @@
                         <div class="form-group">
                             <label class="sr-only" for="aantal">Aantal</label>
                             <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" id="aantal_@item.MateriaalId"/>
-
                         </div>
                         <button type="submit" class="btn btn-delete" tabindex="-1">
                             <span class="glyphicon glyphicon-remove"></span> Verwijderen

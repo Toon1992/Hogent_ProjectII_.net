@@ -7,7 +7,7 @@ using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {
