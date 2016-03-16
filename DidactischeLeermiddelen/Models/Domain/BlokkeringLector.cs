@@ -5,7 +5,11 @@ using System.Linq;
 namespace DidactischeLeermiddelen.Models.Domain
 {
     public class BlokkeringLector : Reservatie
-    {     
+    {
+        public BlokkeringLector()
+        {
+            
+        }
         public BlokkeringLector(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal,string[]dagen)
             : base(gebruiker, materiaal, startDatum, aantal)
         {
