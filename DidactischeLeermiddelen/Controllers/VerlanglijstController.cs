@@ -30,6 +30,7 @@ namespace DidactischeLeermiddelen.Controllers
             DateTime startDatum;
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
+
             if ((int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17))
             {
                 startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);               
