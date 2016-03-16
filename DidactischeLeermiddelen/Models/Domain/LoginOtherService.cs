@@ -12,6 +12,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         private IGebruikerRepository repository;
         public string Email { get; set; }
+        public string Type { get; set; }
 
         public LoginOtherService(IGebruikerRepository repository)
         {
@@ -33,13 +34,13 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             var name = array.NAAM.ToString();
             var vnaam = array.VOORNAAM.ToString();
-            var type = array.TYPE.ToString();
+            Type = array.TYPE.ToString();
             var faculteit = array.FACULTEIT.ToString();
             Email = array.EMAIL.ToString();
             Gebruiker gebruiker = repository.FindByName(model.Email);
             if (gebruiker == null)
             {
-                if (type.Equals("student"))
+                if (Type.ToLower().Equals("student"))
                 {
                     gebruiker = new Student()
                     {

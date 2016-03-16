@@ -110,6 +110,14 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     user = new ApplicationUser { UserName = email, Email = email };
                     await UserManager.CreateAsync(user, model.Password);
+                    if (lo.Type.ToLower() == "lector")
+                    {
+                        UserManager.AddToRole(user.Id, "Lector");
+                    }
+                    else
+                    {
+                        UserManager.AddToRole(user.Id, "Student");
+                    }
                 }
                 await SignInManager.SignInAsync(user, false, false);
                 return RedirectToAction("Index", "Home");

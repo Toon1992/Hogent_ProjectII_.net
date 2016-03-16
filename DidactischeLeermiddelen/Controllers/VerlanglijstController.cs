@@ -102,7 +102,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View("Index", vm);
         }
-        private bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
+        public bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
         {
             IList<Materiaal> materialen = GeefMaterialenVanId(materiaal);
             if (dagen != null)

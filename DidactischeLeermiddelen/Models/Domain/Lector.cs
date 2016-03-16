@@ -194,7 +194,12 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             if (dagen != null)
             {
-                var geblokeerdeDagen = materiaal.GeefGeblokeerdeDagen(dagen, this);
+                var blok = materiaal.GeefGeblokeerdeDagen(dagen, this);
+                var geblokeerdeDagen =
+                    materiaal.Reservaties
+                        .Where(r => startDatum <= r.EindDatum && eindDaum >= r.StartDatum)
+                        .SelectMany(r => r.GeblokkeerdeDagen.Select(d => d.Datum))
+                        .Intersect(dagen);
                 return $"Niet meer beschikbaar op {HulpMethode.DatesToString(geblokeerdeDagen)}";
             }
             return "";
