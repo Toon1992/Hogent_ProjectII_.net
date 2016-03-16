@@ -53,7 +53,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             for (int i = 0; i < aantal.Length; i++)
             {
-                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, dagen.ToList(), this);
+                int aantalBeschikbaar = materialen[i].GeefAantalBeschikbaar(startDatum, eindDatum, dagen, this);
                 if (aantalBeschikbaar == 0 || aantalBeschikbaar < aantal[i])
                 {
                     return false;

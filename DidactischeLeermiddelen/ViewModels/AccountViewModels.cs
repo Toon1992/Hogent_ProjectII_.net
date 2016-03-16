@@ -6,7 +6,6 @@ namespace DidactischeLeermiddelen.ViewModels
     {
         [Required]
         [Display(Name = "E-mail")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

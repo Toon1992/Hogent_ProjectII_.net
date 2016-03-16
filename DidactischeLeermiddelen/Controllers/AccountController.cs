@@ -103,10 +103,12 @@ namespace DidactischeLeermiddelen.Controllers
             }
             if (login is LoginOtherService)
             {
-                var user = await UserManager.FindByEmailAsync(model.Email);
+                LoginOtherService lo = login as LoginOtherService;
+                var email = lo.Email;
+                var user = await UserManager.FindByEmailAsync(email);
                 if (user == null)
                 {
-                    user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    user = new ApplicationUser { UserName = email, Email = email };
                     await UserManager.CreateAsync(user, model.Password);
                 }
                 await SignInManager.SignInAsync(user, false, false);
