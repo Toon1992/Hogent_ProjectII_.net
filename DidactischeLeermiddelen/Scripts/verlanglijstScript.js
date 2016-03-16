@@ -229,11 +229,11 @@ var viewModel = {
                 } else {
                     viewModel.startDatum = data;
                 }
+                if (viewModel.dagen.length === 0) {
+                    viewModel.dagen.push(viewModel.startDatum);
+                }
             }
-            if (viewModel.dagen.length === 0) {
-                viewModel.dagen.push(viewModel.startDatum);
-            }
-            else if (typeof $("input[name='multidate']")[0] === "undefined") {
+            if (typeof $("input[name='multidate']")[0] === "undefined") {
                 viewModel.startDatum = $("input[name='date']")[0].value;
             }
                 if ($('input:checkbox:checked').length === 0) {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
 using DidactischeLeermiddelen.Models.Domain.Mail;
@@ -23,7 +24,18 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
         public Materiaal Kaart { get; set; }
         public Materiaal GeoDriehoek { get; set; }
-        public Reservatie Reservatie { get; set; }
+        public Reservatie ReservatieWeek1Aantal2Student { get; set; }
+        public Reservatie ReservatieWeek1Aantal8Student { get; set; }
+        public Reservatie ReservatieWeek1Aantal5Student { get; set; }
+        public Reservatie ReservatieWeek1Aantal2Lector { get; set; }
+        public Reservatie ReservatieWeek1Aantal8Lector { get; set; }
+        public Reservatie ReservatieWeek1Aantal5Lector { get; set; }
+        public Reservatie ReservatieWeek1Aantal10Lector { get; set; }
+        public string[] Dagen1 { get; set; }
+        public string[] Dagen2 { get; set; }
+        public string[] Dagen3 { get; set; }
+        public string[] Dagen4 { get; set; }
+        public string StartDatum { get; set; }
         public Student Student { get; set; }
         public MailTemplate mailStudent { get; set; }
 
@@ -104,7 +116,10 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 MateriaalId = 4
 
             }; 
-
+            StartDatum = "14/03/2016";
+            ReservatieWeek1Aantal2Student = new ReservatieStudent(Toon, Bol, StartDatum, 2);
+            ReservatieWeek1Aantal8Student = new ReservatieStudent(Toon, Bol, StartDatum, 8);
+            ReservatieWeek1Aantal5Student = new ReservatieStudent(Toon, Bol, StartDatum, 5);
             //Reservatie = new Reservatie();
             Student = new Student();
             materialen.Add(Bol);
