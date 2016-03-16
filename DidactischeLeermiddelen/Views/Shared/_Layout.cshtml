@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using DidactischeLeermiddelen.Models.Domain
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,7 +26,7 @@
                     <li class="navbar-item navNotClick">@Html.ActionLink("Catalogus", "Index", "Catalogus")</li>
                     <li class="navbar-item navNotClick">@Html.ActionLink("Verlanglijst", "Index", "Verlanglijst")</li>
                     <li class="navbar-item navNotClick">
-                        @(User.IsInRole("lector") ? Html.ActionLink("Blokkeringen", "Index", "Reservatie") : Html.ActionLink("Reservaties", "Index", "Reservatie"))
+                        @(User.IsInRole("Lector") ? Html.ActionLink("Reservaties", "Index", "Reservatie") : Html.ActionLink("Blokkeringen", "Index", "Reservatie"))
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
