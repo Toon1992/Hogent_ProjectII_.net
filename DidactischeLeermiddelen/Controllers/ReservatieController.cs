@@ -84,7 +84,7 @@ namespace DidactischeLeermiddelen.Controllers
                         //        m => m.Reservaties.Where(p => p.ReservatieStateEnum == ReservatieStateEnum.Overruled)).ToList();
                         VerstuurMailBlokkeringLector(potentieleReservaties, dagen, lector);
                         //VerstuurMailBlokkeringStudent(null,eersteDag,null);
-                        TempData["Info"] = $"Reservatie werd aangemaakt";
+                        TempData["Info"] = $"Blokkering werd aangemaakt";
                     }
 
                     gebruikerRepository.SaveChanges();
@@ -107,7 +107,7 @@ namespace DidactischeLeermiddelen.Controllers
                 reservatieRepository.SaveChanges();
                 gebruikerRepository.SaveChanges();
                 
-                TempData["Info"] = "Reservatie is succesvol verwijderd";
+                TempData["Info"] = (gebruiker is Lector ? "Reservatie" : "Blokkering") + "is succesvol verwijderd";
             }
             catch (ArgumentException ex)
             {
