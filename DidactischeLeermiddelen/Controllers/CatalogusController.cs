@@ -32,6 +32,7 @@ namespace DidactischeLeermiddelen.Controllers
         public ActionResult Index(Gebruiker gebruiker, int[] doelgroepenLijst, int[] leergebiedenLijst, string trefwoord)
         {
             IList<Materiaal> materialen = new List<Materiaal>();
+
             //Indien er geen checkboxen aangeklikt werden zulllen alle materialen getoont worden.
             if (doelgroepenLijst == null && leergebiedenLijst == null && (trefwoord == null || trefwoord.IsEmpty()))
             {
@@ -51,10 +52,12 @@ namespace DidactischeLeermiddelen.Controllers
                     materialen = GeefGefilterdeMaterialen(doelgroepenLijst, leergebiedenLijst, materialen);
                 }
             }
+
             if (gebruiker is Student)
             {
                 materialen = materialen.Where(m => m.IsReserveerBaar).ToList();
             }  
+
             materialen.ForEach(m =>
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
@@ -95,6 +98,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return materialen;
         }
+
         [HttpPost]
         public ActionResult VoegAanVerlanglijstToe(int id, Gebruiker gebruiker)
         {

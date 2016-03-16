@@ -23,6 +23,7 @@ namespace DidactischeLeermiddelen.Models.Domain.Mail
                 items += string.Format("<li>" + item.Key.Naam + " x" + item.Value + "</li>" + "\n");
 
             }
+
             if (dagen == null)
             {
                 dagenMail = startDatum;

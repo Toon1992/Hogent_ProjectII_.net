@@ -8,12 +8,7 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
             
         }
-        public Geblokkeerd() { }
-
-        public override void Reserveer()
-        {
-            throw new ArgumentException("Materiaal is geblokkeerd");
-        }
+        public Geblokkeerd() { }      
 
         public override void Blokkeer()
         {

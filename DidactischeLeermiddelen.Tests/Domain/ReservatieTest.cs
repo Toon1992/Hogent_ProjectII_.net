@@ -179,7 +179,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         }
 
         [TestMethod]
-        public void LectorOverruultTweeStudentenEnBlokkeertMeeLector()
+        public void LectorOverruultTweeStudentenEnBlokkeertMetLector()
         {
             Student student1 = context.Toon as Student;
             Student student2 = context.Manu as Student;
@@ -223,5 +223,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(1, lector1.Reservaties.Count);
             Assert.AreEqual(1, lector2.Reservaties.Count);
         }
+
+       
     }
 }

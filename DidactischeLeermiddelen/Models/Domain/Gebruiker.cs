@@ -61,6 +61,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return true;
         }
+
         public string GetDateToString(DateTime startDatum, IEnumerable<DateTime> dagen, DateTimeFormatInfo dtfi)
         {
             string datum;
