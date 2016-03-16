@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain;
+using DidactischeLeermiddelen.Models.Domain.Mail;
 
 namespace DidactischeLeermiddelen.Tests.Domain
 {
@@ -24,6 +25,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
         public Materiaal GeoDriehoek { get; set; }
         public Reservatie Reservatie { get; set; }
         public Student Student { get; set; }
+        public MailTemplate mailStudent { get; set; }
 
 
         public DummyContext()
@@ -33,6 +35,11 @@ namespace DidactischeLeermiddelen.Tests.Domain
             doelgroepen = new List<Doelgroep>();
             leergebieden = new List<Leergebied>();
 
+            mailStudent=new MailNaReservatie()
+            {
+                Body = "reservatie geslaagd",
+                Subject = "Bevestiging reservatie"
+            };
             Toon = new Student()
             {
                 Email = "student@student.hogent.be",
@@ -75,22 +82,26 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             Bol = new Materiaal("Wereldbol", 456, 10)
             {
-                IsReserveerBaar = true
+                IsReserveerBaar = true,
+                MateriaalId = 1
+
             };
             Kaart = new Materiaal("Kaart", 4587, 5)
             {
-                IsReserveerBaar = true
+                IsReserveerBaar = true,
+                MateriaalId = 2
+
             }; 
             Encyclopedie = new Materiaal("Encyclopedie", 111, 80)
             {
                 IsReserveerBaar = true,
-                MateriaalId = 1
+                MateriaalId = 3
 
             };
             GeoDriehoek = new Materiaal("GeoDriehoek", 111, 2)
             {
                 IsReserveerBaar = true,
-                MateriaalId = 2
+                MateriaalId = 4
 
             }; 
 
