@@ -11,6 +11,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     public class LoginOtherService:ILogin
     {
         private IGebruikerRepository repository;
+        public string Email { get; set; }
 
         public LoginOtherService(IGebruikerRepository repository)
         {
@@ -34,6 +35,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             var vnaam = array.VOORNAAM.ToString();
             var type = array.TYPE.ToString();
             var faculteit = array.FACULTEIT.ToString();
+            Email = array.EMAIL.ToString();
             Gebruiker gebruiker = repository.FindByName(model.Email);
             if (gebruiker == null)
             {
@@ -42,7 +44,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     gebruiker = new Student()
                     {
                         Naam = vnaam + " " + name,
-                        Email = model.Email,
+                        Email = Email,
                         Faculteit = faculteit
                     };
                 }
@@ -51,7 +53,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     gebruiker = new Lector
                     {
                         Naam = vnaam + " " + name,
-                        Email = model.Email,
+                        Email = Email,
                         Faculteit = faculteit
                     };
                 }
