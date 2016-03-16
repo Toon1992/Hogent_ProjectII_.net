@@ -21,6 +21,9 @@ namespace DidactischeLeermiddelen.Tests.Controllers
         private Gebruiker gebruiker;
         private Materiaal m;
         private DummyContext context;
+        private int[] materialen;
+        private int[] aantal;
+        private string[] dagen;
 
         [TestInitialize]
         public void OpzettenContext()
@@ -33,7 +36,12 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mailServiceRepository = new Mock<IMailServiceRepository>();
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
             m = context.Encyclopedie;
+            materialen = new[] {2,3};
+            aantal = new[] {5,1};
+            dagen=new []{"25/03/2016"};
 
+            mockMateriaalRepository.Setup(t => t.FindById(2)).Returns(context.Bol);
+            mockMateriaalRepository.Setup(t => t.FindById(3)).Returns(context.Encyclopedie);
             controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mailServiceRepository.Object);
         }
 
@@ -52,6 +60,17 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             ViewResult result = controller.Index(gebruiker) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("LegeReservatielijst", result.ViewName);
+        }
+
+        [TestMethod]
+
+        public void BlokkerenVoegtOverruledeReservatieToeInKlasseLector()
+        {
+            controller.MaakReservatie(context.Student, materialen, aantal, "25/03/2016", dagen);
+            controller.MaakReservatie(context.LectorGebruiker, materialen, aantal, "25/03/2016", dagen);
+            
+            Assert.AreEqual(1,context.LectorGebruiker.OverruledeReservaties.Count);
+
         }
         
     }

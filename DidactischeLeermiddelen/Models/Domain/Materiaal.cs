@@ -86,6 +86,29 @@ namespace DidactischeLeermiddelen.Models.Domain
             return aantal <= 0 ? 0 : aantal;
         }
 
+        public int GeefAantalGeselecteerd(Dictionary<int, int> materiaalAantal, int aantalBeschikbaar,
+            int aantalGeselecteerd)
+        {
+            int aantal = 0;
+            if (materiaalAantal.ContainsKey(MateriaalId))
+            {
+                if (aantalBeschikbaar == 0)
+                {
+                    return 0;
+                }
+                if (aantalBeschikbaar < materiaalAantal[MateriaalId])
+                {
+                    return aantalBeschikbaar;
+                }
+                return materiaalAantal[MateriaalId];
+            }
+            if (aantalGeselecteerd != 0)
+            {
+                return aantalGeselecteerd > aantalBeschikbaar ? aantalBeschikbaar : aantalGeselecteerd;
+            }
+            return aantal;
+        }
+
         public IList<DateTime> GeefGeblokeerdeDagen(IList<DateTime> dagen, Gebruiker gebruiker)
         {
             IList<DateTime> geblokkeerdeDagen = new List<DateTime>();

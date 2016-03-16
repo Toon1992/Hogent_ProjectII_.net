@@ -13,7 +13,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
         public Gebruiker Toon { get; set; }
         public Gebruiker Manu { get; set; }
-        public Gebruiker LectorGebruiker { get; set; }
+        public Lector LectorGebruiker { get; set; }
         public Gebruiker LectorGebruiker2 { get; set; }
         public Materiaal Bol { get; set; }
         public IQueryable<Materiaal> Materialen { get { return materialen.AsQueryable(); } }
@@ -60,7 +60,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 Naam = "lector",
                 Verlanglijst = new Verlanglijst(),
                 Reservaties = new List<Reservatie>()
-
+                
             };
 
             LectorGebruiker2 = new Lector()

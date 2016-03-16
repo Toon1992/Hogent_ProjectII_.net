@@ -11,13 +11,14 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public override Verlanglijst Verlanglijst { get; set; }
         public override IList<Reservatie> Reservaties { get; set; }
+        public IList<Reservatie> OverruledeReservaties { get; set; } 
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string[] dagen)
         {
             //Het converten van string naar DateTime
             DateTime start = HulpMethode.GetStartDatum(startDatum);
             DateTime einde = HulpMethode.GetEindDatum(startDatum);
-
+            OverruledeReservaties=new List<Reservatie>();
             IDictionary<DateTime, IList<string>> dagenGeblokkeerd = verdeelDagenOverWeken(dagen);
 
             foreach (var pair in dagenGeblokkeerd)
@@ -99,6 +100,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                             MaakNieuweReservatieVoorStudent(laatsteReservatie, verschil);
                         }
                         OverrulenVanReservatie(laatsteReservatie);
+                        OverruledeReservaties.Add(laatsteReservatie);
                     }
 
                         //aantal wordt op nul gezet, want er zijn geen materialen meer te overrulen
@@ -110,6 +112,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     {
                         //overrulen van de reservatie
                         OverrulenVanReservatie(laatsteReservatie);
+                        OverruledeReservaties.Add(laatsteReservatie);
                     }
 
                         //Nu moeten we nog berekenen wat er nog overblijft
