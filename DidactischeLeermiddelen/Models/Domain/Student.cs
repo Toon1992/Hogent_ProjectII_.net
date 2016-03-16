@@ -11,30 +11,23 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public void MaakReservaties(IDictionary<Materiaal, int> potentieleReservaties, string startDatum)
         {
-            try
+            foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
             {
-                foreach (KeyValuePair<Materiaal, int> potentiele in potentieleReservaties)
-                {
-                    VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum);
-                }
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("Iets fout gelopen hier");
+                VoegReservatieToe(potentiele.Key, potentiele.Value, startDatum);
             }
         }
 
-        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum,string[] dagen =null)
+        protected override void VoegReservatieToe(Materiaal materiaal, int aantal, string startdatum, string[] dagen = null)
         {
             Reservatie reservatie = MaakReservatieObject(this, materiaal, startdatum, aantal);
             materiaal.AddReservatie(reservatie);
             Reservaties.Add(reservatie);
         }
 
-        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal, string[] dagen = null)
+        protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, int aantal, string[] dagen = null)
         {
             Reservatie reservatie = new ReservatieStudent(gebruiker, mat, startdatum, aantal);
-           
+
             if (reservatie == null)
             {
                 throw new ArgumentNullException("Er is geen reservatie Object gemaakt");

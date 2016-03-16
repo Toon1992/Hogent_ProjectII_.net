@@ -117,11 +117,6 @@ namespace DidactischeLeermiddelen.Models.Domain
             return aantal <= 0 ? 0 : aantal;
         }
 
-        public ICollection<Reservatie> GeefNietGeblokkeerdeReservaties()
-        {
-           return Reservaties.Where(r => !(r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald || r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum).ToList();
-        }
-
         public ICollection<Reservatie> GeeftReservatiesVanEenBepaaldeTijd(DateTime start)
         {
             return Reservaties.Where(r => r.StartDatum <= start && (!(r.ReservatieState is Opgehaald || r.ReservatieState is Overruled))).ToList();

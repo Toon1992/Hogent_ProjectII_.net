@@ -77,7 +77,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             while (!flag)
             {
                 //Eerst kijken of er nog reservaties in de pool zitten die we gaan kunnen overrulen 
-                if (reservatiePool.Count <= 0)
+                if (reservatiePool.Count == 0)
                     break;
 
                 //De laatste Reservatie opvragen die er bij gekomen is
@@ -134,7 +134,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         private void OverrulenVanReservatie(Reservatie laatsReservatie)
         {
             //Nu worden volledige reservaties overrult
-            laatsReservatie.ReservatieState.Overruul();
+            laatsReservatie.Overruul();
         }
         private void MaakNieuweReservatieVoorStudent(Reservatie laatsReservatie, int verschil)
         {
@@ -162,12 +162,6 @@ namespace DidactischeLeermiddelen.Models.Domain
         protected override Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum, int aantal, string[] dagen = null)
         {
             Reservatie reservatie = new BlokkeringLector(gebruiker, mat, startdatum, aantal, dagen);
-
-            if (reservatie == null)
-            {
-                throw new ArgumentNullException("Er is geen reservatie Object gemaakt");
-            }
-
             return reservatie;
         }
 

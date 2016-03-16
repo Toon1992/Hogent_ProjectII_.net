@@ -12,19 +12,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
             
         }
-        public override void Reserveer()
-        {
-            throw new NotImplementedException();
-        }
 
-        public override void Blokkeer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Overruul()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
