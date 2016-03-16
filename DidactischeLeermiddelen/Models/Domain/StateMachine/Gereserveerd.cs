@@ -8,10 +8,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
         }
         public Gereserveerd() { }
-        public override void Reserveer()
-        {
-            throw new ArgumentException("Materiaal is al gereserveerd");
-        }
 
         public override void Blokkeer()
         {

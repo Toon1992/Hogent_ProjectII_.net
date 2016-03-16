@@ -9,10 +9,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         {
             
         }
-        public override void Reserveer()
-        {
-            throw new ArgumentException("Het materiaal kan niet gereserveerd worden");
-        }
 
         public override void Blokkeer()
         {

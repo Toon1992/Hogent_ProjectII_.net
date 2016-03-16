@@ -10,11 +10,6 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
         }
         public TeLaat() { }
 
-        public override void Reserveer()
-        {
-            Reservatie.ToState(new Gereserveerd(Reservatie));
-        }
-
         public override void Blokkeer()
         {
             Reservatie.ToState(new Geblokkeerd(Reservatie));
@@ -22,7 +17,7 @@ namespace DidactischeLeermiddelen.Models.Domain.StateMachine
 
         public override void Overruul()
         {
-            throw new NotImplementedException();
+            Reservatie.ToState(new Overruled(Reservatie));
         }
     }
 }

@@ -8,9 +8,9 @@
             Reservatie = reservatie;
         }
         public ReservatieState() { }
-        public abstract void Reserveer();
-        public abstract void Blokkeer();
-        public abstract void Overruul();
+        
+        public virtual void Blokkeer() {}
+        public virtual void Overruul() {}
 
     }
 }

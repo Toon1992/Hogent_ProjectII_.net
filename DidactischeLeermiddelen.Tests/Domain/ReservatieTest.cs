@@ -223,5 +223,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(1, lector1.Reservaties.Count);
             Assert.AreEqual(1, lector2.Reservaties.Count);
         }
+
+       
     }
 }

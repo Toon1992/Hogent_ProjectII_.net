@@ -208,6 +208,7 @@
     <Compile Include="Models\DAL\Mapper\ReservatieRepository.cs" />
     <Compile Include="Models\Domain\BlokkeringLector.cs" />
     <Compile Include="Models\Domain\Dag.cs" />
+    <Compile Include="Models\Domain\HulpMethode.cs" />
     <Compile Include="Models\Domain\Mail\MailNaBlokkeringStudent.cs" />
     <Compile Include="Models\Domain\ReservatieStudent.cs" />
     <Compile Include="ViewModels\DtoObjects\ReservatieDataDTO.cs" />
