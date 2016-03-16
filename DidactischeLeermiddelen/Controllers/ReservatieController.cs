@@ -68,7 +68,7 @@ namespace DidactischeLeermiddelen.Controllers
                         Student student = gebruiker as Student;
 
                         student.MaakReservaties(potentieleReservaties, eersteDag);
-                        VerstuurMailStudent(potentieleReservaties, eersteDag, student);
+                        //VerstuurMailStudent(potentieleReservaties, eersteDag, student);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }
@@ -82,9 +82,9 @@ namespace DidactischeLeermiddelen.Controllers
                         //materialenOverruled =
                         //    potentieleReservaties.Keys.Where(
                         //        m => m.Reservaties.Where(p => p.ReservatieStateEnum == ReservatieStateEnum.Overruled)).ToList();
-                        VerstuurMailBlokkeringLector(potentieleReservaties, dagen, lector);
-                        IList<Reservatie> overruled = lector.OverruledeReservaties;
-                        VerstuurMailNaarStudentDieOverruledIs(overruled);
+                        //VerstuurMailBlokkeringLector(potentieleReservaties, dagen, lector);
+                        //IList<Reservatie> overruled = lector.OverruledeReservaties;
+                        //VerstuurMailNaarStudentDieOverruledIs(overruled);
 
                         TempData["Info"] = $"Reservatie werd aangemaakt";
                     }

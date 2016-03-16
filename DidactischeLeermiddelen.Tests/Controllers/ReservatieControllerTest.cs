@@ -34,14 +34,14 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             mockGebruikerRepository = new Mock<IGebruikerRepository>();
             mockReservatieRepository = new Mock<IReservatieRepository>();
             mailServiceRepository = new Mock<IMailServiceRepository>();
+            mailServiceRepository.Setup(t => t.GeefMailTemplate("Bevestiging reservatie")).Returns(context.mailStudent);
             mockMateriaalRepository.Setup(t => t.FindAll()).Returns(context.Materialen);
             m = context.Encyclopedie;
-            materialen = new[] {2,3};
-            aantal = new[] {5,1};
+            materialen = new[] {1};
+            aantal = new[] {10};
             dagen=new []{"25/03/2016"};
-
-            mockMateriaalRepository.Setup(t => t.FindById(2)).Returns(context.Bol);
-            mockMateriaalRepository.Setup(t => t.FindById(3)).Returns(context.Encyclopedie);
+            mockMateriaalRepository.Setup(t => t.FindById(1)).Returns(context.Bol);
+            mockMateriaalRepository.Setup(t => t.FindById(2)).Returns(context.Kaart);
             controller = new ReservatieController(mockMateriaalRepository.Object, mockGebruikerRepository.Object, mockReservatieRepository.Object,mailServiceRepository.Object);
         }
 
@@ -66,7 +66,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
 
         public void BlokkerenVoegtOverruledeReservatieToeInKlasseLector()
         {
-            controller.MaakReservatie(context.Student, materialen, aantal, "25/03/2016", dagen);
+            controller.MaakReservatie(context.Manu, materialen, aantal, "25/03/2016", dagen);
             controller.MaakReservatie(context.LectorGebruiker, materialen, aantal, "25/03/2016", dagen);
             
             Assert.AreEqual(1,context.LectorGebruiker.OverruledeReservaties.Count);
