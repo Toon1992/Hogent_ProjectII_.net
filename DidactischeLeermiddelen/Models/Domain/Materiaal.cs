@@ -192,7 +192,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
             while (startDatumFilter <= eindDatumFilter)
             {
-                reservatieMap = UpdateReservatieMap(reservatieMap, startDatumFilter, 0);
+                reservatieMap = UpdateReservatieMap(reservatieMap, startDatumFilter, AantalInCatalogus);
                 startDatumFilter = startDatumFilter.AddDays(7);
             }
 
@@ -202,11 +202,16 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             if (reservatieMap.ContainsKey(startDatum))
             {
+                //Indien negatief op null zetten.
                 reservatieMap[startDatum] -= aantal;
+                if (reservatieMap[startDatum] < 0)
+                {
+                    reservatieMap[startDatum] = 0;
+                }
             }
             else
             {
-                reservatieMap.Add(startDatum, AantalInCatalogus);
+                reservatieMap.Add(startDatum, aantal);
             }
             return reservatieMap;
         } 
