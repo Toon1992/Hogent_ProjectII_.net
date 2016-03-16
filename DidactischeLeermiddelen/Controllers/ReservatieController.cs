@@ -64,8 +64,8 @@ namespace DidactischeLeermiddelen.Controllers
                 try
                 {
                     if (gebruiker is Student)
-                    {
-                        Student student = gebruiker as Student;
+                        {
+                            Student student = gebruiker as Student;
 
                         student.MaakReservaties(potentieleReservaties, eersteDag);
                         //VerstuurMailStudent(potentieleReservaties, eersteDag, student);
@@ -78,10 +78,6 @@ namespace DidactischeLeermiddelen.Controllers
 
                         lector.MaakBlokkeringen(potentieleReservaties, eersteDag,dagen);
 
-                        List<Reservatie> materialenOverruled=new List<Reservatie>();
-                        //materialenOverruled =
-                        //    potentieleReservaties.Keys.Where(
-                        //        m => m.Reservaties.Where(p => p.ReservatieStateEnum == ReservatieStateEnum.Overruled)).ToList();
                         //VerstuurMailBlokkeringLector(potentieleReservaties, dagen, lector);
                         //IList<Reservatie> overruled = lector.OverruledeReservaties;
                         //VerstuurMailNaarStudentDieOverruledIs(overruled);
