@@ -79,14 +79,14 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             Assert.AreEqual(5, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
         [TestMethod]
-        public void ControleInvoerStudent5Beschikbaar2GeselecteerdReturnTrue()
+        public void ControleInvoerStudent5Beschikbaar20GeselecteerdReturnFalse()
         {
             m.AddReservatie(context.ReservatieWeek1Aantal5Student);
-            int[] aantal = { 2 };
+            int[] aantal = { 20 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
             bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
-            Assert.IsTrue(beschikbaar);
+            Assert.IsFalse(beschikbaar);
             Assert.AreEqual(5, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
         [TestMethod]
@@ -99,6 +99,18 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             DateTime eindDatum = startDatum.AddDays(4);
             bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsTrue(beschikbaar);
+            Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
+        }
+        [TestMethod]
+        public void ControleInvoerLector2Gereserveerd50GeselecteerdReturnTrue()
+        {
+            Assert.AreEqual(10, m.AantalInCatalogus);
+            m.AddReservatie(context.ReservatieWeek1Aantal2Student);
+            int[] aantal = { 50 };
+            DateTime startDatum = Convert.ToDateTime(context.StartDatum);
+            DateTime eindDatum = startDatum.AddDays(4);
+            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
+            Assert.IsFalse(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
         }
         [TestMethod]
