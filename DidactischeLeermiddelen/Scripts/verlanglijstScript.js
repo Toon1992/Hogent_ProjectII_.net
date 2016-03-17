@@ -302,7 +302,9 @@ var viewModel = {
             data: { materiaal: materialen, aantal: aantallen, naarReserveren: knop, startDatum: startDatum, dagen: dagen },
             success: function (data) {
                 $("#verlanglijst-pagina").html(data);
+
                 viewModel.init();
+
             }
         });
     },
