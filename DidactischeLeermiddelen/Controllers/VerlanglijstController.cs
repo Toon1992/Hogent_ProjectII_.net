@@ -31,7 +31,7 @@ namespace DidactischeLeermiddelen.Controllers
             if (gebruiker.Verlanglijst.Materialen.Count == 0)
                 return View("LegeVerlanglijst");
 
-            if ((int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 || ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17))
+            if (IsWeekend())
             {
                 startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);               
             }
@@ -167,6 +167,12 @@ namespace DidactischeLeermiddelen.Controllers
         private IList<Materiaal> GeefMaterialenVanId(int[] materiaalIds)
         {
             return materiaalIds.Select(id => materiaalRepository.FindById(id)).ToList();
+        }
+
+        private bool IsWeekend()
+        {
+            return (int) DateTime.Now.DayOfWeek == 6 || (int) DateTime.Now.DayOfWeek == 0 ||
+                   ((int) DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17);
         }
 
     }
