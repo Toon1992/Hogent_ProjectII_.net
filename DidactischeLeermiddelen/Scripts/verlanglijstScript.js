@@ -302,9 +302,19 @@ var viewModel = {
             data: { materiaal: materialen, aantal: aantallen, naarReserveren: knop, startDatum: startDatum, dagen: dagen },
             success: function (data) {
                 $("#verlanglijst-pagina").html(data);
-
-                viewModel.init();
-
+                $.ajax({
+                    type: "GET",
+                    traditional: true,
+                    url: "/Verlanglijst/ReservatieDetailsGrafiekPerDag",
+                    data: { ids: materialen, dagen: dagen },
+                    success: function(dataMateriaal) {
+                        google.charts.setOnLoadCallback(function() {
+                            drawMaterialPerDag(dataMateriaal);
+                        });
+                        viewModel.init();
+                    }
+                });
+                
             }
         });
     },
@@ -380,6 +390,45 @@ function drawMaterial(dataMateriaal) {
     };
     var material = new google.charts.Bar(document.getElementById('chart_div'));
     material.draw(data, options);
+}
+function drawMaterialPerDag(dataMateriaal) {
+
+    var obj = JSON.parse(dataMateriaal);
+    var materiaalId;
+    var options = {
+        chart: {
+            title: 'Beschikbaarheid per dag'
+        },
+        hAxis: {
+            title: 'Aantal beschikbaar'
+            //    minValue: 0,
+        },
+        vAxis: {
+            title: 'Startdatum',
+            bars: 'horizontal'
+        }
+    };
+    $.each(obj, function (i, item) {
+        $.each(item, function (j, grafiek) {
+            var data = new google.visualization.DataTable();
+            var rows = new Array();
+
+            data.addColumn('string', 'Startdatum');
+            data.addColumn('number', 'Aantal beschikbaar');
+            var startDatum = grafiek.StartDatum;
+
+            var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+
+            var aantal = grafiek.Aantal;
+            materiaalId = grafiek.MateriaalId;
+
+            rows.push([startDatumNaarDate, aantal]);
+            data.addRows(rows);
+            var material = new google.charts.Bar(document.getElementById('Grafiek_dag_' + materiaalId));
+            material.draw(data, options);
+        });
+        
+    });
 }
 dateTimeReviver = function (key, value) {
     var a;

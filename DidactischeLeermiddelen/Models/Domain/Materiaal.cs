@@ -215,7 +215,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 
             }
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
-            
             return reservatieMap;
         }
 

@@ -16,7 +16,7 @@ namespace DidactischeLeermiddelen.Controllers
     {
         private IMateriaalRepository materiaalRepository;
         private IGebruikerRepository gebruikerRepository;
-        private DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("fr-FR").DateTimeFormat;
+        private DateTimeFormatInfo dtfi = CultureInfo.CreateSpecificCulture("be-BE").DateTimeFormat;
         private ViewModelFactory factory;
         public VerlanglijstController(IMateriaalRepository materiaalRepository, IGebruikerRepository gebruikerRepository)
         {
@@ -33,7 +33,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (IsWeekend())
             {
-                startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);               
+                startDatum = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, (HulpMethode.GetIso8601WeekOfYear(DateTime.Now) + 2) % 53);
             }
             else
             {
@@ -86,17 +86,17 @@ namespace DidactischeLeermiddelen.Controllers
             //Indien er materialen geselecteerd zijn wordt er gekeken of er voor dat materiaal voldoende beschikbaar zijn
             //voor de gekozen periode.
             IList<DateTime> dagLijst = dagen?.Select(Convert.ToDateTime).ToList();
-            var dateString = dagLijst != null? HulpMethode.DatesToString(dagLijst): HulpMethode.DateToString(startDate);
+            var dateString = dagLijst != null ? HulpMethode.DatesToString(dagLijst) : HulpMethode.DateToString(startDate);
             if (materiaal != null)
             {
                 materialen = GeefMaterialenVanId(materiaal);
                 materiaalMap = gebruiker.GetMateriaalAantalMap(materiaal, aantal);
-                allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materiaal, aantal, startDate, eindDate, dagLijst);               
+                allesBeschikbaar = ControleSelecteerdMateriaal(gebruiker, materialen, aantal, startDate, eindDate, dagLijst);
             }
-            
+
             var vm = factory.CreateVerlanglijstMaterialenViewModel(materialen, gebruiker.Verlanglijst.Materialen, dateString,
                 startDate, eindDate, materiaalMap, allesBeschikbaar && naarReserveren, dagLijst, gebruiker) as VerlanglijstMaterialenViewModel;
-            
+
             if (Request.IsAjaxRequest())
             {
                 if (naarReserveren && allesBeschikbaar)
@@ -107,15 +107,14 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View("Index", vm);
         }
-        public bool ControleSelecteerdMateriaal(Gebruiker gebruiker, int[] materiaal, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
+        public bool ControleSelecteerdMateriaal(Gebruiker gebruiker, IList<Materiaal> materialen , int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
         {
-            IList<Materiaal> materialen = GeefMaterialenVanId(materiaal);
             if (dagen != null)
             {
                 //Wanneer de lector verschillende data selecteerd kijken of het materiaal elke dag beschikbaar is
                 //Zoniet, return false
-                return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal,DateTime.Now,DateTime.Now, dagen);
-                    //dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
+                return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, DateTime.Now, DateTime.Now, dagen);
+                //dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
             }
             return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, startDatum, eindDatum, dagen);
         }
@@ -126,7 +125,7 @@ namespace DidactischeLeermiddelen.Controllers
             factory = new ReservatieDetailViewModelFactory();
             var map = materiaal.ReservatieDetails(week);
             //Map converteren
-            Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> vmMap = 
+            Dictionary<DateTime, IEnumerable<ReservatieDetailViewModel>> vmMap =
                 map.ToDictionary
                 (
                     d => d.Key,
@@ -142,7 +141,7 @@ namespace DidactischeLeermiddelen.Controllers
             var startDatumFilter = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week == -1 ? HulpMethode.GetIso8601WeekOfYear(DateTime.Now) : week);
             var datumMaandVooruitFilter = startDatumFilter.AddDays(28);
 
-            Dictionary<DateTime, int[]> resrevatieMap = materiaal.MaakLijstReservatieDataInRange(startDatumFilter,datumMaandVooruitFilter);
+            Dictionary<DateTime, int[]> resrevatieMap = materiaal.MaakLijstReservatieDataInRange(startDatumFilter, datumMaandVooruitFilter);
             List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(resrevatieMap);
 
             JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -153,27 +152,31 @@ namespace DidactischeLeermiddelen.Controllers
 
         public JsonResult ReservatieDetailsGrafiekPerDag(int[] ids, string[] dagen)
         {
-            IList<Materiaal> materialen= ids.Select(i => materiaalRepository.FindById(i)).ToList();
-            DateTime[] dagenDateTimes = new DateTime[dagen.Length];
-            IList<List<ReservatieDataDTO>> lijstReservatieData = new List<List<ReservatieDataDTO>>();
-
-            for(int i = 0;i<dagen.Length;i++)
+            if (ids != null)
             {
-                dagenDateTimes[i] = Convert.ToDateTime(dagen[i]);
-            }
-            foreach (Materiaal m in materialen)
-            {
-                Dictionary<DateTime, int[]> reservatieMap = m.MaakLijstReservatieDataSpecifiekeDagen(dagenDateTimes);
-                List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(reservatieMap);
-                lijstReservatieData.Add(reservatieList);
-            }
-            
-            
+                IList<Materiaal> materialen = ids.Select(i => materiaalRepository.FindById(i)).ToList();
+                DateTime[] dagenDateTimes = new DateTime[dagen.Length];
+                IList<List<ReservatieDataDTO>> lijstReservatieData = new List<List<ReservatieDataDTO>>();
 
-            JavaScriptSerializer jss = new JavaScriptSerializer();
-            string output = jss.Serialize(lijstReservatieData);
+                for (int i = 0; i < dagen.Length; i++)
+                {
+                    dagenDateTimes[i] = Convert.ToDateTime(dagen[i]);
+                }
+                foreach (Materiaal m in materialen)
+                {
+                    Dictionary<DateTime, int[]> reservatieMap = m.MaakLijstReservatieDataSpecifiekeDagen(dagenDateTimes);
+                    List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(reservatieMap);
+                    lijstReservatieData.Add(reservatieList);
+                }
 
-            return Json(output, JsonRequestBehavior.AllowGet);
+
+
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                string output = jss.Serialize(lijstReservatieData);
+
+                return Json(output, JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         private List<ReservatieDataDTO> CreateReservatieDataDtos(Dictionary<DateTime, int[]> reservatieMap)
@@ -212,8 +215,8 @@ namespace DidactischeLeermiddelen.Controllers
 
         private bool IsWeekend()
         {
-            return (int) DateTime.Now.DayOfWeek == 6 || (int) DateTime.Now.DayOfWeek == 0 ||
-                   ((int) DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17);
+            return (int)DateTime.Now.DayOfWeek == 6 || (int)DateTime.Now.DayOfWeek == 0 ||
+                   ((int)DateTime.Now.DayOfWeek == 5 && DateTime.Now.Hour >= 17);
         }
 
     }

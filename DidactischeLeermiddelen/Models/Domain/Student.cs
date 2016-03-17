@@ -6,8 +6,6 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Student : Gebruiker
     {
-        public override Verlanglijst Verlanglijst { get; set; }
-        public override IList<Reservatie> Reservaties { get; set; }
 
         public void MaakReservaties(IDictionary<Materiaal, int> potentieleReservaties, string startDatum)
         {

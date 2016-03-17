@@ -2,7 +2,7 @@
 {
     public class Firma
     {
-
+        public int FirmaId { get; set; }
         public string Naam { get; set; }
         public string Email { get; set; }
         public string Adres { get; set; }

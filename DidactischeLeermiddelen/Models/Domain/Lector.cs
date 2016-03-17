@@ -9,8 +9,6 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public class Lector : Gebruiker
     {
-        public override Verlanglijst Verlanglijst { get; set; }
-        public override IList<Reservatie> Reservaties { get; set; }
         public IList<Reservatie> OverruledeReservaties { get; set; } 
 
         public void MaakBlokkeringen(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, string[] dagen)

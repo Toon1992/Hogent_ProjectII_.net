@@ -61,15 +61,15 @@ namespace DidactischeLeermiddelen.Models
 
         private void InitializeIdentity()
         {
-            CreateUser("lector@hogent.be", "P@ssword1"); //Create user Admin
-            CreateUser("student@student.hogent.be", "P@ssword1");  //Create User Student
+            //CreateUser("lector@hogent.be", "P@ssword1"); //Create user Admin
+            //CreateUser("student@student.hogent.be", "P@ssword1");  //Create User Student
         }
 
         private void InitializeIdentityAndRoles()
         {
 
-            CreateUserAndRoles("lector@hogent.be", "P@ssword1", "lector");
-            CreateUserAndRoles("student@student.hogent.be", "P@ssword1", "student");
+            //CreateUserAndRoles("lector@hogent.be", "P@ssword1", "lector");
+            //CreateUserAndRoles("student@student.hogent.be", "P@ssword1", "student");
         }
 
         private void CreateUser(string name, string password)
