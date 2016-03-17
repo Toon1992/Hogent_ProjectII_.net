@@ -405,9 +405,10 @@ function drawMaterialPerDag(dataMateriaal) {
     };
     //options.backgroundColor.fill = 'red';
     //Materialen overlopen
-    var data = new google.visualization.DataTable();
-    var rows = new Array();
+    
     $.each(obj, function (i, item) {
+        var data = new google.visualization.DataTable();
+        var rows = new Array();
         if (item.length !== 0) {
             rows = new Array();
             data.addColumn('string', 'Dagen');
