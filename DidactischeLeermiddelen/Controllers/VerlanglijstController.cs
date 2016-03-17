@@ -151,6 +151,25 @@ namespace DidactischeLeermiddelen.Controllers
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ReservatieDetailsGrafiekPerDag(int id, string[] dagen)
+        {
+            Materiaal materiaal = materiaalRepository.FindById(id);
+            DateTime[] dagenDateTimes = new DateTime[dagen.Length];
+
+            for(int i = 0;i<dagen.Length;i++)
+            {
+                dagenDateTimes[i] = Convert.ToDateTime(dagen[i]);
+            }
+
+            Dictionary<DateTime, int> resrevatieMap = materiaal.MaakLijstReservatieDataSpecifiekeDagen(dagenDateTimes);
+            List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(resrevatieMap);
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string output = jss.Serialize(reservatieList);
+
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
         private List<ReservatieDataDTO> CreateReservatieDataDtos(Dictionary<DateTime, int> reservatieMap)
         {
             List<ReservatieDataDTO> dtoLijst = new List<ReservatieDataDTO>();
