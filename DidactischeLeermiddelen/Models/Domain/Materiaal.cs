@@ -70,12 +70,14 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int GeefAantalBeschikbaar(DateTime startDatum, DateTime eindDatum,IList<DateTime> dagen , Gebruiker gebruiker)
         {
             int aantal = AantalInCatalogus;
-            if (gebruiker is Lector)
+            if (gebruiker is Lector && dagen != null)
             {
-                if (dagen != null)
+                foreach (var dag in dagen)
                 {
-                    aantal = AantalInCatalogus - Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Intersect(dagen).Any()).Sum(r => r.Aantal);
-                }         
+                    IEnumerable<Reservatie> overschijvendeReservaties = Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)).ToList();
+                    int aantalGereserveerd = overschijvendeReservaties.Sum(r => r.Aantal);
+                    aantal = Math.Min(aantal, AantalInCatalogus - aantalGereserveerd);
+                }       
             }
             else if (gebruiker is Student)
             {
@@ -209,9 +211,18 @@ namespace DidactischeLeermiddelen.Models.Domain
             Dictionary<DateTime, int[]> reservatieMap = new Dictionary<DateTime, int[]>();
 
             //De reservaties overlopen en reservatieDataDTO objecten met juiste waarden maken.
-            foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum))
+            foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled) && r.Gebruiker is Lector).OrderBy(r => r.StartDatum))
             {
-                reservatieMap = dagen.Aggregate(reservatieMap, (current, dag) => UpdateReservatieMap(current, r.GeblokkeerdeDagen.Where(d => d.Datum == dag).Select(d => d.Datum).FirstOrDefault(), r.Aantal));
+                IList<DateTime> gemeenschappelijkeDagen = r.GeblokkeerdeDagen.Select(g => g.Datum).Intersect(dagen).ToList();
+                if (gemeenschappelijkeDagen.Any())
+                {
+                    foreach (var dag in gemeenschappelijkeDagen)
+                    {
+                        reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.Aantal);
+                    }
+                    
+                }
+                //reservatieMap = dagen.Aggregate(reservatieMap, (current, dag) => UpdateReservatieMap(current, r.GeblokkeerdeDagen.Where(d => d.Datum == dag).Select(d => d.Datum).FirstOrDefault(), r.Aantal));
                 
             }
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.

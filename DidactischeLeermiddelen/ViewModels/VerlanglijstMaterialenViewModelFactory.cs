@@ -16,11 +16,12 @@ namespace DidactischeLeermiddelen.Models.Domain
                 VerlanglijstViewModels = (naarReserveren ? materialen : verlanglijstMaterialen).Select(m => new VerlanglijstViewModel
                 {
                     AantalBeschikbaar = aantalBeschikbaar = m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, gebruiker),
-                    AantalGeblokkeerd = m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
+                    AantalGeblokkeerd = m.AantalInCatalogus - aantalBeschikbaar,//m.GeefAantalPerStatus(new Geblokkeerd(), startDatum, eindDatum),
                     Beschikbaar = aantalBeschikbaar == 0,
                     Firma = m.Firma,
                     Prijs = m.Prijs,
                     Foto = m.Foto,
+                    Beschikbaarheid = gebruiker.GeefBeschikbaarheid(startDatum, eindDatum, dagen, m, materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 0),
                     AantalGeselecteerd = aantalGeselecteerd = m.GeefAantalGeselecteerd(materiaalAantal, aantalBeschikbaar, aantalGeselecteerd),
                     Geselecteerd = aantalBeschikbaar > 0 && materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)),
                     Leergebieden = m.Leergebieden as List<Leergebied>,
@@ -28,7 +29,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                     ArtikelNr = m.ArtikelNr,
                     AantalInCatalogus = m.AantalInCatalogus,
                     MateriaalId = m.MateriaalId,
-                    Beschikbaarheid = aantalBeschikbaar == 0 ? gebruiker.GeefBeschikbaarheid(startDatum, eindDatum, dagen, m): "",
                     Naam = m.Naam,
                     Omschrijving = m.Omschrijving,
                 }),

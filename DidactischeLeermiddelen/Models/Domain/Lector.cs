@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace DidactischeLeermiddelen.Models.Domain
 {
@@ -188,16 +189,26 @@ namespace DidactischeLeermiddelen.Models.Domain
             return dagenGeblokkeerd;
         }
 
-        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal)
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal, int aantalGeselecteerd)
         {
             if (dagen != null)
             {
-                var geblokeerdeDagen =
-                    materiaal.Reservaties
-                        .Where(r => startDatum <= r.EindDatum && eindDaum >= r.StartDatum)
-                        .SelectMany(r => r.GeblokkeerdeDagen.Select(d => d.Datum))
-                        .Intersect(dagen);
-                return $"Niet meer beschikbaar op {HulpMethode.DatesToString(geblokeerdeDagen)}";
+                IList<DateTime> geblokeerdeDagen = new List<DateTime>();
+                foreach (DateTime dag in dagen)
+                {
+                    IList<Reservatie> reservaties = materiaal.Reservaties
+                        .Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)).ToList();
+                    int aantalGereserveerd = reservaties.Sum(r => r.Aantal);
+                    if (aantalGereserveerd + aantalGeselecteerd > materiaal.AantalInCatalogus)
+                    {
+                        geblokeerdeDagen.Add(dag);
+                    }
+                }
+                if (geblokeerdeDagen.Any())
+                {
+                    return $"Geen {aantalGeselecteerd} stuk(s) meer beschikbaar op {HulpMethode.DatesToString(geblokeerdeDagen)}";
+                }
+                return "";
             }
             return "";
         }

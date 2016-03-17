@@ -164,6 +164,7 @@ namespace DidactischeLeermiddelen.Controllers
                 }
                 foreach (Materiaal m in materialen)
                 {
+                    //orderenen op datum
                     Dictionary<DateTime, int[]> reservatieMap = m.MaakLijstReservatieDataSpecifiekeDagen(dagenDateTimes);
                     List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(reservatieMap);
                     lijstReservatieData.Add(reservatieList);
@@ -182,7 +183,7 @@ namespace DidactischeLeermiddelen.Controllers
         private List<ReservatieDataDTO> CreateReservatieDataDtos(Dictionary<DateTime, int[]> reservatieMap)
         {
             List<ReservatieDataDTO> dtoLijst = new List<ReservatieDataDTO>();
-            reservatieMap.ForEach(e =>
+            reservatieMap.OrderBy(k => k.Key).ForEach(e =>
             {
                 dtoLijst.Add(new ReservatieDataDTO
                 {
