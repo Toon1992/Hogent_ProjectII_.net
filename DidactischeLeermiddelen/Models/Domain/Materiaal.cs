@@ -57,6 +57,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                         .Sum(r => r.Aantal);
                 return aantal > AantalInCatalogus ? AantalInCatalogus : aantal;
             }
+
             if (status is Gereserveerd)
             {
                 return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
@@ -112,7 +113,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int GeefAantalBeschikbaarVoorBlokkering()
         {
             int aantal = AantalInCatalogus -
-                         Reservaties.Where(r => (r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald))
+                         Reservaties.Where(r => r.ReservatieState is Gereserveerd || r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)
                              .Sum(r => r.Aantal);         
             return aantal <= 0 ? 0 : aantal;
         }
