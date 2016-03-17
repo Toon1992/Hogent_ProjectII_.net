@@ -181,9 +181,9 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
             return reservatieMap;
         }
-        public Dictionary<DateTime, int> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
+        public Dictionary<DateTime, int[]> MaakLijstReservatieDataInRange(DateTime startDatumFilter, DateTime eindDatumFilter)
         {
-            Dictionary<DateTime, int> reservatieMap = new Dictionary<DateTime, int>();
+            Dictionary<DateTime, int[]> reservatieMap = new Dictionary<DateTime, int[]>();
 
             //De reservaties overlopen en reservatieDataDTO objecten met juiste waarden maken.
             foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum))
@@ -203,9 +203,9 @@ namespace DidactischeLeermiddelen.Models.Domain
             return reservatieMap;
         }
 
-        public Dictionary<DateTime, int> MaakLijstReservatieDataSpecifiekeDagen(DateTime[] dagen)
+        public Dictionary<DateTime, int[]> MaakLijstReservatieDataSpecifiekeDagen(DateTime[] dagen)
         {
-            Dictionary<DateTime, int> reservatieMap = new Dictionary<DateTime, int>();
+            Dictionary<DateTime, int[]> reservatieMap = new Dictionary<DateTime, int[]>();
 
             //De reservaties overlopen en reservatieDataDTO objecten met juiste waarden maken.
             foreach (var r in Reservaties.Where(r => !(r.ReservatieState is Overruled)).OrderBy(r => r.StartDatum))
@@ -219,20 +219,21 @@ namespace DidactischeLeermiddelen.Models.Domain
         }
 
 
-        public Dictionary<DateTime, int> UpdateReservatieMap(Dictionary<DateTime, int> reservatieMap, DateTime startDatum, int aantal)
+        public Dictionary<DateTime, int[]> UpdateReservatieMap(Dictionary<DateTime, int[]> reservatieMap, DateTime startDatum, int aantal)
         {
             if (reservatieMap.ContainsKey(startDatum))
             {
                 //Indien negatief op null zetten.
-                reservatieMap[startDatum] -= aantal;
-                if (reservatieMap[startDatum] < 0)
+
+                reservatieMap[startDatum][0] -= aantal;
+                if (reservatieMap[startDatum][0] < 0)
                 {
-                    reservatieMap[startDatum] = 0;
+                    reservatieMap[startDatum][0] = 0;
                 }
             }
             else
             {
-                reservatieMap.Add(startDatum, AantalInCatalogus - aantal);
+                reservatieMap.Add(startDatum, new []{ AantalInCatalogus - aantal, MateriaalId} );
             }
             return reservatieMap;
         } 

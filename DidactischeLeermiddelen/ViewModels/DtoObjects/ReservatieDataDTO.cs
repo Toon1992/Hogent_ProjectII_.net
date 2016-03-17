@@ -6,5 +6,7 @@ namespace DidactischeLeermiddelen.Models.Domain.DtoObjects
     {
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
+
+        public int MateriaalId { get; set; }
     }
 }
