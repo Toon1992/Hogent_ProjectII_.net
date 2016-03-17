@@ -189,6 +189,7 @@ namespace DidactischeLeermiddelen.Controllers
                 });
             });
             return dtoLijst;
+
         }
 
         private List<ReservatieDataDTO> CreateReservatieDataDtosPerDag(Dictionary<DateTime, int> reservatieMap)
