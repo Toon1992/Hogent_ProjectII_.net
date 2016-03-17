@@ -225,7 +225,12 @@ namespace DidactischeLeermiddelen.Models.Domain
                 //reservatieMap = dagen.Aggregate(reservatieMap, (current, dag) => UpdateReservatieMap(current, r.GeblokkeerdeDagen.Where(d => d.Datum == dag).Select(d => d.Datum).FirstOrDefault(), r.Aantal));
                 
             }
-            //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
+            var dagenZonderReservaties = dagen.Where(dag => !Reservaties.Any(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)));
+            foreach (var dag in dagenZonderReservaties)
+            {
+                reservatieMap = UpdateReservatieMap(reservatieMap, dag, 0);
+            }
+            
             return reservatieMap;
         }
 
