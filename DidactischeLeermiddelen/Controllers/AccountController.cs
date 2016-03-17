@@ -111,14 +111,6 @@ namespace DidactischeLeermiddelen.Controllers
                 if (user == null)
                 {
                     user = new ApplicationUser { UserName = email, Email = email };
-                    if (lo.Type.ToLower().Equals("student"))
-                    {
-                        UserManager.AddToRole(user.Id, "Student");
-                    }
-                    if (lo.Type.ToLower().Equals("lector"))
-                    {
-                        UserManager.AddToRole(user.Id, "Lector");
-                    }
                     await UserManager.CreateAsync(user, model.Password);
                 }
                 await SignInManager.SignInAsync(user, false, false);
