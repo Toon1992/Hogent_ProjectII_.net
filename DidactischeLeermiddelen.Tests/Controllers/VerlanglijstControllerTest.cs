@@ -51,7 +51,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = {5};
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(8, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
@@ -63,7 +63,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 5 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(0, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
@@ -74,7 +74,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 8 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(5, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
@@ -85,7 +85,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 20 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(student, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(5, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, student));
         }
@@ -97,7 +97,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 5 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
         }
@@ -109,7 +109,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 50 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
         }
@@ -121,7 +121,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 5 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
         }
@@ -132,7 +132,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 8 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, null);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, null, lector));
         }
@@ -145,7 +145,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 2 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(5, m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen,lector));
         }
@@ -158,7 +158,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 2 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(2, m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, lector));
         }
@@ -171,7 +171,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 8 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(2, m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, lector));
         }
@@ -186,7 +186,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 8 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
             Assert.IsFalse(beschikbaar);
             Assert.AreEqual(2, m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, lector));
         }
@@ -201,7 +201,7 @@ namespace DidactischeLeermiddelen.Tests.Controllers
             int[] aantal = { 8 };
             DateTime startDatum = Convert.ToDateTime(context.StartDatum);
             DateTime eindDatum = startDatum.AddDays(4);
-            bool beschikbaar = verlanglijstController.ControleSelecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
+            bool beschikbaar = verlanglijstController.ControleGeselecteerdMateriaal(lector, materiaalIds, aantal, startDatum, eindDatum, dagen);
             Assert.IsTrue(beschikbaar);
             Assert.AreEqual(10, m.GeefAantalBeschikbaar(startDatum, eindDatum, dagen, lector));
         }

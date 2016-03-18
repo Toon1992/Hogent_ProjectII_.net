@@ -202,7 +202,10 @@ var viewModel = {
             var materiaalId = parseInt($(".materiaal-naam")[0].id);
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: selectedWeek }, function (dataMateriaal) {
+                
+
+
+                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiekPerDag1Materiaal", { id: materiaalId, week: selectedWeek }, function (dataMateriaal) {
                     google.charts.setOnLoadCallback(function () {
                         drawMaterial(dataMateriaal);
                     });
