@@ -442,9 +442,6 @@ dateTimeReviver = function (key, value) {
     return value;
 }
 
-//$(window).resize(function () {
-//    drawMaterial(dataGrafiek);
-//});
 
 $(document).ready(function () {
     google.charts.load('current', { packages: ['corechart', 'bar'], 'language': 'nl' });
