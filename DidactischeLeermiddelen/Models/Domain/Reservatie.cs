@@ -101,10 +101,10 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int CompareTo(Reservatie other)
         {
             if (this.Gebruiker is Lector)
-                return -1;
+                return 1;
             if (this.Gebruiker is Student && other.Gebruiker is Student)
                 return 0;
-            return 1;
+            return -1;
         }
     }
 }
