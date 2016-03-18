@@ -207,7 +207,7 @@ var viewModel = {
 
                 $.getJSON("/Verlanglijst/ReservatieDetailsGrafiekPerDag1Materiaal", { id: materiaalId, week: selectedWeek }, function (dataMateriaal) {
                     google.charts.setOnLoadCallback(function () {
-                        drawMaterial(dataMateriaal);
+                        drawMaterialPerDag1Materiaal(dataMateriaal);
                     });
                 });
                 viewModel.init();
@@ -429,6 +429,44 @@ function drawMaterialPerDag(dataMateriaal) {
             material.draw(data, google.charts.Bar.convertOptions(options));
         }
     });
+
+}
+
+function drawMaterialPerDag1Materiaal(dataMateriaal) {
+
+    var data = new google.visualization.DataTable();
+    var rows = new Array();
+    data.addColumn('string', 'Startdatum');
+    data.addColumn('number', 'Aantal beschikbaar');
+
+    var obj = JSON.parse(dataMateriaal);
+    $.each(obj, function (i, item) {
+        $.each(item, function(j, dagSelect) {
+            var aantal = dagSelect.Aantal;
+            var startDatum = dagSelect.StartDatum;
+            var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+            rows.push([startDatumNaarDate, aantal]);
+
+        });
+        
+    });
+
+    data.addRows(rows);
+    var options = {
+        chart: {
+            title: 'Beschikbaarheid per week'
+        },
+        hAxis: {
+            title: 'Aantal beschikbaar'
+            //    minValue: 0,
+        },
+        vAxis: {
+            title: 'Startdatum',
+            bars: 'horizontal'
+        }
+    };
+    var material = new google.charts.Bar(document.getElementById('chart_div'));
+    material.draw(data, options);
 
 }
 dateTimeReviver = function (key, value) {
