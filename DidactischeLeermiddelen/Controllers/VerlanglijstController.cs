@@ -134,22 +134,25 @@ namespace DidactischeLeermiddelen.Controllers
             return PartialView("DetailReservaties", factory.CreateReservatiesViewModel(vmMap, materiaal, week, dtfi) as ReservatiesDetailViewModel);
         }
 
-        public JsonResult ReservatieDetailsGrafiek(int id, int week)
+        public JsonResult ReservatieDetailsGrafiek(int id, int week, bool perDag)
         {
             Materiaal materiaal = materiaalRepository.FindById(id);
-
+            DateTime[] dagenVanDeWeek = null;
+            if (perDag)
+            {
+                dagenVanDeWeek = new DateTime[5];
+                DateTime maandag = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
+                dagenVanDeWeek[0] = maandag;
+                for (int i = 1; i < dagenVanDeWeek.Length; i++)
+                {
+                    dagenVanDeWeek[i] = maandag.AddDays(i);
+                }
+            }
             var startDatumFilter = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week == -1 ? HulpMethode.GetIso8601WeekOfYear(DateTime.Now) : week);
             var datumMaandVooruitFilter = startDatumFilter.AddDays(28);
-
-            Dictionary<DateTime, int[]> resrevatieMap = materiaal.MaakLijstReservatieDataInRange(startDatumFilter, datumMaandVooruitFilter);
-            List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(resrevatieMap);
-
-            JavaScriptSerializer jss = new JavaScriptSerializer();
-            string output = jss.Serialize(reservatieList);
-
-            return Json(output, JsonRequestBehavior.AllowGet);
-        }
-
+            List<ReservatieDataDTO> reservatieList = MaakLijstReservatieDataInRange(materiaal, startDatumFilter,datumMaandVooruitFilter, dagenVanDeWeek);
+            return Json(SerializeObject(reservatieList), JsonRequestBehavior.AllowGet);
+        }     
         public JsonResult ReservatieDetailsGrafiekPerDag(int[] ids, string[] dagen)
         {
             if (ids != null)
@@ -163,53 +166,33 @@ namespace DidactischeLeermiddelen.Controllers
                     dagenDateTimes[i] = Convert.ToDateTime(dagen[i]);
                 }
                 foreach (Materiaal m in materialen)
-                {
-                    //orderenen op datum
-                    Dictionary<DateTime, int[]> reservatieMap = m.MaakLijstReservatieDataSpecifiekeDagen(dagenDateTimes);
-                    List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(reservatieMap);
+                {                
+                    List<ReservatieDataDTO> reservatieList = MaakLijstReservatieDataInRange(m, DateTime.Now,
+                        DateTime.Now, dagenDateTimes);
                     lijstReservatieData.Add(reservatieList);
                 }
-
-
-
-                JavaScriptSerializer jss = new JavaScriptSerializer();
-                string output = jss.Serialize(lijstReservatieData);
-
-                return Json(output, JsonRequestBehavior.AllowGet);
+                return Json(SerializeObject(lijstReservatieData), JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
-        public JsonResult ReservatieDetailsGrafiekPerDag1Materiaal(int id, int week)
+        private List<ReservatieDataDTO> MaakLijstReservatieDataInRange(Materiaal materiaal, DateTime startDatum, DateTime datumMaandVooruit, DateTime[] dagenVanWeek)
         {
-            DateTime[] dagenVanDeWeek = new DateTime[5];
-            DateTime maandag = HulpMethode.FirstDateOfWeekISO8601(DateTime.Now.Year, week);
-            dagenVanDeWeek[0] = maandag;
-            for (int i = 1; i < dagenVanDeWeek.Length; i++)
+            Dictionary<DateTime, int[]> reservatieMap;
+            if (dagenVanWeek != null)
             {
-                dagenVanDeWeek[i] = maandag.AddDays(i);
+                reservatieMap = materiaal.MaakLijstReservatieDataSpecifiekeDagen(dagenVanWeek);
             }
-            Materiaal materiaal = materiaalRepository.FindById(id);
-            
-                IList<List<ReservatieDataDTO>> lijstReservatieData = new List<List<ReservatieDataDTO>>();
-
-               
-                
-                    //orderenen op datum
-                    Dictionary<DateTime, int[]> reservatieMap = materiaal.MaakLijstReservatieDataSpecifiekeDagen(dagenVanDeWeek);
-                    List<ReservatieDataDTO> reservatieList = CreateReservatieDataDtos(reservatieMap);
-                    lijstReservatieData.Add(reservatieList);
-                
-
-
-
-                JavaScriptSerializer jss = new JavaScriptSerializer();
-                string output = jss.Serialize(lijstReservatieData);
-
-                return Json(output, JsonRequestBehavior.AllowGet);
-            
+            else
+            {
+                reservatieMap = materiaal.MaakLijstReservatieDataInRange(startDatum, datumMaandVooruit);
+            }
+            return CreateReservatieDataDtos(reservatieMap);
         }
-
+        private string SerializeObject<T>(T obj)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            return jss.Serialize(obj);
+        }
         private List<ReservatieDataDTO> CreateReservatieDataDtos(Dictionary<DateTime, int[]> reservatieMap)
         {
             List<ReservatieDataDTO> dtoLijst = new List<ReservatieDataDTO>();

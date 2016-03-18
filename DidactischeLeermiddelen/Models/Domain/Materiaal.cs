@@ -219,11 +219,8 @@ namespace DidactischeLeermiddelen.Models.Domain
                     foreach (var dag in gemeenschappelijkeDagen)
                     {
                         reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.Aantal);
-                    }
-                    
+                    }                   
                 }
-                //reservatieMap = dagen.Aggregate(reservatieMap, (current, dag) => UpdateReservatieMap(current, r.GeblokkeerdeDagen.Where(d => d.Datum == dag).Select(d => d.Datum).FirstOrDefault(), r.Aantal));
-                
             }
             var dagenZonderReservaties = dagen.Where(dag => !Reservaties.Any(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)));
             foreach (var dag in dagenZonderReservaties)
