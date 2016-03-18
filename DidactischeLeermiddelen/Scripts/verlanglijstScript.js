@@ -198,7 +198,7 @@ var viewModel = {
             $(this).blur();
             $(this).datepicker('hide');
             var date = Date.parse($("input[name='date']")[0].value);
-            var selectedWeek = viewModel.getWeek(date);
+            var selectedWeek = parseInt(viewModel.getWeek(date));
             var materiaalId = parseInt($(".materiaal-naam")[0].id);
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
                 $("#verlanglijst-pagina").html(data);
