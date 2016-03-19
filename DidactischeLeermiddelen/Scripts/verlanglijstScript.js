@@ -306,9 +306,9 @@ var viewModel = {
                     data: { ids: materialen, dagen: dagen},
                     success: function (dataMateriaal) {
                         if (viewModel.typeUser === "Lector") {
-                            google.charts.setOnLoadCallback(function () {
+                        google.charts.setOnLoadCallback(function () {
                                 chart.drawMaterialPerDag(dataMateriaal);
-                            });
+                        });
                         }
                     }
                 });
@@ -348,76 +348,76 @@ var viewModel = {
         return dagen;
     },
     isWeekend() {
-        return Date.today().is().saturday() || Date.today().is().sunday();
+    return Date.today().is().saturday() || Date.today().is().sunday();
     },
     VrijdagNaVijf() {
         return Date.today().is().friday() && new Date().getHours() >= 17;
-    }
+}
 }
 var chart = {
     drawMaterial : function(dataMateriaal) {
-        var data = new google.visualization.DataTable();
-        var rows = new Array();
-        data.addColumn('string', 'Startdatum');
-        data.addColumn('number', 'Aantal beschikbaar');
+    var data = new google.visualization.DataTable();
+    var rows = new Array();
+    data.addColumn('string', 'Startdatum');
+    data.addColumn('number', 'Aantal beschikbaar');
 
-        var obj = JSON.parse(dataMateriaal);
-        $.each(obj, function (i, item) {
-            var startDatum = item.StartDatum;
+    var obj = JSON.parse(dataMateriaal);
+    $.each(obj, function (i, item) {
+        var startDatum = item.StartDatum;
 
-            var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+        var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
 
-            var aantal = item.Aantal;
-            rows.push([startDatumNaarDate, aantal]);
-        });
+        var aantal = item.Aantal;
+        rows.push([startDatumNaarDate, aantal]);
+    });
 
-        data.addRows(rows);
-        var options = {
-            chart: {
-                title: 'Beschikbaarheid per week'
-            },
-            hAxis: {
-                title: 'Aantal beschikbaar'
-                //    minValue: 0,
-            },
-            vAxis: {
-                title: 'Startdatum',
-                bars: 'horizontal'
-            }
-        };
-        var material = new google.charts.Bar(document.getElementById('chart_div'));
-        material.draw(data, options);
+    data.addRows(rows);
+    var options = {
+        chart: {
+            title: 'Beschikbaarheid per week'
+        },
+        hAxis: {
+            title: 'Aantal beschikbaar'
+            //    minValue: 0,
+        },
+        vAxis: {
+            title: 'Startdatum',
+            bars: 'horizontal'
+        }
+    };
+    var material = new google.charts.Bar(document.getElementById('chart_div'));
+    material.draw(data, options);
     },
     drawMaterialPerDag : function(dataMateriaal) {
-        var obj = JSON.parse(dataMateriaal);
-        var materiaalId;
-        var options = {
-            legend: { position: 'none' },
-            chart: {
+    var obj = JSON.parse(dataMateriaal);
+    var materiaalId;
+    var options = {
+        legend: { position: 'none' },
+        chart: {
                 title: 'Beschikbaarheid per dag'
-            },
-            backgroundColor: 'transparant'
-        };
-        $.each(obj, function (i, item) {
-            var data = new google.visualization.DataTable();
-            var rows = new Array();
-            if (item.length !== 0) {
-                rows = new Array();
-                data.addColumn('string', 'Dagen');
-                data.addColumn('number', 'Aantal beschikbaar');
-                //De verschillende dagen voor het materiaal
-                $.each(item, function (j, grafiek) {
-                    var startDatum = grafiek.StartDatum;
-                    var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
-                    var aantal = grafiek.Aantal;
-                    materiaalId = grafiek.MateriaalId;
-                    rows.push([startDatumNaarDate, aantal]);
-                });
-                data.addRows(rows);
-                var material = new google.charts.Bar(document.getElementById('Grafiek_dag_' + materiaalId));
-                material.draw(data, google.charts.Bar.convertOptions(options));
-            }
-        });
+        },
+        backgroundColor: 'transparant'
+    };
+    $.each(obj, function (i, item) {
+        var data = new google.visualization.DataTable();
+        var rows = new Array();
+        if (item.length !== 0) {
+            rows = new Array();
+            data.addColumn('string', 'Dagen');
+            data.addColumn('number', 'Aantal beschikbaar');
+            //De verschillende dagen voor het materiaal
+            $.each(item, function (j, grafiek) {
+                var startDatum = grafiek.StartDatum;
+                var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+                var aantal = grafiek.Aantal;
+                materiaalId = grafiek.MateriaalId;
+                rows.push([startDatumNaarDate, aantal]);
+            });
+            data.addRows(rows);
+            var material = new google.charts.Bar(document.getElementById('Grafiek_dag_' + materiaalId));
+            material.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    });
     }
 }
 

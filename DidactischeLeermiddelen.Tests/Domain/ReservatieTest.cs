@@ -199,7 +199,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             lector2.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd2);
 
             Assert.IsTrue(student1.Reservaties.First().ReservatieState is Gereserveerd);
-            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Overruled);
+            Assert.IsTrue(student2.Reservaties.First().ReservatieState is Gereserveerd);
         }
 
 

@@ -15,6 +15,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int Aantal { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
+        public DateTime AanmaakDatum { get; set; }
         public ReservatieStateEnum ReservatieStateEnum { get; set; }
         public ReservatieState ReservatieState
         {
@@ -50,6 +51,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public Reservatie()
         {
             GeblokkeerdeDagen = new List<Dag>();
+            AanmaakDatum = DateTime.Now;
         }
 
         public Reservatie(Gebruiker gebruiker, Materiaal materiaal, string startDatum, int aantal)
@@ -74,6 +76,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             Aantal = aantal;
             Gebruiker = gebruiker;
             GeblokkeerdeDagen = new List<Dag>();
+            AanmaakDatum = DateTime.Now;
         }
 
         public bool KanOverschrijvenMetReservatie(DateTime startdatum, DateTime eindDatum)
