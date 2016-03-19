@@ -112,6 +112,14 @@ namespace DidactischeLeermiddelen.Controllers
                 {
                     user = new ApplicationUser { UserName = email, Email = email };
                     await UserManager.CreateAsync(user, model.Password);
+                    if (lo.Type.ToLower().Equals("student"))
+                    {
+                        IdentityResult result = UserManager.AddToRole(user.Id, "Student");
+                    }
+                    else
+                    {
+                        IdentityResult result = UserManager.AddToRole(user.Id, "Lector");
+                    }
                 }
                 await SignInManager.SignInAsync(user, false, false);
                 return RedirectToAction("Index", "Home");

@@ -55,7 +55,9 @@ namespace DidactischeLeermiddelen.Models
                HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
 
             // InitializeIdentity();
-            InitializeIdentityAndRoles();
+            //InitializeIdentityAndRoles();
+            InitializeRole("Student");
+            InitializeRole("Lector");
             base.Seed(context);
         }
 
@@ -63,6 +65,18 @@ namespace DidactischeLeermiddelen.Models
         {
             //CreateUser("lector@hogent.be", "P@ssword1"); //Create user Admin
             //CreateUser("student@student.hogent.be", "P@ssword1");  //Create User Student
+        }
+
+        private void InitializeRole(string roleName)
+        {
+            IdentityRole role = roleManager.FindByName(roleName);
+            if (role == null)
+            {
+                role = new IdentityRole(roleName);
+                IdentityResult result = roleManager.Create(role);
+                if (!result.Succeeded)
+                    throw new ApplicationException(result.Errors.ToString());
+            }
         }
 
         private void InitializeIdentityAndRoles()

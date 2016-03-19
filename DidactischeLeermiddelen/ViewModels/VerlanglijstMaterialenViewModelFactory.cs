@@ -21,7 +21,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     Firma = m.Firma,
                     Prijs = m.Prijs,
                     Foto = m.Foto,
-                    Beschikbaarheid = gebruiker.GeefBeschikbaarheid(startDatum, eindDatum, dagen, m, materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 0),
+                    Beschikbaarheid = gebruiker.GeefBeschikbaarheid(startDatum, eindDatum, dagen, m, materiaalAantal.ContainsKey(m.MateriaalId) ? materiaalAantal[m.MateriaalId] : 0, aantalBeschikbaar == 0),
                     AantalGeselecteerd = aantalGeselecteerd = m.GeefAantalGeselecteerd(materiaalAantal, aantalBeschikbaar, aantalGeselecteerd),
                     Geselecteerd = aantalBeschikbaar > 0 && materialen.Any(k => k.MateriaalId.Equals(m.MateriaalId)),
                     Leergebieden = m.Leergebieden as List<Leergebied>,

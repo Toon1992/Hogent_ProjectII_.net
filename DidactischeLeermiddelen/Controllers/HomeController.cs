@@ -8,30 +8,16 @@ namespace DidactischeLeermiddelen.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private IMateriaalRepository materiaalRepository;
         public HomeController() { }
-        public HomeController(IMateriaalRepository materiaalRepository)
-        {
-            this.materiaalRepository = materiaalRepository;
-        }
         public ActionResult Index()
         {
-            List<Materiaal> materialen = materiaalRepository.FindAll().ToList();
             return View();
         }
 
-        public ActionResult About()
+        public string GetType(Gebruiker gebruiker)
         {
-            ViewBag.Message = "Website Didactische Leermiddelen";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            string type = gebruiker.GetType().BaseType.Name;
+            return type;
         }
     }
 }

@@ -96,7 +96,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return totaalGeselecteerd;
         }
 
-        public abstract string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal, int aantal);
+        public abstract string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal, int aantal, bool onbeschikbaar);
        
 
         protected abstract Reservatie MaakReservatieObject(Gebruiker gebruiker, Materiaal mat, string startdatum,int aantal,string[] dagen =null);

@@ -33,9 +33,13 @@ namespace DidactischeLeermiddelen.Models.Domain
 
             return reservatie;
         }
-        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal,int aantal)
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal,int aantal, bool onbeschikbaar)
         {
-            return $"Niet meer beschikbaar van {HulpMethode.DateToString(startDatum)} tot {HulpMethode.DateToString(eindDaum)}";
+            if(onbeschikbaar)
+            {
+                return $"Niet meer beschikbaar van {HulpMethode.DateToString(startDatum)} tot {HulpMethode.DateToString(eindDaum)}";
+            }
+            return "";
         }
     }
 }

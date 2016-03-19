@@ -189,7 +189,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             return dagenGeblokkeerd;
         }
 
-        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal, int aantalGeselecteerd)
+        public override string GeefBeschikbaarheid(DateTime startDatum, DateTime eindDaum, IList<DateTime> dagen, Materiaal materiaal, int aantalGeselecteerd, bool onbeschikbaar)
         {
             if (dagen != null)
             {

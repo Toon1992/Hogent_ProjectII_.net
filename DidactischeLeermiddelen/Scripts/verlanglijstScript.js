@@ -1,4 +1,4 @@
-﻿var Cookies = {
+﻿var cookies = {
     init: function () {
         var allCookies = document.cookie.split('; ');
         for (var i = 0; i < allCookies.length; i++) {
@@ -28,10 +28,11 @@ var viewModel = {
     startDatum: null,
     eindDatum: null,
     dagen: [],
+    typeUser: null,
     session: window.sessionStorage,
     dataGrafiek: null,
     init: function () {
-        Cookies.init();
+        cookies.init();
         $(document).keypress(function (event) {
 
             if (event.keyCode === 13) {
@@ -39,8 +40,8 @@ var viewModel = {
                 $("#btn-confirmeer").click();
             }
         });
-        var weekend = IsWeekend();
-        var vrijdagNaVijf = VrijdagNaVijf();
+        var weekend = this.isWeekend();
+        var vrijdagNaVijf = this.VrijdagNaVijf();
         var dagen;
         if (weekend || vrijdagNaVijf) {
             dagen = viewModel.getDaysOfNextWeek();
@@ -97,7 +98,6 @@ var viewModel = {
                 box[0].checked = true;
                 box[1].checked = true;
                 materiaalRij.css("background-color", "#dff0d8");
-
             }
             if (box.is(":checked") && value === 0) {
                 box[0].checked = false;
@@ -169,17 +169,14 @@ var viewModel = {
                 viewModel.startDatum = dateStrings[0];
                 viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, false);
             }
-
-
         });
         $(".detail-materiaal").click(function () {
             var materiaalId = $(this).parent().parent().find("input")[0].id;
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: -1 }, function (data) {
                 $("#verlanglijst-pagina").html(data);
                 $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: -1, perDag: false }, function (dataMateriaal) {
-                    dataGrafiek = dataMateriaal;
                     google.charts.setOnLoadCallback(function () {
-                        drawMaterial(dataMateriaal);
+                        chart.drawMaterial(dataMateriaal);
                     });
                 });
                 viewModel.init();
@@ -202,12 +199,10 @@ var viewModel = {
             var materiaalId = parseInt($(".materiaal-naam")[0].id);
             $.get("/Verlanglijst/ReservatieDetails", { id: materiaalId, week: selectedWeek }, function (data) {
                 $("#verlanglijst-pagina").html(data);
-                
-
-
-                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: selectedWeek, perDag: true }, function (dataMateriaal) {
+                var perDag = viewModel.typeUser === "Lector";
+                $.getJSON("/Verlanglijst/ReservatieDetailsGrafiek", { id: materiaalId, week: selectedWeek, perDag: perDag }, function (dataMateriaal) {
                     google.charts.setOnLoadCallback(function () {
-                        drawMaterial(dataMateriaal);
+                        chart.drawMaterial(dataMateriaal);
                     });
                 });
                 viewModel.init();
@@ -253,23 +248,22 @@ var viewModel = {
             if (invalid) {
                 return false;
             }
-            Cookies.create("materialen", JSON.stringify(viewModel.materiaalList), 1);
-            Cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
-            Cookies.create("startDatum", viewModel.startDatum, 1);
-            Cookies.create("dagen", JSON.stringify(viewModel.dagen), 1);
+            cookies.create("materialen", JSON.stringify(viewModel.materiaalList), 1);
+            cookies.create("aantal", JSON.stringify(viewModel.aantalList), 1);
+            cookies.create("startDatum", viewModel.startDatum, 1);
+            cookies.create("dagen", JSON.stringify(viewModel.dagen), 1);
             if (viewModel.dagen.length === 0)
                 viewModel.dagen = [];
             viewModel.invoerControle(viewModel.materiaalList, viewModel.aantalList, viewModel.startDatum, viewModel.dagen, true);
         });
         $("#btn-reserveer").click(function () {
-
             $("#divLoading").addClass('toon');
             $("#divLoading").click(false);
             $(".navNotClick").click(false);
-            var materialen = JSON.parse(Cookies["materialen"]);
-            var aantallen = JSON.parse(Cookies["aantal"]);
-            var startDatum = Cookies["startDatum"];
-            var dagen = JSON.parse(Cookies["dagen"]);
+            var materialen = JSON.parse(cookies["materialen"]);
+            var aantallen = JSON.parse(cookies["aantal"]);
+            var startDatum = cookies["startDatum"];
+            var dagen = JSON.parse(cookies["dagen"]);
             if (materialen === "undefined" || aantallen === "undefined" || startDatum === "undefined" || dagen === "undefined") {
                 //Someone fucked up the coockies, return to home
                 window.location.href = '/verlanglijst/';
@@ -286,10 +280,10 @@ var viewModel = {
             });
         });
         $("#btn-terug").click(function () {
-            var materialen = JSON.parse(Cookies["materialen"]);
-            var aantallen = JSON.parse(Cookies["aantal"]);
-            var startDatum = Cookies["startDatum"];
-            var dagen = JSON.parse(Cookies["dagen"]);
+            var materialen = JSON.parse(cookies["materialen"]);
+            var aantallen = JSON.parse(cookies["aantal"]);
+            var startDatum = cookies["startDatum"];
+            var dagen = JSON.parse(cookies["dagen"]);
             if (dagen.length === 0) {
                 dagen = [];
             }
@@ -311,10 +305,11 @@ var viewModel = {
                     url: "/Verlanglijst/ReservatieDetailsGrafiekPerDag",
                     data: { ids: materialen, dagen: dagen},
                     success: function (dataMateriaal) {
-                        google.charts.setOnLoadCallback(function () {
-                            drawMaterialPerDag(dataMateriaal);
-                        });
-
+                        if (viewModel.typeUser === "Lector") {
+                            google.charts.setOnLoadCallback(function () {
+                                chart.drawMaterialPerDag(dataMateriaal);
+                            });
+                        }
                     }
                 });
                 viewModel.init();
@@ -351,99 +346,85 @@ var viewModel = {
         dagen.push(Date.parse('thursday'));
         dagen.push(Date.parse('friday'));
         return dagen;
+    },
+    isWeekend() {
+        return Date.today().is().saturday() || Date.today().is().sunday();
+    },
+    VrijdagNaVijf() {
+        return Date.today().is().friday() && new Date().getHours() >= 17;
     }
 }
-function IsWeekend() {
-    return Date.today().is().saturday() || Date.today().is().sunday();
-}
-function VrijdagNaVijf() {
-    return Date.today().is().friday() && new Date().getHours() >= 17;
-}
-
-function drawMaterial(dataMateriaal) {
-
-    var data = new google.visualization.DataTable();
-    var rows = new Array();
-    data.addColumn('string', 'Startdatum');
-    data.addColumn('number', 'Aantal beschikbaar');
-
-    var obj = JSON.parse(dataMateriaal);
-    $.each(obj, function (i, item) {
-        var startDatum = item.StartDatum;
-
-        var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
-
-        var aantal = item.Aantal;
-        rows.push([startDatumNaarDate, aantal]);
-    });
-
-    data.addRows(rows);
-    var options = {
-        chart: {
-            title: 'Beschikbaarheid per week'
-        },
-        hAxis: {
-            title: 'Aantal beschikbaar'
-            //    minValue: 0,
-        },
-        vAxis: {
-            title: 'Startdatum',
-            bars: 'horizontal'
-        }
-    };
-    var material = new google.charts.Bar(document.getElementById('chart_div'));
-    material.draw(data, options);
-
-}
-function drawMaterialPerDag(dataMateriaal) {
-
-    var obj = JSON.parse(dataMateriaal);
-    var materiaalId;
-    var options = {
-        legend: { position: 'none' },
-        chart: {
-            title: 'Beschikbaarheid per dag',
-        },
-        backgroundColor: 'transparant'
-    };
-    //options.backgroundColor.fill = 'red';
-    //Materialen overlopen
-    
-    $.each(obj, function (i, item) {
+var chart = {
+    drawMaterial : function(dataMateriaal) {
         var data = new google.visualization.DataTable();
         var rows = new Array();
-        if (item.length !== 0) {
-            rows = new Array();
-            data.addColumn('string', 'Dagen');
-            data.addColumn('number', 'Aantal beschikbaar');
-            //De verschillende dagen voor het materiaal
-            $.each(item, function (j, grafiek) {
-                var startDatum = grafiek.StartDatum;
-                var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
-                var aantal = grafiek.Aantal;
-                materiaalId = grafiek.MateriaalId;
-                rows.push([startDatumNaarDate, aantal]);
-            });
-            data.addRows(rows);
-            var material = new google.charts.Bar(document.getElementById('Grafiek_dag_' + materiaalId));
-            material.draw(data, google.charts.Bar.convertOptions(options));
-        }
-    });
+        data.addColumn('string', 'Startdatum');
+        data.addColumn('number', 'Aantal beschikbaar');
 
-}
-dateTimeReviver = function (key, value) {
-    var a;
-    if (typeof value === 'string') {
-        a = /\/Date\((\d*)\)\//.exec(value);
-        if (a) {
-            return new Date(+a[1]);
-        }
+        var obj = JSON.parse(dataMateriaal);
+        $.each(obj, function (i, item) {
+            var startDatum = item.StartDatum;
+
+            var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+
+            var aantal = item.Aantal;
+            rows.push([startDatumNaarDate, aantal]);
+        });
+
+        data.addRows(rows);
+        var options = {
+            chart: {
+                title: 'Beschikbaarheid per week'
+            },
+            hAxis: {
+                title: 'Aantal beschikbaar'
+                //    minValue: 0,
+            },
+            vAxis: {
+                title: 'Startdatum',
+                bars: 'horizontal'
+            }
+        };
+        var material = new google.charts.Bar(document.getElementById('chart_div'));
+        material.draw(data, options);
+    },
+    drawMaterialPerDag : function(dataMateriaal) {
+        var obj = JSON.parse(dataMateriaal);
+        var materiaalId;
+        var options = {
+            legend: { position: 'none' },
+            chart: {
+                title: 'Beschikbaarheid per dag'
+            },
+            backgroundColor: 'transparant'
+        };
+        $.each(obj, function (i, item) {
+            var data = new google.visualization.DataTable();
+            var rows = new Array();
+            if (item.length !== 0) {
+                rows = new Array();
+                data.addColumn('string', 'Dagen');
+                data.addColumn('number', 'Aantal beschikbaar');
+                //De verschillende dagen voor het materiaal
+                $.each(item, function (j, grafiek) {
+                    var startDatum = grafiek.StartDatum;
+                    var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
+                    var aantal = grafiek.Aantal;
+                    materiaalId = grafiek.MateriaalId;
+                    rows.push([startDatumNaarDate, aantal]);
+                });
+                data.addRows(rows);
+                var material = new google.charts.Bar(document.getElementById('Grafiek_dag_' + materiaalId));
+                material.draw(data, google.charts.Bar.convertOptions(options));
+            }
+        });
     }
-    return value;
 }
-
 
 $(document).ready(function () {
+    $.get("/Home/GetType", function(type) {
+        viewModel.typeUser = type;
+    });
     google.charts.load('current', { packages: ['corechart', 'bar'], 'language': 'nl' });
     viewModel.init();
 })

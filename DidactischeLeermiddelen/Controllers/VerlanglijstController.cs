@@ -152,7 +152,8 @@ namespace DidactischeLeermiddelen.Controllers
             var datumMaandVooruitFilter = startDatumFilter.AddDays(28);
             List<ReservatieDataDTO> reservatieList = MaakLijstReservatieDataInRange(materiaal, startDatumFilter,datumMaandVooruitFilter, dagenVanDeWeek);
             return Json(SerializeObject(reservatieList), JsonRequestBehavior.AllowGet);
-        }     
+        }
+        [Authorize(Roles = "Lector")]
         public JsonResult ReservatieDetailsGrafiekPerDag(int[] ids, string[] dagen)
         {
             if (ids != null)
@@ -209,19 +210,19 @@ namespace DidactischeLeermiddelen.Controllers
 
         }
 
-        private List<ReservatieDataDTO> CreateReservatieDataDtosPerDag(Dictionary<DateTime, int> reservatieMap)
-        {
-            List<ReservatieDataDTO> dtoLijst = new List<ReservatieDataDTO>();
-            reservatieMap.ForEach(e =>
-            {
-                dtoLijst.Add(new ReservatieDataDTO
-                {
-                    Aantal = e.Value,
-                    StartDatum = e.Key
-                });
-            });
-            return dtoLijst;
-        }
+        //private List<ReservatieDataDTO> CreateReservatieDataDtosPerDag(Dictionary<DateTime, int> reservatieMap)
+        //{
+        //    List<ReservatieDataDTO> dtoLijst = new List<ReservatieDataDTO>();
+        //    reservatieMap.ForEach(e =>
+        //    {
+        //        dtoLijst.Add(new ReservatieDataDTO
+        //        {
+        //            Aantal = e.Value,
+        //            StartDatum = e.Key
+        //        });
+        //    });
+        //    return dtoLijst;
+        //}
         private IList<Materiaal> GeefMaterialenVanId(int[] materiaalIds)
         {
             return materiaalIds.Select(id => materiaalRepository.FindById(id)).ToList();
