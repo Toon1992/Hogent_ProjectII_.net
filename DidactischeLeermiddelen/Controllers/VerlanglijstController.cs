@@ -110,13 +110,6 @@ namespace DidactischeLeermiddelen.Controllers
         }
         public bool ControleGeselecteerdMateriaal(Gebruiker gebruiker, IList<Materiaal> materialen, int[] aantal, DateTime startDatum, DateTime eindDatum, IList<DateTime> dagen)
         {
-            if (dagen != null)
-            {
-                //Wanneer de lector verschillende data selecteerd kijken of het materiaal elke dag beschikbaar is
-                //Zoniet, return false
-                return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, DateTime.Now, DateTime.Now, dagen);
-                //dagen.Select(dag => gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, dag, dag)).All(beschikbaar => beschikbaar);
-            }
             return gebruiker.ControleGeselecteerdMateriaal(materialen, aantal, startDatum, eindDatum, dagen);
         }
 
@@ -154,10 +147,9 @@ namespace DidactischeLeermiddelen.Controllers
             List<ReservatieDataDTO> reservatieList = MaakLijstReservatieDataInRange(materiaal, startDatumFilter,datumMaandVooruitFilter, dagenVanDeWeek);
             return Json(SerializeObject(reservatieList), JsonRequestBehavior.AllowGet);
         }
-        [Authorize(Roles = "Lector")]
-        public JsonResult ReservatieDetailsGrafiekPerDag(int[] ids, string[] dagen)
+        public JsonResult ReservatieDetailsGrafiekPerDag(Gebruiker gebruiker, int[] ids, string[] dagen)
         {
-            if (ids != null)
+            if (ids != null && gebruiker is Lector)
             {
                 IList<Materiaal> materialen = ids.Select(i => materiaalRepository.FindById(i)).ToList();
                 DateTime[] dagenDateTimes = new DateTime[dagen.Length];

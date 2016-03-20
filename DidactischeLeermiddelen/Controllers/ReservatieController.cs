@@ -144,22 +144,21 @@ namespace DidactischeLeermiddelen.Controllers
         private void VerstuurMailStudent(IDictionary<Materiaal, int> potentieleReservaties, string startDatum, Gebruiker gebruiker)
         {
             MailTemplate mail = mailServiceRepository.GeefMailTemplate("Bevestiging reservatie");
-            mail.VerzendMail(potentieleReservaties,null, startDatum, HulpMethode.GetEindDatum(startDatum).ToShortDateString(),null, gebruiker);
+            mail.MaakMail(potentieleReservaties, null, startDatum, HulpMethode.GetEindDatum(startDatum).ToShortDateString(), null, gebruiker);
         }
 
         private void VerstuurMailBlokkeringLector(IDictionary<Materiaal, int> blokkeringen, string[] dagen,
             Gebruiker gebruiker)
         {
             MailTemplate mail = mailServiceRepository.GeefMailTemplate("Blokkering");
-            mail.VerzendMail(blokkeringen,null,"","",dagen,gebruiker);
-
+            mail.MaakMail(blokkeringen, null, "", "", dagen, gebruiker);
         }
 
         private void VerstuurMailBlokkeringStudent(Materiaal materiaal, string startDatum,
             Gebruiker gebruiker)
         {
             MailTemplate mail = mailServiceRepository.GeefMailTemplate("Reservatie gewijzigd");
-            mail.VerzendMail(null,materiaal,startDatum,"",null,gebruiker);
+            mail.MaakMail(null, materiaal, startDatum, "", null, gebruiker);
         }     
 
         //private IList<Materiaal> VulMateriaalLijstIn(ICollection<Reservatie> reservatielijst)
