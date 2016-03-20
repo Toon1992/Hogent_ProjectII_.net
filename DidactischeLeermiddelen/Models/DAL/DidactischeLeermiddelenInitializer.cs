@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace DidactischeLeermiddelen.Models.DAL
 {
-    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseIfModelChanges<DidactischeLeermiddelenContext>
+    public class DidactischeLeermiddelenInitializer : DropCreateDatabaseAlways<DidactischeLeermiddelenContext>
     {
         protected override void Seed(DidactischeLeermiddelenContext context)
         {

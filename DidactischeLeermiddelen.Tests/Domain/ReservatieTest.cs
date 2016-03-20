@@ -158,6 +158,24 @@ namespace DidactischeLeermiddelen.Tests.Domain
             Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].Aantal);
         }
 
+        public void LectorMaakBlokkeringWaarStudentAlHeeftGereserveerdWaarBlokkeringNodigIsMetEenMateriaal()
+        {
+            Student student = context.Toon as Student;
+            Lector lector = context.LectorGebruiker as Lector;
+            IDictionary<Materiaal, int> materiaalMap = new Dictionary<Materiaal, int>();
+            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+            materiaalMap.Add(context.Bok, 1);
+            materiaalLectorMap.Add(context.Bok, 1);
+            string[] dagenGeblokkeerd = new[] { "23/3/2016" };
+            student.MaakReservaties(materiaalMap, "23/3/2016");
+            lector.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd);
+
+            Assert.AreEqual(1, lector.Reservaties.Count);
+            Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
+            Assert.AreEqual(1, student.Reservaties.Count);
+            Assert.IsTrue(student.Reservaties.First().ReservatieState is Overruled);
+        }
+
         [TestMethod]
         public void LectorOverruultTweeStudenten()
         {

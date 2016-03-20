@@ -22,6 +22,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
         public Materiaal Encyclopedie { get; set; }
 
+        public Materiaal Bok { get; set; }
+
         public Materiaal Kaart { get; set; }
         public Materiaal GeoDriehoek { get; set; }
         public Reservatie ReservatieWeek1Aantal2Student { get; set; }
@@ -115,7 +117,13 @@ namespace DidactischeLeermiddelen.Tests.Domain
                 IsReserveerBaar = true,
                 MateriaalId = 4
 
-            }; 
+            };
+
+            Bok = new Materiaal("Bok", 20, 1)
+            {
+                IsReserveerBaar = true,
+                MateriaalId = 2
+            };
             StartDatum = "14/03/2016";
             ReservatieWeek1Aantal2Student = new ReservatieStudent(Toon, Bol, StartDatum, 2);
             ReservatieWeek1Aantal8Student = new ReservatieStudent(Toon, Bol, StartDatum, 8);
