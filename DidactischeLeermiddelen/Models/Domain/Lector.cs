@@ -80,7 +80,9 @@ namespace DidactischeLeermiddelen.Models.Domain
                     break;
 
                 //De laatste Reservatie opvragen die er bij gekomen is
-                Reservatie laatsteReservatie = reservatiePool.Last(r => r is ReservatieStudent);
+                Reservatie laatsteReservatie = reservatiePool.LastOrDefault(r => r is ReservatieStudent);
+                if (laatsteReservatie == null)
+                    break;
                             
                     //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
                     if (aantal <= laatsteReservatie.Aantal)
