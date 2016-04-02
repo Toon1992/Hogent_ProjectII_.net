@@ -16,16 +16,18 @@ namespace DidactischeLeermiddelen.Models.Domain
         public string Omschrijving { get; set; }
 
         public int AantalInCatalogus { get; set; }
+        public int AantalOnbeschikbaar { get; set; }
 
         public int ArtikelNr { get; set; }
         public int MateriaalId { get; set; }
+        public string Plaats { get; set; }
 
         public decimal Prijs { get; set; }
 
         public virtual Firma Firma { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
-        public bool IsReserveerBaar { get; set; }
-        public bool InVerlanglijst { get; set; }
+        public Boolean? IsReserveerBaar { get; set; }
+        public Boolean? InVerlanglijst { get; set; }
 
         public virtual IList<Doelgroep> Doelgroepen { get; set; }
         public virtual IList<Leergebied> Leergebieden { get; set; }

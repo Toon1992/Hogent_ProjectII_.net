@@ -55,7 +55,7 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (gebruiker is Student)
             {
-                materialen = materialen.Where(m => m.IsReserveerBaar).ToList();
+                materialen = materialen.Where(m => m.IsReserveerBaar != null && (bool) m.IsReserveerBaar).ToList();
             }  
 
             materialen.ForEach(m =>

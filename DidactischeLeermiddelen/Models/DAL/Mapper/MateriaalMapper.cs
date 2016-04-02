@@ -8,8 +8,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
         public MateriaalMapper()
         {
             HasKey(m => m.MateriaalId);
-            //Deze lijn zorgt voor problemen, VERY DANGEROUS. UNCOMMENT ON OWN RISK
-            HasMany(m => m.Reservaties).WithRequired().WillCascadeOnDelete(false);
+            HasMany(m => m.Reservaties).WithRequired(m => m.Materiaal).WillCascadeOnDelete(false);
             HasMany(m => m.Doelgroepen).WithMany().Map(m =>
             {
                 m.MapLeftKey("ArtikelNr");
@@ -29,6 +28,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             Property(m => m.Naam).IsRequired();
             Property(m => m.ArtikelNr).IsRequired();
             Property(m => m.AantalInCatalogus).IsRequired();
+
         }
     }
 }

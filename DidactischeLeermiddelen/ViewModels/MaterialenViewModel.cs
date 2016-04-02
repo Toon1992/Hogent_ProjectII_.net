@@ -39,7 +39,7 @@ namespace DidactischeLeermiddelen.ViewModels
             Firma = materiaal.Firma;
             Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
             Leergebieden = materiaal.Leergebieden as List<Leergebied>;
-            InVerlanglijst = materiaal.InVerlanglijst;
+            if (materiaal.InVerlanglijst != null) InVerlanglijst = (bool) materiaal.InVerlanglijst;
         }
 
     }
