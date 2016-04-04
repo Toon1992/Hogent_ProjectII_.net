@@ -8,7 +8,6 @@ namespace DidactischeLeermiddelen.Models.Domain
 {
     public abstract class Gebruiker
     {
-        public int GebruikerId { get; set; }
         public string Email { get; set; }
         public string Naam { get; set; }
         public string Faculteit { get; set; }

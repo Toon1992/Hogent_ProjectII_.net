@@ -42,7 +42,7 @@ namespace DidactischeLeermiddelen.Models
     }
 
 
-    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
