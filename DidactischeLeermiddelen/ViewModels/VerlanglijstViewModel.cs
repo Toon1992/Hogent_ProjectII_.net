@@ -32,7 +32,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public VerlanglijstViewModel(Materiaal materiaal, DateTime startdatum)
         {
             MateriaalId = materiaal.MateriaalId;
-            Foto = materiaal.Foto;
+            Foto = materiaal.ImageSrc;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
             //Status = materiaal.Status;

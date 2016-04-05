@@ -22,7 +22,7 @@ namespace DidactischeLeermiddelen.ViewModels
 
         public ReservatieViewModel(Reservatie reservatie)
         {
-            Foto = reservatie.Materiaal.Foto;
+            Foto = reservatie.Materiaal.ImageSrc;
             Naam = reservatie.Materiaal.Naam;
             Firma = reservatie.Materiaal.Firma.Naam;
             Omschrijving = reservatie.Materiaal.Omschrijving;

@@ -24,7 +24,7 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             });
 
             HasOptional(m => m.Firma).WithMany().WillCascadeOnDelete(false); // withrequired, dan maar 1 materiaal met die firma, kan meerdere materialen van zelfde firma zijn
-
+            Ignore(m => m.ImageSrc);
             Property(m => m.Naam).IsRequired();
             Property(m => m.ArtikelNr).IsRequired();
             Property(m => m.AantalInCatalogus).IsRequired();

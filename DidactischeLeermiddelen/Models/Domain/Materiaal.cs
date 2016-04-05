@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
@@ -11,7 +14,6 @@ namespace DidactischeLeermiddelen.Models.Domain
     public class Materiaal
     {
         #region fields
-        public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
 
@@ -31,8 +33,30 @@ namespace DidactischeLeermiddelen.Models.Domain
 
         public virtual IList<Doelgroep> Doelgroepen { get; set; }
         public virtual IList<Leergebied> Leergebieden { get; set; }
+        public byte[] Foto { get; set; }
+        private string _imagesrc;
+        public string ImageSrc
+        {
+            get
+            {
+                if (_imagesrc == null)
+                {
+                    _imagesrc = $"data:image/jpg;base64,{Convert.ToBase64String(Foto)}";
+                }
+                return _imagesrc;
+            }
+            set
+            {
+                Image img = Image.FromFile(value);
 
-       // public bool Onbeschikbaar { get; set; }
+                using (var ms = new MemoryStream())
+                {
+                    img.Save(ms, img.RawFormat);
+                    Foto = ms.ToArray();
+                }
+            }
+        }
+        // public bool Onbeschikbaar { get; set; }
         #endregion
 
         public Materiaal(string naam, int artikeNr, int aantal) : this()
@@ -43,7 +67,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 Reservaties = new List<Reservatie>();
             }
         public Materiaal() { Reservaties = new List<Reservatie>(); }
-
         public void AddReservatie(Reservatie reservatie)
         {          
             Reservaties.Add(reservatie);
