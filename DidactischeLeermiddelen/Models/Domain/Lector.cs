@@ -85,13 +85,13 @@ namespace DidactischeLeermiddelen.Models.Domain
                     break;
                             
                     //kijken heeft die genoeg stuks om het materiaal te kunnen reserveren
-                    if (aantal <= laatsteReservatie.Aantal)
+                    if (aantal <= laatsteReservatie.AantalUitgeleend)
                     {
                         //nu gaan we kijken of er nog over zijn in de reservatie
-                        int verschil = laatsteReservatie.Aantal - aantal;
+                        int verschil = laatsteReservatie.AantalUitgeleend - aantal;
 
                         ////Originele aantal wordt vermindert van de laatste reservatie
-                        laatsteReservatie.Aantal -= verschil;
+                        laatsteReservatie.AantalUitgeleend -= verschil;
 
                     if (!(laatsteReservatie is BlokkeringLector))
                     {
@@ -117,7 +117,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                     }
 
                         //Nu moeten we nog berekenen wat er nog overblijft
-                        aantal -= laatsteReservatie.Aantal;
+                        aantal -= laatsteReservatie.AantalUitgeleend;
 
                         //De laatstereservatie moet nu uit de lijst met potentiele reservatie verwijdert worden
                         reservatiePool.Remove(laatsteReservatie);
@@ -200,7 +200,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     IList<Reservatie> reservaties = materiaal.Reservaties
                         .Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)).ToList();
-                    int aantalGereserveerd = reservaties.Sum(r => r.Aantal);
+                    int aantalGereserveerd = reservaties.Sum(r => r.AantalUitgeleend);
                     if (aantalGereserveerd + aantalGeselecteerd > materiaal.AantalInCatalogus)
                     {
                         geblokeerdeDagen.Add(dag);
