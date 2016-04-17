@@ -12,7 +12,7 @@ namespace DidactischeLeermiddelen.ViewModels
         {
             ReservatieDetailViewModel vm = new ReservatieDetailViewModel
             {
-                Aantal = reservatie.AantalUitgeleend,
+                Aantal = reservatie.AantalGereserveerd,
                 Email = reservatie.Gebruiker.Email,
                 Status = reservatie.ReservatieState.GetType().Name.ToLower(),
                 Type = reservatie.Gebruiker is Lector ? "Lector" : "Student",

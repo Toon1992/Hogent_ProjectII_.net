@@ -29,7 +29,7 @@ namespace DidactischeLeermiddelen.ViewModels
             MateriaalId = reservatie.Materiaal.MateriaalId;
             StartDatum = reservatie.StartDatum;
             EindDatum = StartDatum.AddDays(4);
-            AantalStuksGereserveerd = reservatie.AantalUitgeleend;
+            AantalStuksGereserveerd = reservatie.AantalGereserveerd;
             Status = reservatie.StartDatum <= DateTime.Now.AddDays(7) ? reservatie.ReservatieState.GetType().Name : "Geen status";
             ReservatieId = reservatie.ReservatieId;
         }

@@ -12,6 +12,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public virtual Materiaal Materiaal { get; set; }
         public virtual Gebruiker Gebruiker { get; set; }
         public virtual IList<Dag> GeblokkeerdeDagen { get; set; } 
+        public int AantalGereserveerd { get; set; }
         public int AantalUitgeleend { get; set; }
         public int AantalTerugGebracht { get; set; }
         public DateTime StartDatum { get; set; }
@@ -74,7 +75,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             }
 
             Materiaal = materiaal;
-            AantalUitgeleend = aantal;
+            AantalGereserveerd = aantal;
             Gebruiker = gebruiker;
             GeblokkeerdeDagen = new List<Dag>();
             AanmaakDatum = DateTime.Now;
