@@ -55,14 +55,13 @@ namespace DidactischeLeermiddelen.Controllers
 
             if (gebruiker is Student)
             {
-                materialen = materialen.Where(m => m.IsReserveerBaar).ToList();
+                materialen = materialen.Where(m => m.IsReserveerBaar != null && (bool) m.IsReserveerBaar).ToList();
             }  
 
             materialen.ForEach(m =>
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
             });
-
             factory = new MaterialenViewModelFactory();
             MaterialenViewModel vm = factory.CreateMaterialenViewModel(GetDoelgroepenSelectedList(0), GetLeergebiedSelectedList(0), materialen) as MaterialenViewModel;
 
@@ -72,6 +71,7 @@ namespace DidactischeLeermiddelen.Controllers
             }
             return View("Index", vm);
         }
+
 
         private IList<Materiaal> GeefGefilterdeMaterialen(int[] doelgroepenLijst, int[] leergebiedenLijst, IList<Materiaal> materialen)
         {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="DidactischeLeermiddelen.Models.Domain.Materiaal">
-    <Position X="5.25" Y="1" Width="3.5" />
+    <Position X="4" Y="1" Width="5.5" />
     <AssociationLine Name="Reservaties" Type="DidactischeLeermiddelen.Models.Domain.Reservatie">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="-0.237" Y="0.06" Height="0.182" Width="2.082" />
@@ -42,7 +42,7 @@
   <Class Name="DidactischeLeermiddelen.Models.Domain.Reservatie">
     <Position X="10.75" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAACAQAQQAAYAAAIAACAAQgAAAgAgAGAAAAA=</HashCode>
+      <HashCode>AAAAAAIAAACAQAQQAAYAAAIAACQAQgAAAgAgAGAAAAA=</HashCode>
       <FileName>Models\Domain\Reservatie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -90,7 +90,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DidactischeLeermiddelen.Models.Domain.Firma">
-    <Position X="2" Y="5.25" Width="3" />
+    <Position X="1" Y="5.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAiAAAAAAABAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Models\Domain\Firma.cs</FileName>

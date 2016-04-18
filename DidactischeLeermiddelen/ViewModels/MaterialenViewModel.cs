@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain;
 
 namespace DidactischeLeermiddelen.ViewModels
@@ -26,11 +27,9 @@ namespace DidactischeLeermiddelen.ViewModels
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }
         public bool InVerlanglijst { get; set; }
-
         public MateriaalViewModel(Materiaal materiaal)
         {
             MateriaalId = materiaal.MateriaalId;
-            Foto = materiaal.Foto;
             Naam = materiaal.Naam;
             Omschrijving = materiaal.Omschrijving;
             AantalInCatalogus = materiaal.AantalInCatalogus;
@@ -39,7 +38,8 @@ namespace DidactischeLeermiddelen.ViewModels
             Firma = materiaal.Firma;
             Doelgroepen = materiaal.Doelgroepen as List<Doelgroep>;
             Leergebieden = materiaal.Leergebieden as List<Leergebied>;
-            InVerlanglijst = materiaal.InVerlanglijst;
+            if (materiaal.InVerlanglijst != null) InVerlanglijst = (bool) materiaal.InVerlanglijst;
+            Foto = materiaal.ImageSrc;
         }
 
     }

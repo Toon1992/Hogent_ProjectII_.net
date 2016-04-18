@@ -74,7 +74,7 @@ var viewModel = {
                 // dehighligt selected row
                 materiaalRij.css('background', 'transparent');
             }
-            $("#btn-confirmeer").focus();
+            //$("#btn-confirmeer").focus();
             //Wanneer een van de twee checkboxen aangeklikt wordt, krijgt de tweede dezelfde waarde als de eerste
             var box = $("#verlanglijst-pagina .checkbox").find("." + materiaalId);
             var selectedBox = $(this).find("input")[0].checked;
@@ -104,7 +104,7 @@ var viewModel = {
                 box[1].checked = false;
                 materiaalRij.css('background', 'transparent');
             }
-            $("#btn-confirmeer").focus();
+            //$("#btn-confirmeer").focus();
         });
         $("#reservatie-date").datepicker({
             changeMonth: true,
@@ -367,7 +367,7 @@ var chart = {
 
         var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
 
-        var aantal = item.Aantal;
+        var aantal = item.aantal;
         rows.push([startDatumNaarDate, aantal]);
     });
 
@@ -409,7 +409,7 @@ var chart = {
             $.each(item, function (j, grafiek) {
                 var startDatum = grafiek.StartDatum;
                 var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
-                var aantal = grafiek.Aantal;
+                var aantal = grafiek.aantal;
                 materiaalId = grafiek.MateriaalId;
                 rows.push([startDatumNaarDate, aantal]);
             });

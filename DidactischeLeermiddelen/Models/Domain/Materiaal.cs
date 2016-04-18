@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 using DidactischeLeermiddelen.Models.Domain.DtoObjects;
 using DidactischeLeermiddelen.Models.Domain.StateMachine;
 using DidactischeLeermiddelen.ViewModels;
@@ -11,26 +14,49 @@ namespace DidactischeLeermiddelen.Models.Domain
     public class Materiaal
     {
         #region fields
-        public string Foto { get; set; }
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
 
         public int AantalInCatalogus { get; set; }
+        public int AantalOnbeschikbaar { get; set; }
 
         public int ArtikelNr { get; set; }
         public int MateriaalId { get; set; }
+        public string Plaats { get; set; }
 
         public decimal Prijs { get; set; }
 
         public virtual Firma Firma { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
-        public bool IsReserveerBaar { get; set; }
-        public bool InVerlanglijst { get; set; }
+        public Boolean? IsReserveerBaar { get; set; }
+        public Boolean? InVerlanglijst { get; set; }
 
         public virtual IList<Doelgroep> Doelgroepen { get; set; }
         public virtual IList<Leergebied> Leergebieden { get; set; }
+        public byte[] Foto { get; set; }
+        private string _imagesrc;
+        public string ImageSrc
+        {
+            get
+            {
+                if (_imagesrc == null)
+                {
+                    _imagesrc = $"data:image/jpg;base64,{Convert.ToBase64String(Foto)}";
+                }
+                return _imagesrc;
+            }
+            set
+            {
+                Image img = Image.FromFile(value);
 
-       // public bool Onbeschikbaar { get; set; }
+                using (var ms = new MemoryStream())
+                {
+                    img.Save(ms, img.RawFormat);
+                    Foto = ms.ToArray();
+                }
+            }
+        }
+        // public bool Onbeschikbaar { get; set; }
         #endregion
 
         public Materiaal(string naam, int artikeNr, int aantal) : this()
@@ -41,7 +67,6 @@ namespace DidactischeLeermiddelen.Models.Domain
                 Reservaties = new List<Reservatie>();
             }
         public Materiaal() { Reservaties = new List<Reservatie>(); }
-
         public void AddReservatie(Reservatie reservatie)
         {          
             Reservaties.Add(reservatie);
@@ -54,13 +79,13 @@ namespace DidactischeLeermiddelen.Models.Domain
                 int aantal =
                     Reservaties.Where(
                         r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd)
-                        .Sum(r => r.Aantal);
+                        .Sum(r => r.AantalUitgeleend);
                 return aantal > AantalInCatalogus ? AantalInCatalogus : aantal;
             }
 
             if (status is Gereserveerd)
             {
-                return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.Aantal);
+                return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.AantalUitgeleend);
             }
 
             return 0;
@@ -75,7 +100,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 foreach (var dag in dagen)
                 {
                     IEnumerable<Reservatie> overschijvendeReservaties = Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)).ToList();
-                    int aantalGereserveerd = overschijvendeReservaties.Sum(r => r.Aantal);
+                    int aantalGereserveerd = overschijvendeReservaties.Sum(r => r.AantalUitgeleend);
                     aantal = Math.Min(aantal, AantalInCatalogus - aantalGereserveerd);
                 }       
             }
@@ -84,7 +109,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 aantal = AantalInCatalogus -
                          Reservaties.Where(r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) &&
                                                 (r.ReservatieState is Geblokkeerd || r.ReservatieState is Gereserveerd))
-                             .Sum(r => r.Aantal);
+                             .Sum(r => r.AantalUitgeleend);
             }
             return aantal <= 0 ? 0 : aantal;
         }
@@ -116,7 +141,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             int aantal = AantalInCatalogus -
                          Reservaties.Where(r => r.ReservatieState is Gereserveerd || r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)
-                             .Sum(r => r.Aantal);         
+                             .Sum(r => r.AantalUitgeleend);         
             return aantal <= 0 ? 0 : aantal;
         }
 
@@ -193,7 +218,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
                 {
-                    reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.Aantal);
+                    reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.AantalUitgeleend);
                 }
             }
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
@@ -218,7 +243,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     foreach (var dag in gemeenschappelijkeDagen)
                     {
-                        reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.Aantal);
+                        reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.AantalUitgeleend);
                     }                   
                 }
             }

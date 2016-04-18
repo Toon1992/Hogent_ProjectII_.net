@@ -27,7 +27,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             student.MaakReservaties(materiaalMap, "23/3/2016");
             Assert.AreEqual(1, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Gereserveerd);
-            Assert.AreEqual(5, student.Reservaties.First().Aantal);
+            Assert.AreEqual(5, student.Reservaties.First().AantalUitgeleend);
         }
 
         [TestMethod]
@@ -40,8 +40,8 @@ namespace DidactischeLeermiddelen.Tests.Domain
             student.MaakReservaties(materiaalMap, "23/3/2016");
             Assert.AreEqual(2, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties[1].ReservatieState is Gereserveerd);
-            Assert.AreEqual(5, student.Reservaties[0].Aantal);
-            Assert.AreEqual(5, student.Reservaties[1].Aantal);
+            Assert.AreEqual(5, student.Reservaties[0].AantalUitgeleend);
+            Assert.AreEqual(5, student.Reservaties[1].AantalUitgeleend);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             lector.MaakBlokkeringen(materiaalMap, "23/3/2016", dagenGeblokkeerd);
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
-            Assert.AreEqual(5, lector.Reservaties.First().Aantal);
+            Assert.AreEqual(5, lector.Reservaties.First().AantalUitgeleend);
             Assert.AreEqual("23/03/2016", lector.Reservaties.First().GeblokkeerdeDagen[0].Datum.ToShortDateString());
         }
 
@@ -100,7 +100,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             lector.MaakBlokkeringen(materiaalMap, "23/3/2016", dagenGeblokkeerd);
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
-            Assert.AreEqual(5, lector.Reservaties.First().Aantal);
+            Assert.AreEqual(5, lector.Reservaties.First().AantalUitgeleend);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace DidactischeLeermiddelen.Tests.Domain
             lector.MaakBlokkeringen(materiaalMap, "23/3/2016", dagenGeblokkeerd);
             Assert.AreEqual(2, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
-            Assert.AreEqual(5, lector.Reservaties.First().Aantal);
+            Assert.AreEqual(5, lector.Reservaties.First().AantalUitgeleend);
         }
 
         [TestMethod]
@@ -129,10 +129,10 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
-            Assert.AreEqual(5, lector.Reservaties.First().Aantal);
+            Assert.AreEqual(5, lector.Reservaties.First().AantalUitgeleend);
             Assert.AreEqual(1, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Gereserveerd);
-            Assert.AreEqual(5, student.Reservaties.First().Aantal);
+            Assert.AreEqual(5, student.Reservaties.First().AantalUitgeleend);
         }
 
         [TestMethod]
@@ -150,12 +150,12 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             Assert.AreEqual(1, lector.Reservaties.Count);
             Assert.IsTrue(lector.Reservaties.First().ReservatieState is Geblokkeerd);
-            Assert.AreEqual(6, lector.Reservaties.First().Aantal);
+            Assert.AreEqual(6, lector.Reservaties.First().AantalUitgeleend);
             Assert.AreEqual(2, student.Reservaties.Count);
             Assert.IsTrue(student.Reservaties.First().ReservatieState is Overruled);
             Assert.IsTrue(student.Reservaties[student.Reservaties.Count - 1].ReservatieState is Gereserveerd);
-            Assert.AreEqual(1, student.Reservaties.First().Aantal);
-            Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].Aantal);
+            Assert.AreEqual(1, student.Reservaties.First().AantalUitgeleend);
+            Assert.AreEqual(4, student.Reservaties[student.Reservaties.Count - 1].AantalUitgeleend);
         }
 
         public void LectorMaakBlokkeringWaarStudentAlHeeftGereserveerdWaarBlokkeringNodigIsMetEenMateriaal()
@@ -231,7 +231,11 @@ namespace DidactischeLeermiddelen.Tests.Domain
             IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
 
             materiaalLectorMap.Add(context.Bol, 10);
-
+           
+            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+           
+            materiaalLectorMap.Add(context.Bol, 10);
+            
             string[] dagenGeblokkeerd1 = new[] { "24/3/2016" };
             lector1.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd1);
 

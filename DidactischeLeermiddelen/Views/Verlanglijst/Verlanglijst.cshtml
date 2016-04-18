@@ -42,8 +42,8 @@
                 @using (Html.BeginForm("VerwijderUitVerlanglijst", "Verlanglijst", new { id = item.MateriaalId }))
                 {
                     <div class="form-group">
-                        <label class="sr-only" for="aantal">Aantal</label>
-                        <input type="number" name="aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" id="aantal_@item.MateriaalId"/>
+                        <label class="sr-only" for="Aantal">Aantal</label>
+                        <input type="number" name="Aantal" value="@item.AantalGeselecteerd" min="0" max=@item.AantalBeschikbaar class="input-medium aantal" id="aantal_@item.MateriaalId"/>
 
                     </div>
                     <button type="submit" class="btn btn-delete" tabindex="-1">
@@ -78,7 +78,7 @@
         </div>
     }
     <div class="col-md-offset-8 col-md-4 col-sm-offset-3 col-sm-offset-6 col-sm-6 col-xs-12 text-center">
-        <div class="btn btn-success" name="btn-reserveer" id="btn-confirmeer" autofocus>Verder naar reserveren &raquo;</div>
+        <div class="btn btn-success" name="btn-reserveer" id="btn-confirmeer">Verder naar reserveren &raquo;</div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <h4 class="foutmelding"></h4>
