@@ -79,13 +79,13 @@ namespace DidactischeLeermiddelen.Models.Domain
                 int aantal =
                     Reservaties.Where(
                         r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) && r.ReservatieState is Geblokkeerd)
-                        .Sum(r => r.AantalUitgeleend);
+                        .Sum(r => r.AantalGereserveerd);
                 return aantal > AantalInCatalogus ? AantalInCatalogus : aantal;
             }
 
             if (status is Gereserveerd)
             {
-                return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.AantalUitgeleend);
+                return Reservaties.Where(r => r.StartDatum.Equals(startDatum) && r.ReservatieState is Gereserveerd).Sum(r => r.AantalGereserveerd);
             }
 
             return 0;
@@ -100,7 +100,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 foreach (var dag in dagen)
                 {
                     IEnumerable<Reservatie> overschijvendeReservaties = Reservaties.Where(r => r.GeblokkeerdeDagen.Select(d => d.Datum).Contains(dag)).ToList();
-                    int aantalGereserveerd = overschijvendeReservaties.Sum(r => r.AantalUitgeleend);
+                    int aantalGereserveerd = overschijvendeReservaties.Sum(r => r.AantalGereserveerd);
                     aantal = Math.Min(aantal, AantalInCatalogus - aantalGereserveerd);
                 }       
             }
@@ -109,7 +109,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 aantal = AantalInCatalogus -
                          Reservaties.Where(r => r.KanOverschrijvenMetReservatie(startDatum, eindDatum) &&
                                                 (r.ReservatieState is Geblokkeerd || r.ReservatieState is Gereserveerd))
-                             .Sum(r => r.AantalUitgeleend);
+                             .Sum(r => r.AantalGereserveerd);
             }
             return aantal <= 0 ? 0 : aantal;
         }
@@ -141,7 +141,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         {
             int aantal = AantalInCatalogus -
                          Reservaties.Where(r => r.ReservatieState is Gereserveerd || r.ReservatieState is Geblokkeerd || r.ReservatieState is Opgehaald)
-                             .Sum(r => r.AantalUitgeleend);         
+                             .Sum(r => r.AantalGereserveerd);         
             return aantal <= 0 ? 0 : aantal;
         }
 
@@ -218,7 +218,7 @@ namespace DidactischeLeermiddelen.Models.Domain
             {
                 if (r.StartDatum >= startDatumFilter && r.StartDatum <= eindDatumFilter)
                 {
-                    reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.AantalUitgeleend);
+                    reservatieMap = UpdateReservatieMap(reservatieMap, r.StartDatum, r.AantalGereserveerd);
                 }
             }
             //Voor de data waar geen reservaties zijn worden reservatieDataDTO objecten met standaardWaarden gemaakt.
@@ -243,7 +243,7 @@ namespace DidactischeLeermiddelen.Models.Domain
                 {
                     foreach (var dag in gemeenschappelijkeDagen)
                     {
-                        reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.AantalUitgeleend);
+                        reservatieMap = UpdateReservatieMap(reservatieMap, dag, r.AantalGereserveerd);
                     }                   
                 }
             }
