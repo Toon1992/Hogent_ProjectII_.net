@@ -11,14 +11,14 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             HasMany(m => m.Reservaties).WithRequired(m => m.Materiaal).Map(m => m.MapKey("MateriaalId")).WillCascadeOnDelete(false);
             HasMany(m => m.Doelgroepen).WithMany().Map(m =>
             {
-                m.MapLeftKey("ArtikelNr");
+                m.MapLeftKey("MateriaalId");
                 m.MapRightKey("DoelgroepId");
                 m.ToTable("MateriaalDoelgroep");
             });
 
             HasMany(m => m.Leergebieden).WithMany().Map(m =>
             {
-                m.MapLeftKey("ArtikelNr");
+                m.MapLeftKey("MateriaalId");
                 m.MapRightKey("LeergebiedId");
                 m.ToTable("MateriaalLeergebied");
             });

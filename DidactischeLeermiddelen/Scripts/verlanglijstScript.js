@@ -367,7 +367,7 @@ var chart = {
 
         var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
 
-        var aantal = item.aantal;
+        var aantal = item.Aantal;
         rows.push([startDatumNaarDate, aantal]);
     });
 
@@ -409,7 +409,7 @@ var chart = {
             $.each(item, function (j, grafiek) {
                 var startDatum = grafiek.StartDatum;
                 var startDatumNaarDate = new Date(parseInt(startDatum.substr(6))).toLocaleDateString();
-                var aantal = grafiek.aantal;
+                var aantal = grafiek.Aantal;
                 materiaalId = grafiek.MateriaalId;
                 rows.push([startDatumNaarDate, aantal]);
             });
