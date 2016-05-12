@@ -17,7 +17,8 @@ namespace DidactischeLeermiddelen.Models.DAL
         {
             try
             {
-
+                Beheerder admin = new Beheerder("donovan.desmedt.v3759@student.hogent.be", true);
+                context.Beheerders.Add(admin);
                 //Leergebieden
                 Leergebied aardrijkskunde = new Leergebied { Naam = "Aardrijkskunde" };
                 Leergebied fysica = new Leergebied { Naam = "Fysica" };
