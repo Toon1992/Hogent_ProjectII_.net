@@ -30,13 +30,13 @@ namespace DidactischeLeermiddelen.Models.DAL
                 //Doelgroep en
                 Doelgroep lagerOnderwijs = new Doelgroep { Naam = "Lager" };
                 Doelgroep secundairOnderwijs = new Doelgroep { Naam = "Secundair" };
-                Doelgroep kleuterOnderwijs=new Doelgroep {Naam = "Kleuter"};
+                Doelgroep kleuterOnderwijs = new Doelgroep { Naam = "Kleuter" };
 
 
 
-                Firma f=new Firma("Ceti","ceti@gmail.com","ceti.be",contactpersoon:"Silke");
-                Firma b = new Firma("Wissner", "wissner@gmail.com","wissner.com",adres:"Voskenslaan", contactpersoon: "Silke");
-                Firma c = new Firma("Texas Instruments", "instruments@gmail.com","texasinstruments.com"); //veranderen van firma werkt niet, blijft bij eerst initialisatie
+                Firma f = new Firma("Ceti", "ceti@gmail.com", "ceti.be", contactpersoon: "Silke");
+                Firma b = new Firma("Wissner", "wissner@gmail.com", "wissner.com", adres: "Voskenslaan", contactpersoon: "Silke");
+                Firma c = new Firma("Texas Instruments", "instruments@gmail.com", "texasinstruments.com"); //veranderen van firma werkt niet, blijft bij eerst initialisatie
               
                 //Materialen
                 Materiaal wereldbol = new Materiaal {AantalInCatalogus = 4,AantalOnbeschikbaar = 1, Plaats = "B2.012",ArtikelNr = 1111, MateriaalId = 1, Firma = b,Naam = "Wereldbol", ImageSrc = "C:\\Users\\ToonDT\\Desktop\\School 2015-2016\\Projecten\\DotNet\\DotNetProject\\DidactischeLeermiddelen\\Content\\Images\\wereldbol.jpg", Omschrijving = "Columbus wereldbol", Prijs = 44.90, Leergebieden = new List<Leergebied> { aardrijkskunde }, Doelgroepen = new List<Doelgroep> { lagerOnderwijs, secundairOnderwijs }, IsReserveerBaar = true};
@@ -68,27 +68,27 @@ namespace DidactischeLeermiddelen.Models.DAL
                 };
 
 
-                MailTemplate mailBlokkeringLector=new MailNaBlokkeringLector()
+                MailTemplate mailBlokkeringLector = new MailNaBlokkeringLector()
                 {
-                    Body = string.Format("<p>Dag _NAAM</p>"+
-                    "U heeft volgende materialen gereserveerd op _DATUMS :"+
+                    Body = string.Format("<p>Dag _NAAM</p>" +
+                    "U heeft volgende materialen gereserveerd op _DATUMS :" +
                     "<ul>" +
-                    "_ITEMS"+
+                    "_ITEMS" +
                     "</ul>"),
                     Subject = "Blokkering"
                 };
 
-                MailTemplate mailBlokkeringStudent=new MailNaBlokkeringStudent()
+                MailTemplate mailBlokkeringStudent = new MailNaBlokkeringStudent()
                 {
                     Body = string.Format("<p>Dag _NAAM</p>" +
-                    "Uw reservatie van volgend materiaal in de week van _STARTDATUM is geblokkeerd:"+
+                    "Uw reservatie van volgend materiaal in de week van _STARTDATUM is geblokkeerd:" +
                     "<ul>" +
                     "_ITEMS" +
                     "</ul>"),
 
                     Subject = "Reservatie gewijzigd"
                 };
-                List<MailTemplate> mails=new List<MailTemplate>() { mailReservatie, mailBlokkeringLector,mailBlokkeringStudent };
+                List<MailTemplate> mails = new List<MailTemplate>() { mailReservatie, mailBlokkeringLector, mailBlokkeringStudent };
                 
                 context.MailTemplates.AddRange(mails);
                 context.SaveChanges();
