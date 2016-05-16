@@ -22,7 +22,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public int AantalInCatalogus { get; set; }
         [Display(Name = "Artikelnummer")]
         public int ArtikelNr { get; set; }
-        public decimal Prijs { get; set; }
+        public double Prijs { get; set; }
         public Firma Firma { get; set; }
         public List<Doelgroep> Doelgroepen { get; set; }
         public List<Leergebied> Leergebieden { get; set; }

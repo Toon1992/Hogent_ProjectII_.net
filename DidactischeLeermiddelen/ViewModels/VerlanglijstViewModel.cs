@@ -27,7 +27,7 @@ namespace DidactischeLeermiddelen.ViewModels
         public bool Geselecteerd { get; set; }      
         public string Beschikbaarheid { get; set; }
         public int ArtikelNr { get; set; }
-        public Decimal Prijs { get; set; }
+        public double Prijs { get; set; }
 
         public VerlanglijstViewModel(Materiaal materiaal, DateTime startdatum)
         {
