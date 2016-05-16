@@ -24,7 +24,7 @@ namespace DidactischeLeermiddelen.Models.Domain
         public int MateriaalId { get; set; }
         public string Plaats { get; set; }
 
-        public decimal Prijs { get; set; }
+        public double Prijs { get; set; }
 
         public virtual Firma Firma { get; set; }
         public virtual IList<Reservatie> Reservaties { get; set; }
