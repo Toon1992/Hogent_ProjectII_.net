@@ -56,8 +56,11 @@ namespace DidactischeLeermiddelen.Controllers
             if (gebruiker is Student)
             {
                 materialen = materialen.Where(m => m.IsReserveerBaar != null && (bool) m.IsReserveerBaar).ToList();
-            }  
-
+            }
+            if (gebruiker.Verlanglijst == null)
+            {
+                gebruiker.Verlanglijst = new Verlanglijst();
+            }
             materialen.ForEach(m =>
             {
                 m.InVerlanglijst = gebruiker.Verlanglijst.BevatMateriaal(m);
@@ -96,7 +99,7 @@ namespace DidactischeLeermiddelen.Controllers
                             ? materiaalDoelgroep.Intersect(materialen).ToList()
                             : materiaalDoelgroep;
                     }
-            return materialen;
+            return materialen.Distinct().ToArray();
         }
 
         [HttpPost]

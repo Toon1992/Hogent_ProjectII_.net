@@ -29,7 +29,7 @@ namespace DidactischeLeermiddelen.Controllers
 
         public ActionResult Index(Gebruiker gebruiker)
         {
-            if (gebruiker.Verlanglijst.Materialen.Count == 0)
+            if (gebruiker.Reservaties.Count == 0)
                 return View("LegeReservatielijst");
 
             ICollection<Reservatie> reservatielijst = gebruiker.Reservaties;

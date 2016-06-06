@@ -9,6 +9,10 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         public override IViewModel CreateFirmaViewModel(Materiaal materiaal)
         {
+            if (materiaal.Firma == null)
+            {
+                return null;
+            }
             return new FirmaViewModel(materiaal.Firma);
         }
         public override IViewModel CreateMateriaalViewModel(Materiaal materiaal)

@@ -38,7 +38,11 @@ namespace DidactischeLeermiddelen.Infrastructure
                     repos.AddGebruiker(gebruiker);
                     repos.SaveChanges();
                 }
-            
+                if (gebruiker.Verlanglijst == null)
+                {
+                    gebruiker.Verlanglijst = new Verlanglijst();
+                    repos.SaveChanges();
+                }
                 controllerContext.HttpContext.Session[VerlanglijstSessionKey] = gebruiker;
                 // Op basis van controllerContext.HttpContext.User.Identity.Name kunnen we niet weten of de gebruiker
                 // al dan niet een lector is... Hier moet nog een oplossing voor gezocht worden.

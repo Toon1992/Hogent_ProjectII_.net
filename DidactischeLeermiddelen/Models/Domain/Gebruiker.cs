@@ -18,7 +18,10 @@ namespace DidactischeLeermiddelen.Models.Domain
             if (materiaal == null)
                 throw new ArgumentNullException(
                     "Materiaal mag niet null zijn als die wordt toevoegd aan de verlanglijst!");
-
+            if (Verlanglijst == null)
+            {
+                Verlanglijst = new Verlanglijst();
+            }
             //aan de Velanglijst materiaal Toevoegen      
             Verlanglijst.VoegMateriaalToe(materiaal);
         }
