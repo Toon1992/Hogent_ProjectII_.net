@@ -24,7 +24,7 @@ namespace DidactischeLeermiddelen.ViewModels
         {
             Foto = reservatie.Materiaal.ImageSrc;
             Naam = reservatie.Materiaal.Naam;
-            Firma = reservatie.Materiaal.Firma.Naam;
+            Firma = reservatie.Materiaal.Firma?.Naam;
             Omschrijving = reservatie.Materiaal.Omschrijving;
             MateriaalId = reservatie.Materiaal.MateriaalId;
             StartDatum = reservatie.StartDatum;

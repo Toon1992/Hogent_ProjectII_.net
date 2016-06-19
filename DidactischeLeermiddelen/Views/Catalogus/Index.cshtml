@@ -44,7 +44,7 @@
                 @foreach (var leergebied in Model.LeergebiedSelectList.LeergebiedenLijst)
             {
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new { id = "leergebied" + leergebied.Value }) @leergebied.Text<br />
+                        @Html.CheckBox("group1", new { id = leergebied.Value }) @leergebied.Text<br />
                     </div>
                 }
             </div>
@@ -53,7 +53,7 @@
                 @foreach (var doelgroep in Model.DoelgroepSelectList.DoelgroepenLijst)
             {
                     <div class="checkbox">
-                        @Html.CheckBox("group1", new { id = "doelgroep" + doelgroep.Value }) @doelgroep.Text<br />
+                        @Html.CheckBox("group1", new { id = doelgroep.Value }) @doelgroep.Text<br />
                     </div>
                 }
             </div>

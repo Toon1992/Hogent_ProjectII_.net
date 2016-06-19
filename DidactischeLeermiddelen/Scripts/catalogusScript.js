@@ -55,8 +55,8 @@
             viewModel.doelgroepen = [];
             viewModel.leergebieden = [];
             $('input:checkbox:checked').map(function () {
-                var filter = $(this)[0].id;
-                var id = parseInt(filter.substr(filter.length - 1));
+                var filter = $(this).parent().parent()[0].className;
+                var id = $(this)[0].id;//parseInt(filter.substr(filter.length - 1));
                 if (filter.indexOf("doelgroep") > -1) {
                         viewModel.doelgroepen.push(id);
                 }

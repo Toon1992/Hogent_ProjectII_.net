@@ -11,8 +11,8 @@ namespace DidactischeLeermiddelen.Models.DAL.Mapper
             HasMany(v => v.Materialen).WithMany().Map(m =>
             {
                 m.ToTable("MaterialenVerlanglijst");
-                m.MapLeftKey("ArtikelNr");
-                m.MapRightKey("VerlanglijstId");
+                m.MapLeftKey("VerlanglijstId");
+                m.MapRightKey("ArtikelNr");
             });
         }
     }

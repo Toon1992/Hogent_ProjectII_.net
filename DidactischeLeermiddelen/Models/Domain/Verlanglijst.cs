@@ -7,7 +7,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     {
         #region fields
         public virtual List<Materiaal> Materialen { get; set; }
-        public long Id { get; set; }
+        public int Id { get; set; }
         #endregion
 
         #region Methodes
