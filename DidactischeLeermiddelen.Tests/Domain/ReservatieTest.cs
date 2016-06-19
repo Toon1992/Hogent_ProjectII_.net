@@ -232,9 +232,9 @@ namespace DidactischeLeermiddelen.Tests.Domain
 
             materiaalLectorMap.Add(context.Bol, 10);
            
-            IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
+           /* IDictionary<Materiaal, int> materiaalLectorMap = new Dictionary<Materiaal, int>();
            
-            materiaalLectorMap.Add(context.Bol, 10);
+            materiaalLectorMap.Add(context.Bol, 10);*/
             
             string[] dagenGeblokkeerd1 = new[] { "24/3/2016" };
             lector1.MaakBlokkeringen(materiaalLectorMap, "23/3/2016", dagenGeblokkeerd1);
