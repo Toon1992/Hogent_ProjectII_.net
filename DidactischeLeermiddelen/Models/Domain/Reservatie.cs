@@ -8,7 +8,7 @@ namespace DidactischeLeermiddelen.Models.Domain
     public abstract class Reservatie :IComparable<Reservatie>
     {
         private ReservatieState _reservatieState;
-        public long ReservatieId { get; set; }
+        public int ReservatieId { get; set; }
         public virtual Materiaal Materiaal { get; set; }
         public virtual Gebruiker Gebruiker { get; set; }
         public virtual IList<Dag> GeblokkeerdeDagen { get; set; } 
